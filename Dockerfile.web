@@ -1,0 +1,20 @@
+FROM python:3.7-slim
+
+# Setup directories
+RUN mkdir /code
+WORKDIR /code
+# Python Config
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Python dependencies
+ADD requirements.txt /code/
+ADD requirements-dev.txt /code/
+RUN pip install -r requirements.txt
+RUN pip install -r requirements-dev.txt
+
+EXPOSE $PORT
+
+ADD . /code
+
+CMD ["./scripts/serve.sh"]

@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: aecguide_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGPASSWORD: postgres
+
+  web:
+    container_name: django
+    restart: always
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      # - search
+      # - static
+    volumes:
+      - .:/code
+      - /Users/gtalarico/dev/repos/gtalarico/apidocs/apidocs.data:/apidocs_data
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    external:
+      name: aecguide-network
