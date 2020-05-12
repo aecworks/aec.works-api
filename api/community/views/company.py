@@ -14,18 +14,20 @@ class OutCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
         fields = [
+            "id",
             "name",
             "slug",
             "description",
             "website",
             "founded_date",
             "twitter_handle",
+            "location",
             "crunchbase_id",
             "employee_count",
             "logo",
             "hashtags",
             # "clappers",
-            "root_comment",
+            "comment_thread",
             "created_at",
             "revision_of",
             "replaced_by",
@@ -44,3 +46,14 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def get(self, request):
         return super().list(request)
+
+
+class CompanyDetailView(
+    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
+):
+    serializer_class = OutCompanySerializer
+    queryset = selectors.get_companies()
+    expected_exceptions = {}
+
+    def get(self, request, pk):
+        return super().retrieve(request, pk)

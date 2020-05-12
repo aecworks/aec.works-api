@@ -1,6 +1,7 @@
 # from api.common.utils import to_slug
 # from .choices import EmployeeCountChoices
 import factory
+from django.db.models.signals import post_save
 from . import models
 
 
@@ -9,14 +10,19 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = models.User
 
     username = factory.Faker("user_name")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
     email = factory.Faker("email")
 
+    profile = factory.RelatedFactory("api.users.factories.ProfileFactory", "user")
 
+
+@factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Profile
-        django_get_or_create = ("user",)
 
     twitter = factory.Faker("user_name")
     location = factory.Faker("city")
-    user = factory.SubFactory(UserFactory)
+    bio = factory.Faker("text")
+    user = factory.SubFactory(UserFactory, profile=None)

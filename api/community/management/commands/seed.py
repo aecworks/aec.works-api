@@ -17,25 +17,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         profile = ProfileFactory()
-        # hashtag = factories.Hashtag()
+        hashtag = factories.Hashtag()
 
-        comment = factories.Comment(profile=profile)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
-        factories.Comment(profile=profile, parent=comment)
+        thread = factories.CommentThread()
+        comment = factories.Comment(profile=profile, thread=thread)
+        comment_2 = factories.Comment(profile=profile, thread=thread)
+        [factories.Comment(profile=profile, parent=comment) for _ in range(30)]
 
-        # post = factories.Post(profile=profile, root_comment=comment)
-        # post.hashtags.add(hashtag)
-        # post.clappers.add(profile)
+        comment.clappers.add(profile)
+        comment_2.clappers.add(profile)
 
-        # factories.Company()
+        for _ in range(10):
+            post = factories.Post(profile=profile, comment_thread=thread)
+            post.hashtags.add(hashtag)
+            post.clappers.add(profile)
+            factories.Company()
 

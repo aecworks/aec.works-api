@@ -1,15 +1,40 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
-from .models import Company, Hashtag, Post, Comment
+from . import models
 
 
-@admin.register(Comment)
+@admin.register(models.Comment)
 class CommentAdmin(MPTTModelAdmin):
-    list_display = ["id", "text", "parent", "profile", "created_at"]
+    list_display = [
+        "id",
+        "text_start",
+        "parent",
+        "thread",
+        "profile",
+        "created_at",
+        "replies",
+    ]
+
+    def text_start(self, obj):
+        return f"{obj.text[:10]}..."
+
+    def replies(self, obj):
+        return obj.get_children().count()
 
 
-@admin.register(Company)
+@admin.register(models.CommentThread)
+class CommentThreadAdmin(admin.ModelAdmin):
+    list_display = ["id", "root_comments", "thread_size"]
+
+    def root_comments(self, obj):
+        return obj.comments.count()
+
+    def thread_size(self, obj):
+        return sum(c.get_descendant_count() for c in obj.comments.all())
+
+
+@admin.register(models.Company)
 class CompanyAdmin(admin.ModelAdmin):
     list_display = [
         "id",
@@ -27,12 +52,15 @@ class CompanyAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(Hashtag)
+@admin.register(models.Hashtag)
 class HashtagAdmin(admin.ModelAdmin):
     list_display = ["name"]
 
 
-@admin.register(Post)
+@admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "profile", "title"]
+    list_display = ["id", "profile", "title", "words"]
+
+    def words(self, obj):
+        return len(obj.body.split(" "))
 

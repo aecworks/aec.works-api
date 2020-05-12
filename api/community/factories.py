@@ -10,7 +10,7 @@ class Company(factory.django.DjangoModelFactory):
 
     name = factory.Faker("company")
     # slug
-    description = factory.Faker("paragraph")
+    description = factory.Faker("paragraph", nb_sentences=2)
     website = factory.Faker("url")
     founded_date = factory.Faker("date")
     twitter_handle = factory.LazyAttribute(
@@ -21,7 +21,7 @@ class Company(factory.django.DjangoModelFactory):
     # logo
     # hashtags
     # clappers
-    # root_comment
+    # comment_thread
     # created_at
     # revision_of
     # replaced_by
@@ -40,15 +40,20 @@ class Post(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Post
 
-    body = factory.Faker("paragraph")
-    title = factory.Faker("word")
-    root_comment = None
+    body = factory.Faker("text", max_nb_chars=1000)
+    title = factory.Faker("sentence")
+    comment_thread = None
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
     # companies = []
     # hashtags = []
     # clappers = []
     # created_at
     # updated_at
+
+
+class CommentThread(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.CommentThread
 
 
 class Comment(factory.django.DjangoModelFactory):

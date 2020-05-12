@@ -14,6 +14,7 @@ class Company(ReprMixin, models.Model):
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
 
+    location = models.CharField(max_length=64, default="")
     # Optional
     founded_date = models.DateField(blank=True, null=True)
     twitter_handle = models.CharField(max_length=15, blank=True, null=True)
@@ -25,13 +26,17 @@ class Company(ReprMixin, models.Model):
         choices=[(c.name, c.value) for c in EmployeeCountChoices],
         default=EmployeeCountChoices.TEN.name,
     )
-    logo = models.ImageField(upload_to="logos", null=True, blank=True)
+    logo = models.ImageField(upload_to="logos", blank=True, default="default_logo.png")
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
-    root_comment = models.ForeignKey(
-        "Comment", related_name="+", on_delete=models.SET_NULL, blank=True, null=True
+    comment_thread = models.ForeignKey(
+        "CommentThread",
+        related_name="+",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -90,8 +95,12 @@ class Post(ReprMixin, models.Model):
     profile = models.ForeignKey(
         "users.Profile", related_name="posts", on_delete=models.PROTECT
     )
-    root_comment = models.ForeignKey(
-        "Comment", related_name="+", on_delete=models.SET_NULL, blank=True, null=True
+    comment_thread = models.ForeignKey(
+        "CommentThread",
+        related_name="+",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     companies = models.ManyToManyField(Company, related_name="posts", blank=True)
     hashtags = models.ManyToManyField(Hashtag, related_name="posts", blank=True)
@@ -107,11 +116,22 @@ class Post(ReprMixin, models.Model):
         super().save(*args, **kwargs)
 
 
+class CommentThread(ReprMixin, models.Model):
+    ...
+
+
 class Comment(ReprMixin, mptt_models.MPTTModel):
-    text = models.TextField()
+    thread = models.ForeignKey(
+        "CommentThread",
+        related_name="comments",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
     parent = mptt_models.TreeForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
     )
+    text = models.TextField()
     profile = models.ForeignKey(
         "users.Profile", related_name="comments", on_delete=models.PROTECT
     )
@@ -122,6 +142,14 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ["created_at"]
+
+    def clean(self, *args, **kwargs):
+        if (self.parent and self.thread) or (not self.parent and not self.thread):
+            raise Exception("comment must a have parent or thread, but not both")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 # class ModerationFlag(ReprMixin, models.Model):

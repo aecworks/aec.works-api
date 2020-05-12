@@ -19,6 +19,11 @@ class Profile(ReprMixin, models.Model):
     twitter = models.CharField(max_length=15, null=True, blank=True)
     location = models.CharField(max_length=64, blank=True, null=True)
 
+    @property
+    def name(self):
+        user = self.user
+        return " ".join([user.first_name, user.last_name])
+
     def __str__(self):
         return f"<Profile user={self.user.username}>"
 
@@ -26,6 +31,7 @@ class Profile(ReprMixin, models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
+        # breakpoint()
         Profile.objects.create(user=instance)
 
 
