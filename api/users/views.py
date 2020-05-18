@@ -56,12 +56,14 @@ class GithubView(ErrorsMixin, views.APIView):
         if not code:
             raise drf_exceptions.ValidationError("code is missing")
 
+        # TODO - move to service
         email, profile_data = GithubProvider.get_user_data(code)
         user = selectors.get_or_create_user(
             email=email, defaults={"source": UserSourceChoices.GITHUB.name}
         )
         for key, value in profile_data.items():
             setattr(user.profile, key, value)
+            # TODO. set avatar from avatar_url
         user.profile.save()
         jwt_dict = get_jwt_for_user(user)
         return Response(jwt_dict)

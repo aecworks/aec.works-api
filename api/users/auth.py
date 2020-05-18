@@ -57,10 +57,11 @@ class GithubProvider:
 
         user_data = requests.get(cls.PROFILE_URL, headers=headers).json()
         profile_data = dict(
+            # model field = payload key
             github_url=user_data.get("html_url", None),
             bio=user_data.get("bio", None),
             avatar_url=user_data.get("avatar_url", None),
+            location=user_data.get("location", None),
         )
 
-        profile_data = {}
         return email, profile_data
