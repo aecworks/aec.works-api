@@ -9,10 +9,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.User
 
-    username = factory.Faker("user_name")
+    email = factory.Faker("email")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    email = factory.Faker("email")
 
     profile = factory.RelatedFactory("api.users.factories.ProfileFactory", "user")
 

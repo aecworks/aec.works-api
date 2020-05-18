@@ -21,7 +21,12 @@ from django.urls import path, include
 urlpatterns = [
     path("jet/", include("jet.urls", "jet")),
     path("admin/", admin.site.urls),
+    # Allow Login in browseable API
     path("api-auth/", include("rest_framework.urls")),
+    # Djoser Auth URL
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
+    # path("auth/", include("djoser.urls.authtoken")),
     # Apps
     path("community/", include("api.community.urls")),
     path("users/", include("api.users.urls")),

@@ -26,7 +26,6 @@ class OutCommentSerializer(serializers.ModelSerializer):
             "level",
             "text",
         ]
-        # exclude = ["clappers"]
 
 
 class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):

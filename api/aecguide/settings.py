@@ -1,5 +1,6 @@
 import os
 from decouple import config, Csv
+from datetime import timedelta
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_DIR = os.path.dirname(PROJECT_DIR)
@@ -22,12 +23,22 @@ CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=
 # CORS_ORIGIN_REGEX_WHITELIST = [r"^https://aec.guide$"]
 # SECURITY WARNING: define the correct hosts in production!
 
+# Social Auth
+GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID")
+GITHUB_CLIENT_SECRET = config("GITHUB_CLIENT_SECRET")
+
+# JWT Config
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+}
 # Auth
 AUTH_USER_MODEL = "users.User"
 
+# Sites
+SITE_ID = 1
 
 # Application definition
-
 INSTALLED_APPS = [
     # Extensions
     "jet",
@@ -38,8 +49,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # "django.contrib.sites",
     # Extensions
     "rest_framework",
+    "rest_framework.authtoken",
+    "djoser",
     "corsheaders",
     "mptt",
     "django_extensions",
@@ -122,24 +136,30 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# REST FRAMEWORK
+# Rest Framework Settings
+
 REST_FRAMEWORK = {
+    "PAGE_SIZE": 25,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
+    ),
     "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
         "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
-        # Any other renders
     ),
     "DEFAULT_PARSER_CLASSES": (
         "djangorestframework_camel_case.parser.CamelCaseFormParser",
         "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
-        # Any other parsers
     ),
-    "PAGE_SIZE": 25,
 }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+
 STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
@@ -147,6 +167,7 @@ STATICFILES_DIRS = [os.path.join(ROOT_DIR, "static")]
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
+# Serve Static files locally for development - TODO Whitenoise
 SERVE_STATIC = config("SERVE_STATIC", default=False)
 if SERVE_STATIC:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
@@ -158,5 +179,5 @@ else:
 # Where To Store File Medie
 # AWS_S3_CUSTOM_DOMAIN = 'cdn.mydomain.com'
 
-
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# LOGIN_REDIRECT_URL = "http://localhost:8080/"

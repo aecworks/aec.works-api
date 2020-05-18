@@ -1,1 +1,66 @@
-[{"model": "users.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$180000$O8b5g4v1vKdn$c2xIg8+qB6xfc3a9cNxxlGhOdoiSxP6I1TDldyo8jQI=", "last_login": null, "is_superuser": true, "username": "dev", "first_name": "", "last_name": "", "email": "dev@dev.com", "is_staff": true, "is_active": true, "date_joined": "2020-05-10T08:45:23.632Z", "groups": [], "user_permissions": []}}, {"model": "users.profile", "pk": 1, "fields": {"user": ["dev"], "bio": null, "twitter": null, "location": null}}]
+[
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$150000$MnfFqNEMDBP2$W/gOH/WMD2XZyG9BjBnU5ncomy/0EmtvwNukpyslcOI=",
+            "last_login": "2020-05-18T05:09:32.520Z",
+            "is_superuser": true,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-05-18T05:07:27.024Z",
+            "email": "dev@dev.com",
+            "source": "SIGN_UP",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 2,
+        "fields": {
+            "password": "",
+            "last_login": null,
+            "is_superuser": false,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-05-18T05:19:47.348Z",
+            "email": "gtalarico@gmail.com",
+            "source": "GITHUB",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 1,
+        "fields": {
+            "user": [
+                "dev@dev.com"
+            ],
+            "bio": null,
+            "location": null,
+            "twitter": null,
+            "github_url": null,
+            "avatar": ""
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": 2,
+        "fields": {
+            "user": [
+                "gtalarico@gmail.com"
+            ],
+            "bio": null,
+            "location": null,
+            "twitter": null,
+            "github_url": null,
+            "avatar": ""
+        }
+    }
+]

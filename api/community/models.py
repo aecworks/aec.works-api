@@ -31,9 +31,11 @@ class Company(ReprMixin, models.Model):
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
-    comment_thread = models.ForeignKey(
+    # Rename CommentThread -> Thread and field to match
+    comment_thread = models.OneToOneField(
         "CommentThread",
-        related_name="+",
+        related_name="post",
+        unique=True,
         on_delete=models.CASCADE,
         blank=True,
         null=True,

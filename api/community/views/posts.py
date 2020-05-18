@@ -10,31 +10,29 @@ from .. import models, selectors, services
 
 
 class OutPostSerializer(serializers.ModelSerializer):
-    clap_count = serializers.IntegerField()
-    comment_count = serializers.SerializerMethodField()
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
     )
-
     profile = inline_serializer(
         fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
     )
+    # Annotated Values
+    clap_count = serializers.IntegerField()
+    comment_count = serializers.IntegerField()
 
-    def get_comment_count(self, obj):
-        # TODO Optimize this - store calc on comment post?
-        return sum(
-            [c.get_descendant_count() for c in obj.comment_thread.comments.all()]
-        )
+    # def get_comment_count(self, obj):
+    #     return sum(
+    #         [c.get_descendant_count() for c in obj.comment_thread.comments.all()]
+    #     )
 
     class Meta:
         model = models.Post
-        # fields = "__all__"
         exclude = ["clappers", "slug"]
 
 
 class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = OutPostSerializer
-    queryset = selectors.get_posts()
+    queryset = selectors.get_posts_with_comment_count()
     pagination_class = LimitOffsetPagination
     page_size = 50
     expected_exceptions = {}

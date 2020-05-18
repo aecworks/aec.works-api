@@ -1,5 +1,7 @@
 from django.db import models
-from .models import Company, Comment, Post, Hashtag
+
+from api.common.lookups import Floor
+from .models import Company, Comment, Post, Hashtag, CommentThread
 
 
 def get_comments():
@@ -42,4 +44,34 @@ def get_posts():
         .prefetch_related("hashtags", "companies", "comment_thread__comments")
         .annotate(clap_count=models.Count("clappers", distinct=True))
         .all()
+    )
+
+
+def get_posts_with_comment_count():
+    # See
+    # https://stackoverflow.com/questions/20139372/django-queryset-attach-or-annotate-related-object-field/47725075
+
+    # this query reproduces the get_descendant_count() logic for each top level comment
+    # https://django-mptt.readthedocs.io/en/latest/models.html#get-descendant-count
+    threads = CommentThread.objects.filter(
+        id=models.OuterRef("comment_thread_id")
+    ).annotate(
+        comment_count=models.Sum(
+            Floor((models.F("comments__rght") - models.F("comments__lft") - 1) / 2)
+        )
+    )
+    # Reuse pre-loaded posts qs and annotate comment.
+    # Comment count subquery includes "descendent count", but the top level comment
+    # itself is not included, so we add that on top.
+    return (
+        get_posts()
+        .annotate(
+            comment_count=models.Subquery(
+                threads.values("comment_count")[:1], output_field=models.IntegerField()
+            )
+        )
+        .annotate(
+            comment_count=models.F("comment_count")
+            + models.Count("comment_thread__comments", distinct=True)
+        )
     )

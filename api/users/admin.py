@@ -5,7 +5,7 @@ from .models import User, Profile
 # Register your models here.
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ["username", "first_name", "last_name"]
+    list_display = ["email", "first_name", "last_name"]
 
 
 @admin.register(Profile)
