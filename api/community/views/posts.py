@@ -2,6 +2,7 @@ from rest_framework import mixins, generics
 from rest_framework import serializers
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from api.common.utils import inline_serializer
 from api.common.exceptions import ErrorsMixin
@@ -51,6 +52,7 @@ class PostDetailView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPI
 
 
 class PostClapView(ErrorsMixin, generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = OutPostSerializer
     queryset = selectors.get_posts()
     expected_exceptions = {}

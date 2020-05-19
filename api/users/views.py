@@ -2,6 +2,7 @@ from rest_framework import mixins, generics, serializers, views
 from rest_framework.response import Response
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 
 from api.common.exceptions import ErrorsMixin
 from . import selectors, services
@@ -20,7 +21,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        exclude = ["user"]
+        exclude = ["user", "id"]
 
 
 class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -41,6 +42,17 @@ class ProfileDetailView(
 
     def get(self, request, pk):
         return super().retrieve(request, pk)
+
+
+class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
+
+    def get(self, request):
+        user = request.user
+        serializer = self.get_serializer(user.profile)
+        return Response(serializer.data)
 
 
 class GithubView(ErrorsMixin, views.APIView):
