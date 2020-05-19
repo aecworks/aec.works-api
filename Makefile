@@ -21,6 +21,8 @@ rebuild:
 	docker-compose build --force-rm
 	make start
 
+test:
+	python manage.py test api/community/tests
 
 clean:
 	python3 -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"

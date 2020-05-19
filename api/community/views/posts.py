@@ -20,11 +20,6 @@ class OutPostSerializer(serializers.ModelSerializer):
     clap_count = serializers.IntegerField()
     comment_count = serializers.IntegerField()
 
-    # def get_comment_count(self, obj):
-    #     return sum(
-    #         [c.get_descendant_count() for c in obj.comment_thread.comments.all()]
-    #     )
-
     class Meta:
         model = models.Post
         exclude = ["clappers", "slug"]
@@ -48,7 +43,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
 
 class PostDetailView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     serializer_class = OutPostSerializer
-    queryset = selectors.get_posts()
+    queryset = selectors.get_posts_with_comment_count()
     expected_exceptions = {}
 
     def get(self, request, pk):
