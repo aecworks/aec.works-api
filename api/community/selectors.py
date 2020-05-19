@@ -6,7 +6,7 @@ from .models import Company, Comment, Post, Hashtag, Thread
 
 def get_comments():
     return (
-        Comment.objects.select_related("profile")
+        Comment.objects.select_related("profile__user")
         .annotate(
             clap_count=models.Count("clappers", distinct=True),
             replies_count=models.Count("replies", distinct=True),
@@ -40,7 +40,7 @@ def get_hashtags():
 
 def get_posts():
     return (
-        Post.objects.select_related("profile")
+        Post.objects.select_related("profile__user")
         .prefetch_related("hashtags", "companies", "thread__comments")
         .annotate(clap_count=models.Count("clappers", distinct=True))
         .all()
