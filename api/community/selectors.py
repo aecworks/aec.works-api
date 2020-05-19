@@ -1,7 +1,7 @@
 from django.db import models
 
 from api.common.lookups import Floor
-from .models import Company, Comment, Post, Hashtag, CommentThread
+from .models import Company, Comment, Post, Hashtag, Thread
 
 
 def get_comments():
@@ -26,7 +26,7 @@ def get_comment_children(*, parent_id):
 def get_companies():
     return (
         Company.objects.select_related(
-            "editor", "comment_thread", "approved_by", "replaced_by", "revision_of"
+            "editor", "thread", "approved_by", "replaced_by", "revision_of"
         )
         .prefetch_related("hashtags")
         .annotate(claps=models.Count("clappers"))
@@ -41,7 +41,7 @@ def get_hashtags():
 def get_posts():
     return (
         Post.objects.select_related("profile")
-        .prefetch_related("hashtags", "companies", "comment_thread__comments")
+        .prefetch_related("hashtags", "companies", "thread__comments")
         .annotate(clap_count=models.Count("clappers", distinct=True))
         .all()
     )
@@ -53,9 +53,7 @@ def get_posts_with_comment_count():
 
     # this query reproduces the get_descendant_count() logic for each top level comment
     # https://django-mptt.readthedocs.io/en/latest/models.html#get-descendant-count
-    threads = CommentThread.objects.filter(
-        id=models.OuterRef("comment_thread_id")
-    ).annotate(
+    threads = Thread.objects.filter(id=models.OuterRef("thread_id")).annotate(
         comment_count=models.Sum(
             Floor((models.F("comments__rght") - models.F("comments__lft") - 1) / 2)
         )
@@ -72,6 +70,6 @@ def get_posts_with_comment_count():
         )
         .annotate(
             comment_count=models.F("comment_count")
-            + models.Count("comment_thread__comments", distinct=True)
+            + models.Count("thread__comments", distinct=True)
         )
     )

@@ -21,7 +21,7 @@ class Company(factory.django.DjangoModelFactory):
     # logo
     # hashtags
     # clappers
-    # comment_thread
+    # thread
     # created_at
     # revision_of
     # replaced_by
@@ -42,7 +42,7 @@ class Post(factory.django.DjangoModelFactory):
 
     body = factory.Faker("text", max_nb_chars=1000)
     title = factory.Faker("sentence")
-    comment_thread = None
+    thread = None
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
     # companies = []
     # hashtags = []
@@ -51,9 +51,9 @@ class Post(factory.django.DjangoModelFactory):
     # updated_at
 
 
-class CommentThread(factory.django.DjangoModelFactory):
+class Thread(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.CommentThread
+        model = models.Thread
 
 
 class Comment(factory.django.DjangoModelFactory):

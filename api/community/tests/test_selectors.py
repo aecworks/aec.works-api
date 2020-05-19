@@ -6,7 +6,7 @@ from django.test import TestCase
 class TestCommunitySelector(TestCase):
     def test_get_comments(self):
         profile = ProfileFactory()
-        thread = factories.CommentThread()
+        thread = factories.Thread()
         c1 = factories.Comment(thread=thread)
         factories.Comment(parent=c1)
         factories.Comment(parent=c1)

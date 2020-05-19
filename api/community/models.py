@@ -31,9 +31,9 @@ class Company(ReprMixin, models.Model):
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
-    # Rename CommentThread -> Thread and field to match
-    comment_thread = models.OneToOneField(
-        "CommentThread",
+    # Rename Thread -> Thread and field to match
+    thread = models.OneToOneField(
+        "Thread",
         related_name="post",
         unique=True,
         on_delete=models.CASCADE,
@@ -97,12 +97,8 @@ class Post(ReprMixin, models.Model):
     profile = models.ForeignKey(
         "users.Profile", related_name="posts", on_delete=models.PROTECT
     )
-    comment_thread = models.ForeignKey(
-        "CommentThread",
-        related_name="+",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+    thread = models.ForeignKey(
+        "Thread", related_name="+", on_delete=models.CASCADE, blank=True, null=True
     )
     companies = models.ManyToManyField(Company, related_name="posts", blank=True)
     hashtags = models.ManyToManyField(Hashtag, related_name="posts", blank=True)
@@ -118,13 +114,13 @@ class Post(ReprMixin, models.Model):
         super().save(*args, **kwargs)
 
 
-class CommentThread(ReprMixin, models.Model):
+class Thread(ReprMixin, models.Model):
     ...
 
 
 class Comment(ReprMixin, mptt_models.MPTTModel):
     thread = models.ForeignKey(
-        "CommentThread",
+        "Thread",
         related_name="comments",
         blank=True,
         null=True,

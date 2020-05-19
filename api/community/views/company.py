@@ -27,7 +27,7 @@ class OutCompanySerializer(serializers.ModelSerializer):
             "logo",
             "hashtags",
             # "clappers",
-            "comment_thread",
+            "thread",
             "created_at",
             "revision_of",
             "replaced_by",

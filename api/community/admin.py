@@ -23,8 +23,8 @@ class CommentAdmin(MPTTModelAdmin):
         return obj.get_children().count()
 
 
-@admin.register(models.CommentThread)
-class CommentThreadAdmin(admin.ModelAdmin):
+@admin.register(models.Thread)
+class ThreadAdmin(admin.ModelAdmin):
     list_display = ["id", "root_comments", "thread_size"]
 
     def root_comments(self, obj):
