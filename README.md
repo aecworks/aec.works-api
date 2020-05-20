@@ -31,6 +31,7 @@ WIP
 
 ### SEO
 - [X] Favicon
+- [ ] meta and schema tags
 - [ ] Django Robots
 - [ ] Site Maps (Copy Apidocs.co)
 
