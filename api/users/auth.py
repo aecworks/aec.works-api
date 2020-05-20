@@ -21,10 +21,8 @@ class GithubProvider:
     @classmethod
     def get_user_data(cls, code) -> Tuple[str, dict]:
         access_token = cls._get_access_token(code)
-        email, extra_data = cls._get_user_from_token(access_token)
-        return email, extra_data
-        # token, _ = Token.objects.get_or_create(user=user)
-        # return token
+        email, user_data, profile_data = cls._get_user_from_token(access_token)
+        return email, user_data, profile_data
 
     @classmethod
     def _get_access_token(cls, code):
@@ -47,21 +45,23 @@ class GithubProvider:
     @classmethod
     def _get_user_from_token(cls, access_token):
         headers = {**cls.DEFAULT_HEADERS, "Authorization": f"token {access_token}"}
-        email_data = requests.get(cls.EMAIL_URL, headers=headers).json()
-        for i in email_data:
+        gh_email_data = requests.get(cls.EMAIL_URL, headers=headers).json()
+        for i in gh_email_data:
             if i["primary"]:
                 email = i["email"]
                 break
         else:
             raise ProviderException("could not get user email")
 
-        user_data = requests.get(cls.PROFILE_URL, headers=headers).json()
+        gh_user_data = requests.get(cls.PROFILE_URL, headers=headers).json()
+
+        # avatar_url = gh_user_data.get("avatar_url", None)
+        user_data = dict(name=gh_user_data["name"])
         profile_data = dict(
             # model field = payload key
-            github_url=user_data.get("html_url", None),
-            bio=user_data.get("bio", None),
-            avatar_url=user_data.get("avatar_url", None),
-            location=user_data.get("location", None),
+            github_url=gh_user_data.get("html_url", None),
+            bio=gh_user_data.get("bio", None),
+            location=gh_user_data.get("location", None),
         )
 
-        return email, profile_data
+        return email, user_data, profile_data

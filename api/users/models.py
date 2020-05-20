@@ -34,6 +34,9 @@ class User(ReprMixin, AbstractUser):
         choices=[(c.name, c.value) for c in UserSourceChoices],
         default=UserSourceChoices.SIGN_UP.name,
     )
+    name = models.CharField(max_length=255, null=False, blank=True, default="")
+    first_name = None
+    last_name = None
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
@@ -56,9 +59,12 @@ class Profile(ReprMixin, models.Model):
     avatar = models.ImageField(blank=True, null=True)
 
     @property
+    def email(self):
+        return self.user.email
+
+    @property
     def name(self):
-        user = self.user
-        return " ".join([user.first_name, user.last_name])
+        return self.user.name
 
     def __str__(self):
         return f"<Profile user={self.user.username}>"

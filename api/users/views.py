@@ -13,11 +13,8 @@ from .choices import UserSourceChoices
 
 class ProfileSerializer(serializers.ModelSerializer):
 
-    email = serializers.SerializerMethodField()
+    email = serializers.CharField()
     name = serializers.CharField()
-
-    def get_email(self, obj):
-        return obj.user.email
 
     class Meta:
         model = Profile
@@ -64,11 +61,12 @@ class GithubView(ErrorsMixin, views.APIView):
         if not code:
             raise drf_exceptions.ValidationError("code is missing")
 
-        email, profile_data = GithubProvider.get_user_data(code)
-        user = selectors.get_or_create_user(
-            email=email, defaults={"source": UserSourceChoices.GITHUB.name}
-        )
+        email, user_data, profile_data = GithubProvider.get_user_data(code)
+        user_data.update({"source": UserSourceChoices.GITHUB.name})
+
+        user = services.create_or_update_user(email=email, defaults=user_data)
+        services.update_profile(user=user, defaults=profile_data)
         # TODO. set avatar image from avatar_url
-        services.set_profile_data(user=user, profile_data=profile_data)
+
         jwt_dict = services.get_jwt_for_user(user)
         return Response(jwt_dict)

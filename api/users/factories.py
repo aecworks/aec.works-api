@@ -14,8 +14,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = models.User
 
     email = factory.Faker("email")
-    first_name = factory.Faker("first_name")
-    last_name = factory.Faker("last_name")
+    name = factory.Faker("name")
 
     profile = factory.RelatedFactory("api.users.factories.ProfileFactory", "user")
 
