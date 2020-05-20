@@ -1,9 +1,19 @@
 from rest_framework import mixins, generics, serializers, pagination
 from rest_framework import exceptions as drf_exceptions
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from api.common.utils import inline_serializer
 from api.common.exceptions import ErrorsMixin
-from .. import models, selectors
+from .. import models, selectors, services
+
+
+class InCommentSerializer(serializers.ModelSerializer):
+    thread_id = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = models.Comment
+        fields = ["text", "thread_id"]
 
 
 class OutCommentSerializer(serializers.ModelSerializer):
@@ -30,8 +40,9 @@ class OutCommentSerializer(serializers.ModelSerializer):
 
 class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = OutCommentSerializer
-    expected_exceptions = {}
     pagination_class = pagination.LimitOffsetPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    expected_exceptions = {models.Thread.DoesNotExist: drf_exceptions.ValidationError}
     page_size = 10
 
     def get_queryset(self):
@@ -47,3 +58,19 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def get(self, request):
         return super().list(request)
+
+    def post(self, request):
+        serializer = InCommentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        thread_id = serializer.validated_data["thread_id"]
+        text = serializer.validated_data["text"]
+
+        thread = selectors.get_thread(id=thread_id)
+        _ = services.create_thread_comment(
+            profile=request.user.profile, thread=thread, text=text
+        )
+        # Missing Annotation from selectors
+        # TODO Add to manager?
+        # response_serializer = OutCommentSerializer(comment)
+        # return Response(response_serializer.data)
+        return Response(serializer.data)
