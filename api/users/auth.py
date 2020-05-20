@@ -1,7 +1,6 @@
 from typing import Tuple
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token
 import requests
 
 User = get_user_model()

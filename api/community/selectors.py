@@ -15,6 +15,10 @@ def get_comments():
     )
 
 
+def get_thread(*, id):
+    return Thread.objects.get(id=id)
+
+
 def get_thread_comments(*, thread_id):
     return get_comments().filter(level=0, thread_id=thread_id)
 
