@@ -13,12 +13,6 @@ def get_token_for_user(user) -> dict:
     return token
 
 
-# def set_profile_data(*, user, profile_data):
-#     for key, value in profile_data.items():
-#         setattr(user.profile, key, value)
-#     user.profile.save()
-
-
 def create_or_update_user(*, email, defaults):
     user, _ = User.objects.update_or_create(email=email, defaults=defaults)
     return user

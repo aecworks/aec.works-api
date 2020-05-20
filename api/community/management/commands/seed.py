@@ -12,9 +12,6 @@ from api.community import factories
 class Command(BaseCommand):
     help = "Seed"
 
-    # def add_arguments(self, parser):
-    #     parser.add_argument('poll_ids', nargs='+', type=int)
-
     def handle(self, *args, **options):
         profile = ProfileFactory()
         hashtag = factories.Hashtag()

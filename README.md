@@ -1,40 +1,40 @@
-# AEC Guide
+# AEC Works
 
 -----
 
-The AEC Community.
-
-
-### Motivations
-* Better `aecstartups.com` (collaborative & broader scope)
-* Dev.to
+WIP
 
 
 # TODO
 
-Backend
+- [ ] Rename aecguide
+
+### Endpoints
 - [x] Models
 - [x] Fe Integration
-- [ ] Auth Integration
+- [X] Auth Integration
 - [ ] Endpoints
+    - [X] GETS: Comment, Posts, Profiles, Companies
+    - [ ] POSTS: Comment
+    - [ ] POSTS: Company
     - [X] Clap Post
     - [ ] Clap Company
     - [ ] Clap Comment
-    - [ ] Login
-    - [ ] Logout
+    - [X] Login
+    - [X] Logout
     - [ ] Registration
 
-Front
-- [x] Wire up GETs
-- [ ] Auth
+### Infra
+- [ ] Staging Server
+- [ ] Prod Server
+- [ ] CDN
 
-Misc
-- [ ] Favicon
+### SEO
+- [X] Favicon
 - [ ] Django Robots
 - [ ] Site Maps (Copy Apidocs.co)
-- [ ] Site Maps (Copy Apidocs.co)
 
 
-Pending Models:
-* Links (Company)
-* ModerationFlags
+### Models:
+- [ ] Links (Company)
+- [ ] ModerationFlags
