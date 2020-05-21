@@ -20,7 +20,7 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_METHODS = ("GET", "OPTIONS")
 CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
 # CORS_ORIGIN_WHITELIST = ["http://localhost:8080/"]
-# CORS_ORIGIN_REGEX_WHITELIST = [r"^https://aec.guide$"]
+# CORS_ORIGIN_REGEX_WHITELIST = [r"^https://aec.works$"]
 # SECURITY WARNING: define the correct hosts in production!
 
 # Social Auth
@@ -81,7 +81,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "api.aecguide.urls"
+ROOT_URLCONF = "api.aecworks.urls"
 
 TEMPLATES = [
     {
@@ -99,7 +99,7 @@ TEMPLATES = [
     }
 ]
 
-WSGI_APPLICATION = "api.aecguide.wsgi.application"
+WSGI_APPLICATION = "api.aecworks.wsgi.application"
 
 
 # Database

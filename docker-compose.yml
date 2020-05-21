@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: aecguide_db
+      POSTGRES_DB: aecworks_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGPASSWORD: postgres
@@ -41,4 +41,4 @@ volumes:
 networks:
   default:
     external:
-      name: aecguide-network
+      name: aecworks-network
