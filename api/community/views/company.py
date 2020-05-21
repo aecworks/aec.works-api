@@ -2,7 +2,6 @@ from rest_framework import mixins, generics, serializers
 from rest_framework.pagination import LimitOffsetPagination
 
 from api.common.exceptions import ErrorsMixin
-from ..models import Company
 from .. import models, selectors
 
 

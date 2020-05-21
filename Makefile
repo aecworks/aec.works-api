@@ -25,6 +25,9 @@ seed:
 dev:
 	DJANGO_DEBUG=1 python manage.py runserver
 
+lint:
+	bash ./scripts/lint.sh
+
 test:
 	python manage.py test api/community/tests
 

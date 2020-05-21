@@ -1,4 +1,5 @@
 #!/bin/bash
+
 source ./scripts/console.sh
 
 # $PORT can be set by Heroku

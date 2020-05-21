@@ -30,4 +30,3 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     twitter = factory.LazyAttribute(lambda n: faker.user_name()[:15])
 
     user = factory.SubFactory(UserFactory, profile=None)
-

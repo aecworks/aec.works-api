@@ -3,7 +3,11 @@ import json
 import requests
 from io import BytesIO
 
-from django.core.management.base import BaseCommand, CommandError
+"""
+WIP - this will be used to pull and sync aecstartups.com data
+"""
+
+from django.core.management.base import BaseCommand
 from django.core.files.images import ImageFile
 
 from api.community.models import Company
@@ -18,7 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        url = "https://www.aecstartups.com/.netlify/functions/airtable"
+        # url = "https://www.aecstartups.com/.netlify/functions/airtable"
 
         with open("aecstartups.json") as fp:
             data = json.load(fp)
@@ -102,4 +106,3 @@ def make_image(slug, path):
     image = ImageFile(fp, name=filename)
 
     return image
-

@@ -6,6 +6,7 @@ from rest_framework import exceptions
 
 from django.core.exceptions import ValidationError
 
+
 def _get_error_message(exc):
     def _get_first_matching_attr(obj, *attrs, default=None):
         for attr in attrs:

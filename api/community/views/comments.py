@@ -69,8 +69,9 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         _ = services.create_thread_comment(
             profile=request.user.profile, thread=thread, text=text
         )
-        # Missing Annotation from selectors
-        # TODO Add to manager?
+        return Response(serializer.data)
+        # TODO
+        # Can't use Serializer becase of annotations in selectors
+        # Maybe annotation and prefetch need to move into a manager?
         # response_serializer = OutCommentSerializer(comment)
         # return Response(response_serializer.data)
-        return Response(serializer.data)

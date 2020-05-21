@@ -1,11 +1,5 @@
-import json
-
-import requests
-from io import BytesIO
-
-from django.core.management.base import BaseCommand, CommandError
-
-from api.users.factories import UserFactory, ProfileFactory
+from django.core.management.base import BaseCommand
+from api.users.factories import ProfileFactory
 from api.community import factories
 
 
@@ -28,4 +22,3 @@ class Command(BaseCommand):
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
             factories.Company()
-

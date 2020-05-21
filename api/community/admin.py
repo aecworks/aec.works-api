@@ -63,4 +63,3 @@ class PostAdmin(admin.ModelAdmin):
 
     def words(self, obj):
         return len(obj.body.split(" "))
-

@@ -67,4 +67,3 @@ class Comment(factory.django.DjangoModelFactory):
     # parent
     # clappers
     # created_at
-

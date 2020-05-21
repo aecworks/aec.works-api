@@ -9,4 +9,3 @@ class EmployeeCountChoices(Enum):
     ONE_THOUSAND = "501 - 1000"
     FIVE_THOUSAND = "1001 - 5000"
     TEN_THOUSAND = "5001 - 10,000"
-

@@ -1,5 +1,7 @@
 FROM python:3.8-slim
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    make
 
 # Setup directories
 RUN mkdir /code
