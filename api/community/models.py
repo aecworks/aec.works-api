@@ -31,7 +31,7 @@ class Company(ReprMixin, models.Model):
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
-    # Rename Thread -> Thread and field to match
+
     thread = models.OneToOneField(
         "Thread",
         related_name="post",
@@ -42,6 +42,7 @@ class Company(ReprMixin, models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # TODO Revise revision models
     revision_of = models.ForeignKey(
         "Company",
         related_name="revisions",
@@ -82,8 +83,8 @@ class Company(ReprMixin, models.Model):
 
 class Hashtag(ReprMixin, models.Model):
     name = models.CharField(max_length=32, unique=True, db_index=True)
-    # posts -> Post
-    # companies -> Company
+    # reverse: posts -> Post
+    # reverse: companies -> Company
 
 
 class Post(ReprMixin, models.Model):
@@ -150,6 +151,7 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
         super().save(*args, **kwargs)
 
 
+# TODO
 # class ModerationFlag(ReprMixin, models.Model):
 #   content_type: [ Comment | Company | Post ]
 #   content: GenericForeignKey

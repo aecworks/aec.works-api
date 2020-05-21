@@ -1,5 +1,3 @@
-# from .choices import EmployeeCountChoices
-# from api.common.utils import to_slug
 import factory
 from . import models
 

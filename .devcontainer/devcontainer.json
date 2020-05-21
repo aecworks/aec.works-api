@@ -1,5 +1,5 @@
 {
-	"name": "Existing Docker Compose (Extend)",
+	"name": "aec.works dev containers",
 	"dockerComposeFile": [
 		"../docker-compose.yml"
 	],
@@ -16,6 +16,7 @@
 		"python.linting.flake8Path": "flake8",
 		"python.formatting.blackPath": "black",
 		"python.formatting.provider": "black",
+		"python.linting.mypyEnabled": true,
 		"python.linting.mypyPath": "mypy",
 		"[python]": {
 			"editor.rulers": [

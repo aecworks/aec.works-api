@@ -28,7 +28,7 @@ lint:
 	bash ./scripts/lint.sh
 
 test:
-	python manage.py test api/community/tests
+	python -m pytest
 
 clean:
 	python3 -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"

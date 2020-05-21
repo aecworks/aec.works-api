@@ -1,3 +1,12 @@
+"""
+Most of these are patterns from - Read Guide for More Detailsself.
+See community/views/* for usage of and `ErrorsMixin`
+
+https://github.com/HackSoftware/Django-Styleguide
+
+"""
+
+
 from rest_framework import exceptions as rest_exceptions
 
 from rest_framework.views import exception_handler

@@ -1,4 +1,4 @@
-# AEC Works
+# aec.works
 -----
 
 ## Development Environment
@@ -25,7 +25,7 @@ $ make docker-bash
 **Requirements**
 
 * VSCode
-* Remote Container Extension
+* [Install Remote Container Extension](https://code.visualstudio.com/docs/remote/containers)
 
 
 ### Local Python Virtual Environment

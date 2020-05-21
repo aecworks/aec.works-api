@@ -24,5 +24,4 @@
         "**/*.pytest_cache": true,
         "**/*.coverage": true
     },
-    "python.pythonPath": "/usr/local/bin/python",
 }

@@ -1,5 +1,3 @@
-# from api.common.utils import to_slug
-# from .choices import EmployeeCountChoices
 from faker import Faker
 import factory
 from django.db.models.signals import post_save
