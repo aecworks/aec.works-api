@@ -1,9 +1,12 @@
+import pytest
 from api.users.factories import ProfileFactory
 from api.community import selectors, factories
-from django.test import TestCase
+
+# from django.test import TestCase
 
 
-class TestCommunitySelector(TestCase):
+@pytest.mark.django_db
+class TestCommunitySelector:
     def test_get_comments(self):
         profile = ProfileFactory()
         thread = factories.Thread()
@@ -13,6 +16,7 @@ class TestCommunitySelector(TestCase):
         c1.clappers.add(profile)
 
         comments = selectors.get_comments()
-        self.assertEqual(comments[0].clap_count, 1)
-        self.assertEqual(comments[1].clap_count, 0)
-        self.assertEqual(comments[2].clap_count, 0)
+
+        assert comments[0].clap_count == 1
+        assert comments[1].clap_count == 0
+        assert comments[2].clap_count == 0
