@@ -4,14 +4,14 @@ bash:
 	docker exec -it django bash
 
 seed:
-	python manage.py loaddata api/aecguide/fixtures/users.json
+	python manage.py loaddata api/aecworks/fixtures/users.json
 	python manage.py seed_companies
 
 dev:
 	DJANGO_DEBUG=1 python manage.py runserver
 
 start:
-	docker network create aecguide-network || true
+	docker network create aecworks-network || true
 	docker-compose up -d db
 
 logs:

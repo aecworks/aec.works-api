@@ -7,7 +7,7 @@ WIP
 
 # TODO
 
-- [ ] Rename aecguide
+- [ ] Rename aecworks
 
 ### Endpoints
 - [x] Models

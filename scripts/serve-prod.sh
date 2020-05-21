@@ -12,7 +12,7 @@ python3 manage.py migrate --noinput
 python manage.py createcachetable
 
 info ">>> Starting Gunicorn"
-exec gunicorn api.aecguide.wsgi \
+exec gunicorn api.aecworks.wsgi \
     --name gunicorn \
     --bind 0.0.0.0:$PORT \
     --log-level=info \
