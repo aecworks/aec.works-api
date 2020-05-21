@@ -19,9 +19,8 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_METHODS = ("GET", "OPTIONS")
 CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
-# CORS_ORIGIN_WHITELIST = ["http://localhost:8080/"]
+# If Regex Needed
 # CORS_ORIGIN_REGEX_WHITELIST = [r"^https://aec.works$"]
-# SECURITY WARNING: define the correct hosts in production!
 
 # Social Auth
 GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID")
@@ -37,7 +36,7 @@ AUTH_USER_MODEL = "users.User"
 
 # Sites
 SITE_ID = 1
-INTERNAL_IPS = ["127.0.0.1"]
+INTERNAL_IPS = ["localhost"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -62,9 +61,6 @@ INSTALLED_APPS = [
     # Apps
     "api.users",
     "api.community",
-    # "api.search",
-    # "api.people",
-    # "api.blog",
 ]
 
 MIDDLEWARE = [
@@ -168,7 +164,7 @@ STATICFILES_DIRS = [os.path.join(ROOT_DIR, "static")]
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
-# Serve Static files locally for development - TODO Whitenoise
+# Serve Static files locally for development - TODO Add Whitenoise or S3
 SERVE_STATIC = config("SERVE_STATIC", default=False)
 if SERVE_STATIC:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
@@ -177,8 +173,8 @@ else:
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
+# TODO
 # Where To Store File Medie
 # AWS_S3_CUSTOM_DOMAIN = 'cdn.mydomain.com'
-
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # LOGIN_REDIRECT_URL = "http://localhost:8080/"

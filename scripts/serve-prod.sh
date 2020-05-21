@@ -1,15 +1,15 @@
 #!/bin/bash
 source ./scripts/console.sh
 
-# $PORT will be set by Heroku
-PORT=${PORT:-5000}
+# $PORT can be set by Heroku
+PORT=${PORT:-8000}
 
 info ">>> Running collecstatic"
 python3 manage.py collectstatic --noinput
 
 info ">>> Running Migrations"
 python3 manage.py migrate --noinput
-python manage.py createcachetable
+# python manage.py createcachetable
 
 info ">>> Starting Gunicorn"
 exec gunicorn api.aecworks.wsgi \
@@ -18,4 +18,3 @@ exec gunicorn api.aecworks.wsgi \
     --log-level=info \
     --log-file - \
     "$@"
-# --workers 2 \

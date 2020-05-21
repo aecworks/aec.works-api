@@ -27,11 +27,8 @@ services:
       - 8000:8000
     depends_on:
       - db
-      # - search
-      # - static
     volumes:
       - .:/code
-      - /Users/gtalarico/dev/repos/gtalarico/apidocs/apidocs.data:/apidocs_data
     stdin_open: true
     tty: true
 

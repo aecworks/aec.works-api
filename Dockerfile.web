@@ -1,20 +1,20 @@
-FROM python:3.7-slim
+FROM python:3.8-slim
 
 # Setup directories
 RUN mkdir /code
-WORKDIR /code
 # Python Config
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Python dependencies
+RUN pip install --upgrade pip==19.2.1
 ADD requirements.txt /code/
 ADD requirements-dev.txt /code/
-RUN pip install -r requirements.txt
-RUN pip install -r requirements-dev.txt
+RUN pip install -r /code/requirements.txt
+RUN pip install -r /code/requirements-dev.txt
 
 EXPOSE $PORT
-
+# Copy Files Into Container
 ADD . /code
-
-CMD ["./scripts/serve.sh"]
+WORKDIR /code
+CMD ["./scripts/serve-prod.sh"]

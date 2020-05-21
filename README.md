@@ -1,56 +1,47 @@
 # AEC Works
-
 -----
 
 ## Development Environment
 
-### Full Docker Development
-
 **Requirements**
 
 * Docker
+* make
 
-```
+```bash
+# Start db (postgres) and web (django) containers
 $ make start
+$ open "http://localhost:8000"
+
+# Stream stdout/stderr of both containers
+$ make logs
+
+# Open Shell inside container
+$ make bash
 ```
 
-### Non-Docker
+### Editor Setup
 
 **Requirements**
-* Postgres DB
-*
 
-# TODO
-
-- [x] Rename aecworks
-
-### Endpoints
-- [x] Models
-- [x] Fe Integration
-- [X] Auth Integration
-- [ ] Endpoints
-    - [X] GETS: Comment, Posts, Profiles, Companies
-    - [ ] POSTS: Comment
-    - [ ] POSTS: Company
-    - [X] Clap Post
-    - [ ] Clap Company
-    - [ ] Clap Comment
-    - [X] Login
-    - [X] Logout
-    - [ ] Registration
-
-### Infra
-- [ ] Staging Server
-- [ ] Prod Server
-- [ ] CDN
-
-### SEO
-- [X] Favicon
-- [ ] meta and schema tags
-- [ ] Django Robots
-- [ ] Site Maps (Copy Apidocs.co)
+* VSCode
+* Remote Container Extension
 
 
-### Models:
-- [ ] Links (Company)
-- [ ] ModerationFlags
+### Local Python Virtual Environment
+
+If you don't want to user VS Remote Containers or for any other reason
+need to setup a local Python Environment:
+
+* Python 3.8 (pyenv recommended)
+* `python -m venv .venv`
+* `source ./.venv/bin/activate`
+* `pip install -r requirements.txt`
+* `pip install -r requirements-dev.txt`
+* python manage.py runserver
+
+
+## Contributing
+
+* https://github.com/HackSoftware/Django-Styleguide
+

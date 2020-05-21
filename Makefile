@@ -1,29 +1,29 @@
-.PHONY: test
+.PHONY: tests
 
-bash:
-	docker exec -it django bash
-
-seed:
-	python manage.py loaddata api/aecworks/fixtures/users.json
-	python manage.py seed_companies
-
-dev:
-	DJANGO_DEBUG=1 python manage.py runserver
-
-start:
+docker-start:
 	docker network create aecworks-network || true
 	docker-compose up -d web
 
-db:
+docker-db:
 	docker network create aecworks-network || true
 	docker-compose up -d db
 
-logs:
+docker-bash:
+	docker exec -it django bash
+
+docker-logs:
 	docker logs django -f
 
-rebuild:
+docker-rebuild:
 	docker-compose build --force-rm
 	make start
+
+seed:
+	python manage.py loaddata api/aecworks/fixtures/users.json
+	python manage.py seed
+
+dev:
+	DJANGO_DEBUG=1 python manage.py runserver
 
 test:
 	python manage.py test api/community/tests
