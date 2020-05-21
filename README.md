@@ -2,12 +2,27 @@
 
 -----
 
-WIP
+## Development Environment
 
+### Full Docker Development
+
+**Requirements**
+
+* Docker
+
+```
+$ make start
+```
+
+### Non-Docker
+
+**Requirements**
+* Postgres DB
+*
 
 # TODO
 
-- [ ] Rename aecguide
+- [x] Rename aecworks
 
 ### Endpoints
 - [x] Models
