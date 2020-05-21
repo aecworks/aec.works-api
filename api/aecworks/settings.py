@@ -38,6 +38,9 @@ AUTH_USER_MODEL = "users.User"
 SITE_ID = 1
 INTERNAL_IPS = ["localhost"]
 
+# Email
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 # Application definition
 INSTALLED_APPS = [
     # Extensions
@@ -65,8 +68,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",  # Cors
-    "querycount.middleware.QueryCountMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     # //
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -166,15 +167,17 @@ MEDIA_URL = "/media/"
 
 # Serve Static files locally for development - TODO Add Whitenoise or S3
 SERVE_STATIC = config("SERVE_STATIC", default=False)
-if SERVE_STATIC:
-    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-    DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
-else:
-    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-# TODO
-# Where To Store File Medie
-# AWS_S3_CUSTOM_DOMAIN = 'cdn.mydomain.com'
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# LOGIN_REDIRECT_URL = "http://localhost:8080/"
+if SERVE_STATIC:
+    MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
+if DEBUG:
+    MIDDLEWARE += [
+        "querycount.middleware.QueryCountMiddleware",
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
+# TODO S3 for Media
+# STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"

@@ -19,7 +19,6 @@ docker-rebuild:
 	make start
 
 seed:
-	python manage.py loaddata api/aecworks/fixtures/users.json
 	python manage.py seed
 
 dev:

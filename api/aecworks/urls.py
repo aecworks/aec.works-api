@@ -20,9 +20,9 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
 
-if settings.SERVE_STATIC:
-    from django.conf.urls.static import static  # noqa
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns  # noqa
+# if settings.SERVE_STATIC:
+#     from django.conf.urls.static import static  # noqa
+#     from django.contrib.staticfiles.urls import staticfiles_urlpatterns  # noqa
 
-    urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#     urlpatterns += staticfiles_urlpatterns()
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

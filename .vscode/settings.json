@@ -24,5 +24,5 @@
         "**/*.pytest_cache": true,
         "**/*.coverage": true
     },
-    "python.pythonPath": ".venv/bin/python3",
+    "python.pythonPath": "/usr/local/bin/python",
 }
