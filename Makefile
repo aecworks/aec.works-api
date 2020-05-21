@@ -12,6 +12,10 @@ dev:
 
 start:
 	docker network create aecguide-network || true
+	docker-compose up -d web
+
+db:
+	docker network create aecguide-network || true
 	docker-compose up -d db
 
 logs:
