@@ -11,11 +11,11 @@ dev:
 	DJANGO_DEBUG=1 python manage.py runserver
 
 start:
-	docker network create aecguide-network || true
+	docker network create aecworks-network || true
 	docker-compose up -d web
 
 db:
-	docker network create aecguide-network || true
+	docker network create aecworks-network || true
 	docker-compose up -d db
 
 logs:
