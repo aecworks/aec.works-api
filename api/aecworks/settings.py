@@ -67,8 +67,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # Cors
-    # //
+    "corsheaders.middleware.CorsMiddleware",
+    # // Start Default
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -76,6 +76,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # // End Default
+    "querycount.middleware.QueryCountMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware"
 ]
 
 ROOT_URLCONF = "api.aecworks.urls"
@@ -98,20 +102,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "api.aecworks.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     "default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": config("DJANGO_DB_NAME"),
-    #     "USER": config("DJANGO_DB_USER"),
-    #     "PASSWORD": config("DJANGO_DB_PASSWORD"),
-    #     "HOST": config("DJANGO_DB_HOST"),
-    #     "PORT": "5432",
-    # }
 }
 
 
@@ -165,17 +157,6 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(ROOT_DIR, "static")]
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
-
-# Serve Static files locally for development - TODO Add Whitenoise or S3
-SERVE_STATIC = config("DJANGO_SERVE_STATIC", default=False)
-
-if SERVE_STATIC:
-    MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
-if DEBUG:
-    MIDDLEWARE += [
-        "querycount.middleware.QueryCountMiddleware",
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-    ]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"

@@ -2,11 +2,6 @@ setup:
   addons:
     - plan: heroku-postgresql
       as: DATABASE
-  config:
-    DJANGO_ALLOWED_HOSTS: 1
-    DJANGO_ALLOWED_HOSTS: ".aec.works"
-    DJANGO_CORS_ORIGIN_WHITELIST: "https://aec.works"
-    DJANGO_SERVE_STATIC: 1
 build:
   docker:
     web: Dockerfile.heroku
