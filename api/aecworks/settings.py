@@ -1,6 +1,7 @@
 import os
-from decouple import config, Csv
 from datetime import timedelta
+from decouple import config, Csv
+import dj_database_url
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_DIR = os.path.dirname(PROJECT_DIR)
@@ -103,14 +104,15 @@ WSGI_APPLICATION = "api.aecworks.wsgi.application"
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DJANGO_DB_NAME"),
-        "USER": config("DJANGO_DB_USER"),
-        "PASSWORD": config("DJANGO_DB_PASSWORD"),
-        "HOST": config("DJANGO_DB_HOST"),
-        "PORT": "5432",
-    }
+    "default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": config("DJANGO_DB_NAME"),
+    #     "USER": config("DJANGO_DB_USER"),
+    #     "PASSWORD": config("DJANGO_DB_PASSWORD"),
+    #     "HOST": config("DJANGO_DB_HOST"),
+    #     "PORT": "5432",
+    # }
 }
 
 
