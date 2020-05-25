@@ -10,6 +10,9 @@
             88
         ]
     },
+    "files.associations": {
+        "Dockerfile*": "dockerfile"
+    },
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,

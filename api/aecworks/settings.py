@@ -19,9 +19,8 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # CORS
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_METHODS = ("GET", "OPTIONS")
-CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
-# If Regex Needed
-# CORS_ORIGIN_REGEX_WHITELIST = [r"^https://aec.works$"]
+CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", cast=Csv())
+CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
 # Social Auth
 GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID")
@@ -168,7 +167,7 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
 # Serve Static files locally for development - TODO Add Whitenoise or S3
-SERVE_STATIC = config("SERVE_STATIC", default=False)
+SERVE_STATIC = config("DJANGO_SERVE_STATIC", default=False)
 
 if SERVE_STATIC:
     MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
