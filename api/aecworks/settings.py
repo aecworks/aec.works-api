@@ -171,6 +171,7 @@ AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_S3_REGION_NAME = "us-west-1"
 AWS_DEFAULT_ACL = "public-read"
 AWS_STORAGE_BUCKET_NAME = "aecworks-prod"
+# AWS_S3_CUSTOM_DOMAIN = 'cdn.mydomain.com'
 
 # Sentry
 # https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147
