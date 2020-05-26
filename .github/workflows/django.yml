@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:3.8-slim
+    # container: python:3.8-slim
 
     strategy:
       max-parallel: 1
