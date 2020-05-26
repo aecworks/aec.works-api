@@ -15,14 +15,6 @@ urlpatterns = [
     # Apps
     path("community/", include("api.community.urls")),
     path("users/", include("api.users.urls")),
+    # Debug Toolbar
+    path("__debug__/", include(debug_toolbar.urls))
 ]
-
-if settings.DEBUG:
-    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
-
-# if settings.SERVE_STATIC:
-#     from django.conf.urls.static import static  # noqa
-#     from django.contrib.staticfiles.urls import staticfiles_urlpatterns  # noqa
-
-#     urlpatterns += staticfiles_urlpatterns()
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,8 +1,7 @@
 art
-dist
-static
 venv
 dumps
+staticfiles
 .env
 .vscode
 .pytest_cache
