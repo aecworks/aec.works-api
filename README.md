@@ -30,8 +30,7 @@ $ make docker-bash
 
 ### Local Python Virtual Environment
 
-If you don't want to user VS Remote Containers or for any other reason
-need to setup a local Python Environment:
+If you don't want to user VS Remote Containers or for any other reason need to setup a local Python Environment:
 
 * Python 3.8 (pyenv recommended)
 * `python -m venv .venv`

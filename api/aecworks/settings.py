@@ -164,9 +164,13 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-#
+# AWS
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_LOCATION = config("S3_NAMESPACE")  # local / staging / prod
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_S3_REGION_NAME = "us-west-1"
-AWS_STORAGE_BUCKET_NAME = "aecworks-prod"
 AWS_DEFAULT_ACL = "public-read"
+AWS_STORAGE_BUCKET_NAME = "aecworks-prod"
+
+# Sentry
+# https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147

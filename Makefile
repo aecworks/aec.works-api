@@ -6,7 +6,7 @@ docker-start:
 
 docker-db:
 	docker network create aecworks-network || true
-	docker-compose up -d db
+	docker-compose up -d postgres
 
 docker-bash:
 	docker exec -it django bash
@@ -16,7 +16,7 @@ docker-logs:
 
 docker-rebuild:
 	docker-compose build --force-rm
-	make start
+	make docker-start
 
 seed:
 	python manage.py seed

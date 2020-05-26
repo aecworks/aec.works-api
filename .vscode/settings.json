@@ -11,7 +11,8 @@
         ]
     },
     "files.associations": {
-        "Dockerfile*": "dockerfile"
+        "Dockerfile*": "dockerfile",
+        ".env*": "dotenv"
     },
     "files.exclude": {
         "**/.git": true,
