@@ -44,3 +44,6 @@ If you don't want to user VS Remote Containers or for any other reason need to s
 
 * https://github.com/HackSoftware/Django-Styleguide
 
+
+## License
+TODO
