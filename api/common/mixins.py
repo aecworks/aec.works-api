@@ -1,5 +1,6 @@
-class ReprMixin():
+class ReprMixin:
     """ Better Repr for models """
+
     def __str__(self):
         return self.__repr__()
 
