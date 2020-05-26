@@ -79,7 +79,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # // End Default
     "querycount.middleware.QueryCountMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware"
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "api.aecworks.urls"
@@ -102,9 +102,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "api.aecworks.wsgi.application"
 
-DATABASES = {
-    "default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)
-}
+DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)}
 
 
 # Password validation
@@ -159,7 +157,16 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
+
+# DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # TODO S3 for Media
 # STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+#
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_S3_REGION_NAME = "us-west-1"
+AWS_STORAGE_BUCKET_NAME = "aecworks-prod"
+AWS_DEFAULT_ACL = "public-read"

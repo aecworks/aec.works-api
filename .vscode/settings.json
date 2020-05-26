@@ -27,4 +27,5 @@
         "**/*.pytest_cache": true,
         "**/*.coverage": true
     },
+    "python.pythonPath": ".venv/bin/python",
 }
