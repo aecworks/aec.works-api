@@ -160,18 +160,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-# TODO S3 for Media
-# STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # AWS
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-AWS_LOCATION = config("S3_NAMESPACE")  # local / staging / prod
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_S3_REGION_NAME = "us-west-1"
 AWS_DEFAULT_ACL = "public-read"
-AWS_STORAGE_BUCKET_NAME = "aecworks-prod"
-# AWS_S3_CUSTOM_DOMAIN = 'cdn.mydomain.com'
+AWS_STORAGE_BUCKET_NAME = config("DJANGO_S3_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = config("DJANGO_S3_DOMAIN", default=None)
 
 # Sentry
 # https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147
