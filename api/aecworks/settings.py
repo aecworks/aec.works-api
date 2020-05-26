@@ -10,7 +10,7 @@ ROOT_DIR = os.path.dirname(API_DIR)
 # Security Config
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
-ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", default="", cast=Csv())
+ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv())
 
 # SSL
 SECURE_SSL_REDIRECT = config("DJANGO_SECURE_SSL_REDIRECT", cast=bool, default=False)
@@ -19,7 +19,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # CORS
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_METHODS = ("GET", "POST", "OPTIONS")
-CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", cast=Csv())
+CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
 # Social Auth
