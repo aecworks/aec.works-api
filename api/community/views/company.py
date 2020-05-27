@@ -40,7 +40,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     serializer_class = OutCompanySerializer
     queryset = selectors.get_companies()
     pagination_class = LimitOffsetPagination
-    page_size = 50
+    page_size = 25
     expected_exceptions = {}
 
     def get(self, request):

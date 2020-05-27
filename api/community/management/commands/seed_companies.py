@@ -10,7 +10,7 @@ WIP - this will be used to pull and sync aecstartups.com data
 from django.core.management.base import BaseCommand
 from django.core.files.images import ImageFile
 
-from api.community.models import Company
+from api.community.models import Company, Hashtag
 from api.common.utils import to_slug
 
 
@@ -22,10 +22,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        # url = "https://www.aecstartups.com/.netlify/functions/airtable"
-
-        with open("aecstartups.json") as fp:
-            data = json.load(fp)
+        url = "https://www.aecstartups.com/.netlify/functions/airtable"
+        resp = requests.get(url)
+        data = resp.json()
 
         for record in data["records"]:
             record = record["fields"]
@@ -34,11 +33,13 @@ class Command(BaseCommand):
             name = record.get("title")
             description = record.get("description")
             image_path = record.get("image")
+            location = record.get("location")
 
-            # TODO
-            # tags = record["tags"]
+            tags = record.get("tags", [])
 
             if not description or not name or not website:
+                msg = f"{name}-{website} Skiped: No Name or Desc. or Website"
+                self.stdout.write(self.style.ERROR(msg))
                 continue
 
             slug = to_slug(name)
@@ -48,6 +49,7 @@ class Command(BaseCommand):
                 crunchbase_id=crunchbase_id,
                 description=description,
                 website=website,
+                location=location,
             )
 
             company, _ = Company.objects.update_or_create(slug=slug, defaults=defaults)
@@ -59,8 +61,16 @@ class Command(BaseCommand):
                     company.logo = logo
 
             company.save()
-            msg = f"Created {company.slug}"
-            self.stdout.write(self.style.SUCCESS(msg))
+
+            # Hashtags
+            hashtags = []
+            for tag in tags:
+                hashtag, _ = Hashtag.objects.get_or_create(name=tag)
+                hashtags.append(hashtag)
+            company.hashtags.set(hashtags)
+
+            # msg = f"Created {company.slug}"
+            # self.stdout.write(self.style.SUCCESS(msg))
 
 
 def get_crunchbase_id(url):
@@ -68,6 +78,7 @@ def get_crunchbase_id(url):
 
 
 """
+ 'id': 'recW0FpRZMaQv5Ble'}
  'fields': {'created_on': '2019-06-05T19:17:34.000Z',
             'crunchbase': 'https://www.crunchbase.com/Company/3d-repo',
             'description': 'Cloud-Based BIM',
@@ -80,20 +91,19 @@ def get_crunchbase_id(url):
             'tags': ['web app', 'issue tracking', 'change management'],
             'title': '3D Repo',
             'website': 'https://3drepo.com'},
- 'id': 'recW0FpRZMaQv5Ble'}
  """
 
 
 def make_image(slug, path):
     if path.endswith("svg"):
-        print(f"Cant add {slug}")
+        print(f"{slug}: Cant add svg image")
         return
     if path.startswith("logos"):
         path = f"https://www.aecstartups.com/{path}"
 
     resp = requests.get(path)
     if not resp.ok:
-        print(f"failed: {slug}")
+        print(f"{slug}: try getting relative logo but failed")
         return
 
     fp = BytesIO()
