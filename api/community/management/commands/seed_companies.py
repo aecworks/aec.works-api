@@ -1,4 +1,3 @@
-import json
 from django.utils.text import slugify
 import requests
 from io import BytesIO

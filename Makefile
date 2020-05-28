@@ -34,3 +34,6 @@ clean:
 	python3 -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"
 	python3 -c "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__')]"
 
+setup:
+	bash ./scripts/setup.sh
+

@@ -1,6 +1,3 @@
-from django.db import models
-
-from api.common.lookups import Floor
 from .models import Company, Comment, Post, Hashtag, Thread
 
 

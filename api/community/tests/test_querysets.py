@@ -1,6 +1,6 @@
 import pytest
 from api.users.factories import ProfileFactory
-from api.community import selectors, factories, models
+from api.community import factories, models
 
 # from django.test import TestCase
 

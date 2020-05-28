@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source ./scripts/console.sh
+
+info "🚀 pre-push hook"
+
+make test
