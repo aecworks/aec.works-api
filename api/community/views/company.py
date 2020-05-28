@@ -9,6 +9,12 @@ class OutCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
     )
+    clap_count = serializers.IntegerField()
+    comment_count = serializers.IntegerField()
+    employee_count = serializers.SerializerMethodField()
+
+    def get_employee_count(self, obj):
+        return obj.get_employee_count_display()
 
     class Meta:
         model = models.Company
@@ -16,6 +22,8 @@ class OutCompanySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "slug",
+            "clap_count",
+            "comment_count",
             "description",
             "website",
             "founded_date",
@@ -25,7 +33,6 @@ class OutCompanySerializer(serializers.ModelSerializer):
             "employee_count",
             "logo",
             "hashtags",
-            # "clappers",
             "thread",
             "created_at",
             "revision_of",

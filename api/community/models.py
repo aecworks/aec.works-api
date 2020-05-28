@@ -3,10 +3,13 @@ from mptt import models as mptt_models
 
 from api.common.utils import to_slug
 from api.common.mixins import ReprMixin
-from .choices import EmployeeCountChoices
+
+from . import choices, querysets
 
 
 class Company(ReprMixin, models.Model):
+    objects = querysets.CompanyQueryset.as_manager()
+
     name = models.CharField(blank=False, max_length=255)
     slug = models.CharField(
         blank=True, null=False, max_length=255, unique=True, db_index=True
@@ -23,8 +26,8 @@ class Company(ReprMixin, models.Model):
         blank=True,
         null=True,
         max_length=32,
-        choices=[(c.name, c.value) for c in EmployeeCountChoices],
-        default=EmployeeCountChoices.TEN.name,
+        choices=[(c.name, c.value) for c in choices.EmployeeCountChoices],
+        default=choices.EmployeeCountChoices.TEN.name,
     )
     logo = models.ImageField(upload_to="logos", blank=True, default="default_logo.png")
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
@@ -88,6 +91,7 @@ class Hashtag(ReprMixin, models.Model):
 
 
 class Post(ReprMixin, models.Model):
+    objects = querysets.PostQueryset.as_manager()
 
     title = models.CharField(blank=False, max_length=100)
     slug = models.CharField(
@@ -120,6 +124,8 @@ class Thread(ReprMixin, models.Model):
 
 
 class Comment(ReprMixin, mptt_models.MPTTModel):
+    objects = querysets.CommentQueryset.as_manager()
+
     thread = models.ForeignKey(
         "Thread",
         related_name="comments",

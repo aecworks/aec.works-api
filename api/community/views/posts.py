@@ -17,7 +17,6 @@ class OutPostSerializer(serializers.ModelSerializer):
     profile = inline_serializer(
         fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
     )
-    # Annotated Values
     clap_count = serializers.IntegerField()
     comment_count = serializers.IntegerField()
 
@@ -28,7 +27,7 @@ class OutPostSerializer(serializers.ModelSerializer):
 
 class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = OutPostSerializer
-    queryset = selectors.get_posts_with_comment_count()
+    queryset = selectors.get_posts()
     pagination_class = LimitOffsetPagination
     page_size = 50
     expected_exceptions = {}
@@ -44,7 +43,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
 
 class PostDetailView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     serializer_class = OutPostSerializer
-    queryset = selectors.get_posts_with_comment_count()
+    queryset = selectors.get_posts()
     expected_exceptions = {}
 
     def get(self, request, pk):
