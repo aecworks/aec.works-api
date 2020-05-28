@@ -17,23 +17,6 @@
         }
     },
     {
-        "model": "users.user",
-        "pk": 2,
-        "fields": {
-            "password": "",
-            "last_login": null,
-            "is_superuser": false,
-            "name": "",
-            "is_staff": false,
-            "is_active": true,
-            "date_joined": "2020-05-18T05:19:47.348Z",
-            "email": "gtalarico@gmail.com",
-            "source": "GITHUB",
-            "groups": [],
-            "user_permissions": []
-        }
-    },
-    {
         "model": "users.profile",
         "pk": 1,
         "fields": {
@@ -43,20 +26,6 @@
             "bio": null,
             "location": null,
             "twitter": null,
-            "github_url": null,
-            "avatar": ""
-        }
-    },
-    {
-        "model": "users.profile",
-        "pk": 2,
-        "fields": {
-            "user": [
-                "gtalarico@gmail.com"
-            ],
-            "bio": "I am a Test User",
-            "location": "San Francisco",
-            "twitter": "gtalarico",
             "github_url": null,
             "avatar": ""
         }

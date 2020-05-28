@@ -8,7 +8,7 @@ from api.users.factories import ProfileFactory
 class TestViews:
     @pytest.mark.parametrize(
         "path,param_factory",
-        [["profiles/", None], ["profiles/{0}/", lambda: ProfileFactory().id]],
+        [["profiles/", None], ["profiles/{0}/", lambda: ProfileFactory().slug]],
     )
     def test_get_views_annonymous(self, client, path, param_factory):
         if param_factory:

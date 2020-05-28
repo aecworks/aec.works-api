@@ -23,9 +23,16 @@ class CommentAdmin(MPTTModelAdmin):
         return obj.get_children().count()
 
 
+class CommentsInline(admin.TabularInline):
+    model = models.Comment
+
+
 @admin.register(models.Thread)
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ["id", "root_comments", "thread_size"]
+    inlines = [
+        CommentsInline,
+    ]
 
     def root_comments(self, obj):
         return obj.comments.count()
@@ -59,7 +66,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "profile", "title", "words"]
+    list_display = ["id", "slug", "profile", "title", "words"]
 
     def words(self, obj):
         return len(obj.body.split(" "))

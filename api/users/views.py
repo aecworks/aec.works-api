@@ -36,9 +36,10 @@ class ProfileDetailView(
 ):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+    lookup_field = "slug"
 
-    def get(self, request, pk):
-        return super().retrieve(request, pk)
+    def get(self, request, slug):
+        return super().retrieve(request, slug)
 
 
 class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
