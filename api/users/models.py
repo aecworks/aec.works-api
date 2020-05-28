@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_extensions.db.fields import AutoSlugField
 from rest_framework.authtoken.models import Token
 
 from api.common.mixins import ReprMixin
@@ -50,7 +51,7 @@ class User(ReprMixin, AbstractUser):
 
 class Profile(ReprMixin, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+    slug = AutoSlugField(populate_from="user__name")
     # Optional
     bio = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=64, blank=True, null=True)

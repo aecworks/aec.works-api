@@ -6,42 +6,43 @@ from django.apps import apps
 
 class CommentQueryset(TreeQuerySet):
     def with_counts(self):
-        """ Adds `clas_count` and `comment_count` to queryset """
-        # Annotate across 2+ tables generate incorrect results unless disctinct is added
-        # https://code.djangoproject.com/ticket/25861#comment:3
+        """
+        Adds `clap_count` and `reply_count` to queryset
+        `reply_count` is not recursive - only direct child comments
+        """
         return self.annotate(
             clap_count=models.Count("clappers", distinct=True),
-            comment_count=models.Count("replies", distinct=True),
+            reply_count=models.Count("replies", distinct=True),
         )
+        # distinct= needed bcse annotate across 2+ tables generates incorrect results
+        # https://code.djangoproject.com/ticket/25861#comment:3
 
 
 class CompanyQueryset(models.QuerySet):
     def with_counts(self):
-        """ Adds `clas_count` and `comment_count` to queryset """
+        """ Adds `clap_count` and `thread_size` to queryset """
         qs = self.annotate(clap_count=models.Count("clappers", distinct=True))
-        return annotate_with_comment_count(qs)
+        return annotate_with_thread_size(qs)
 
 
 class PostQueryset(models.QuerySet):
     def with_counts(self):
-        """ Adds `clas_count` and `comment_count` to queryset """
+        """ Adds `clap_count` and `thread_size` to queryset """
         qs = self.annotate(clap_count=models.Count("clappers", distinct=True))
-        return annotate_with_comment_count(qs)
+        return annotate_with_thread_size(qs)
 
 
-def annotate_with_comment_count(queryset):
+def annotate_with_thread_size(queryset):
     """
-    Helper Method to annotate a queryset with `comment_count
+    Helper Method to annotate a queryset with `thread_size`self.
     Queryset object must have a 'thread_id' attribute
 
-    This Queryset recursively count the total number of comments in the threadself using
-    duplicating mptt strategy for get_ancestor_count().
-
-    With this we can get for example, all posts at once including the total nested
-    comment count in its thread in a single query. Uf!
+    `thread_size` is an integer representing the recursive count the total number
+    of comments in the threadself.
+    It duplicates mptt strategy for get_ancestor_count().
 
     Usage:
-        >>> Post.objects.with_count().first().comment_count
+        >>> Post.objects.with_count().first().thread_size
         6
 
         Comment
@@ -71,6 +72,6 @@ def annotate_with_comment_count(queryset):
             threads.values("_ancestor_count")[:1], output_field=models.IntegerField(),
         )
     ).annotate(
-        comment_count=models.F("_ancestor_count")
+        thread_size=models.F("_ancestor_count")
         + models.Count("thread__comments", distinct=True)
     )

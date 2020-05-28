@@ -60,8 +60,3 @@ class Comment(factory.django.DjangoModelFactory):
 
     text = factory.Faker("paragraph")
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
-    # Add Thread Related
-    # profile = factory.RelatedFactory("api.users.factories.ProfileFactory", "user")
-    # parent
-    # clappers
-    # created_at

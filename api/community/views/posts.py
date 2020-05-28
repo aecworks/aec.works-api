@@ -18,11 +18,11 @@ class OutPostSerializer(serializers.ModelSerializer):
         fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
     )
     clap_count = serializers.IntegerField()
-    comment_count = serializers.IntegerField()
+    thread_size = serializers.IntegerField()
 
     class Meta:
         model = models.Post
-        exclude = ["clappers", "slug"]
+        exclude = ["clappers"]
 
 
 class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -45,9 +45,10 @@ class PostDetailView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPI
     serializer_class = OutPostSerializer
     queryset = selectors.get_posts()
     expected_exceptions = {}
+    lookup_field = "slug"
 
-    def get(self, request, pk):
-        return super().retrieve(request, pk)
+    def get(self, request, slug):
+        return super().retrieve(request, slug)
 
 
 class PostClapView(ErrorsMixin, generics.GenericAPIView):
@@ -55,8 +56,9 @@ class PostClapView(ErrorsMixin, generics.GenericAPIView):
     serializer_class = OutPostSerializer
     queryset = selectors.get_posts()
     expected_exceptions = {}
+    lookup_field = "slug"
 
-    def post(self, request, pk):
+    def post(self, request, slug):
         post = self.get_object()
         result = services.post_clap(post=post, user=request.user)
         return Response(result)

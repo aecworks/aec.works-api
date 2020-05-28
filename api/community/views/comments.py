@@ -18,7 +18,7 @@ class InCommentSerializer(serializers.ModelSerializer):
 
 class OutCommentSerializer(serializers.ModelSerializer):
     clap_count = serializers.IntegerField()
-    replies_count = serializers.IntegerField()
+    reply_count = serializers.IntegerField()
 
     profile = inline_serializer(
         fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
@@ -30,7 +30,7 @@ class OutCommentSerializer(serializers.ModelSerializer):
             #
             "id",
             "created_at",
-            "replies_count",
+            "reply_count",
             "clap_count",
             "profile",
             "level",

@@ -54,7 +54,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(models.Hashtag)
 class HashtagAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["slug"]
 
 
 @admin.register(models.Post)

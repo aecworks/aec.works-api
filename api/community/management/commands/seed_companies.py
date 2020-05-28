@@ -1,5 +1,5 @@
 import json
-
+from django.utils.text import slugify
 import requests
 from io import BytesIO
 
@@ -11,7 +11,6 @@ from django.core.management.base import BaseCommand
 from django.core.files.images import ImageFile
 
 from api.community.models import Company, Hashtag
-from api.common.utils import to_slug
 
 
 class Command(BaseCommand):
@@ -33,7 +32,7 @@ class Command(BaseCommand):
             name = record.get("title")
             description = record.get("description")
             image_path = record.get("image")
-            location = record.get("location")
+            location = record.get("location", "Somewhere")
 
             tags = record.get("tags", [])
 
@@ -42,7 +41,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(msg))
                 continue
 
-            slug = to_slug(name)
+            slug = slugify(name)
 
             defaults = dict(
                 name=name,
@@ -65,7 +64,7 @@ class Command(BaseCommand):
             # Hashtags
             hashtags = []
             for tag in tags:
-                hashtag, _ = Hashtag.objects.get_or_create(name=tag)
+                hashtag, _ = Hashtag.objects.get_or_create(name=slugify(tag))
                 hashtags.append(hashtag)
             company.hashtags.set(hashtags)
 

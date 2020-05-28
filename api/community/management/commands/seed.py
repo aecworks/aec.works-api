@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from api.users.factories import ProfileFactory
-from api.community import factories
+from api.community import factories, models
 
 
 class Command(BaseCommand):
@@ -21,4 +21,13 @@ class Command(BaseCommand):
             post = factories.Post(profile=profile, thread=thread)
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
-            factories.Company()
+
+        for company in models.Company.objects.all():
+            thread = factories.Thread()
+            company.thread = thread
+            company.save()
+
+            comment = factories.Comment(profile=profile, thread=thread)
+            comment.clappers.add(profile)
+
+            company.clappers.add(profile)

@@ -6,7 +6,7 @@
             "password": "pbkdf2_sha256$150000$MnfFqNEMDBP2$W/gOH/WMD2XZyG9BjBnU5ncomy/0EmtvwNukpyslcOI=",
             "last_login": "2020-05-18T05:09:32.520Z",
             "is_superuser": true,
-            "name": "",
+            "name": "Dev User",
             "is_staff": true,
             "is_active": true,
             "date_joined": "2020-05-18T05:07:27.024Z",
@@ -54,9 +54,9 @@
             "user": [
                 "gtalarico@gmail.com"
             ],
-            "bio": null,
-            "location": null,
-            "twitter": null,
+            "bio": "I am a Test User",
+            "location": "San Francisco",
+            "twitter": "gtalarico",
             "github_url": null,
             "avatar": ""
         }

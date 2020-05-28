@@ -18,7 +18,7 @@ class GithubProvider:
     DEFAULT_HEADERS = {"Accept": "application/vnd.github.v3+json"}
 
     @classmethod
-    def get_user_data(cls, code) -> Tuple[str, dict]:
+    def get_user_data_from_code(cls, code) -> Tuple[str, dict]:
         access_token = cls._get_access_token(code)
         email, user_data, profile_data = cls._get_user_from_token(access_token)
         return email, user_data, profile_data

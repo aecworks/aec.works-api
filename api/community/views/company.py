@@ -1,6 +1,5 @@
 from rest_framework import mixins, generics, serializers
 from rest_framework.pagination import LimitOffsetPagination
-
 from api.common.exceptions import ErrorsMixin
 from .. import models, selectors
 
@@ -10,7 +9,7 @@ class OutCompanySerializer(serializers.ModelSerializer):
         many=True, read_only=True, slug_field="name"
     )
     clap_count = serializers.IntegerField()
-    comment_count = serializers.IntegerField()
+    thread_size = serializers.IntegerField()
     employee_count = serializers.SerializerMethodField()
 
     def get_employee_count(self, obj):
@@ -23,7 +22,7 @@ class OutCompanySerializer(serializers.ModelSerializer):
             "name",
             "slug",
             "clap_count",
-            "comment_count",
+            "thread_size",
             "description",
             "website",
             "founded_date",
@@ -40,7 +39,6 @@ class OutCompanySerializer(serializers.ModelSerializer):
             "approved_by",
             "editor",
         ]
-        # exclude = ["clappers"]
 
 
 class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -60,6 +58,7 @@ class CompanyDetailView(
     serializer_class = OutCompanySerializer
     queryset = selectors.get_companies()
     expected_exceptions = {}
+    lookup_field = "slug"
 
-    def get(self, request, pk):
-        return super().retrieve(request, pk)
+    def get(self, request, slug):
+        return super().retrieve(request, slug)

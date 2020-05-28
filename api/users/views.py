@@ -61,7 +61,7 @@ class GithubView(ErrorsMixin, views.APIView):
         if not code:
             raise drf_exceptions.ValidationError("code is missing")
 
-        email, user_data, profile_data = GithubProvider.get_user_data(code)
+        email, user_data, profile_data = GithubProvider.get_user_data_from_code(code)
         user_data.update({"source": UserSourceChoices.GITHUB.name})
 
         user = services.create_or_update_user(email=email, defaults=user_data)

@@ -1,7 +1,8 @@
 from django.db import models
+from django_extensions.db.fields import AutoSlugField
 from mptt import models as mptt_models
+from django.utils.text import slugify
 
-from api.common.utils import to_slug
 from api.common.mixins import ReprMixin
 
 from . import choices, querysets
@@ -11,9 +12,8 @@ class Company(ReprMixin, models.Model):
     objects = querysets.CompanyQueryset.as_manager()
 
     name = models.CharField(blank=False, max_length=255)
-    slug = models.CharField(
-        blank=True, null=False, max_length=255, unique=True, db_index=True
-    )
+    slug = AutoSlugField(populate_from="name")
+
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
 
@@ -78,25 +78,22 @@ class Company(ReprMixin, models.Model):
     class Meta:
         verbose_name_plural = "companies"
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = to_slug(self.name)
-        super().save(*args, **kwargs)
-
 
 class Hashtag(ReprMixin, models.Model):
-    name = models.CharField(max_length=32, unique=True, db_index=True)
+    slug = models.SlugField(max_length=32, unique=True)
     # reverse: posts -> Post
     # reverse: companies -> Company
+
+    def save(self, *args, **kwargs):
+        self.name = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Post(ReprMixin, models.Model):
     objects = querysets.PostQueryset.as_manager()
 
     title = models.CharField(blank=False, max_length=100)
-    slug = models.CharField(
-        blank=True, null=False, max_length=100, unique=True, db_index=True
-    )
+    slug = AutoSlugField(populate_from="title")
 
     body = models.TextField(blank=False)
     profile = models.ForeignKey(
@@ -112,11 +109,6 @@ class Post(ReprMixin, models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = to_slug(self.title)
-        super().save(*args, **kwargs)
 
 
 class Thread(ReprMixin, models.Model):
