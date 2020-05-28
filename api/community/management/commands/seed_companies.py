@@ -63,7 +63,7 @@ class Command(BaseCommand):
             # Hashtags
             hashtags = []
             for tag in tags:
-                hashtag, _ = Hashtag.objects.get_or_create(name=slugify(tag))
+                hashtag, _ = Hashtag.objects.get_or_create(slug=slugify(tag))
                 hashtags.append(hashtag)
             company.hashtags.set(hashtags)
 
