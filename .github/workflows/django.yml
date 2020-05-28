@@ -61,7 +61,7 @@ jobs:
         env:
           DJANGO_SECRET_KEY: gh_test
           DJANGO_ALLOWED_HOSTS: "*"
-          S3_NAMESPACE: "gh_test"
+          DJANGO_S3_BUCKET_NAME: "gh_test"
           DATABASE_URL: "postgres://postgres:postgres@postgres:5432/aecworks_db"
           GITHUB_CLIENT_ID: gh_test
           GITHUB_CLIENT_SECRET: gh_test
