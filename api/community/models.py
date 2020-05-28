@@ -85,7 +85,7 @@ class Hashtag(ReprMixin, models.Model):
     # reverse: companies -> Company
 
     def save(self, *args, **kwargs):
-        self.name = slugify(self.name)
+        self.slug = slugify(self.slug)
         super().save(*args, **kwargs)
 
 

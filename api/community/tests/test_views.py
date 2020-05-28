@@ -9,9 +9,9 @@ class TestViews:
         [
             ["comments/?thread_id={0}", lambda: f.Thread().id],
             ["comments/?parent_id={0}", lambda: f.Comment(thread=f.Thread()).id],
-            ["companies/", None],
+            ["companies/", lambda: f.Company()],
             ["companies/{0}/", lambda: f.Company().slug],
-            ["posts/", None],
+            ["posts/", lambda: f.Post()],
             ["posts/{0}/", lambda: f.Post().slug],
         ],
     )

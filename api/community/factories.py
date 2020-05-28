@@ -26,12 +26,16 @@ class Company(factory.django.DjangoModelFactory):
     # approved_by
     # editor
 
+    @factory.post_generation
+    def post(obj, *args, **kwargs):
+        obj.hashtags.add(Hashtag())
+
 
 class Hashtag(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Hashtag
 
-    name = factory.Faker("word")
+    slug = factory.Faker("word")
 
 
 class Post(factory.django.DjangoModelFactory):

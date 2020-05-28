@@ -6,7 +6,7 @@ from .. import models, selectors
 
 class OutCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
-        many=True, read_only=True, slug_field="name"
+        many=True, read_only=True, slug_field="slug"
     )
     clap_count = serializers.IntegerField()
     thread_size = serializers.IntegerField()

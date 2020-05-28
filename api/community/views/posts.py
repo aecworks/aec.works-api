@@ -12,7 +12,7 @@ from .. import models, selectors, services
 
 class OutPostSerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
-        many=True, read_only=True, slug_field="name"
+        many=True, read_only=True, slug_field="slug"
     )
     profile = inline_serializer(
         fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
