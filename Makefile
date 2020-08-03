@@ -11,6 +11,9 @@ docker-db:
 docker-bash:
 	docker exec -it django bash
 
+docker-attach:
+	docker exec -it django bash
+
 docker-logs:
 	docker logs django -f
 

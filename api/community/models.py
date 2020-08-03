@@ -35,6 +35,7 @@ class Company(ReprMixin, models.Model):
         "users.Profile", related_name="clapped_companies", blank=True
     )
 
+    # TODO: Thread Required and as as signal
     thread = models.OneToOneField(
         "Thread",
         related_name="post",

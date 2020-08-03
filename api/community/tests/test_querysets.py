@@ -10,10 +10,10 @@ class TestQuerysets:
     def test_comment_counts(self):
         profile = ProfileFactory()
 
-        thread = factories.Thread()
-        c0 = factories.Comment(thread=thread)
-        factories.Comment(parent=c0)
-        factories.Comment(parent=c0)
+        thread = factories.ThreadFactory()
+        c0 = factories.CommentFactory(thread=thread)
+        factories.CommentFactory(parent=c0)
+        factories.CommentFactory(parent=c0)
         c0.clappers.add(profile)
 
         comments = models.Comment.objects.with_counts().all()
@@ -25,11 +25,11 @@ class TestQuerysets:
     def test_post_counts(self):
         profile = ProfileFactory()
 
-        thread = factories.Thread()
-        post = factories.Post(thread=thread)
-        c0 = factories.Comment(thread=thread)
-        factories.Comment(parent=c0)
-        factories.Comment(parent=c0)
+        thread = factories.ThreadFactory()
+        post = factories.PostFactory(thread=thread)
+        c0 = factories.CommentFactory(thread=thread)
+        factories.CommentFactory(parent=c0)
+        factories.CommentFactory(parent=c0)
         post.clappers.add(profile)
 
         post = models.Post.objects.with_counts().all()

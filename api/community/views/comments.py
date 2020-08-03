@@ -1,7 +1,13 @@
-from rest_framework import mixins, generics, serializers, pagination
+from rest_framework import (
+    mixins,
+    generics,
+    serializers,
+    pagination,
+    permissions,
+    decorators,
+)
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from api.common.utils import inline_serializer
 from api.common.exceptions import ErrorsMixin
@@ -41,7 +47,6 @@ class OutCommentSerializer(serializers.ModelSerializer):
 class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = OutCommentSerializer
     pagination_class = pagination.LimitOffsetPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
     expected_exceptions = {models.Thread.DoesNotExist: drf_exceptions.ValidationError}
     page_size = 10
 
@@ -56,9 +61,11 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
             msg = "must provide thread_id or parent_id but not both"
             raise drf_exceptions.ValidationError(msg)
 
+    @decorators.permission_classes([permissions.IsAuthenticatedOrReadOnly])
     def get(self, request):
         return super().list(request)
 
+    @decorators.permission_classes([permissions.IsAuthenticatedOrReadOnly])
     def post(self, request):
         serializer = InCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

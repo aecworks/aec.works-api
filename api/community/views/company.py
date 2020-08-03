@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics, serializers
+from rest_framework import mixins, generics, serializers, decorators
 from rest_framework.pagination import LimitOffsetPagination
 from api.common.exceptions import ErrorsMixin
 from .. import models, selectors
@@ -48,6 +48,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     page_size = 25
     expected_exceptions = {}
 
+    @decorators.permission_classes([])
     def get(self, request):
         return super().list(request)
 

@@ -2,7 +2,7 @@ import factory
 from . import models
 
 
-class Company(factory.django.DjangoModelFactory):
+class CompanyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Company
 
@@ -28,17 +28,17 @@ class Company(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def post(obj, *args, **kwargs):
-        obj.hashtags.add(Hashtag())
+        obj.hashtags.add(HashtagFactory())
 
 
-class Hashtag(factory.django.DjangoModelFactory):
+class HashtagFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Hashtag
 
     slug = factory.Faker("word")
 
 
-class Post(factory.django.DjangoModelFactory):
+class PostFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Post
 
@@ -46,19 +46,19 @@ class Post(factory.django.DjangoModelFactory):
     title = factory.Faker("sentence")
     thread = None
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
-    # companies = []
     # hashtags = []
+    # companies = []
     # clappers = []
     # created_at
     # updated_at
 
 
-class Thread(factory.django.DjangoModelFactory):
+class ThreadFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Thread
 
 
-class Comment(factory.django.DjangoModelFactory):
+class CommentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Comment
 
