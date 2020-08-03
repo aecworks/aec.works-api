@@ -33,8 +33,8 @@ def create_post(*, profile, title: str, body: str, hashtag_names: List[str]):
 @transaction.atomic
 def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: List[str]):
     post = Post.objects.get(slug=slug)
-    if post.profile != profile or not profile.user.is_staff:
-        raise PermissionDenied()
+    if not post.profile == profile and not profile.user.is_staff:
+        raise PermissionDenied(f"profile '{profile.name}' cannot edit this post")
 
     hashtags = get_or_create_hashtags(hashtag_names)
     Post.objects.filter(id=post.id).update(title=title, body=body)
