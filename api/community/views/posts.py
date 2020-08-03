@@ -25,17 +25,24 @@ class PostDetailsSerializer(serializers.ModelSerializer):
         exclude = ["clappers"]
 
 
-class NewPostSerializer(serializers.ModelSerializer):
-    hashtags = serializers.SlugRelatedField(
-        many=True, slug_field="slug", queryset=models.Hashtag.objects.all()
-    )
-
-    thread_id = serializers.IntegerField(read_only=True)
-    slug = serializers.CharField(read_only=True)
+class NewPostRequestSerializer(serializers.ModelSerializer):
+    hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
 
     class Meta:
         model = models.Post
-        fields = ["hashtags", "title", "body", "slug", "thread_id"]
+        fields = ["hashtags", "title", "body"]
+
+
+class NewPostResponseSerializer(serializers.ModelSerializer):
+    thread_id = serializers.IntegerField(read_only=True)
+    slug = serializers.CharField(read_only=True)
+    hashtags = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="slug"
+    )
+
+    class Meta:
+        model = models.Post
+        fields = ["hashtags", "title", "body", "thread_id", "slug"]
 
 
 class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -55,7 +62,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
         return super().list(request)
 
     def post(self, request):
-        serializer = NewPostSerializer(data=request.data)
+        serializer = NewPostRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = services.create_post(
             profile=request.user.profile,
@@ -63,7 +70,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
             body=serializer.validated_data["body"],
             hashtag_names=serializer.validated_data["hashtags"],
         )
-        return Response(NewPostSerializer(post).data, status=201)
+        return Response(NewPostResponseSerializer(post).data, status=201)
 
 
 class PostDetailView(
@@ -80,7 +87,7 @@ class PostDetailView(
         return super().retrieve(request, slug)
 
     def patch(self, request, slug):
-        serializer = NewPostSerializer(data=request.data)
+        serializer = NewPostRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = services.update_post(
             slug=slug,
@@ -89,7 +96,7 @@ class PostDetailView(
             body=serializer.validated_data["body"],
             hashtag_names=serializer.validated_data["hashtags"],
         )
-        return Response(NewPostSerializer(post).data, status=200)
+        return Response(NewPostResponseSerializer(post).data, status=200)
 
 
 class PostClapView(ErrorsMixin, generics.GenericAPIView):

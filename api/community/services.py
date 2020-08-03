@@ -14,9 +14,16 @@ def create_thread_comment(*, profile, thread, text):
     return Comment.objects.create(profile=profile, thread=thread, text=text)
 
 
+def get_or_create_hashtags(hashtag_names: List[str]):
+    return [
+        Hashtag.objects.filter(slug=n).first() or Hashtag.objects.create(slug=n)
+        for n in hashtag_names
+    ]
+
+
 @transaction.atomic
 def create_post(*, profile, title: str, body: str, hashtag_names: List[str]):
-    hashtags = Hashtag.objects.filter(slug__in=hashtag_names)
+    hashtags = get_or_create_hashtags(hashtag_names)
     thread = Thread.objects.create()
     post = Post.objects.create(profile=profile, title=title, body=body, thread=thread)
     post.hashtags.set(hashtags)
@@ -25,11 +32,12 @@ def create_post(*, profile, title: str, body: str, hashtag_names: List[str]):
 
 @transaction.atomic
 def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: List[str]):
-    hashtags = Hashtag.objects.filter(slug__in=hashtag_names)
     post = Post.objects.get(slug=slug)
-    if post.profile == profile or profile.user.is_staff:
-        Post.objects.filter(id=post.id).update(title=title, body=body)
-        post.hashtags.set(hashtags)
-        post.refresh_from_db()
-        return post
-    raise PermissionDenied()
+    if post.profile != profile or not profile.user.is_staff:
+        raise PermissionDenied()
+
+    hashtags = get_or_create_hashtags(hashtag_names)
+    Post.objects.filter(id=post.id).update(title=title, body=body)
+    post.hashtags.set(hashtags)
+    post.refresh_from_db()
+    return post
