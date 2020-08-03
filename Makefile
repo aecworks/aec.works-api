@@ -12,7 +12,7 @@ docker-bash:
 	docker exec -it django bash
 
 docker-attach:
-	docker exec -it django bash
+	docker attach django
 
 docker-logs:
 	docker logs django -f

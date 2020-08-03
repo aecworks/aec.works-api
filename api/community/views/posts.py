@@ -1,4 +1,6 @@
+from django.core.exceptions import PermissionDenied
 from rest_framework import mixins, generics, serializers, permissions
+from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
@@ -72,6 +74,7 @@ class PostDetailView(
     expected_exceptions = {}
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    expected_exceptions = {PermissionDenied: drf_exceptions.PermissionDenied}
 
     def get(self, request, slug):
         return super().retrieve(request, slug)
