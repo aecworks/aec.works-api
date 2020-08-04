@@ -1,5 +1,6 @@
 from typing import List
 from django.db import transaction
+from django.utils.text import slugify
 from django.core.exceptions import PermissionDenied
 
 from .models import Comment, Hashtag, Post, Thread
@@ -15,9 +16,10 @@ def create_thread_comment(*, profile, thread, text):
 
 
 def get_or_create_hashtags(hashtag_names: List[str]):
+    slugified_names = [slugify(n).replace("-", "") for n in hashtag_names]
     return [
         Hashtag.objects.filter(slug=n).first() or Hashtag.objects.create(slug=n)
-        for n in hashtag_names
+        for n in slugified_names
     ]
 
 

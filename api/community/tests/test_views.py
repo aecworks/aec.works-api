@@ -52,6 +52,9 @@ class TestViews:
 
     def test_post_patch(self, client, jwt_auth_header):
         post = f.PostFactory()
+        token = AccessToken.for_user(post.profile.user)
+        author_jwt_auth_header = dict(HTTP_AUTHORIZATION="JWT {}".format(token))
+
         url = f"/community/posts/{post.slug}/"
         payload = {
             "title": "Fake Title",
@@ -61,6 +64,12 @@ class TestViews:
 
         resp = client.patch(
             url, payload, content_type="application/json", **jwt_auth_header
+        )
+        # Token for random user cannot patch
+        assert resp.status_code == 403
+        # Token for author user can
+        resp = client.patch(
+            url, payload, content_type="application/json", **author_jwt_auth_header
         )
         assert resp.status_code == 200
 
