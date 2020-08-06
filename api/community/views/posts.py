@@ -19,6 +19,11 @@ class PostDetailsSerializer(serializers.ModelSerializer):
     )
     clap_count = serializers.IntegerField()
     thread_size = serializers.IntegerField()
+    # TODO nest in counts/metrics
+    # counts = inline_serializer(fields={
+    #     "clap_count": serializers.IntegerField()
+    #     "thread_size": serializers.IntegerField()
+    # })
 
     class Meta:
         model = models.Post

@@ -25,6 +25,16 @@ class CompanyQueryset(models.QuerySet):
         return annotate_with_thread_size(qs)
 
 
+class HashtagQueryset(models.QuerySet):
+    def with_counts(self):
+        """ Adds `counts` queryset """
+        qs = self.annotate(
+            company_count=models.Count("companies", distinct=True),
+            post_count=models.Count("posts", distinct=True),
+        )
+        return qs
+
+
 class PostQueryset(models.QuerySet):
     def with_counts(self):
         """ Adds `clap_count` and `thread_size` to queryset """

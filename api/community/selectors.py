@@ -29,7 +29,7 @@ def get_companies():
 
 
 def get_hashtags():
-    return Hashtag.objects.all()
+    return Hashtag.objects.with_counts().all()
 
 
 def get_posts():

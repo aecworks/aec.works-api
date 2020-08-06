@@ -81,6 +81,7 @@ class Company(ReprMixin, models.Model):
 
 
 class Hashtag(ReprMixin, models.Model):
+    objects = querysets.HashtagQueryset.as_manager()
     slug = models.SlugField(max_length=32, unique=True)
     # reverse: posts -> Post
     # reverse: companies -> Company

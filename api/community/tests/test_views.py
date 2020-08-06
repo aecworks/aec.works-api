@@ -23,6 +23,7 @@ class TestViews:
             ],
             ["companies/", lambda: f.CompanyFactory()],
             ["companies/{0}/", lambda: f.CompanyFactory().slug],
+            ["hashtags/", lambda: f.HashtagFactory()],
             ["posts/", lambda: f.PostFactory()],
             ["posts/{0}/", lambda: f.PostFactory().slug],
         ],
