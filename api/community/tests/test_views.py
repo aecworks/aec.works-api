@@ -73,6 +73,24 @@ class TestViews:
         )
         assert resp.status_code == 200
 
+    def test_company_patch(self, client, jwt_auth_header):
+        company = f.CompanyFactory()
+        token = AccessToken.for_user(company.profile.user)
+        jwt_auth_header = dict(HTTP_AUTHORIZATION="JWT {}".format(token))
+
+        url = f"/community/companies/{company.slug}/"
+        payload = {
+            "name": "Name",
+            "description": "x",
+            "employeeCount": "x",
+            "hashtags": ["x"],
+            "website": "https://www.x.com",
+        }
+        resp = client.patch(
+            url, payload, content_type="application/json", **jwt_auth_header
+        )
+        assert resp.status_code == 200
+
     def test_post_clap(self, client, jwt_auth_header):
         post = f.PostFactory()
         url = f"/community/posts/{post.slug}/clap/"

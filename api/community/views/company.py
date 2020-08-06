@@ -1,10 +1,11 @@
-from rest_framework import mixins, generics, serializers, decorators
+from rest_framework import mixins, generics, serializers, permissions
+from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from api.common.exceptions import ErrorsMixin
-from .. import models, selectors
+from .. import models, selectors, services
 
 
-class OutCompanySerializer(serializers.ModelSerializer):
+class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
@@ -18,12 +19,10 @@ class OutCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
         fields = [
-            "id",
             "name",
             "slug",
-            "clap_count",
-            "thread_size",
             "description",
+            "profile",
             "website",
             "founded_date",
             "twitter_handle",
@@ -34,32 +33,62 @@ class OutCompanySerializer(serializers.ModelSerializer):
             "hashtags",
             "thread",
             "created_at",
-            "revision_of",
-            "replaced_by",
-            "approved_by",
-            "editor",
+            "clap_count",
+            "thread_size",
+        ]
+
+
+class RequestCompanySerializer(serializers.ModelSerializer):
+    hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
+    employee_count = serializers.CharField()
+
+    class Meta:
+        model = models.Company
+        fields = [
+            "name",
+            "description",
+            "website",
+            "founded_date",
+            "twitter_handle",
+            "location",
+            "crunchbase_id",
+            "employee_count",
+            "hashtags",
+            # "logo",
         ]
 
 
 class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
-    serializer_class = OutCompanySerializer
+    serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
     pagination_class = LimitOffsetPagination
     page_size = 25
     expected_exceptions = {}
+    permission_classes = [permissions.AllowAny]
 
-    @decorators.permission_classes([])
     def get(self, request):
         return super().list(request)
 
 
 class CompanyDetailView(
-    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
+    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
 ):
-    serializer_class = OutCompanySerializer
+    serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
     expected_exceptions = {}
     lookup_field = "slug"
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, slug):
         return super().retrieve(request, slug)
+
+    def patch(self, request, slug):
+        serializer = RequestCompanySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        company = self.get_object()
+        updated_company = services.update_company(
+            company=company,
+            profile=request.user.profile,
+            validated_data=serializer.validated_data,
+        )
+        return Response(ResponseCompanySerializer(updated_company).data)

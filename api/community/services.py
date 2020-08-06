@@ -1,21 +1,39 @@
 from typing import List
+from math import log
+from datetime import timedelta
 from django.db import transaction
 from django.utils.text import slugify
 from django.core.exceptions import PermissionDenied
 
-from .models import Comment, Hashtag, Post, Thread
+from api.common.utils import update_instance
+from .models import Comment, Hashtag, Post, Thread, Company
 
 
-def post_clap(*, post, profile):
+def bump_hot_datetime(post, clap_count):
+    # Each Clap bumps up 1/4 day or 6 hours
+    bump = log(25 * clap_count + 1, 2) / 3
+    time_bump = timedelta(days=bump)
+    # >>> log(25 * 0 + 1, 2) / 3 => 0.0
+    # >>> log(25 * 1 + 1, 2) / 3 => 1.5
+    # >>> log(25 * 5 + 1, 2) / 3 => 2.3
+    # >>> log(25 * 20 + 1, 2) / 3 => 2.9
+    # >>> log(25 * 100 + 1, 2) / 3 => 3.7
+    post.hot_datetime = post.created_at + time_bump
+    post.save()
+
+
+def post_clap(*, post, profile) -> int:
     post.clappers.add(profile)
-    return post.clappers.count()
+    clap_count = post.clappers.count()
+    bump_hot_datetime(post, clap_count)
+    return clap_count
 
 
-def create_thread_comment(*, profile, thread, text):
+def create_thread_comment(*, profile, thread, text) -> Comment:
     return Comment.objects.create(profile=profile, thread=thread, text=text)
 
 
-def get_or_create_hashtags(hashtag_names: List[str]):
+def get_or_create_hashtags(hashtag_names: List[str]) -> List[Hashtag]:
     slugified_names = [slugify(n).replace("-", "") for n in hashtag_names]
     return [
         Hashtag.objects.filter(slug=n).first() or Hashtag.objects.create(slug=n)
@@ -24,7 +42,7 @@ def get_or_create_hashtags(hashtag_names: List[str]):
 
 
 @transaction.atomic
-def create_post(*, profile, title: str, body: str, hashtag_names: List[str]):
+def create_post(*, profile, title: str, body: str, hashtag_names: List[str]) -> Post:
     hashtags = get_or_create_hashtags(hashtag_names)
     thread = Thread.objects.create()
     post = Post.objects.create(profile=profile, title=title, body=body, thread=thread)
@@ -43,3 +61,12 @@ def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: Lis
     post.hashtags.set(hashtags)
     post.refresh_from_db()
     return post
+
+
+@transaction.atomic
+def update_company(*, company, profile, validated_data) -> Company:
+    hashtag_names = validated_data.get("hashtags", [])
+    validated_data["hashtags"] = get_or_create_hashtags(hashtag_names)
+    validated_data["profile_id"] = profile.id
+    updated_company = update_instance(company, validated_data)
+    return updated_company

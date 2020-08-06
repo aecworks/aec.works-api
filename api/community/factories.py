@@ -9,6 +9,8 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("company")
     # slug
     description = factory.Faker("paragraph", nb_sentences=2)
+    profile = factory.SubFactory("api.users.factories.ProfileFactory")
+
     website = factory.Faker("url")
     founded_date = factory.Faker("date")
     twitter_handle = factory.LazyAttribute(
@@ -24,7 +26,6 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     # revision_of
     # replaced_by
     # approved_by
-    # editor
 
     @factory.post_generation
     def post(obj, *args, **kwargs):

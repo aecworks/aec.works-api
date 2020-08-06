@@ -56,7 +56,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     def get_queryset(self):
         if hashtag_slug := self.request.query_params.get("hashtag"):
             return self.queryset.filter(hashtags__slug__contains=hashtag_slug)
-        return self.queryset
+        return self.queryset.order_by("hot_datetime", "created_at", "slug")
 
     def get(self, request):
         return super().list(request)

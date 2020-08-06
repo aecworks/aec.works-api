@@ -68,7 +68,7 @@ class Company(ReprMixin, models.Model):
         blank=True,
         null=True,
     )
-    editor = models.ForeignKey(
+    profile = models.ForeignKey(
         "users.Profile",
         related_name="revisions",
         on_delete=models.PROTECT,
@@ -110,6 +110,8 @@ class Post(ReprMixin, models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    hot_datetime = models.DateTimeField(auto_now_add=True)
 
 
 class Thread(ReprMixin, models.Model):

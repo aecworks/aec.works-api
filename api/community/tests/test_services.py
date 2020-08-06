@@ -35,3 +35,11 @@ class TestServices:
             profile=profile, slug=post.slug, title="x", body="x", hashtag_names=[]
         )
         assert updated_post.title == "x"
+
+    def test_edit_company(self):
+        profile = ProfileFactory()
+        company = factories.CompanyFactory()
+        updated_post = services.update_company(
+            company=company, profile=profile, validated_data={"name": "x"}
+        )
+        assert updated_post.name == "x"

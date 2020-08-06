@@ -55,7 +55,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "logo",
         "revision_of",
         "approved_by",
-        "editor",
+        "profile",
     ]
 
 
