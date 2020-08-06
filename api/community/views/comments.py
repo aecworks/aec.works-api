@@ -14,7 +14,7 @@ from api.common.exceptions import ErrorsMixin
 from .. import models, selectors, services
 
 
-class InCommentSerializer(serializers.ModelSerializer):
+class RequestCommentSerializer(serializers.ModelSerializer):
     thread_id = serializers.IntegerField(required=True)
 
     class Meta:
@@ -22,7 +22,7 @@ class InCommentSerializer(serializers.ModelSerializer):
         fields = ["text", "thread_id"]
 
 
-class OutCommentSerializer(serializers.ModelSerializer):
+class ResponseCommentSerializer(serializers.ModelSerializer):
     clap_count = serializers.IntegerField()
     reply_count = serializers.IntegerField()
 
@@ -45,7 +45,7 @@ class OutCommentSerializer(serializers.ModelSerializer):
 
 
 class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
-    serializer_class = OutCommentSerializer
+    serializer_class = ResponseCommentSerializer
     pagination_class = pagination.LimitOffsetPagination
     expected_exceptions = {models.Thread.DoesNotExist: drf_exceptions.ValidationError}
     page_size = 10
@@ -67,7 +67,7 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     @decorators.permission_classes([permissions.IsAuthenticatedOrReadOnly])
     def post(self, request):
-        serializer = InCommentSerializer(data=request.data)
+        serializer = RequestCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         thread_id = serializer.validated_data["thread_id"]
         text = serializer.validated_data["text"]
@@ -80,5 +80,19 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         # TODO
         # Can't use Serializer becase of annotations in selectors
         # Maybe annotation and prefetch need to move into a manager?
-        # response_serializer = OutCommentSerializer(comment)
+        # response_serializer = ResponseCommentSerializer(comment)
         # return Response(response_serializer.data)
+
+
+class CommentClapView(ErrorsMixin, generics.GenericAPIView):
+    serializer_class = ResponseCommentSerializer
+    queryset = selectors.get_comments()
+    expected_exceptions = {}
+    lookup_field = "id"
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, id):
+        comment = self.get_object()
+        profile = request.user.profile
+        result = services.comment_clap(comment=comment, profile=profile)
+        return Response(result)

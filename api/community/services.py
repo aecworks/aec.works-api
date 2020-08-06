@@ -22,6 +22,11 @@ def bump_hot_datetime(post, clap_count):
     post.save()
 
 
+def comment_clap(*, comment, profile) -> int:
+    comment.clappers.add(profile)
+    return comment.clappers.count()
+
+
 def post_clap(*, post, profile) -> int:
     post.clappers.add(profile)
     clap_count = post.clappers.count()

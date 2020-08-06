@@ -100,3 +100,16 @@ class TestViews:
 
         resp = client.post(url, **jwt_auth_header)
         assert resp.status_code == 200
+        assert resp.content == b"1"
+
+    def test_post_comment_clap(self, client, jwt_auth_header):
+        thread = f.ThreadFactory()
+        comment = f.CommentFactory(thread=thread)
+        url = f"/community/comments/{comment.id}/clap/"
+
+        resp = client.post(url)
+        assert resp.status_code == 401
+
+        resp = client.post(url, **jwt_auth_header)
+        assert resp.status_code == 200
+        assert resp.content == b"1"

@@ -7,13 +7,25 @@ from api.community import factories, services
 @pytest.mark.django_db
 class TestServices:
     def test_post_clap(self):
-        post = factories.PostFactory()
         profile = ProfileFactory()
+        post = factories.PostFactory()
+        assert post.clappers.count() == 0
         rv = services.post_clap(post=post, profile=profile)
         assert rv == 1
         rv2 = services.post_clap(post=post, profile=profile)
         assert rv2 == 1
         assert post.clappers.count() == 1
+
+    def test_comment_clap(self):
+        thread = factories.ThreadFactory()
+        comment = factories.CommentFactory(thread=thread)
+        profile = ProfileFactory()
+        assert comment.clappers.count() == 0
+        rv = services.comment_clap(comment=comment, profile=profile)
+        assert rv == 1
+        rv2 = services.comment_clap(comment=comment, profile=profile)
+        assert rv2 == 1
+        assert comment.clappers.count() == 1
 
     def test_edit_post(self):
         post = factories.PostFactory()
