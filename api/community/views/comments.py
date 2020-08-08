@@ -27,7 +27,7 @@ class ResponseCommentSerializer(serializers.ModelSerializer):
     reply_count = serializers.IntegerField()
 
     profile = inline_serializer(
-        fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
+        fields={"name": serializers.CharField(), "slug": serializers.CharField()}
     )
 
     class Meta:

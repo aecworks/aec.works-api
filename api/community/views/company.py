@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics, serializers, permissions
+from rest_framework import mixins, generics, serializers, permissions, filters
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from api.common.exceptions import ErrorsMixin
@@ -65,6 +65,14 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     page_size = 25
     expected_exceptions = {}
     permission_classes = [permissions.AllowAny]
+
+    search_fields = ["name", "description"]
+    filter_backends = [filters.SearchFilter]
+
+    def get_queryset(self):
+        if hashtag_slug := self.request.query_params.get("hashtag"):
+            return self.queryset.filter(hashtags__slug__iexact=hashtag_slug)
+        return self.queryset.order_by("name")
 
     def get(self, request):
         return super().list(request)

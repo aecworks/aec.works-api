@@ -10,12 +10,12 @@ from api.common.exceptions import ErrorsMixin
 from .. import models, selectors, services
 
 
-class PostDetailsSerializer(serializers.ModelSerializer):
+class PostListSerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
     profile = inline_serializer(
-        fields={"name": serializers.CharField(), "id": serializers.IntegerField()}
+        fields={"name": serializers.CharField(), "slug": serializers.CharField()}
     )
     clap_count = serializers.IntegerField()
     thread_size = serializers.IntegerField()
@@ -51,7 +51,7 @@ class NewPostResponseSerializer(serializers.ModelSerializer):
 
 
 class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
-    serializer_class = PostDetailsSerializer
+    serializer_class = PostListSerializer
     queryset = selectors.get_posts()
     pagination_class = LimitOffsetPagination
     page_size = 50
@@ -60,7 +60,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
 
     def get_queryset(self):
         if hashtag_slug := self.request.query_params.get("hashtag"):
-            return self.queryset.filter(hashtags__slug__contains=hashtag_slug)
+            return self.queryset.filter(hashtags__slug__iexact=hashtag_slug)
         return self.queryset.order_by("hot_datetime", "created_at", "slug")
 
     def get(self, request):
@@ -81,7 +81,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
 class PostDetailView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
 ):
-    serializer_class = PostDetailsSerializer
+    serializer_class = PostListSerializer
     queryset = selectors.get_posts()
     expected_exceptions = {}
     lookup_field = "slug"
@@ -105,7 +105,7 @@ class PostDetailView(
 
 
 class PostClapView(ErrorsMixin, generics.GenericAPIView):
-    serializer_class = PostDetailsSerializer
+    serializer_class = PostListSerializer
     queryset = selectors.get_posts()
     expected_exceptions = {}
     lookup_field = "slug"
