@@ -38,12 +38,15 @@ def create_thread_comment(*, profile, thread, text) -> Comment:
     return Comment.objects.create(profile=profile, thread=thread, text=text)
 
 
+def get_or_create_hashtag(hashtag_name: str) -> Hashtag:
+    slug = slugify(hashtag_name).replace("-", "")
+    return Hashtag.objects.filter(slug=slug).first() or Hashtag.objects.create(
+        slug=slug
+    )
+
+
 def get_or_create_hashtags(hashtag_names: List[str]) -> List[Hashtag]:
-    slugified_names = [slugify(n).replace("-", "") for n in hashtag_names]
-    return [
-        Hashtag.objects.filter(slug=n).first() or Hashtag.objects.create(slug=n)
-        for n in slugified_names
-    ]
+    return [get_or_create_hashtag(name) for name in hashtag_names]
 
 
 @transaction.atomic

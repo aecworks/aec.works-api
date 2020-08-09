@@ -9,7 +9,8 @@ WIP - this will be used to pull and sync aecstartups.com data
 from django.core.management.base import BaseCommand
 from django.core.files.images import ImageFile
 
-from api.community.models import Company, Hashtag
+from api.community.models import Company
+from api.community import services
 
 
 class Command(BaseCommand):
@@ -61,10 +62,7 @@ class Command(BaseCommand):
             company.save()
 
             # Hashtags
-            hashtags = []
-            for tag in tags:
-                hashtag, _ = Hashtag.objects.get_or_create(slug=slugify(tag))
-                hashtags.append(hashtag)
+            hashtags = services.get_or_create_hashtags(tags)
             company.hashtags.set(hashtags)
 
             # msg = f"Created {company.slug}"

@@ -2,6 +2,8 @@ from django.db import models
 from django_extensions.db.fields import AutoSlugField
 from mptt import models as mptt_models
 from django.utils.text import slugify
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 
 from api.common.mixins import ReprMixin
 
@@ -12,7 +14,7 @@ class Company(ReprMixin, models.Model):
     objects = querysets.CompanyQueryset.as_manager()
 
     name = models.CharField(blank=False, max_length=255)
-    slug = AutoSlugField(populate_from="name")
+    slug = AutoSlugField(populate_from="name", db_index=True)
 
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
@@ -35,7 +37,6 @@ class Company(ReprMixin, models.Model):
         "users.Profile", related_name="clapped_companies", blank=True
     )
 
-    # TODO: Thread Required and as as signal
     thread = models.OneToOneField(
         "Thread",
         related_name="post",
@@ -82,20 +83,18 @@ class Company(ReprMixin, models.Model):
 
 class Hashtag(ReprMixin, models.Model):
     objects = querysets.HashtagQueryset.as_manager()
-    slug = models.SlugField(max_length=32, unique=True)
+    # Note: called slug but not typical slug (removes dashes)
+    # TODO: allow case?
+    slug = models.SlugField(max_length=32, unique=True, db_index=True)
     # reverse: posts -> Post
     # reverse: companies -> Company
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.slug).replace("-", "")
-        super().save(*args, **kwargs)
 
 
 class Post(ReprMixin, models.Model):
     objects = querysets.PostQueryset.as_manager()
 
     title = models.CharField(blank=False, max_length=100)
-    slug = AutoSlugField(populate_from="title")
+    slug = AutoSlugField(populate_from="title", db_index=True)
 
     body = models.TextField(blank=False)
     profile = models.ForeignKey(
@@ -145,12 +144,28 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
         order_insertion_by = ["created_at"]
 
     def clean(self, *args, **kwargs):
-        if (self.parent and self.thread) or (not self.parent and not self.thread):
-            raise Exception("comment must a have parent or thread, but not both")
+        if self.parent and self.thread:
+            raise Exception("invalid parent: must a have parent or thread but not both")
+        elif not self.parent and not self.thread:
+            raise Exception("missing parent: comment must a have a parent or thread")
 
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+
+@receiver(post_save, sender=Company)
+@receiver(post_save, sender=Post)
+def add_thread(sender, instance, created, **kwargs):
+    if created and not instance.thread:
+        thread = Thread.objects.create()
+        instance.thread = thread
+        instance.save()
+
+
+@receiver(pre_save, sender=Hashtag)
+def slugify_hashtag(sender, instance, **kwargs):
+    instance.slug = slugify(instance.slug).replace("-", "")
 
 
 # TODO

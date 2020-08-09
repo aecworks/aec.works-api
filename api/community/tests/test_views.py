@@ -34,7 +34,7 @@ class TestViews:
         if param_factory:
             path = path.format(param_factory())
         url = f"/community/{path}"
-        with django_assert_max_num_queries(5):
+        with django_assert_max_num_queries(6):
             resp = client.get(url)
             assert resp.status_code == 200
 
