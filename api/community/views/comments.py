@@ -9,8 +9,8 @@ from rest_framework import (
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.response import Response
 
-from api.common.utils import inline_serializer
 from api.common.exceptions import ErrorsMixin
+from api.users.serializers import ProfileSerializer
 from .. import models, selectors, services
 
 
@@ -26,9 +26,7 @@ class ResponseCommentSerializer(serializers.ModelSerializer):
     clap_count = serializers.IntegerField()
     reply_count = serializers.IntegerField()
 
-    profile = inline_serializer(
-        fields={"name": serializers.CharField(), "slug": serializers.CharField()}
-    )
+    profile = ProfileSerializer()
 
     class Meta:
         model = models.Comment
