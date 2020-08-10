@@ -60,6 +60,9 @@ class Command(BaseCommand):
                     company.logo = logo
 
             company.save()
+            if company.logo:
+                company.cover = company.logo
+                company.save()
 
             # Hashtags
             hashtags = services.get_or_create_hashtags(tags)

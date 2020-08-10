@@ -3,7 +3,7 @@ from .models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    avatar_url = serializers.CharField(source="avatar")
+    avatar_url = serializers.ImageField(source="avatar")
 
     class Meta:
         model = Profile

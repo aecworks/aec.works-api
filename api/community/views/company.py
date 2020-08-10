@@ -30,6 +30,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "crunchbase_id",
             "employee_count",
             "logo",
+            "cover",
             "hashtags",
             "thread",
             "created_at",

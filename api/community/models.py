@@ -31,7 +31,9 @@ class Company(ReprMixin, models.Model):
         choices=[(c.name, c.value) for c in choices.EmployeeCountChoices],
         default=choices.EmployeeCountChoices.TEN.name,
     )
-    logo = models.ImageField(upload_to="logos", blank=True, default="default_logo.png")
+    logo = models.ImageField(upload_to="logos", blank=True, null=True)
+    cover = models.ImageField(upload_to="covers", blank=True, null=True)
+
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
@@ -157,7 +159,7 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
 @receiver(post_save, sender=Company)
 @receiver(post_save, sender=Post)
 def add_thread(sender, instance, created, **kwargs):
-    if created and not instance.thread:
+    if not instance.thread:
         thread = Thread.objects.create()
         instance.thread = thread
         instance.save()
