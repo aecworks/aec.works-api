@@ -19,9 +19,7 @@ def get_comment_children(*, parent_id):
 
 def get_companies():
     return (
-        Company.objects.select_related(
-            "profile", "thread", "approved_by", "replaced_by", "revision_of"
-        )
+        Company.objects.select_related("created_by", "thread",)
         .prefetch_related("hashtags")
         .with_counts()
         .all()

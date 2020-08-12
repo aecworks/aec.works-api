@@ -7,38 +7,50 @@ from django.dispatch import receiver
 
 from api.common.mixins import ReprMixin
 
-from . import choices, querysets
+from . import querysets
 
 
-class Company(ReprMixin, models.Model):
-    objects = querysets.CompanyQueryset.as_manager()
-
+class CompanyBaseModel(models.Model):
     name = models.CharField(blank=False, max_length=255)
-    slug = AutoSlugField(populate_from="name", db_index=True)
-
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
-
     location = models.CharField(max_length=64, default="")
-    # Optional
-    founded_date = models.DateField(blank=True, null=True)
     twitter_handle = models.CharField(max_length=15, blank=True, null=True)
     crunchbase_id = models.CharField(max_length=128, blank=True, null=True)
-    employee_count = models.CharField(
-        blank=True,
-        null=True,
-        max_length=32,
-        choices=[(c.name, c.value) for c in choices.EmployeeCountChoices],
-        default=choices.EmployeeCountChoices.TEN.name,
-    )
     logo = models.ImageField(upload_to="logos", blank=True, null=True)
     cover = models.ImageField(upload_to="covers", blank=True, null=True)
 
+    class Meta:
+        abstract = True
+
+
+class CompanyRevision(CompanyBaseModel, ReprMixin):
+    hashtags = models.ManyToManyField("Hashtag", related_name="+", blank=True)
+
+    company = models.ForeignKey(
+        "Company", on_delete=models.PROTECT, related_name="revisions",
+    )
+    applied = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved_by = models.ForeignKey(
+        "users.Profile",
+        related_name="company_approvals",
+        on_delete=models.PROTECT,
+        null=True,
+    )
+    created_by = models.ForeignKey(
+        "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
+    )
+
+
+class Company(CompanyBaseModel, ReprMixin):
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
+
+    objects = querysets.CompanyQueryset.as_manager()
+    slug = AutoSlugField(populate_from="name", db_index=True)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
-
     thread = models.OneToOneField(
         "Thread",
         related_name="post",
@@ -48,35 +60,16 @@ class Company(ReprMixin, models.Model):
         null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
-
-    # TODO Revise revision models
-    revision_of = models.ForeignKey(
-        "Company",
-        related_name="revisions",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
-    replaced_by = models.ForeignKey(
-        "Company",
-        related_name="replaced",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-    )
-    approved_by = models.ForeignKey(
-        "users.Profile",
-        related_name="approvals",
+    last_revision = models.ForeignKey(
+        "CompanyRevision",
         on_delete=models.PROTECT,
-        blank=True,
+        related_name="+",
         null=True,
-    )
-    profile = models.ForeignKey(
-        "users.Profile",
-        related_name="revisions",
-        on_delete=models.PROTECT,
         blank=True,
-        null=True,
     )
 
     class Meta:

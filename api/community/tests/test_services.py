@@ -48,10 +48,24 @@ class TestServices:
         )
         assert updated_post.title == "x"
 
-    def test_edit_company(self):
+    def test_create_revision(self):
         profile = ProfileFactory()
         company = factories.CompanyFactory()
-        updated_post = services.update_company(
+        revision = services.create_revision(
             company=company, profile=profile, validated_data={"name": "x"}
         )
-        assert updated_post.name == "x"
+        assert revision.company == company
+        assert revision.name == "x"
+
+    def test_apply_revision(self):
+        profile = ProfileFactory()
+        company = factories.CompanyFactory()
+        rev = factories.CompanyRevisionFactory(company=company)
+
+        updated_company = services.apply_revision(revision=rev, profile=profile)
+        last_revision = updated_company.last_revision
+
+        assert last_revision == rev
+        assert last_revision.company == company
+        assert last_revision.approved_by == profile
+        assert last_revision.applied is True

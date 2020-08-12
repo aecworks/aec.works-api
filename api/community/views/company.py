@@ -9,12 +9,8 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
-    clap_count = serializers.IntegerField()
-    thread_size = serializers.IntegerField()
-    employee_count = serializers.SerializerMethodField()
-
-    def get_employee_count(self, obj):
-        return obj.get_employee_count_display()
+    clap_count = serializers.IntegerField(default=None)
+    thread_size = serializers.IntegerField(default=None)
 
     class Meta:
         model = models.Company
@@ -22,13 +18,11 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "name",
             "slug",
             "description",
-            "profile",
+            "created_by",
             "website",
-            "founded_date",
             "twitter_handle",
             "location",
             "crunchbase_id",
-            "employee_count",
             "logo",
             "cover",
             "hashtags",
@@ -41,7 +35,6 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
 
 class RequestCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
-    employee_count = serializers.CharField()
 
     class Meta:
         model = models.Company
@@ -49,14 +42,25 @@ class RequestCompanySerializer(serializers.ModelSerializer):
             "name",
             "description",
             "website",
-            "founded_date",
             "twitter_handle",
             "location",
             "crunchbase_id",
-            "employee_count",
             "hashtags",
             # "logo",
         ]
+
+
+class CompanyDetailView(
+    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
+):
+    serializer_class = ResponseCompanySerializer
+    queryset = selectors.get_companies()
+    expected_exceptions = {}
+    lookup_field = "slug"
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, slug):
+        return super().retrieve(request, slug)
 
 
 class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -78,8 +82,16 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     def get(self, request):
         return super().list(request)
 
+    def post(self, request):
+        serializer = RequestCompanySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        company = services.create_company(
+            profile=request.user.profile, validated_data=serializer.validated_data,
+        )
+        return Response(ResponseCompanySerializer(company).data)
 
-class CompanyDetailView(
+
+class CompanyRevisionListView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
 ):
     serializer_class = ResponseCompanySerializer
@@ -88,14 +100,11 @@ class CompanyDetailView(
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def get(self, request, slug):
-        return super().retrieve(request, slug)
-
-    def patch(self, request, slug):
+    def post(self, request, slug):
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         company = self.get_object()
-        updated_company = services.update_company(
+        updated_company = services.create_revision(
             company=company,
             profile=request.user.profile,
             validated_data=serializer.validated_data,

@@ -9,27 +9,33 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("company")
     # slug
     description = factory.Faker("paragraph", nb_sentences=2)
-    profile = factory.SubFactory("api.users.factories.ProfileFactory")
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
 
     website = factory.Faker("url")
-    founded_date = factory.Faker("date")
     twitter_handle = factory.LazyAttribute(
         lambda o: o.name.lower().replace(" ", "")[:14]
     )
     crunchbase_id = factory.LazyAttribute(lambda o: o.twitter_handle)
-    # employee_count
     # logo
     # hashtags
     # clappers
     # thread
     # created_at
-    # revision_of
+    # c
     # replaced_by
     # approved_by
 
     @factory.post_generation
     def post(obj, *args, **kwargs):
         obj.hashtags.add(HashtagFactory())
+
+
+class CompanyRevisionFactory(factory.django.DjangoModelFactory):
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    applied = False
+
+    class Meta:
+        model = models.CompanyRevision
 
 
 class HashtagFactory(factory.django.DjangoModelFactory):

@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.core.exceptions import PermissionDenied
 
 from api.common.utils import update_instance
-from .models import Comment, Hashtag, Post, Thread, Company
+from .models import Comment, Hashtag, Post, Thread, Company, CompanyRevision
 
 
 def bump_hot_datetime(post, clap_count):
@@ -72,9 +72,45 @@ def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: Lis
 
 
 @transaction.atomic
-def update_company(*, company, profile, validated_data) -> Company:
-    hashtag_names = validated_data.get("hashtags", [])
-    validated_data["hashtags"] = get_or_create_hashtags(hashtag_names)
-    validated_data["profile_id"] = profile.id
-    updated_company = update_instance(company, validated_data)
+def create_company(*, profile, validated_data) -> Company:
+    hashtag_names = validated_data.pop("hashtags", [])
+    hashtags = get_or_create_hashtags(hashtag_names)
+    company = Company.objects.create(created_by=profile, **validated_data)
+    company.hashtags.set(hashtags)
+    return company
+
+
+@transaction.atomic
+def create_revision(*, company, profile, validated_data) -> CompanyRevision:
+    hashtag_names = validated_data.pop("hashtags", [])
+    hashtags = get_or_create_hashtags(hashtag_names)
+    revision = CompanyRevision.objects.create(
+        company=company, created_by=profile, **validated_data
+    )
+    revision.hashtags.set(hashtags)
+    return revision
+
+
+@transaction.atomic
+def apply_revision(*, revision, profile) -> Company:
+    # TODO implement approval view
+    updatable_attributes = [
+        "name",
+        "description",
+        "website",
+        "location",
+        "twitter_handle",
+        "crunchbase_id",
+        "logo",
+        "cover",
+        "hashtags",
+    ]
+    update_data = {k: v for k, v in vars(revision).items() if k in updatable_attributes}
+    update_data["last_revision"] = revision
+    updated_company = update_instance(revision.company, update_data)
+
+    revision.approved_by = profile
+    revision.applied = True
+    revision.save()
+
     return updated_company

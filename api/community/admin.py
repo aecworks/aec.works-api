@@ -48,14 +48,29 @@ class CompanyAdmin(admin.ModelAdmin):
         "name",
         "description",
         "website",
-        "founded_date",
         "twitter_handle",
         "crunchbase_id",
-        "employee_count",
         "logo",
-        "revision_of",
+        "cover",
+        "created_by",
+        "last_revision",
+    ]
+
+
+@admin.register(models.CompanyRevision)
+class CompanyRevisionAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "description",
+        "website",
+        "twitter_handle",
+        "crunchbase_id",
+        "logo",
+        "cover",
+        "created_by",
+        "applied",
         "approved_by",
-        "profile",
     ]
 
 
