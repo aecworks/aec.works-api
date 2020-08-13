@@ -1,4 +1,4 @@
-from .models import Company, Comment, Post, Hashtag, Thread
+from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
 def get_comments():
@@ -22,6 +22,14 @@ def get_companies():
         Company.objects.select_related("created_by", "thread",)
         .prefetch_related("hashtags")
         .with_counts()
+        .all()
+    )
+
+
+def get_revisions():
+    return (
+        CompanyRevision.objects.select_related("company", "created_by")
+        .prefetch_related("hashtags")
         .all()
     )
 

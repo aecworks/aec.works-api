@@ -8,6 +8,18 @@ from django.core.exceptions import PermissionDenied
 from api.common.utils import update_instance
 from .models import Comment, Hashtag, Post, Thread, Company, CompanyRevision
 
+updatable_attributes = [
+    "name",
+    "description",
+    "website",
+    "location",
+    "twitter_handle",
+    "crunchbase_id",
+    "logo",
+    "cover",
+    "hashtags",
+]
+
 
 def bump_hot_datetime(post, clap_count):
     # Each Clap bumps up 1/4 day or 6 hours
@@ -92,25 +104,11 @@ def create_revision(*, company, profile, validated_data) -> CompanyRevision:
 
 
 @transaction.atomic
-def apply_revision(*, revision, profile) -> Company:
-    # TODO implement approval view
-    updatable_attributes = [
-        "name",
-        "description",
-        "website",
-        "location",
-        "twitter_handle",
-        "crunchbase_id",
-        "logo",
-        "cover",
-        "hashtags",
-    ]
+def apply_revision(*, revision, profile):
     update_data = {k: v for k, v in vars(revision).items() if k in updatable_attributes}
     update_data["last_revision"] = revision
-    updated_company = update_instance(revision.company, update_data)
+    update_instance(revision.company, update_data)
 
     revision.approved_by = profile
     revision.applied = True
     revision.save()
-
-    return updated_company

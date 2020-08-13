@@ -60,12 +60,11 @@ class TestServices:
     def test_apply_revision(self):
         profile = ProfileFactory()
         company = factories.CompanyFactory()
-        rev = factories.CompanyRevisionFactory(company=company)
+        revision = factories.CompanyRevisionFactory(company=company)
 
-        updated_company = services.apply_revision(revision=rev, profile=profile)
-        last_revision = updated_company.last_revision
+        services.apply_revision(revision=revision, profile=profile)
 
-        assert last_revision == rev
-        assert last_revision.company == company
-        assert last_revision.approved_by == profile
-        assert last_revision.applied is True
+        assert company.last_revision == revision
+        assert revision.company == company
+        assert revision.approved_by == profile
+        assert revision.applied is True
