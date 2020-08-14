@@ -46,8 +46,9 @@ def post_clap(*, post, profile) -> int:
     return clap_count
 
 
-def create_thread_comment(*, profile, thread, text) -> Comment:
-    return Comment.objects.create(profile=profile, thread=thread, text=text)
+def create_comment(*, profile, text, **parent_kwarg) -> Comment:
+    # must include parent=, parent_id, thread, or thread_id
+    return Comment.objects.create(profile=profile, text=text, **parent_kwarg)
 
 
 def get_or_create_hashtag(hashtag_name: str) -> Hashtag:

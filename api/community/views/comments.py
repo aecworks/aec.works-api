@@ -4,7 +4,6 @@ from rest_framework import (
     serializers,
     pagination,
     permissions,
-    decorators,
 )
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.response import Response
@@ -15,16 +14,26 @@ from .. import models, selectors, services
 
 
 class RequestCommentSerializer(serializers.ModelSerializer):
-    thread_id = serializers.IntegerField(required=True)
+    thread_id = serializers.IntegerField(required=False)
+    parent_id = serializers.IntegerField(required=False)
+
+    def validate(self, data):
+        if "thread_id" not in data and "parent_id" not in data:
+            raise serializers.ValidationError("thread_id or parent_id required")
+        elif "thread_id" in data and "parent_id" in data:
+            raise serializers.ValidationError(
+                "thread_id or parent_id required but not both"
+            )
+        return data
 
     class Meta:
         model = models.Comment
-        fields = ["text", "thread_id"]
+        fields = ["text", "thread_id", "parent_id"]
 
 
 class ResponseCommentSerializer(serializers.ModelSerializer):
-    clap_count = serializers.IntegerField()
-    reply_count = serializers.IntegerField()
+    clap_count = serializers.IntegerField(default=0)
+    reply_count = serializers.IntegerField(default=0)
 
     profile = ProfileSerializer()
 
@@ -45,8 +54,12 @@ class ResponseCommentSerializer(serializers.ModelSerializer):
 class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = ResponseCommentSerializer
     pagination_class = pagination.LimitOffsetPagination
-    expected_exceptions = {models.Thread.DoesNotExist: drf_exceptions.ValidationError}
+    expected_exceptions = {
+        models.Thread.DoesNotExist: drf_exceptions.ValidationError,
+        models.Comment.DoesNotExist: drf_exceptions.ValidationError,
+    }
     page_size = 10
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         thread_id = self.request.query_params.get("thread_id", None)
@@ -59,27 +72,25 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
             msg = "must provide thread_id or parent_id but not both"
             raise drf_exceptions.ValidationError(msg)
 
-    @decorators.permission_classes([permissions.IsAuthenticatedOrReadOnly])
     def get(self, request):
         return super().list(request)
 
-    @decorators.permission_classes([permissions.IsAuthenticatedOrReadOnly])
     def post(self, request):
         serializer = RequestCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        thread_id = serializer.validated_data["thread_id"]
-        text = serializer.validated_data["text"]
-
-        thread = selectors.get_thread(id=thread_id)
-        _ = services.create_thread_comment(
-            profile=request.user.profile, thread=thread, text=text
+        text = serializer.validated_data.pop("text")
+        parent_id = serializer.validated_data.pop("parent_id", None)
+        thread_id = serializer.validated_data.pop("thread_id", None)
+        if thread_id:
+            thread = models.Thread.objects.get(id=thread_id)
+            parent_kwarg = dict(thread=thread)
+        else:
+            comment = models.Comment.objects.get(id=parent_id)
+            parent_kwarg = dict(parent=comment)
+        comment = services.create_comment(
+            profile=request.user.profile, text=text, **parent_kwarg
         )
-        return Response(serializer.data)
-        # TODO
-        # Can't use Serializer becase of annotations in selectors
-        # Maybe annotation and prefetch need to move into a manager?
-        # response_serializer = ResponseCommentSerializer(comment)
-        # return Response(response_serializer.data)
+        return Response(ResponseCommentSerializer(comment).data)
 
 
 class CommentClapView(ErrorsMixin, generics.GenericAPIView):
