@@ -41,12 +41,14 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
     )
     company = serializers.SlugRelatedField(slug_field="slug", read_only=True)
     approved_by = ProfileSerializer()
+    created_by = ProfileSerializer()
 
     class Meta:
         model = models.CompanyRevision
         fields = [
             "id",
             "approved_by",
+            "created_by",
             "created_at",
             "company",
             *services.updatable_attributes,
@@ -130,12 +132,20 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         return Response(ResponseCompanySerializer(company).data)
 
 
-class CompanyRevisionListView(ErrorsMixin, generics.GenericAPIView):
+class CompanyRevisionListView(
+    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
+):
     serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
     expected_exceptions = {}
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, slug):
+        company = self.get_object()
+        return Response(
+            ResponseCompanyRevisionSerializer(company.revisions.all(), many=True).data
+        )
 
     def post(self, request, slug):
         serializer = RequestCompanySerializer(data=request.data)
