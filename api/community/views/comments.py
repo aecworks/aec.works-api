@@ -48,6 +48,9 @@ class ResponseCommentSerializer(serializers.ModelSerializer):
             "profile",
             "level",
             "text",
+            # TODO Implement recent comments
+            # "parent_id",
+            # "thread_id",
         ]
 
 

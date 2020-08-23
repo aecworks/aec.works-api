@@ -8,6 +8,8 @@ from rest_framework import (
     filters,
     exceptions,
 )
+from drf_extra_fields.fields import Base64ImageField
+
 
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
@@ -57,6 +59,8 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
 
 class RequestCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
+    logo = Base64ImageField()
+    # cover = Base64ImageField()
 
     class Meta:
         model = models.Company
@@ -68,7 +72,7 @@ class RequestCompanySerializer(serializers.ModelSerializer):
             "location",
             "crunchbase_id",
             "hashtags",
-            # "logo",
+            "logo",
             # "cover",
         ]
 
@@ -110,7 +114,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     pagination_class = LimitOffsetPagination
     page_size = 25
     expected_exceptions = {}
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     search_fields = ["name", "description"]
     filter_backends = [filters.SearchFilter]
@@ -122,6 +126,10 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def get(self, request):
         return super().list(request)
+
+    # For multipart parser only
+    # parser_classes = [MultiPartParser]
+    # accepts json
 
     def post(self, request):
         serializer = RequestCompanySerializer(data=request.data)

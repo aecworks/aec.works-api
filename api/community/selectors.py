@@ -9,6 +9,11 @@ def get_thread(*, id):
     return Thread.objects.get(id=id)
 
 
+def get_recent_comments():
+    # TODO
+    return Comment.objects.select_related("profile__user").with_counts().all()
+
+
 def get_thread_comments(*, thread_id):
     return get_comments().filter(level=0, thread_id=thread_id)
 

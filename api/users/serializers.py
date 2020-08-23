@@ -11,6 +11,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ProfileDetailSerializer(serializers.ModelSerializer):
+    avatar_url = serializers.ImageField(source="avatar")
+
     class Meta:
         model = Profile
-        exclude = ["user"]
+        exclude = ["id", "user", "avatar"]

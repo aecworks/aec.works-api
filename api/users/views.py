@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics, serializers, views
+from rest_framework import mixins, generics, views
 from rest_framework.response import Response
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
@@ -10,15 +10,7 @@ from .auth import GithubProvider, ProviderException
 from .models import Profile
 from .choices import UserSourceChoices
 
-
-class ProfileSerializer(serializers.ModelSerializer):
-
-    email = serializers.CharField()
-    name = serializers.CharField()
-
-    class Meta:
-        model = Profile
-        exclude = ["user", "id"]
+from .serializers import ProfileSerializer, ProfileDetailSerializer
 
 
 class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -34,7 +26,7 @@ class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 class ProfileDetailView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
 ):
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileDetailSerializer
     queryset = Profile.objects.all()
     lookup_field = "slug"
 
