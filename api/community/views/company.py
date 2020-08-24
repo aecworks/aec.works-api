@@ -60,7 +60,7 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
 class RequestCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
     logo = Base64ImageField()
-    # cover = Base64ImageField()
+    cover = Base64ImageField()
 
     class Meta:
         model = models.Company
@@ -73,7 +73,7 @@ class RequestCompanySerializer(serializers.ModelSerializer):
             "crunchbase_id",
             "hashtags",
             "logo",
-            # "cover",
+            "cover",
         ]
 
 
@@ -178,7 +178,7 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
         if action == "approve":
             revision = self.get_object()
             if revision.approved_by:
-                raise exceptions.NotAcceptable()
+                raise exceptions.ValidationError("Revision is already approved")
 
             services.apply_revision(revision=revision, profile=request.user.profile)
             return Response(ResponseCompanyRevisionSerializer(revision).data)

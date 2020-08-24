@@ -149,6 +149,10 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
         super().save(*args, **kwargs)
 
 
+class TemporaryImage(ReprMixin, models.Model):
+    image = models.ImageField(upload_to="tmp")
+
+
 @receiver(post_save, sender=Company)
 @receiver(post_save, sender=Post)
 def add_thread(sender, instance, created, **kwargs):

@@ -6,7 +6,15 @@ from django.utils.text import slugify
 from django.core.exceptions import PermissionDenied
 
 from api.common.utils import update_instance
-from .models import Comment, Hashtag, Post, Thread, Company, CompanyRevision
+from .models import (
+    Comment,
+    Hashtag,
+    Post,
+    Thread,
+    Company,
+    CompanyRevision,
+    TemporaryImage,
+)
 
 updatable_attributes = [
     "name",
@@ -91,6 +99,10 @@ def create_company(*, profile, validated_data) -> Company:
     company = Company.objects.create(created_by=profile, **validated_data)
     company.hashtags.set(hashtags)
     return company
+
+
+def create_temp_image(*, image) -> TemporaryImage:
+    return TemporaryImage.objects.create(image=image)
 
 
 @transaction.atomic
