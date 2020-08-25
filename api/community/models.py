@@ -17,8 +17,8 @@ class CompanyBaseModel(models.Model):
     location = models.CharField(max_length=64, default="")
     twitter_handle = models.CharField(max_length=15, blank=True, null=True)
     crunchbase_id = models.CharField(max_length=128, blank=True, null=True)
-    logo = models.ImageField(upload_to="logos", blank=True, null=True)
-    cover = models.ImageField(upload_to="covers", blank=True, null=True)
+    logo_url = models.URLField(blank=True, null=True)
+    cover_url = models.URLField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -61,6 +61,7 @@ class Company(CompanyBaseModel, ReprMixin):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # TODO Replace with: M2M Contributors
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
@@ -147,10 +148,6 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
-
-
-class TemporaryImage(ReprMixin, models.Model):
-    image = models.ImageField(upload_to="tmp")
 
 
 @receiver(post_save, sender=Company)

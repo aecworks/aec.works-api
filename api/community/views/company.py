@@ -8,7 +8,8 @@ from rest_framework import (
     filters,
     exceptions,
 )
-from drf_extra_fields.fields import Base64ImageField
+
+# from drf_extra_fields.fields import Base64ImageField
 
 
 from api.common.exceptions import ErrorsMixin
@@ -49,6 +50,7 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
         model = models.CompanyRevision
         fields = [
             "id",
+            "applied",
             "approved_by",
             "created_by",
             "created_at",
@@ -59,8 +61,6 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
 
 class RequestCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
-    logo = Base64ImageField()
-    cover = Base64ImageField()
 
     class Meta:
         model = models.Company
@@ -72,14 +72,17 @@ class RequestCompanySerializer(serializers.ModelSerializer):
             "location",
             "crunchbase_id",
             "hashtags",
-            "logo",
-            "cover",
+            "logo_url",
+            "cover_url",
         ]
 
 
 class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
     hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
 
+    logo_id = serializers.IntegerField(required=False)
+    cover_id = serializers.IntegerField(required=False)
+
     class Meta:
         model = models.Company
         fields = [
@@ -90,8 +93,8 @@ class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
             "location",
             "crunchbase_id",
             "hashtags",
-            # "logo",
-            # "cover",
+            "logo_url",
+            "cover_url",
         ]
 
 
@@ -127,10 +130,6 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     def get(self, request):
         return super().list(request)
 
-    # For multipart parser only
-    # parser_classes = [MultiPartParser]
-    # accepts json
-
     def post(self, request):
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -145,14 +144,16 @@ class CompanyRevisionListView(
 ):
     serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
-    expected_exceptions = {}
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    expected_exceptions = {}
 
     def get(self, request, slug):
         company = self.get_object()
         return Response(
-            ResponseCompanyRevisionSerializer(company.revisions.all(), many=True).data
+            ResponseCompanyRevisionSerializer(
+                company.revisions.all().order_by("-created_at"), many=True
+            ).data
         )
 
     def post(self, request, slug):
@@ -175,7 +176,7 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def post(self, request, id, action):
-        if action == "approve":
+        if action == "approve":  # approve
             revision = self.get_object()
             if revision.approved_by:
                 raise exceptions.ValidationError("Revision is already approved")

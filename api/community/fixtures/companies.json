@@ -1,2361 +1,2560 @@
 [
-    {
-        "model": "community.company",
-        "pk": 1,
-        "fields": {
-            "name": "3D Repo",
-            "slug": "3d-repo",
-            "description": "Cloud-Based BIM",
-            "website": "https://3drepo.com",
-            "location": "London, UK",
-            "twitter_handle": null,
-            "crunchbase_id": "3d-repo",
-            "logo": "logos/3d-repo.png",
-            "cover": "logos/3d-repo.png",
-            "thread": 1,
-            "created_at": "2020-08-09T05:54:15.288Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                3
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 2,
-        "fields": {
-            "name": "Abodu",
-            "slug": "abodu",
-            "description": "No-compromise backyard homes",
-            "website": "https://abodu.com/",
-            "location": "",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/abodu.png",
-            "cover": "logos/abodu.png",
-            "thread": 2,
-            "created_at": "2020-08-09T05:55:45.055Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 3,
-        "fields": {
-            "name": "Acculis",
-            "slug": "acculis",
-            "description": "BIM coordination platform",
-            "website": "https://www.acculistech.com/",
-            "location": "Somewhere",
-            "twitter_handle": null,
-            "crunchbase_id": "acculis#section-investors",
-            "logo": "logos/acculis.png",
-            "cover": "logos/acculis.png",
-            "thread": 3,
-            "created_at": "2020-08-09T05:55:45.347Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 4,
-        "fields": {
-            "name": "ALICE Technologies",
-            "slug": "alice-technologies",
-            "description": "ALICE leverages AI to speed up the planning process, reduce project schedules, and resolve schedule delays.",
-            "website": "https://alicetechnologies.com/",
-            "location": "Menlo Park, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "alice-technologies",
-            "logo": "logos/alice-technologies.png",
-            "cover": "logos/alice-technologies.png",
-            "thread": 4,
-            "created_at": "2020-08-09T06:01:01.828Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                13
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 5,
-        "fields": {
-            "name": "Archilogic",
-            "slug": "archilogic",
-            "description": "Archilogic's platform empowers users to easily create, edit, and share 3D content for interiors.",
-            "website": "https://archilogic.com/",
-            "location": "Zurich, Switzerland",
-            "twitter_handle": null,
-            "crunchbase_id": "archilogic",
-            "logo": "logos/archilogic.png",
-            "cover": "logos/archilogic.png",
-            "thread": 5,
-            "created_at": "2020-08-09T06:01:02.224Z",
-            "created_by": null,
-            "hashtags": [
-                9
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 6,
-        "fields": {
-            "name": "Archilyse",
-            "slug": "archilyse",
-            "description": "Holistic numeric architecture analysis as an easy to use API solution",
-            "website": "https://www.archilyse.com/",
-            "location": "Zurich, Switzerland",
-            "twitter_handle": null,
-            "crunchbase_id": "archilyse",
-            "logo": "logos/archilyse.png",
-            "cover": "logos/archilyse.png",
-            "thread": 6,
-            "created_at": "2020-08-09T06:01:02.656Z",
-            "created_by": null,
-            "hashtags": [
-                14
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 7,
-        "fields": {
-            "name": "Archistar",
-            "slug": "archistar",
-            "description": "Archistar.ai empowers property developers, governments and agents with next-generation intelligence in real-time.",
-            "website": "https://www.archistar.ai",
-            "location": "Sydney, Australia",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/archistar.png",
-            "cover": "logos/archistar.png",
-            "thread": 7,
-            "created_at": "2020-08-09T06:01:03.396Z",
-            "created_by": null,
-            "hashtags": [
-                16,
-                1,
-                15
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 8,
-        "fields": {
-            "name": "Arkio",
-            "slug": "arkio",
-            "description": "Collaborative VR Spatial Design",
-            "website": "https://arkio.is/",
-            "location": "Iceland",
-            "twitter_handle": null,
-            "crunchbase_id": "arkio#section-overview",
-            "logo": "logos/arkio.png",
-            "cover": "logos/arkio.png",
-            "thread": 8,
-            "created_at": "2020-08-09T06:01:03.686Z",
-            "created_by": null,
-            "hashtags": [
-                9,
-                18,
-                17
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 9,
-        "fields": {
-            "name": "Atmos",
-            "slug": "atmos",
-            "description": "How It Works Your A-Team More The entire homebuilding process all in one place.",
-            "website": "https://buildatmos.com/",
-            "location": "-",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 9,
-            "created_at": "2020-08-09T06:01:03.933Z",
-            "created_by": null,
-            "hashtags": [
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 10,
-        "fields": {
-            "name": "AVAIL",
-            "slug": "avail",
-            "description": "BIM Content Management Platform",
-            "website": "https://getavail.com",
-            "location": "Lexington, KY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "avail-3c85",
-            "logo": "logos/avail.png",
-            "cover": "logos/avail.png",
-            "thread": 10,
-            "created_at": "2020-08-09T06:01:03.954Z",
-            "created_by": null,
-            "hashtags": [
-                8,
-                19,
-                20
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 11,
-        "fields": {
-            "name": "Avvir",
-            "slug": "avvir",
-            "description": "Avvir augments BIM intelligence by comparing the scans against the BIM and identifying variances between the design and reality.",
-            "website": "https://avvir.io/",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "avvir",
-            "logo": "logos/avvir.png",
-            "cover": "logos/avvir.png",
-            "thread": 11,
-            "created_at": "2020-08-09T06:01:04.538Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                21
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 12,
-        "fields": {
-            "name": "Basis",
-            "slug": "basis",
-            "description": "An automated bid board for subcontractors.",
-            "website": "https://www.basisboard.com/",
-            "location": "Los Angeles, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "basis-588a",
-            "logo": "logos/basis.png",
-            "cover": "logos/basis.png",
-            "thread": 12,
-            "created_at": "2020-08-09T06:01:05.730Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                6,
-                22
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 13,
-        "fields": {
-            "name": "BIM Track",
-            "slug": "bim-track",
-            "description": "The communication platform for better BIM coordination. Features bi-directional issue tracking between major software platforms to make it easier to raise and resolve questions, comments, and other issues.",
-            "website": "https://bimtrack.co",
-            "location": "Quebec, Quebec, Canada",
-            "twitter_handle": null,
-            "crunchbase_id": "bim-track",
-            "logo": "logos/bim-track.png",
-            "cover": "logos/bim-track.png",
-            "thread": 13,
-            "created_at": "2020-08-09T06:01:06.717Z",
-            "created_by": null,
-            "hashtags": [
-                1
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 14,
-        "fields": {
-            "name": "BIMLauncher ",
-            "slug": "bimlauncher",
-            "description": "Integrations platform and low code workflow automation for BIM Platforms/Application ",
-            "website": "https://www.bimlauncher.com",
-            "location": "Galway, Ireland ",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/bimlauncher.png",
-            "cover": "logos/bimlauncher.png",
-            "thread": 14,
-            "created_at": "2020-08-09T06:01:07.833Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                11,
-                6,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 15,
-        "fields": {
-            "name": "BIMSpot",
-            "slug": "bimspot",
-            "description": "Discover hidden insights of your building.",
-            "website": "https://bimspot.io/",
-            "location": "Vienna, Austria",
-            "twitter_handle": null,
-            "crunchbase_id": "company.html",
-            "logo": "logos/bimspot.png",
-            "cover": "logos/bimspot.png",
-            "thread": 15,
-            "created_at": "2020-08-09T06:01:08.091Z",
-            "created_by": null,
-            "hashtags": [
-                2,
-                3,
-                6,
-                9,
-                14,
-                19,
-                22,
-                23
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 16,
-        "fields": {
-            "name": "BlenderBIM",
-            "slug": "blenderbim",
-            "description": "IFC based BIM modelling",
-            "website": "https://blenderbim.org/",
-            "location": "Australia",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/blenderbim.png",
-            "cover": "logos/blenderbim.png",
-            "thread": 16,
-            "created_at": "2020-08-09T06:01:09.011Z",
-            "created_by": null,
-            "hashtags": [
-                24,
-                9
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 17,
-        "fields": {
-            "name": "Block Renovation",
-            "slug": "block-renovation",
-            "description": "Beautiful, architect-designed renovations completed reliably from start to end.",
-            "website": "https://www.blockrenovation.com",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "block-renovation",
-            "logo": "logos/block-renovation.png",
-            "cover": "logos/block-renovation.png",
-            "thread": 17,
-            "created_at": "2020-08-09T06:01:09.705Z",
-            "created_by": null,
-            "hashtags": [
-                25
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 18,
-        "fields": {
-            "name": "Blokable",
-            "slug": "blokable",
-            "description": "Blokable seeks to unlock the efficiencies of technological and financial system advances and create a process that turns real estate development into a transparent and easily managed service",
-            "website": "https://blokable.com",
-            "location": "Vancouver, BC, Canada",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/blokable.png",
-            "cover": "logos/blokable.png",
-            "thread": 18,
-            "created_at": "2020-08-09T06:01:12.436Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 19,
-        "fields": {
-            "name": "Blu Homes",
-            "slug": "blu-homes",
-            "description": "Prefabricate house designer and manufacturer",
-            "website": "https://www.bluhomes.com/",
-            "location": "Vallejo, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "blu-homes",
-            "logo": "logos/blu-homes.png",
-            "cover": "logos/blu-homes.png",
-            "thread": 19,
-            "created_at": "2020-08-09T06:01:12.948Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 20,
-        "fields": {
-            "name": "Bricks",
-            "slug": "bricks",
-            "description": "The agile collaborative app for Architecture & construction",
-            "website": "https://www.bricksapp.io",
-            "location": "Paris, France",
-            "twitter_handle": null,
-            "crunchbase_id": "openbricks-io",
-            "logo": "logos/bricks.png",
-            "cover": "logos/bricks.png",
-            "thread": 20,
-            "created_at": "2020-08-09T06:01:15.742Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                6,
-                7,
-                10
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 21,
-        "fields": {
-            "name": "Bricsys",
-            "slug": "bricsys",
-            "description": "Bricsys offers innovative solutions for 2D drafting, 3D direct modeling, sheet metal design and Building Information Modeling (BIM)",
-            "website": "https://www.bricsys.com",
-            "location": "Gent, Belgium",
-            "twitter_handle": null,
-            "crunchbase_id": "bricsys",
-            "logo": "logos/bricsys.png",
-            "cover": "logos/bricsys.png",
-            "thread": 21,
-            "created_at": "2020-08-09T06:01:16.287Z",
-            "created_by": null,
-            "hashtags": [
-                24
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 22,
-        "fields": {
-            "name": "Bright Machines",
-            "slug": "bright-machines",
-            "description": "Software-Defined Manufacturing",
-            "website": "https://www.brightmachines.com/",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "bright-machines#section-overview",
-            "logo": "logos/bright-machines.png",
-            "cover": "logos/bright-machines.png",
-            "thread": 22,
-            "created_at": "2020-08-09T06:01:16.908Z",
-            "created_by": null,
-            "hashtags": [
-                26
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 23,
-        "fields": {
-            "name": "BuildOps",
-            "slug": "buildops",
-            "description": "Software built for commercial HVAC, Plumbing, and Electrical contractors",
-            "website": "https://buildops.com/",
-            "location": "Los Angeles, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "buildops",
-            "logo": "logos/buildops.png",
-            "cover": "logos/buildops.png",
-            "thread": 23,
-            "created_at": "2020-08-09T06:01:18.226Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                6,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 24,
-        "fields": {
-            "name": "BuildStream",
-            "slug": "buildstream",
-            "description": "Smart constrution, IoT, AI, Analytics",
-            "website": "https://buildstream.co",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "buildstream",
-            "logo": "logos/buildstream.png",
-            "cover": "logos/buildstream.png",
-            "thread": 24,
-            "created_at": "2020-08-09T06:01:18.719Z",
-            "created_by": null,
-            "hashtags": [
-                13,
-                14,
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 25,
-        "fields": {
-            "name": "Built Robotics",
-            "slug": "built-robotics",
-            "description": "We build the robots that build the world",
-            "website": "http://www.builtrobotics.com/",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "built-robotics",
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 25,
-            "created_at": "2020-08-09T06:01:18.948Z",
-            "created_by": null,
-            "hashtags": [
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 26,
-        "fields": {
-            "name": "Camino",
-            "slug": "camino",
-            "description": "Permitting, licensing, and citizen engagement products for cities.",
-            "website": "https://www.camino.ai/",
-            "location": "Redwood City, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "camino-4ec2",
-            "logo": "logos/camino.png",
-            "cover": "logos/camino.png",
-            "thread": 26,
-            "created_at": "2020-08-09T06:01:18.967Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 27,
-        "fields": {
-            "name": "Canoa",
-            "slug": "canoa",
-            "description": "Sustainable Furniture Supply Chain",
-            "website": "https://www.canoa.supply/",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "canoa",
-            "logo": "logos/canoa.png",
-            "cover": "logos/canoa.png",
-            "thread": 27,
-            "created_at": "2020-08-09T06:01:19.384Z",
-            "created_by": null,
-            "hashtags": [
-                27
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 28,
-        "fields": {
-            "name": "CBRE Build",
-            "slug": "cbre-build",
-            "description": "CBRE Build is tech group within CBRE that builds technology for commercial Real Estate including Plans, a space-planning tool they acquired in 2017 (previously Floored).",
-            "website": "https://www.cbrebuild.com/",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/cbre-build.png",
-            "cover": "logos/cbre-build.png",
-            "thread": 28,
-            "created_at": "2020-08-09T06:01:19.643Z",
-            "created_by": null,
-            "hashtags": [
-                28
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 29,
-        "fields": {
-            "name": "Cintoo",
-            "slug": "cintoo",
-            "description": "Cintoo Cloud: Your Digital Twin Platform",
-            "website": "https://cintoo.com",
-            "location": "Miami, FL, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "cintoo3d",
-            "logo": "logos/cintoo.png",
-            "cover": "logos/cintoo.png",
-            "thread": 29,
-            "created_at": "2020-08-09T06:01:20.994Z",
-            "created_by": null,
-            "hashtags": [
-                16,
-                1,
-                21,
-                9
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 30,
-        "fields": {
-            "name": "Cove Tools",
-            "slug": "cove-tools",
-            "description": "Cove Tool Energy Modeling Software for Architects\u200e",
-            "website": "https://www.covetool.com/",
-            "location": "Atlanta, GA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "cove-tool",
-            "logo": "logos/cove-tools.png",
-            "cover": "logos/cove-tools.png",
-            "thread": 30,
-            "created_at": "2020-08-09T06:01:21.438Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                14
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 31,
-        "fields": {
-            "name": "Cover",
-            "slug": "cover",
-            "description": "Custom Backyard Homes",
-            "website": "https://www.cover.build/",
-            "location": "Los Angeles, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "cover-technologies-inc",
-            "logo": "logos/cover.png",
-            "cover": "logos/cover.png",
-            "thread": 31,
-            "created_at": "2020-08-09T06:01:21.886Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 32,
-        "fields": {
-            "name": "Curri",
-            "slug": "curri",
-            "description": "Construction supplies and materials delivery",
-            "website": "https://www.curri.com/",
-            "location": "Ventura, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "curri",
-            "logo": "logos/curri.png",
-            "cover": "logos/curri.png",
-            "thread": 32,
-            "created_at": "2020-08-09T06:01:22.264Z",
-            "created_by": null,
-            "hashtags": [
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 33,
-        "fields": {
-            "name": "d",
-            "slug": "d",
-            "description": "d",
-            "website": "d",
-            "location": "d",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 33,
-            "created_at": "2020-08-09T06:01:22.583Z",
-            "created_by": null,
-            "hashtags": [],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 34,
-        "fields": {
-            "name": "Daquri",
-            "slug": "daquri",
-            "description": "Empower your workforce to solve meaningul problems with Professional Grade AR\u2122",
-            "website": "https://www.crunchbase.com/organization/daqri",
-            "location": "Los Angeles, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "daqri",
-            "logo": "logos/daquri.png",
-            "cover": "logos/daquri.png",
-            "thread": 34,
-            "created_at": "2020-08-09T06:01:22.600Z",
-            "created_by": null,
-            "hashtags": [
-                17
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 35,
-        "fields": {
-            "name": "Data Shapes",
-            "slug": "data-shapes",
-            "description": "Custom tool development ",
-            "website": "https://data-shapes.io",
-            "location": "Paris, France",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/data-shapes.jpg",
-            "cover": "logos/data-shapes.jpg",
-            "thread": 35,
-            "created_at": "2020-08-09T06:01:24.049Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                11,
-                15,
-                16,
-                17,
-                18,
-                19,
-                28,
-                29
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 36,
-        "fields": {
-            "name": "Deep Block",
-            "slug": "deep-block",
-            "description": "Optimize real estate investments with a platform that combines data, calculations, 3D visuals and returns. ",
-            "website": "https://www.deepblocks.com/",
-            "location": "Somewhere",
-            "twitter_handle": null,
-            "crunchbase_id": "deep-blocks",
-            "logo": "logos/deep-block.png",
-            "cover": "logos/deep-block.png",
-            "thread": 36,
-            "created_at": "2020-08-09T06:01:24.648Z",
-            "created_by": null,
-            "hashtags": [
-                30,
-                23
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 37,
-        "fields": {
-            "name": "Deepblocks",
-            "slug": "deepblocks",
-            "description": "A tool for analyzing the financial feasibility of new and existing buildings",
-            "website": "https://www.deepblocks.com/",
-            "location": "Miami, FL",
-            "twitter_handle": null,
-            "crunchbase_id": "deep-blocks#section-overview",
-            "logo": "logos/deepblocks.png",
-            "cover": "logos/deepblocks.png",
-            "thread": 37,
-            "created_at": "2020-08-09T06:01:25.809Z",
-            "created_by": null,
-            "hashtags": [
-                16,
-                1,
-                18,
-                14
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 38,
-        "fields": {
-            "name": "Digital Blue Foam",
-            "slug": "digital-blue-foam",
-            "description": "Generative Urban Design",
-            "website": "https://www.digitalbluefoam.com/",
-            "location": "Singapore",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/digital-blue-foam.png",
-            "cover": "logos/digital-blue-foam.png",
-            "thread": 38,
-            "created_at": "2020-08-09T06:01:26.151Z",
-            "created_by": null,
-            "hashtags": [
-                13,
-                15,
-                16,
-                18,
-                23,
-                28,
-                30,
-                31
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 39,
-        "fields": {
-            "name": "Dojo",
-            "slug": "dojo",
-            "description": "Dojo combines patent-pending AI and behavioral science to design efficient workplaces that make people more effective.",
-            "website": "www.dojo.co",
-            "location": "New York, NY, USA ",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 39,
-            "created_at": "2020-08-09T06:01:31.010Z",
-            "created_by": null,
-            "hashtags": [
-                32,
-                33,
-                16,
-                18,
-                19
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 40,
-        "fields": {
-            "name": "Edifice",
-            "slug": "edifice",
-            "description": "Data driven spatial analytics for high density residential buildings",
-            "website": "https://edifice.ai",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/edifice.png",
-            "cover": "logos/edifice.png",
-            "thread": 40,
-            "created_at": "2020-08-09T06:01:31.038Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                10
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 41,
-        "fields": {
-            "name": "Envelope",
-            "slug": "envelope",
-            "description": "Zoning Analysis for Urban Environments",
-            "website": "https://envelope.city/technology",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "envelope-city-inc",
-            "logo": "logos/envelope.png",
-            "cover": "logos/envelope.png",
-            "thread": 41,
-            "created_at": "2020-08-09T06:01:32.170Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                30
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 42,
-        "fields": {
-            "name": "Factory OS",
-            "slug": "factory-os",
-            "description": "Vertically integrated offsite construction",
-            "website": "https://factoryos.com/",
-            "location": "Vallejo, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "Pffsote",
-            "logo": "logos/factory-os.png",
-            "cover": "logos/factory-os.png",
-            "thread": 42,
-            "created_at": "2020-08-09T06:01:33.816Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 43,
-        "fields": {
-            "name": "Fieldlens",
-            "slug": "fieldlens",
-            "description": "Tool to improves communication and collaboration for construction project teams",
-            "website": "https://fieldlens.com/",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "fieldlens",
-            "logo": "logos/fieldlens.png",
-            "cover": "logos/fieldlens.png",
-            "thread": 43,
-            "created_at": "2020-08-09T06:01:34.137Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 44,
-        "fields": {
-            "name": "Finch",
-            "slug": "finch",
-            "description": " Tool for Architects to leverage their designs in the early phases of a project.",
-            "website": "https://finch3d.com/",
-            "location": "Malm\u00f6, Sweden",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/finch.png",
-            "cover": "logos/finch.png",
-            "thread": 44,
-            "created_at": "2020-08-09T06:01:34.680Z",
-            "created_by": null,
-            "hashtags": [
-                14,
-                25,
-                18,
-                28,
-                15
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 45,
-        "fields": {
-            "name": "Floored",
-            "slug": "floored",
-            "description": "Interactive real estate marketing and leasing tool that puts real estate professionals in control of their test-fits",
-            "website": "https://www.floored.com/",
-            "location": "Somewhere",
-            "twitter_handle": null,
-            "crunchbase_id": "floored",
-            "logo": "logos/floored.png",
-            "cover": "logos/floored.png",
-            "thread": 45,
-            "created_at": "2020-08-09T06:01:36.010Z",
-            "created_by": null,
-            "hashtags": [
-                18,
-                28
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 46,
-        "fields": {
-            "name": "Flux.io",
-            "slug": "fluxio",
-            "description": "Cloud interoperability and data-sharing for the AEC industry",
-            "website": "https://archpaper.com/2018/02/flux-to-shut-down/",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/fluxio.png",
-            "cover": "logos/fluxio.png",
-            "thread": 46,
-            "created_at": "2020-08-09T06:01:36.420Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                29,
-                11,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 47,
-        "fields": {
-            "name": "Fologram",
-            "slug": "fologram",
-            "description": "An easy to use platform for building applications in mixed reality",
-            "website": "https://fologram.com/",
-            "location": "Melbourne, Australia",
-            "twitter_handle": null,
-            "crunchbase_id": "fologram",
-            "logo": "logos/fologram.png",
-            "cover": "logos/fologram.png",
-            "thread": 47,
-            "created_at": "2020-08-09T06:01:36.866Z",
-            "created_by": null,
-            "hashtags": [
-                17
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 48,
-        "fields": {
-            "name": "Foyr",
-            "slug": "foyr",
-            "description": "Web based interior design, modeling, and visualization tool ",
-            "website": "https://foyr.com/",
-            "location": "Philadelphia, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 48,
-            "created_at": "2020-08-09T06:01:37.158Z",
-            "created_by": null,
-            "hashtags": [
-                1
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 49,
-        "fields": {
-            "name": "Fresh Projects",
-            "slug": "fresh-projects",
-            "description": "Practice management tool for architects and engineers",
-            "website": "https://www.freshprojects.cloud",
-            "location": "London, UK",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/fresh-projects.png",
-            "cover": "logos/fresh-projects.png",
-            "thread": 49,
-            "created_at": "2020-08-09T06:01:37.178Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                19,
-                22,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 50,
-        "fields": {
-            "name": "Geometrid",
-            "slug": "geometrid",
-            "description": "Supply Chain Monitoring and Analytics for Construction",
-            "website": "https://www.geometrid.com",
-            "location": "Singapore",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 50,
-            "created_at": "2020-08-09T06:01:37.401Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                6,
-                9,
-                10,
-                14,
-                23,
-                27
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 51,
-        "fields": {
-            "name": "Girrafe Technology",
-            "slug": "girrafe-technology",
-            "description": "3D platform for data driven collaborative Urban Design",
-            "website": "https://www.giraffe.build/",
-            "location": "Sydney, Australia",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/girrafe-technology.png",
-            "cover": "logos/girrafe-technology.png",
-            "thread": 51,
-            "created_at": "2020-08-09T06:01:37.430Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                14,
-                18,
-                19,
-                30,
-                31
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 52,
-        "fields": {
-            "name": "GliderBIM",
-            "slug": "gliderbim",
-            "description": "Lifecycle Asset Information Management software for the built environment",
-            "website": "https://gliderbim.com",
-            "location": "Clitheroe, UK",
-            "twitter_handle": null,
-            "crunchbase_id": "grit-virtual-inc",
-            "logo": "logos/gliderbim.png",
-            "cover": "logos/gliderbim.png",
-            "thread": 52,
-            "created_at": "2020-08-09T06:01:37.823Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                10
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 53,
-        "fields": {
-            "name": "Graphite",
-            "slug": "graphite",
-            "description": "Freelance platform specifically for architects",
-            "website": "https://mygraphite.co",
-            "location": "Denver, CO",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/graphite.png",
-            "cover": "logos/graphite.png",
-            "thread": 53,
-            "created_at": "2020-08-09T06:01:38.109Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                5,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 54,
-        "fields": {
-            "name": "Grit",
-            "slug": "grit",
-            "description": "Agile Construction Management Platform",
-            "website": "https://www.gritvirtual.com/",
-            "location": "Wichita, KS, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "grit-virtual-inc",
-            "logo": "logos/grit.png",
-            "cover": "logos/grit.png",
-            "thread": 54,
-            "created_at": "2020-08-09T06:01:38.475Z",
-            "created_by": null,
-            "hashtags": [
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 55,
-        "fields": {
-            "name": "Handle",
-            "slug": "handle",
-            "description": "Software that solves late payment issues and access to funding within the industry.",
-            "website": "https://handle.com",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "handle-com",
-            "logo": "logos/handle.png",
-            "cover": "logos/handle.png",
-            "thread": 55,
-            "created_at": "2020-08-09T06:01:38.981Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 56,
-        "fields": {
-            "name": "Hatchback Cottages",
-            "slug": "hatchback-cottages",
-            "description": "Help owners create a more flexible, sociable, and financially secure future with backyard cottages.",
-            "website": "https://www.hatchbackcottages.com/",
-            "location": "Seattle, WA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 56,
-            "created_at": "2020-08-09T06:01:39.333Z",
-            "created_by": null,
-            "hashtags": [],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 57,
-        "fields": {
-            "name": "Helix RE",
-            "slug": "helix-re",
-            "description": "Data solution for large-scale property owners and managers",
-            "website": "https://helix.re/",
-            "location": "San Mateo, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "flux-factory",
-            "logo": "logos/helix-re.png",
-            "cover": "logos/helix-re.png",
-            "thread": 57,
-            "created_at": "2020-08-09T06:01:39.349Z",
-            "created_by": null,
-            "hashtags": [
-                29,
-                21
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 58,
-        "fields": {
-            "name": "Higharc",
-            "slug": "higharc",
-            "description": "House generation based on needs",
-            "website": "https://higharc.com/",
-            "location": "Durham, NC, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/higharc.png",
-            "cover": "logos/higharc.png",
-            "thread": 58,
-            "created_at": "2020-08-09T06:01:40.082Z",
-            "created_by": null,
-            "hashtags": [
-                28,
-                4,
-                5,
-                15
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 59,
-        "fields": {
-            "name": "Homebound",
-            "slug": "homebound",
-            "description": "Build the home that's perfect for you",
-            "website": "https://www.homebound.com/",
-            "location": "Santa Rosa, CA\u2028, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 59,
-            "created_at": "2020-08-09T06:01:48.896Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 60,
-        "fields": {
-            "name": "Honomobo",
-            "slug": "honomobo",
-            "description": "Prefab Modular Homes",
-            "website": "https://www.honomobo.com",
-            "location": "",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 60,
-            "created_at": "2020-08-09T06:01:48.915Z",
-            "created_by": null,
-            "hashtags": [
-                4
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 61,
-        "fields": {
-            "name": "Hypar",
-            "slug": "hypar",
-            "description": "We provide a cloud compute environment and software libraries that enable AEC developers to deploy their specialized building logic to the cloud, and make it available to their team, their organization, or the world.",
-            "website": "https://hypar.io/",
-            "location": "Culver City, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/hypar.png",
-            "cover": "logos/hypar.png",
-            "thread": 61,
-            "created_at": "2020-08-09T06:01:48.932Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                15
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 62,
-        "fields": {
-            "name": "Intelligent City",
-            "slug": "intelligent-city",
-            "description": "Highly integrated and adaptable housing systems",
-            "website": "https://www.intelligent-city.com",
-            "location": "Vancouver, BC",
-            "twitter_handle": null,
-            "crunchbase_id": "intelligent-city",
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 62,
-            "created_at": "2020-08-09T06:01:49.384Z",
-            "created_by": null,
-            "hashtags": [
-                28,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 63,
-        "fields": {
-            "name": "Iris VR",
-            "slug": "iris-vr",
-            "description": "IrisVR enables digital prototyping of physical space, allowing the most complex decisions to be made at human scale",
-            "website": "https://irisvr.com/",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "irisvr-inc",
-            "logo": "logos/iris-vr.png",
-            "cover": "logos/iris-vr.png",
-            "thread": 63,
-            "created_at": "2020-08-09T06:01:49.656Z",
-            "created_by": null,
-            "hashtags": [
-                17
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 64,
-        "fields": {
-            "name": "Join",
-            "slug": "join",
-            "description": "Join optimizes product and material selection and usage, based on project's unique characteristics",
-            "website": "https://join.build",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/join.png",
-            "cover": "logos/join.png",
-            "thread": 64,
-            "created_at": "2020-08-09T06:01:49.958Z",
-            "created_by": null,
-            "hashtags": [
-                29,
-                22
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 65,
-        "fields": {
-            "name": "Juno",
-            "slug": "juno",
-            "description": "Juno is rethinking how housing is developed to inspire residents and help neighborhoods flourish",
-            "website": "https://juno.co/",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 65,
-            "created_at": "2020-08-09T06:01:50.577Z",
-            "created_by": null,
-            "hashtags": [
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 66,
-        "fields": {
-            "name": "Kasita",
-            "slug": "kasita",
-            "description": "A Micro-Housing Start-Up",
-            "website": "https://kasita.com/",
-            "location": "Austin, TX, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/kasita.png",
-            "cover": "logos/kasita.png",
-            "thread": 66,
-            "created_at": "2020-08-09T06:01:50.596Z",
-            "created_by": null,
-            "hashtags": [
-                4
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 67,
-        "fields": {
-            "name": "Katerra",
-            "slug": "katerra",
-            "description": "Katerra is a technology company optimizing the way we develop, design, and construct buildings",
-            "website": "https://www.katerra.com",
-            "location": "Menlo Park, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/katerra.png",
-            "cover": "logos/katerra.png",
-            "thread": 67,
-            "created_at": "2020-08-09T06:01:51.365Z",
-            "created_by": null,
-            "hashtags": [
-                26
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 68,
-        "fields": {
-            "name": "Kitchautomation",
-            "slug": "kitchautomation",
-            "description": "Revit Foodservice Design Automation",
-            "website": "https://www.kitchautomation.com",
-            "location": "Washington, DC, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/kitchautomation.png",
-            "cover": "logos/kitchautomation.png",
-            "thread": 68,
-            "created_at": "2020-08-09T06:01:51.745Z",
-            "created_by": null,
-            "hashtags": [
-                2,
-                18,
-                19,
-                20,
-                22,
-                28
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 69,
-        "fields": {
-            "name": "Konstru",
-            "slug": "konstru",
-            "description": "Faster Updates, Easier Collaboration, & Reliable Change Management for BIM",
-            "website": "https://konstru.com",
-            "location": "New York, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "konstru",
-            "logo": "logos/konstru.png",
-            "cover": "logos/konstru.png",
-            "thread": 69,
-            "created_at": "2020-08-09T06:01:52.049Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                3
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 70,
-        "fields": {
-            "name": "Kreo",
-            "slug": "kreo",
-            "description": "Pre-construction planning and design software",
-            "website": "https://www.kreo.net",
-            "location": "London, UK",
-            "twitter_handle": null,
-            "crunchbase_id": "kreo",
-            "logo": "logos/kreo.png",
-            "cover": "logos/kreo.png",
-            "thread": 70,
-            "created_at": "2020-08-09T06:01:52.422Z",
-            "created_by": null,
-            "hashtags": [
-                2,
-                5,
-                6,
-                7,
-                9,
-                14,
-                15,
-                19,
-                22
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 71,
-        "fields": {
-            "name": "Krowdsourced",
-            "slug": "krowdsourced",
-            "description": "krowdsourced enables commercial Architects, Designers, Owners and Contractors to efficiently find materials and solutions for their projects through our streamlined product and manufacturer's sales rep resources",
-            "website": "https://krowdsourced.co/",
-            "location": "Portland, OR, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "krowdsourced",
-            "logo": "logos/krowdsourced.png",
-            "cover": "logos/krowdsourced.png",
-            "thread": 71,
-            "created_at": "2020-08-09T06:01:52.789Z",
-            "created_by": null,
-            "hashtags": [
-                19,
-                1,
-                26,
-                10
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 72,
-        "fields": {
-            "name": "Ladybug Tools",
-            "slug": "ladybug-tools",
-            "description": "Making environmental design knowledge and tools freely accessible to every person, project and design process",
-            "website": "https://www.ladybug.tools",
-            "location": "Fairfax, VA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/ladybug-tools.png",
-            "cover": "logos/ladybug-tools.png",
-            "thread": 72,
-            "created_at": "2020-08-09T06:01:53.228Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                14
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 73,
-        "fields": {
-            "name": "Lagarsoft ",
-            "slug": "lagarsoft",
-            "description": "Dev shop, Revit Addins, Web APIs",
-            "website": "https://lagarsoft.com",
-            "location": "Montevideo",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 73,
-            "created_at": "2020-08-09T06:01:53.870Z",
-            "created_by": null,
-            "hashtags": [
-                33
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 74,
-        "fields": {
-            "name": "Layer",
-            "slug": "layer",
-            "description": "One platform for collecting, managing, and sharing building data",
-            "website": "https://layer.team",
-            "location": "Lincoln, NE, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/layer.png",
-            "cover": "logos/layer.png",
-            "thread": 74,
-            "created_at": "2020-08-09T06:01:53.892Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                19
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 75,
-        "fields": {
-            "name": "Lean Station ",
-            "slug": "lean-station",
-            "description": "Integrated Lean Project Delivery system for improved projects",
-            "website": "https://www.leanstation.com",
-            "location": "Singapore",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 75,
-            "created_at": "2020-08-09T06:01:54.648Z",
-            "created_by": null,
-            "hashtags": [
-                32,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                9,
-                11,
-                14,
-                16,
-                18,
-                19,
-                22,
-                27
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 76,
-        "fields": {
-            "name": "Leko Labs",
-            "slug": "leko-labs",
-            "description": "Leko is a tech-company committed to reinvent the construction process for next generation buildings",
-            "website": "https://www.lekolabs.com/",
-            "location": "Foetz, Luxembourg",
-            "twitter_handle": null,
-            "crunchbase_id": "leko-labs",
-            "logo": "logos/leko-labs.png",
-            "cover": "logos/leko-labs.png",
-            "thread": 76,
-            "created_at": "2020-08-09T06:01:54.691Z",
-            "created_by": null,
-            "hashtags": [
-                4
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 77,
-        "fields": {
-            "name": "LetsBuild",
-            "slug": "letsbuild",
-            "description": "Construction management software for the construction phase",
-            "website": "https://www.letsbuild.com",
-            "location": "Copenhagen, Denmark",
-            "twitter_handle": null,
-            "crunchbase_id": "letsbuild",
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 77,
-            "created_at": "2020-08-09T06:01:55.247Z",
-            "created_by": null,
-            "hashtags": [
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 78,
-        "fields": {
-            "name": "Made",
-            "slug": "made",
-            "description": "Bathroom renovations, Made easy. Great Instagram Ads.",
-            "website": "https://www.maderenovation.com",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "made-renovation",
-            "logo": "logos/made.png",
-            "cover": "logos/made.png",
-            "thread": 78,
-            "created_at": "2020-08-09T06:01:55.268Z",
-            "created_by": null,
-            "hashtags": [
-                25,
-                5,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 79,
-        "fields": {
-            "name": "Matterlab",
-            "slug": "matterlab",
-            "description": "We\u2019re a product and innovation lab for the built environment",
-            "website": "https://www.matterlab.co",
-            "location": "London, UK",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/matterlab.png",
-            "cover": "logos/matterlab.png",
-            "thread": 79,
-            "created_at": "2020-08-09T06:01:58.164Z",
-            "created_by": null,
-            "hashtags": [],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 80,
-        "fields": {
-            "name": "Mighty Buildings",
-            "slug": "mighty-buildings",
-            "description": "Mighty Buildings is a prefab modular construction company working on disrupting the residential housing market.",
-            "website": "https://www.mightybuildings.com/",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "mighty-buildings",
-            "logo": "logos/mighty-buildings.png",
-            "cover": "logos/mighty-buildings.png",
-            "thread": 80,
-            "created_at": "2020-08-09T06:01:58.829Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 81,
-        "fields": {
-            "name": "Mindesk VR",
-            "slug": "mindesk-vr",
-            "description": "Startup pioneering 3D VR-CAD design and real-time collaborative for Rhino and other CAD platforms",
-            "website": "https:// www.mindeskvr.com",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "mindesk",
-            "logo": "logos/mindesk-vr.jpg",
-            "cover": "logos/mindesk-vr.jpg",
-            "thread": 81,
-            "created_at": "2020-08-09T06:02:04.696Z",
-            "created_by": null,
-            "hashtags": [
-                17,
-                34,
-                35
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 82,
-        "fields": {
-            "name": "MKS DTECH",
-            "slug": "mks-dtech",
-            "description": "Rhino and Revit Interoperability",
-            "website": "https://www.mksdtech.com/",
-            "location": "London,UK",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/mks-dtech.png",
-            "cover": "logos/mks-dtech.png",
-            "thread": 82,
-            "created_at": "2020-08-09T06:02:06.352Z",
-            "created_by": null,
-            "hashtags": [
-                34,
-                11,
-                20,
-                29
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 83,
-        "fields": {
-            "name": "Modelo",
-            "slug": "modelo",
-            "description": "Modelo is a cloud based design and development communication platform for AEC industry",
-            "website": "https://modelo.io/",
-            "location": "Somerville, MA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/modelo.png",
-            "cover": "logos/modelo.png",
-            "thread": 83,
-            "created_at": "2020-08-09T06:02:06.724Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                9
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 84,
-        "fields": {
-            "name": "Modelur",
-            "slug": "modelur",
-            "description": "Parametric urban design software tool",
-            "website": "https://modelur.eu/",
-            "location": "Ljubljana Slovenia, EU",
-            "twitter_handle": null,
-            "crunchbase_id": "modelur",
-            "logo": "logos/modelur.png",
-            "cover": "logos/modelur.png",
-            "thread": 84,
-            "created_at": "2020-08-09T06:02:07.415Z",
-            "created_by": null,
-            "hashtags": [
-                18,
-                28,
-                30
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 85,
-        "fields": {
-            "name": "Modsy",
-            "slug": "modsy",
-            "description": "Online Interior Design",
-            "website": "https://www.modsy.com",
-            "location": "Somewhere",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/modsy.png",
-            "cover": "logos/modsy.png",
-            "thread": 85,
-            "created_at": "2020-08-09T06:02:07.586Z",
-            "created_by": null,
-            "hashtags": [
-                36
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 86,
-        "fields": {
-            "name": "Moduluc",
-            "slug": "moduluc",
-            "description": "Creation and integration of digital assets for real-time architectural visualizations",
-            "website": "https://moduluc.com/",
-            "location": "Durham, NC, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 86,
-            "created_at": "2020-08-09T06:02:07.906Z",
-            "created_by": null,
-            "hashtags": [
-                37,
-                9,
-                17,
-                18,
-                28
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 87,
-        "fields": {
-            "name": "Molteao",
-            "slug": "molteao",
-            "description": "Molteo provides an easy-to-use tool which provides a real-time overview of projects and construction sites, flexible resource capture, and paperless billing",
-            "website": "https://molteo.de/",
-            "location": "Schleswig, Germany",
-            "twitter_handle": null,
-            "crunchbase_id": "molteo",
-            "logo": "logos/molteao.png",
-            "cover": "logos/molteao.png",
-            "thread": 87,
-            "created_at": "2020-08-09T06:02:07.933Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                7,
-                6,
-                22
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 88,
-        "fields": {
-            "name": "Monograph",
-            "slug": "monograph",
-            "description": "Project Management Software For Architects & Engineers",
-            "website": "https://monograph.io",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "monograph",
-            "logo": "logos/monograph.png",
-            "cover": "logos/monograph.png",
-            "thread": 88,
-            "created_at": "2020-08-09T06:02:09.495Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 89,
-        "fields": {
-            "name": "Mosaic",
-            "slug": "mosaic",
-            "description": "project management tool suite",
-            "website": "https://mosaicapp.com/",
-            "location": "NYC, NY, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "life-coded",
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 89,
-            "created_at": "2020-08-09T06:02:09.869Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                3,
-                6,
-                7,
-                24
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 90,
-        "fields": {
-            "name": "New Frontier Tiny Homes",
-            "slug": "new-frontier-tiny-homes",
-            "description": "Prefabricated homes for every lifestyle",
-            "website": "https://www.newfrontiertinyhomes.com/",
-            "location": "Nashville, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 90,
-            "created_at": "2020-08-09T06:02:09.896Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 91,
-        "fields": {
-            "name": "Node",
-            "slug": "node",
-            "description": "Prefab",
-            "website": "https://node.eco/",
-            "location": "?",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 91,
-            "created_at": "2020-08-09T06:02:09.916Z",
-            "created_by": null,
-            "hashtags": [
-                4,
-                5
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 92,
-        "fields": {
-            "name": "nPlan",
-            "slug": "nplan",
-            "description": "Predicting the outcomes of construction projects using AI",
-            "website": "https://www.nplan.io/",
-            "location": "London, UK",
-            "twitter_handle": null,
-            "crunchbase_id": "nplan",
-            "logo": "logos/nplan.png",
-            "cover": "logos/nplan.png",
-            "thread": 92,
-            "created_at": "2020-08-09T06:02:09.935Z",
-            "created_by": null,
-            "hashtags": [
-                32,
-                6,
-                7
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 93,
-        "fields": {
-            "name": "OneConcern ",
-            "slug": "oneconcern",
-            "description": "We predict and quantify the impact of natural disasters, using machine learning to build more resilient businesses, infrastructure, and global communities.",
-            "website": "https://www.oneconcern.com/",
-            "location": " Menlo Park, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "oneconcern",
-            "logo": "default_logo.png",
-            "cover": "default_logo.png",
-            "thread": 93,
-            "created_at": "2020-08-09T06:02:10.277Z",
-            "created_by": null,
-            "hashtags": [
-                32,
-                16,
-                19
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 94,
-        "fields": {
-            "name": "OpenSpace",
-            "slug": "openspace",
-            "description": "Job site 360 photos documentation",
-            "website": "https://openspace.ai/",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": "openspace-ai",
-            "logo": "logos/openspace.png",
-            "cover": "logos/openspace.png",
-            "thread": 94,
-            "created_at": "2020-08-09T06:02:11.384Z",
-            "created_by": null,
-            "hashtags": [
-                13,
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 95,
-        "fields": {
-            "name": "Operance",
-            "slug": "operance",
-            "description": "Search, share, update and utilise O&M and BIM information to maximize building values and minimize lifecycle costs",
-            "website": "https://operance.app/",
-            "location": "London, UK",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/operance.png",
-            "cover": "logos/operance.png",
-            "thread": 95,
-            "created_at": "2020-08-09T06:02:11.860Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                19,
-                38
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 96,
-        "fields": {
-            "name": "Outer Labs",
-            "slug": "outer-labs",
-            "description": "Connect your digital and physical workflow",
-            "website": "http://www.outerlabs.io",
-            "location": "San Francisco, CA, USA",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/outer-labs.png",
-            "cover": "logos/outer-labs.png",
-            "thread": 96,
-            "created_at": "2020-08-09T06:02:13.076Z",
-            "created_by": null,
-            "hashtags": [
-                19,
-                29
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 97,
-        "fields": {
-            "name": "Paperless Construction ",
-            "slug": "paperless-construction",
-            "description": "The safety of your employees, customers, and contractors as well as the protection of the environment in the communities in which you work is becoming increasingly important and highly regulated. Maintaining records of these activities is becoming problematic though.  Paperless Construction is a first of its kind IOS and Android mobile and web application built specifically for this purpose, for construction teams to manage all their HSE training records centrally and paperlessly.  This mobile application allows Construction Site Management to load Safe Systems of Work, Briefing Documents or Corporate Literature onto the platform, share it with the project teams out in the field for the recording of HSE briefings digitally and in real-time.  Once on site, supervisors can access these documents via the mobile application using either tablets or their phones and link inducted attendees to the briefings through Auto-ID technology for authentication. The result is a detailed and current record of all site staff competencies and training records for the project and future projects. The mobile application also covers other features such as timekeeping, fatigue management, emergency evacuation, roll call and broadcasting messages corporation wide or to the individual project teams working on the construction site. It also makes provision to be used as an mobile application to undertake HSE inspections, completion of the documentation and the required checklists.",
-            "website": "https://paperlessconstruction.co.uk/",
-            "location": "York, United Kingdom",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/paperless-construction.png",
-            "cover": "logos/paperless-construction.png",
-            "thread": 97,
-            "created_at": "2020-08-09T06:02:13.385Z",
-            "created_by": null,
-            "hashtags": [
-                6
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 98,
-        "fields": {
-            "name": "Parametricos",
-            "slug": "parametricos",
-            "description": "Asset Management Cloud BIM+GIS ",
-            "website": "https://parametricos.com",
-            "location": "Cyprus",
-            "twitter_handle": null,
-            "crunchbase_id": "parametricos",
-            "logo": "logos/parametricos.png",
-            "cover": "logos/parametricos.png",
-            "thread": 98,
-            "created_at": "2020-08-09T06:02:14.133Z",
-            "created_by": null,
-            "hashtags": [
-                1,
-                2,
-                3,
-                7,
-                8,
-                9,
-                10,
-                14
-            ],
-            "clappers": []
-        }
-    },
-    {
-        "model": "community.company",
-        "pk": 99,
-        "fields": {
-            "name": "Parametricos Studio",
-            "slug": "parametricos-studio",
-            "description": "Cloud BIM+GIS Platform",
-            "website": "https://studio.parametricos.com",
-            "location": "Cyprus",
-            "twitter_handle": null,
-            "crunchbase_id": null,
-            "logo": "logos/parametricos-studio.png",
-            "cover": "logos/parametricos-studio.png",
-            "thread": 99,
-            "created_at": "2020-08-09T06:02:15.588Z",
-            "created_by": null,
-            "hashtags": [
-                9,
-                10,
-                1
-            ],
-            "clappers": []
-        }
+{
+    "model": "community.company",
+    "pk": 2,
+    "fields": {
+        "name": "3D Repo",
+        "description": "Cloud-Based BIM",
+        "website": "https://3drepo.com",
+        "location": "London, UK",
+        "twitter_handle": null,
+        "crunchbase_id": "3d-repo",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1f97214f7667453cb5b9aa9498e51773.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1f97214f7667453cb5b9aa9498e51773.png",
+        "slug": "3d-repo",
+        "thread": 1,
+        "created_at": "2020-08-25T07:45:25.389Z",
+        "updated_at": "2020-08-25T07:47:08.302Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            3
+        ],
+        "clappers": []
     }
+},
+{
+    "model": "community.company",
+    "pk": 3,
+    "fields": {
+        "name": "Abodu",
+        "description": "No-compromise backyard homes",
+        "website": "https://abodu.com/",
+        "location": "Unknown",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/63cf405bb5de4bb783bff914e57c7501.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/63cf405bb5de4bb783bff914e57c7501.png",
+        "slug": "abodu",
+        "thread": 2,
+        "created_at": "2020-08-25T07:45:25.401Z",
+        "updated_at": "2020-08-25T07:47:08.587Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 4,
+    "fields": {
+        "name": "Acculis",
+        "description": "BIM coordination platform",
+        "website": "https://www.acculistech.com/",
+        "location": "Somewhere",
+        "twitter_handle": null,
+        "crunchbase_id": "acculis#section-investors",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/bc9584a51c594dc1a97063c97e33a341.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/bc9584a51c594dc1a97063c97e33a341.png",
+        "slug": "acculis",
+        "thread": 3,
+        "created_at": "2020-08-25T07:45:25.411Z",
+        "updated_at": "2020-08-25T07:47:09.613Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 5,
+    "fields": {
+        "name": "ALICE Technologies",
+        "description": "ALICE leverages AI to speed up the planning process, reduce project schedules, and resolve schedule delays.",
+        "website": "https://alicetechnologies.com/",
+        "location": "Menlo Park, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "alice-technologies",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/e0017c58d0fa48b1b6fd057583fd6f5d.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/e0017c58d0fa48b1b6fd057583fd6f5d.png",
+        "slug": "alice-technologies",
+        "thread": 4,
+        "created_at": "2020-08-25T07:45:25.420Z",
+        "updated_at": "2020-08-25T07:47:09.989Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            12
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 6,
+    "fields": {
+        "name": "Archilogic",
+        "description": "Archilogic's platform empowers users to easily create, edit, and share 3D content for interiors.",
+        "website": "https://archilogic.com/",
+        "location": "Zurich, Switzerland",
+        "twitter_handle": null,
+        "crunchbase_id": "archilogic",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/32fd0c9a1f1f4151a97c421072c6baec.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/32fd0c9a1f1f4151a97c421072c6baec.png",
+        "slug": "archilogic",
+        "thread": 5,
+        "created_at": "2020-08-25T07:45:25.430Z",
+        "updated_at": "2020-08-25T07:47:10.412Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            9
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 7,
+    "fields": {
+        "name": "Archilyse",
+        "description": "Holistic numeric architecture analysis as an easy to use API solution",
+        "website": "https://www.archilyse.com/",
+        "location": "Zurich, Switzerland",
+        "twitter_handle": null,
+        "crunchbase_id": "archilyse",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/50f2d229522b40ae9ef53bb9dda73e7a.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/50f2d229522b40ae9ef53bb9dda73e7a.png",
+        "slug": "archilyse",
+        "thread": 6,
+        "created_at": "2020-08-25T07:45:25.439Z",
+        "updated_at": "2020-08-25T07:47:11.413Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            13
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 8,
+    "fields": {
+        "name": "Archistar",
+        "description": "Archistar.ai empowers property developers, governments and agents with next-generation intelligence in real-time.",
+        "website": "https://www.archistar.ai",
+        "location": "Sydney, Australia",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/784c4add3907467da90c4b54ce10555d.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/784c4add3907467da90c4b54ce10555d.png",
+        "slug": "archistar",
+        "thread": 7,
+        "created_at": "2020-08-25T07:45:25.448Z",
+        "updated_at": "2020-08-25T07:47:12.067Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            14,
+            15
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 9,
+    "fields": {
+        "name": "Arkio",
+        "description": "Collaborative VR Spatial Design",
+        "website": "https://arkio.is/",
+        "location": "Iceland",
+        "twitter_handle": null,
+        "crunchbase_id": "arkio#section-overview",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c5ddadd8ee8346e7bb0c528fcf5f826a.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c5ddadd8ee8346e7bb0c528fcf5f826a.png",
+        "slug": "arkio",
+        "thread": 8,
+        "created_at": "2020-08-25T07:45:25.458Z",
+        "updated_at": "2020-08-25T07:47:12.761Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            16,
+            9,
+            17
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 10,
+    "fields": {
+        "name": "Atmos",
+        "description": "How It Works Your A-Team More The entire homebuilding process all in one place.",
+        "website": "https://buildatmos.com/",
+        "location": "-",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "atmos",
+        "thread": 9,
+        "created_at": "2020-08-25T07:45:25.467Z",
+        "updated_at": "2020-08-25T07:47:12.782Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 11,
+    "fields": {
+        "name": "AVAIL",
+        "description": "BIM Content Management Platform",
+        "website": "https://getavail.com",
+        "location": "Lexington, KY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "avail-3c85",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a13094f097d04063a61c9205543a1a25.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a13094f097d04063a61c9205543a1a25.png",
+        "slug": "avail",
+        "thread": 10,
+        "created_at": "2020-08-25T07:45:25.476Z",
+        "updated_at": "2020-08-25T07:47:13.663Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            8,
+            18,
+            19
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 12,
+    "fields": {
+        "name": "Avvir",
+        "description": "Avvir augments BIM intelligence by comparing the scans against the BIM and identifying variances between the design and reality.",
+        "website": "https://avvir.io/",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "avvir",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3db02e6b9bdd46bbbb8b72d19f925b34.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3db02e6b9bdd46bbbb8b72d19f925b34.png",
+        "slug": "avvir",
+        "thread": 11,
+        "created_at": "2020-08-25T07:45:25.485Z",
+        "updated_at": "2020-08-25T07:47:15.316Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            20
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 13,
+    "fields": {
+        "name": "Basis",
+        "description": "An automated bid board for subcontractors.",
+        "website": "https://www.basisboard.com/",
+        "location": "Los Angeles, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "basis-588a",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9ea3fefb9fa14bcd8c48482c8b9a2ee0.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9ea3fefb9fa14bcd8c48482c8b9a2ee0.png",
+        "slug": "basis",
+        "thread": 12,
+        "created_at": "2020-08-25T07:45:25.494Z",
+        "updated_at": "2020-08-25T07:47:15.647Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            21,
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 14,
+    "fields": {
+        "name": "BIM Track",
+        "description": "The communication platform for better BIM coordination. Features bi-directional issue tracking between major software platforms to make it easier to raise and resolve questions, comments, and other issues.",
+        "website": "https://bimtrack.co",
+        "location": "Quebec, Quebec, Canada",
+        "twitter_handle": null,
+        "crunchbase_id": "bim-track",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/77ecbbf74e7a4c958a8d9bae8844147e.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/77ecbbf74e7a4c958a8d9bae8844147e.png",
+        "slug": "bim-track",
+        "thread": 13,
+        "created_at": "2020-08-25T07:45:25.504Z",
+        "updated_at": "2020-08-25T07:47:16.110Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 15,
+    "fields": {
+        "name": "BIMLauncher ",
+        "description": "Integrations platform and low code workflow automation for BIM Platforms/Application ",
+        "website": "https://www.bimlauncher.com",
+        "location": "Galway, Ireland ",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/be60bb54014d45f5999ff272336d70f1.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/be60bb54014d45f5999ff272336d70f1.png",
+        "slug": "bimlauncher",
+        "thread": 14,
+        "created_at": "2020-08-25T07:45:25.514Z",
+        "updated_at": "2020-08-25T07:47:16.311Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            11,
+            6,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 16,
+    "fields": {
+        "name": "BIMSpot",
+        "description": "Discover hidden insights of your building.",
+        "website": "https://bimspot.io/",
+        "location": "Vienna, Austria",
+        "twitter_handle": null,
+        "crunchbase_id": "company.html",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/00acc3e6a3f54ceb976cc4caf3b0ef6b.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/00acc3e6a3f54ceb976cc4caf3b0ef6b.png",
+        "slug": "bimspot",
+        "thread": 15,
+        "created_at": "2020-08-25T07:45:25.523Z",
+        "updated_at": "2020-08-25T07:47:17.175Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            2,
+            3,
+            6,
+            9,
+            13,
+            18,
+            21,
+            22
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 17,
+    "fields": {
+        "name": "BlenderBIM",
+        "description": "IFC based BIM modelling",
+        "website": "https://blenderbim.org/",
+        "location": "Australia",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/6ee8e6e3304e4a19ae6ac1a7211072f8.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/6ee8e6e3304e4a19ae6ac1a7211072f8.png",
+        "slug": "blenderbim",
+        "thread": 16,
+        "created_at": "2020-08-25T07:45:25.533Z",
+        "updated_at": "2020-08-25T07:47:17.834Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            9,
+            23
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 18,
+    "fields": {
+        "name": "Block Renovation",
+        "description": "Beautiful, architect-designed renovations completed reliably from start to end.",
+        "website": "https://www.blockrenovation.com",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "block-renovation",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/cb9e8b5083d84435b8cb5838ceb6d928.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/cb9e8b5083d84435b8cb5838ceb6d928.png",
+        "slug": "block-renovation",
+        "thread": 17,
+        "created_at": "2020-08-25T07:45:25.543Z",
+        "updated_at": "2020-08-25T07:47:18.576Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            24
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 19,
+    "fields": {
+        "name": "Blokable",
+        "description": "Blokable seeks to unlock the efficiencies of technological and financial system advances and create a process that turns real estate development into a transparent and easily managed service",
+        "website": "https://blokable.com",
+        "location": "Vancouver, BC, Canada",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1fe7b5a6a129429991f1fe0d300c031e.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1fe7b5a6a129429991f1fe0d300c031e.png",
+        "slug": "blokable",
+        "thread": 18,
+        "created_at": "2020-08-25T07:45:25.553Z",
+        "updated_at": "2020-08-25T07:47:18.983Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 20,
+    "fields": {
+        "name": "Blu Homes",
+        "description": "Prefabricate house designer and manufacturer",
+        "website": "https://www.bluhomes.com/",
+        "location": "Vallejo, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "blu-homes",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/fbe95caa34a44a828abf7b5253f38ee2.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/fbe95caa34a44a828abf7b5253f38ee2.png",
+        "slug": "blu-homes",
+        "thread": 19,
+        "created_at": "2020-08-25T07:45:25.563Z",
+        "updated_at": "2020-08-25T07:47:19.772Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 21,
+    "fields": {
+        "name": "Bricks",
+        "description": "The agile collaborative app for Architecture & construction",
+        "website": "https://www.bricksapp.io",
+        "location": "Paris, France",
+        "twitter_handle": null,
+        "crunchbase_id": "openbricks-io",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/2e6f431ba0ed452ca18bc8dedc86045a.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/2e6f431ba0ed452ca18bc8dedc86045a.png",
+        "slug": "bricks",
+        "thread": 20,
+        "created_at": "2020-08-25T07:45:25.574Z",
+        "updated_at": "2020-08-25T07:47:20.112Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            6,
+            7,
+            10
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 22,
+    "fields": {
+        "name": "Bricsys",
+        "description": "Bricsys offers innovative solutions for 2D drafting, 3D direct modeling, sheet metal design and Building Information Modeling (BIM)",
+        "website": "https://www.bricsys.com",
+        "location": "Gent, Belgium",
+        "twitter_handle": null,
+        "crunchbase_id": "bricsys",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/228c5236cf58470ea5cef01f43080463.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/228c5236cf58470ea5cef01f43080463.png",
+        "slug": "bricsys",
+        "thread": 21,
+        "created_at": "2020-08-25T07:45:25.584Z",
+        "updated_at": "2020-08-25T07:47:20.688Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            23
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 23,
+    "fields": {
+        "name": "Bright Machines",
+        "description": "Software-Defined Manufacturing",
+        "website": "https://www.brightmachines.com/",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "bright-machines#section-overview",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c04d4fa16c59471e962cda3b8ace29d1.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c04d4fa16c59471e962cda3b8ace29d1.png",
+        "slug": "bright-machines",
+        "thread": 22,
+        "created_at": "2020-08-25T07:45:25.594Z",
+        "updated_at": "2020-08-25T07:47:21.368Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            25
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 24,
+    "fields": {
+        "name": "BuildOps",
+        "description": "Software built for commercial HVAC, Plumbing, and Electrical contractors",
+        "website": "https://buildops.com/",
+        "location": "Los Angeles, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "buildops",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ea3b7b67604246fcb6fd96bf5ef9efbb.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ea3b7b67604246fcb6fd96bf5ef9efbb.png",
+        "slug": "buildops",
+        "thread": 23,
+        "created_at": "2020-08-25T07:45:25.604Z",
+        "updated_at": "2020-08-25T07:47:21.687Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            6,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 25,
+    "fields": {
+        "name": "BuildStream",
+        "description": "Smart constrution, IoT, AI, Analytics",
+        "website": "https://buildstream.co",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "buildstream",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/4023cb853fc64b76b568f2b56c6a3957.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/4023cb853fc64b76b568f2b56c6a3957.png",
+        "slug": "buildstream",
+        "thread": 24,
+        "created_at": "2020-08-25T07:45:25.613Z",
+        "updated_at": "2020-08-25T07:47:22.022Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            12,
+            13,
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 26,
+    "fields": {
+        "name": "Built Robotics",
+        "description": "We build the robots that build the world",
+        "website": "http://www.builtrobotics.com/",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "built-robotics",
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "built-robotics",
+        "thread": 25,
+        "created_at": "2020-08-25T07:45:25.623Z",
+        "updated_at": "2020-08-25T07:47:22.046Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 27,
+    "fields": {
+        "name": "Camino",
+        "description": "Permitting, licensing, and citizen engagement products for cities.",
+        "website": "https://www.camino.ai/",
+        "location": "Redwood City, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "camino-4ec2",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3bfbfd89b67746648cc083e5bc97174a.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3bfbfd89b67746648cc083e5bc97174a.png",
+        "slug": "camino",
+        "thread": 26,
+        "created_at": "2020-08-25T07:45:25.632Z",
+        "updated_at": "2020-08-25T07:47:22.349Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 28,
+    "fields": {
+        "name": "Canoa",
+        "description": "Sustainable Furniture Supply Chain",
+        "website": "https://www.canoa.supply/",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "canoa",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c38049359b654439b17b8526bc6c5f52.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c38049359b654439b17b8526bc6c5f52.png",
+        "slug": "canoa",
+        "thread": 27,
+        "created_at": "2020-08-25T07:45:25.642Z",
+        "updated_at": "2020-08-25T07:47:22.552Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            26
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 29,
+    "fields": {
+        "name": "CBRE Build",
+        "description": "CBRE Build is tech group within CBRE that builds technology for commercial Real Estate including Plans, a space-planning tool they acquired in 2017 (previously Floored).",
+        "website": "https://www.cbrebuild.com/",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9c3708afd171406b83b0eb2c37ed43fd.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9c3708afd171406b83b0eb2c37ed43fd.png",
+        "slug": "cbre-build",
+        "thread": 28,
+        "created_at": "2020-08-25T07:45:25.652Z",
+        "updated_at": "2020-08-25T07:47:23.094Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            27
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 30,
+    "fields": {
+        "name": "Cintoo",
+        "description": "Cintoo Cloud: Your Digital Twin Platform",
+        "website": "https://cintoo.com",
+        "location": "Miami, FL, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "cintoo3d",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/5121b00b66b24a249a358332c259ba3e.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/5121b00b66b24a249a358332c259ba3e.png",
+        "slug": "cintoo",
+        "thread": 29,
+        "created_at": "2020-08-25T07:45:25.661Z",
+        "updated_at": "2020-08-25T07:47:23.435Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            20,
+            9,
+            15
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 31,
+    "fields": {
+        "name": "Cove Tools",
+        "description": "Cove Tool Energy Modeling Software for Architects\u200e",
+        "website": "https://www.covetool.com/",
+        "location": "Atlanta, GA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "cove-tool",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/486979845ac14ef1aaa77cf1ed9dc17a.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/486979845ac14ef1aaa77cf1ed9dc17a.png",
+        "slug": "cove-tools",
+        "thread": 30,
+        "created_at": "2020-08-25T07:45:25.671Z",
+        "updated_at": "2020-08-25T07:47:23.844Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            13
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 32,
+    "fields": {
+        "name": "Cover",
+        "description": "Custom Backyard Homes",
+        "website": "https://www.cover.build/",
+        "location": "Los Angeles, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "cover-technologies-inc",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/32e098b6d63542f3a0dea8ecb92b5cc1.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/32e098b6d63542f3a0dea8ecb92b5cc1.png",
+        "slug": "cover",
+        "thread": 31,
+        "created_at": "2020-08-25T07:45:25.680Z",
+        "updated_at": "2020-08-25T07:47:24.292Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 33,
+    "fields": {
+        "name": "Curri",
+        "description": "Construction supplies and materials delivery",
+        "website": "https://www.curri.com/",
+        "location": "Ventura, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "curri",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a12ffe76068f4640ae3b5defb91b0b47.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a12ffe76068f4640ae3b5defb91b0b47.png",
+        "slug": "curri",
+        "thread": 32,
+        "created_at": "2020-08-25T07:45:25.690Z",
+        "updated_at": "2020-08-25T07:47:24.510Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 34,
+    "fields": {
+        "name": "d",
+        "description": "d",
+        "website": "d",
+        "location": "d",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "d",
+        "thread": 33,
+        "created_at": "2020-08-25T07:45:25.699Z",
+        "updated_at": "2020-08-25T07:47:24.531Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 35,
+    "fields": {
+        "name": "Daquri",
+        "description": "Empower your workforce to solve meaningul problems with Professional Grade AR\u2122",
+        "website": "https://www.crunchbase.com/organization/daqri",
+        "location": "Los Angeles, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "daqri",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ab7f712bc477496dafd4ff2471fa355d.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ab7f712bc477496dafd4ff2471fa355d.png",
+        "slug": "daquri",
+        "thread": 34,
+        "created_at": "2020-08-25T07:45:25.708Z",
+        "updated_at": "2020-08-25T07:47:25.317Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            16
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 36,
+    "fields": {
+        "name": "Data Shapes",
+        "description": "Custom tool development ",
+        "website": "https://data-shapes.io",
+        "location": "Paris, France",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/215cdad33af9416e8179c47e73f61d30.jpg",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/215cdad33af9416e8179c47e73f61d30.jpg",
+        "slug": "data-shapes",
+        "thread": 35,
+        "created_at": "2020-08-25T07:45:25.718Z",
+        "updated_at": "2020-08-25T07:47:25.565Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            11,
+            14,
+            15,
+            16,
+            17,
+            18,
+            27,
+            28
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 37,
+    "fields": {
+        "name": "Deep Block",
+        "description": "Optimize real estate investments with a platform that combines data, calculations, 3D visuals and returns. ",
+        "website": "https://www.deepblocks.com/",
+        "location": "Somewhere",
+        "twitter_handle": null,
+        "crunchbase_id": "deep-blocks",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9d4986203a824b4caf26265b031e2b9b.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9d4986203a824b4caf26265b031e2b9b.png",
+        "slug": "deep-block",
+        "thread": 36,
+        "created_at": "2020-08-25T07:45:25.728Z",
+        "updated_at": "2020-08-25T07:47:26.286Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            29,
+            22
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 38,
+    "fields": {
+        "name": "Deepblocks",
+        "description": "A tool for analyzing the financial feasibility of new and existing buildings",
+        "website": "https://www.deepblocks.com/",
+        "location": "Miami, FL",
+        "twitter_handle": null,
+        "crunchbase_id": "deep-blocks#section-overview",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/d285efd33aa246e7ad00e6a5f2b6ed11.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/d285efd33aa246e7ad00e6a5f2b6ed11.png",
+        "slug": "deepblocks",
+        "thread": 37,
+        "created_at": "2020-08-25T07:45:25.738Z",
+        "updated_at": "2020-08-25T07:47:26.693Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            13,
+            17,
+            15
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 39,
+    "fields": {
+        "name": "Digital Blue Foam",
+        "description": "Generative Urban Design",
+        "website": "https://www.digitalbluefoam.com/",
+        "location": "Singapore",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ab49c24579704860a142c41d9648ed06.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ab49c24579704860a142c41d9648ed06.png",
+        "slug": "digital-blue-foam",
+        "thread": 38,
+        "created_at": "2020-08-25T07:45:25.748Z",
+        "updated_at": "2020-08-25T07:47:28.493Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            12,
+            14,
+            15,
+            17,
+            22,
+            27,
+            29,
+            30
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 40,
+    "fields": {
+        "name": "Dojo",
+        "description": "Dojo combines patent-pending AI and behavioral science to design efficient workplaces that make people more effective.",
+        "website": "www.dojo.co",
+        "location": "New York, NY, USA ",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "dojo",
+        "thread": 39,
+        "created_at": "2020-08-25T07:45:25.760Z",
+        "updated_at": "2020-08-25T07:47:28.526Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            32,
+            15,
+            17,
+            18,
+            31
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 41,
+    "fields": {
+        "name": "Edifice",
+        "description": "Data driven spatial analytics for high density residential buildings",
+        "website": "https://edifice.ai",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f1e2712eb1c24d72b3f18ec31dd5e498.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f1e2712eb1c24d72b3f18ec31dd5e498.png",
+        "slug": "edifice",
+        "thread": 40,
+        "created_at": "2020-08-25T07:45:25.771Z",
+        "updated_at": "2020-08-25T07:47:29.098Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            10
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 42,
+    "fields": {
+        "name": "Envelope",
+        "description": "Zoning Analysis for Urban Environments",
+        "website": "https://envelope.city/technology",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "envelope-city-inc",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/99c9b29a42b74253aa9b5f08055d8920.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/99c9b29a42b74253aa9b5f08055d8920.png",
+        "slug": "envelope",
+        "thread": 41,
+        "created_at": "2020-08-25T07:45:25.782Z",
+        "updated_at": "2020-08-25T07:47:29.619Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            29
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 43,
+    "fields": {
+        "name": "Factory OS",
+        "description": "Vertically integrated offsite construction",
+        "website": "https://factoryos.com/",
+        "location": "Vallejo, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "Pffsote",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/2217dbcb5b94426ea8fb6758c51ada73.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/2217dbcb5b94426ea8fb6758c51ada73.png",
+        "slug": "factory-os",
+        "thread": 42,
+        "created_at": "2020-08-25T07:45:25.792Z",
+        "updated_at": "2020-08-25T07:47:29.888Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 44,
+    "fields": {
+        "name": "Fieldlens",
+        "description": "Tool to improves communication and collaboration for construction project teams",
+        "website": "https://fieldlens.com/",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "fieldlens",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a4f31399b9f941f1a7ec26cdc10b1084.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a4f31399b9f941f1a7ec26cdc10b1084.png",
+        "slug": "fieldlens",
+        "thread": 43,
+        "created_at": "2020-08-25T07:45:25.803Z",
+        "updated_at": "2020-08-25T07:47:30.442Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 45,
+    "fields": {
+        "name": "Finch",
+        "description": " Tool for Architects to leverage their designs in the early phases of a project.",
+        "website": "https://finch3d.com/",
+        "location": "Malm\u00f6, Sweden",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/47ac71778f18406dae1acf21711d8fcc.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/47ac71778f18406dae1acf21711d8fcc.png",
+        "slug": "finch",
+        "thread": 44,
+        "created_at": "2020-08-25T07:45:25.812Z",
+        "updated_at": "2020-08-25T07:47:31.575Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            13,
+            24,
+            17,
+            27,
+            14
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 46,
+    "fields": {
+        "name": "Floored",
+        "description": "Interactive real estate marketing and leasing tool that puts real estate professionals in control of their test-fits",
+        "website": "https://www.floored.com/",
+        "location": "Somewhere",
+        "twitter_handle": null,
+        "crunchbase_id": "floored",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3859a19a2f8e454db36ba7d545795e06.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3859a19a2f8e454db36ba7d545795e06.png",
+        "slug": "floored",
+        "thread": 45,
+        "created_at": "2020-08-25T07:45:25.828Z",
+        "updated_at": "2020-08-25T07:47:31.958Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            17,
+            27
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 47,
+    "fields": {
+        "name": "Flux.io",
+        "description": "Cloud interoperability and data-sharing for the AEC industry",
+        "website": "https://archpaper.com/2018/02/flux-to-shut-down/",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1b0fbfe452944735a51900ef806b62c6.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1b0fbfe452944735a51900ef806b62c6.png",
+        "slug": "fluxio",
+        "thread": 46,
+        "created_at": "2020-08-25T07:45:25.837Z",
+        "updated_at": "2020-08-25T07:47:32.332Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            11,
+            28,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 48,
+    "fields": {
+        "name": "Fologram",
+        "description": "An easy to use platform for building applications in mixed reality",
+        "website": "https://fologram.com/",
+        "location": "Melbourne, Australia",
+        "twitter_handle": null,
+        "crunchbase_id": "fologram",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ec11c2b1de964e66a13857753e4920e1.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/ec11c2b1de964e66a13857753e4920e1.png",
+        "slug": "fologram",
+        "thread": 47,
+        "created_at": "2020-08-25T07:45:25.847Z",
+        "updated_at": "2020-08-25T07:47:32.665Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            16
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 49,
+    "fields": {
+        "name": "Foo",
+        "description": "test",
+        "website": "www.foo.io",
+        "location": "Bar",
+        "twitter_handle": null,
+        "crunchbase_id": "A",
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "foo",
+        "thread": 48,
+        "created_at": "2020-08-25T07:45:25.857Z",
+        "updated_at": "2020-08-25T07:47:32.684Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            16,
+            1,
+            27,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 50,
+    "fields": {
+        "name": "Foyr",
+        "description": "Web based interior design, modeling, and visualization tool ",
+        "website": "https://foyr.com/",
+        "location": "Philadelphia, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "foyr",
+        "thread": 49,
+        "created_at": "2020-08-25T07:45:25.866Z",
+        "updated_at": "2020-08-25T07:47:32.704Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 51,
+    "fields": {
+        "name": "Fresh Projects",
+        "description": "Practice management tool for architects and engineers",
+        "website": "https://www.freshprojects.cloud",
+        "location": "London, UK",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f7080760292d438789c8eea8e2dfe2c1.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f7080760292d438789c8eea8e2dfe2c1.png",
+        "slug": "fresh-projects",
+        "thread": 50,
+        "created_at": "2020-08-25T07:45:25.876Z",
+        "updated_at": "2020-08-25T07:47:33.569Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            18,
+            21,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 52,
+    "fields": {
+        "name": "Geometrid",
+        "description": "Supply Chain Monitoring and Analytics for Construction",
+        "website": "https://www.geometrid.com",
+        "location": "Singapore",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "geometrid",
+        "thread": 51,
+        "created_at": "2020-08-25T07:45:25.886Z",
+        "updated_at": "2020-08-25T07:47:33.591Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            6,
+            9,
+            10,
+            13,
+            22,
+            26
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 53,
+    "fields": {
+        "name": "Girrafe Technology",
+        "description": "3D platform for data driven collaborative Urban Design",
+        "website": "https://www.giraffe.build/",
+        "location": "Sydney, Australia",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/d1a8994b91544ed19f40eb8bfde99000.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/d1a8994b91544ed19f40eb8bfde99000.png",
+        "slug": "girrafe-technology",
+        "thread": 52,
+        "created_at": "2020-08-25T07:45:25.897Z",
+        "updated_at": "2020-08-25T07:47:34.384Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            13,
+            17,
+            18,
+            29,
+            30
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 54,
+    "fields": {
+        "name": "GliderBIM",
+        "description": "Lifecycle Asset Information Management software for the built environment",
+        "website": "https://gliderbim.com",
+        "location": "Clitheroe, UK",
+        "twitter_handle": null,
+        "crunchbase_id": "grit-virtual-inc",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/cebdae65de79450ab471c5686f6912a2.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/cebdae65de79450ab471c5686f6912a2.png",
+        "slug": "gliderbim",
+        "thread": 53,
+        "created_at": "2020-08-25T07:45:25.906Z",
+        "updated_at": "2020-08-25T07:47:35.345Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            10
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 55,
+    "fields": {
+        "name": "Graphite",
+        "description": "Freelance platform specifically for architects",
+        "website": "https://mygraphite.co",
+        "location": "Denver, CO",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9d9fb5d33d71485187c05af16da0ac48.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9d9fb5d33d71485187c05af16da0ac48.png",
+        "slug": "graphite",
+        "thread": 54,
+        "created_at": "2020-08-25T07:45:25.916Z",
+        "updated_at": "2020-08-25T07:47:36.232Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            5,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 56,
+    "fields": {
+        "name": "Grit",
+        "description": "Agile Construction Management Platform",
+        "website": "https://www.gritvirtual.com/",
+        "location": "Wichita, KS, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "grit-virtual-inc",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/d98d91c7448f425eacdea3c68d9ee115.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/d98d91c7448f425eacdea3c68d9ee115.png",
+        "slug": "grit",
+        "thread": 55,
+        "created_at": "2020-08-25T07:45:25.925Z",
+        "updated_at": "2020-08-25T07:47:36.589Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 57,
+    "fields": {
+        "name": "Handle",
+        "description": "Software that solves late payment issues and access to funding within the industry.",
+        "website": "https://handle.com",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "handle-com",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/e7a64c9b2fba4ac38266d2af77780855.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/e7a64c9b2fba4ac38266d2af77780855.png",
+        "slug": "handle",
+        "thread": 56,
+        "created_at": "2020-08-25T07:45:25.935Z",
+        "updated_at": "2020-08-25T07:47:37.332Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 58,
+    "fields": {
+        "name": "Hatchback Cottages",
+        "description": "Help owners create a more flexible, sociable, and financially secure future with backyard cottages.",
+        "website": "https://www.hatchbackcottages.com/",
+        "location": "Seattle, WA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "hatchback-cottages",
+        "thread": 57,
+        "created_at": "2020-08-25T07:45:25.944Z",
+        "updated_at": "2020-08-25T07:47:37.355Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 59,
+    "fields": {
+        "name": "Helix RE",
+        "description": "Data solution for large-scale property owners and managers",
+        "website": "https://helix.re/",
+        "location": "San Mateo, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "flux-factory",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1c2728e8a05c4d99af6a7541388610cc.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1c2728e8a05c4d99af6a7541388610cc.png",
+        "slug": "helix-re",
+        "thread": 58,
+        "created_at": "2020-08-25T07:45:25.954Z",
+        "updated_at": "2020-08-25T07:47:38.046Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            20,
+            28
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 60,
+    "fields": {
+        "name": "Higharc",
+        "description": "House generation based on needs",
+        "website": "https://higharc.com/",
+        "location": "Durham, NC, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3dba194f5a914efd965cc5dc400575fa.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3dba194f5a914efd965cc5dc400575fa.png",
+        "slug": "higharc",
+        "thread": 59,
+        "created_at": "2020-08-25T07:45:25.964Z",
+        "updated_at": "2020-08-25T07:47:41.910Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            27,
+            4,
+            5,
+            14
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 61,
+    "fields": {
+        "name": "Homebound",
+        "description": "Build the home that's perfect for you",
+        "website": "https://www.homebound.com/",
+        "location": "Santa Rosa, CA\u2028, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "homebound",
+        "thread": 60,
+        "created_at": "2020-08-25T07:45:25.973Z",
+        "updated_at": "2020-08-25T07:47:41.933Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 62,
+    "fields": {
+        "name": "Honomobo",
+        "description": "Prefab Modular Homes",
+        "website": "https://www.honomobo.com",
+        "location": "Unknown",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "honomobo",
+        "thread": 61,
+        "created_at": "2020-08-25T07:45:25.983Z",
+        "updated_at": "2020-08-25T07:47:41.950Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 63,
+    "fields": {
+        "name": "Hypar",
+        "description": "We provide a cloud compute environment and software libraries that enable AEC developers to deploy their specialized building logic to the cloud, and make it available to their team, their organization, or the world.",
+        "website": "https://hypar.io/",
+        "location": "Culver City, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a3853cb6f9c54bad8e0dea700f178e22.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/a3853cb6f9c54bad8e0dea700f178e22.png",
+        "slug": "hypar",
+        "thread": 62,
+        "created_at": "2020-08-25T07:45:25.992Z",
+        "updated_at": "2020-08-25T07:47:42.262Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            14
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 64,
+    "fields": {
+        "name": "Intelligent City",
+        "description": "Highly integrated and adaptable housing systems",
+        "website": "https://www.intelligent-city.com",
+        "location": "Vancouver, BC",
+        "twitter_handle": null,
+        "crunchbase_id": "intelligent-city",
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "intelligent-city",
+        "thread": 63,
+        "created_at": "2020-08-25T07:45:26.002Z",
+        "updated_at": "2020-08-25T07:47:43.592Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            27,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 65,
+    "fields": {
+        "name": "Iris VR",
+        "description": "IrisVR enables digital prototyping of physical space, allowing the most complex decisions to be made at human scale",
+        "website": "https://irisvr.com/",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "irisvr-inc",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/042b2536969d4fb8844f0d5d69b79f05.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/042b2536969d4fb8844f0d5d69b79f05.png",
+        "slug": "iris-vr",
+        "thread": 64,
+        "created_at": "2020-08-25T07:45:26.012Z",
+        "updated_at": "2020-08-25T07:47:43.916Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            16
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 66,
+    "fields": {
+        "name": "Join",
+        "description": "Join optimizes product and material selection and usage, based on project's unique characteristics",
+        "website": "https://join.build",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/6a1a35c83a7d4faf963f6e2194a36224.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/6a1a35c83a7d4faf963f6e2194a36224.png",
+        "slug": "join",
+        "thread": 65,
+        "created_at": "2020-08-25T07:45:26.021Z",
+        "updated_at": "2020-08-25T07:47:44.269Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            28,
+            21
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 67,
+    "fields": {
+        "name": "Juno",
+        "description": "Juno is rethinking how housing is developed to inspire residents and help neighborhoods flourish",
+        "website": "https://juno.co/",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "juno",
+        "thread": 66,
+        "created_at": "2020-08-25T07:45:26.031Z",
+        "updated_at": "2020-08-25T07:47:44.289Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 68,
+    "fields": {
+        "name": "Kasita",
+        "description": "A Micro-Housing Start-Up",
+        "website": "https://kasita.com/",
+        "location": "Austin, TX, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/af6598c2e1a94d62a8c94b8599e7c100.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/af6598c2e1a94d62a8c94b8599e7c100.png",
+        "slug": "kasita",
+        "thread": 67,
+        "created_at": "2020-08-25T07:45:26.041Z",
+        "updated_at": "2020-08-25T07:47:44.826Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 69,
+    "fields": {
+        "name": "Katerra",
+        "description": "Katerra is a technology company optimizing the way we develop, design, and construct buildings",
+        "website": "https://www.katerra.com",
+        "location": "Menlo Park, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/19cbb1f1781043569adf903eae688be6.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/19cbb1f1781043569adf903eae688be6.png",
+        "slug": "katerra",
+        "thread": 68,
+        "created_at": "2020-08-25T07:45:26.050Z",
+        "updated_at": "2020-08-25T07:47:45.145Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            25
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 70,
+    "fields": {
+        "name": "Kitchautomation",
+        "description": "Revit Foodservice Design Automation",
+        "website": "https://www.kitchautomation.com",
+        "location": "Washington, DC, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3b5d15cdedbe4830be49a97b32e22977.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3b5d15cdedbe4830be49a97b32e22977.png",
+        "slug": "kitchautomation",
+        "thread": 69,
+        "created_at": "2020-08-25T07:45:26.060Z",
+        "updated_at": "2020-08-25T07:47:45.775Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            2,
+            17,
+            18,
+            19,
+            21,
+            27
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 71,
+    "fields": {
+        "name": "Konstru",
+        "description": "Faster Updates, Easier Collaboration, & Reliable Change Management for BIM",
+        "website": "https://konstru.com",
+        "location": "New York, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "konstru",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3305fd6c2b424bcf8d2b07d8c3bb3bf8.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3305fd6c2b424bcf8d2b07d8c3bb3bf8.png",
+        "slug": "konstru",
+        "thread": 70,
+        "created_at": "2020-08-25T07:45:26.070Z",
+        "updated_at": "2020-08-25T07:47:46.030Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            3
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 72,
+    "fields": {
+        "name": "Kreo",
+        "description": "Pre-construction planning and design software",
+        "website": "https://www.kreo.net",
+        "location": "London, UK",
+        "twitter_handle": null,
+        "crunchbase_id": "kreo",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f78543167880425e98c33b23153ece29.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f78543167880425e98c33b23153ece29.png",
+        "slug": "kreo",
+        "thread": 71,
+        "created_at": "2020-08-25T07:45:26.080Z",
+        "updated_at": "2020-08-25T07:47:46.646Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            2,
+            5,
+            6,
+            7,
+            9,
+            13,
+            14,
+            18,
+            21
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 73,
+    "fields": {
+        "name": "Krowdsourced",
+        "description": "krowdsourced enables commercial Architects, Designers, Owners and Contractors to efficiently find materials and solutions for their projects through our streamlined product and manufacturer's sales rep resources",
+        "website": "https://krowdsourced.co/",
+        "location": "Portland, OR, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "krowdsourced",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/e9465264288f4603909a6c762547b326.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/e9465264288f4603909a6c762547b326.png",
+        "slug": "krowdsourced",
+        "thread": 72,
+        "created_at": "2020-08-25T07:45:26.090Z",
+        "updated_at": "2020-08-25T07:47:47.164Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            25,
+            10,
+            18,
+            1
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 74,
+    "fields": {
+        "name": "Ladybug Tools",
+        "description": "Making environmental design knowledge and tools freely accessible to every person, project and design process",
+        "website": "https://www.ladybug.tools",
+        "location": "Fairfax, VA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/bb5556d970af42d2b97de5586ed4f36c.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/bb5556d970af42d2b97de5586ed4f36c.png",
+        "slug": "ladybug-tools",
+        "thread": 73,
+        "created_at": "2020-08-25T07:45:26.100Z",
+        "updated_at": "2020-08-25T07:47:47.476Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            13
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 75,
+    "fields": {
+        "name": "Lagarsoft ",
+        "description": "Dev shop, Revit Addins, Web APIs",
+        "website": "https://lagarsoft.com",
+        "location": "Montevideo",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "lagarsoft",
+        "thread": 74,
+        "created_at": "2020-08-25T07:45:26.110Z",
+        "updated_at": "2020-08-25T07:47:47.497Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            32
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 76,
+    "fields": {
+        "name": "Layer",
+        "description": "One platform for collecting, managing, and sharing building data",
+        "website": "https://layer.team",
+        "location": "Lincoln, NE, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/4c1ab9857fe14e54a2efaf22f2be00ab.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/4c1ab9857fe14e54a2efaf22f2be00ab.png",
+        "slug": "layer",
+        "thread": 75,
+        "created_at": "2020-08-25T07:45:26.119Z",
+        "updated_at": "2020-08-25T07:47:47.955Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            18
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 77,
+    "fields": {
+        "name": "Lean Station ",
+        "description": "Integrated Lean Project Delivery system for improved projects",
+        "website": "https://www.leanstation.com",
+        "location": "Singapore",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "lean-station",
+        "thread": 76,
+        "created_at": "2020-08-25T07:45:26.130Z",
+        "updated_at": "2020-08-25T07:47:47.979Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            11,
+            13,
+            15,
+            17,
+            18,
+            21,
+            26,
+            31
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 78,
+    "fields": {
+        "name": "Leko Labs",
+        "description": "Leko is a tech-company committed to reinvent the construction process for next generation buildings",
+        "website": "https://www.lekolabs.com/",
+        "location": "Foetz, Luxembourg",
+        "twitter_handle": null,
+        "crunchbase_id": "leko-labs",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/659b6414d33d4a379364416b19dafb26.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/659b6414d33d4a379364416b19dafb26.png",
+        "slug": "leko-labs",
+        "thread": 77,
+        "created_at": "2020-08-25T07:45:26.142Z",
+        "updated_at": "2020-08-25T07:47:48.458Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 79,
+    "fields": {
+        "name": "LetsBuild",
+        "description": "Construction management software for the construction phase",
+        "website": "https://www.letsbuild.com",
+        "location": "Copenhagen, Denmark",
+        "twitter_handle": null,
+        "crunchbase_id": "letsbuild",
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "letsbuild",
+        "thread": 78,
+        "created_at": "2020-08-25T07:45:26.152Z",
+        "updated_at": "2020-08-25T07:47:48.476Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 80,
+    "fields": {
+        "name": "Made",
+        "description": "Bathroom renovations, Made easy. Great Instagram Ads.",
+        "website": "https://www.maderenovation.com",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "made-renovation",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/dc01c361f4e845b18f9ad9b40b3fe69f.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/dc01c361f4e845b18f9ad9b40b3fe69f.png",
+        "slug": "made",
+        "thread": 79,
+        "created_at": "2020-08-25T07:45:26.162Z",
+        "updated_at": "2020-08-25T07:47:50.631Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            24,
+            5,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 81,
+    "fields": {
+        "name": "Matterlab",
+        "description": "We\u2019re a product and innovation lab for the built environment",
+        "website": "https://www.matterlab.co",
+        "location": "London, UK",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/5dd35ba0f7604726b9d3da781a02cca5.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/5dd35ba0f7604726b9d3da781a02cca5.png",
+        "slug": "matterlab",
+        "thread": 80,
+        "created_at": "2020-08-25T07:45:26.173Z",
+        "updated_at": "2020-08-25T07:47:51.682Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 82,
+    "fields": {
+        "name": "Mighty Buildings",
+        "description": "Mighty Buildings is a prefab modular construction company working on disrupting the residential housing market.",
+        "website": "https://www.mightybuildings.com/",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "mighty-buildings",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/bd851b991bac470d89ad51493139ca30.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/bd851b991bac470d89ad51493139ca30.png",
+        "slug": "mighty-buildings",
+        "thread": 81,
+        "created_at": "2020-08-25T07:45:26.183Z",
+        "updated_at": "2020-08-25T07:47:53.945Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 83,
+    "fields": {
+        "name": "Mindesk VR",
+        "description": "Startup pioneering 3D VR-CAD design and real-time collaborative for Rhino and other CAD platforms",
+        "website": "https:// www.mindeskvr.com",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "mindesk",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/2a4ca4ab790b47879cf0026ae0f04ce9.jpg",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/2a4ca4ab790b47879cf0026ae0f04ce9.jpg",
+        "slug": "mindesk-vr",
+        "thread": 82,
+        "created_at": "2020-08-25T07:45:26.193Z",
+        "updated_at": "2020-08-25T07:47:55.103Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            16,
+            33,
+            34
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 84,
+    "fields": {
+        "name": "MKS DTECH",
+        "description": "Rhino and Revit Interoperability",
+        "website": "https://www.mksdtech.com/",
+        "location": "London,UK",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9e0377dc284845f2b3cbb15777648519.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/9e0377dc284845f2b3cbb15777648519.png",
+        "slug": "mks-dtech",
+        "thread": 83,
+        "created_at": "2020-08-25T07:45:26.203Z",
+        "updated_at": "2020-08-25T07:47:55.797Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            19,
+            33,
+            11,
+            28
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 85,
+    "fields": {
+        "name": "Modelo",
+        "description": "Modelo is a cloud based design and development communication platform for AEC industry",
+        "website": "https://modelo.io/",
+        "location": "Somerville, MA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/357a651f73d944f0bec538a1b6226b41.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/357a651f73d944f0bec538a1b6226b41.png",
+        "slug": "modelo",
+        "thread": 84,
+        "created_at": "2020-08-25T07:45:26.213Z",
+        "updated_at": "2020-08-25T07:47:56.223Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            9
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 86,
+    "fields": {
+        "name": "Modelur",
+        "description": "Parametric urban design software tool",
+        "website": "https://modelur.eu/",
+        "location": "Ljubljana Slovenia, EU",
+        "twitter_handle": null,
+        "crunchbase_id": "modelur",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f2636d108947431d85f7766dff86fedd.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/f2636d108947431d85f7766dff86fedd.png",
+        "slug": "modelur",
+        "thread": 85,
+        "created_at": "2020-08-25T07:45:26.223Z",
+        "updated_at": "2020-08-25T07:47:57.336Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            17,
+            27,
+            29
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 87,
+    "fields": {
+        "name": "Modsy",
+        "description": "Online Interior Design",
+        "website": "https://www.modsy.com",
+        "location": "Somewhere",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3bb97248878b47219837d566ae094e0d.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/3bb97248878b47219837d566ae094e0d.png",
+        "slug": "modsy",
+        "thread": 86,
+        "created_at": "2020-08-25T07:45:26.232Z",
+        "updated_at": "2020-08-25T07:47:57.949Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            35
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 88,
+    "fields": {
+        "name": "Moduluc",
+        "description": "Creation and integration of digital assets for real-time architectural visualizations",
+        "website": "https://moduluc.com/",
+        "location": "Durham, NC, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "moduluc",
+        "thread": 87,
+        "created_at": "2020-08-25T07:45:26.243Z",
+        "updated_at": "2020-08-25T07:47:57.973Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            36,
+            9,
+            16,
+            17,
+            27
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 89,
+    "fields": {
+        "name": "Molteao",
+        "description": "Molteo provides an easy-to-use tool which provides a real-time overview of projects and construction sites, flexible resource capture, and paperless billing",
+        "website": "https://molteo.de/",
+        "location": "Schleswig, Germany",
+        "twitter_handle": null,
+        "crunchbase_id": "molteo",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c3778c413b204141bf11ae551f3a3847.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/c3778c413b204141bf11ae551f3a3847.png",
+        "slug": "molteao",
+        "thread": 88,
+        "created_at": "2020-08-25T07:45:26.254Z",
+        "updated_at": "2020-08-25T07:47:58.662Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            21,
+            6,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 90,
+    "fields": {
+        "name": "Monograph",
+        "description": "Project Management Software For Architects & Engineers",
+        "website": "https://monograph.io",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "monograph",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/37c5489646f641bca6a36885f213565d.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/37c5489646f641bca6a36885f213565d.png",
+        "slug": "monograph",
+        "thread": 89,
+        "created_at": "2020-08-25T07:45:26.265Z",
+        "updated_at": "2020-08-25T07:47:59.070Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 91,
+    "fields": {
+        "name": "Mosaic",
+        "description": "project management tool suite",
+        "website": "https://mosaicapp.com/",
+        "location": "NYC, NY, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "life-coded",
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "mosaic",
+        "thread": 90,
+        "created_at": "2020-08-25T07:45:26.279Z",
+        "updated_at": "2020-08-25T07:47:59.090Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            3,
+            6,
+            7,
+            23
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 92,
+    "fields": {
+        "name": "New Frontier Tiny Homes",
+        "description": "Prefabricated homes for every lifestyle",
+        "website": "https://www.newfrontiertinyhomes.com/",
+        "location": "Nashville, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "new-frontier-tiny-homes",
+        "thread": 91,
+        "created_at": "2020-08-25T07:45:26.294Z",
+        "updated_at": "2020-08-25T07:47:59.119Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 93,
+    "fields": {
+        "name": "Node",
+        "description": "Prefab",
+        "website": "https://node.eco/",
+        "location": "?",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "node",
+        "thread": 92,
+        "created_at": "2020-08-25T07:45:26.316Z",
+        "updated_at": "2020-08-25T07:47:59.142Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            4,
+            5
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 94,
+    "fields": {
+        "name": "nPlan",
+        "description": "Predicting the outcomes of construction projects using AI",
+        "website": "https://www.nplan.io/",
+        "location": "London, UK",
+        "twitter_handle": null,
+        "crunchbase_id": "nplan",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/03868565a5ea4becb8b9e9ffd00b573a.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/03868565a5ea4becb8b9e9ffd00b573a.png",
+        "slug": "nplan",
+        "thread": 93,
+        "created_at": "2020-08-25T07:45:26.328Z",
+        "updated_at": "2020-08-25T07:47:59.773Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            31,
+            6,
+            7
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 95,
+    "fields": {
+        "name": "OneConcern ",
+        "description": "We predict and quantify the impact of natural disasters, using machine learning to build more resilient businesses, infrastructure, and global communities.",
+        "website": "https://www.oneconcern.com/",
+        "location": " Menlo Park, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "oneconcern",
+        "logo_url": null,
+        "cover_url": null,
+        "slug": "oneconcern",
+        "thread": 94,
+        "created_at": "2020-08-25T07:45:26.339Z",
+        "updated_at": "2020-08-25T07:48:00.753Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            18,
+            15,
+            31
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 96,
+    "fields": {
+        "name": "OpenSpace",
+        "description": "Job site 360 photos documentation",
+        "website": "https://openspace.ai/",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": "openspace-ai",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/90a1a75a12d4428d88b81c3e350ad6f5.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/90a1a75a12d4428d88b81c3e350ad6f5.png",
+        "slug": "openspace",
+        "thread": 95,
+        "created_at": "2020-08-25T07:45:26.350Z",
+        "updated_at": "2020-08-25T07:48:01.104Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            12,
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 97,
+    "fields": {
+        "name": "Operance",
+        "description": "Search, share, update and utilise O&M and BIM information to maximize building values and minimize lifecycle costs",
+        "website": "https://operance.app/",
+        "location": "London, UK",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1d4c2ab8bc61495a93d22fa8b086db26.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1d4c2ab8bc61495a93d22fa8b086db26.png",
+        "slug": "operance",
+        "thread": 96,
+        "created_at": "2020-08-25T07:45:26.362Z",
+        "updated_at": "2020-08-25T07:48:02.496Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            18,
+            37
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 98,
+    "fields": {
+        "name": "Outer Labs",
+        "description": "Connect your digital and physical workflow",
+        "website": "http://www.outerlabs.io",
+        "location": "San Francisco, CA, USA",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1e87b542094b4a1792a263cd97a48546.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/1e87b542094b4a1792a263cd97a48546.png",
+        "slug": "outer-labs",
+        "thread": 97,
+        "created_at": "2020-08-25T07:45:26.372Z",
+        "updated_at": "2020-08-25T07:48:02.803Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            18,
+            28
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 99,
+    "fields": {
+        "name": "Paperless Construction ",
+        "description": "The safety of your employees, customers, and contractors as well as the protection of the environment in the communities in which you work is becoming increasingly important and highly regulated. Maintaining records of these activities is becoming problematic though.  Paperless Construction is a first of its kind IOS and Android mobile and web application built specifically for this purpose, for construction teams to manage all their HSE training records centrally and paperlessly.  This mobile application allows Construction Site Management to load Safe Systems of Work, Briefing Documents or Corporate Literature onto the platform, share it with the project teams out in the field for the recording of HSE briefings digitally and in real-time.  Once on site, supervisors can access these documents via the mobile application using either tablets or their phones and link inducted attendees to the briefings through Auto-ID technology for authentication. The result is a detailed and current record of all site staff competencies and training records for the project and future projects. The mobile application also covers other features such as timekeeping, fatigue management, emergency evacuation, roll call and broadcasting messages corporation wide or to the individual project teams working on the construction site. It also makes provision to be used as an mobile application to undertake HSE inspections, completion of the documentation and the required checklists.",
+        "website": "https://paperlessconstruction.co.uk/",
+        "location": "York, United Kingdom",
+        "twitter_handle": null,
+        "crunchbase_id": null,
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/85d174f1deca419e91b59a359964078f.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/85d174f1deca419e91b59a359964078f.png",
+        "slug": "paperless-construction",
+        "thread": 98,
+        "created_at": "2020-08-25T07:45:26.382Z",
+        "updated_at": "2020-08-25T07:48:03.571Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            6
+        ],
+        "clappers": []
+    }
+},
+{
+    "model": "community.company",
+    "pk": 100,
+    "fields": {
+        "name": "Parametricos",
+        "description": "Asset Management Cloud BIM+GIS ",
+        "website": "https://parametricos.com",
+        "location": "Cyprus",
+        "twitter_handle": null,
+        "crunchbase_id": "parametricos",
+        "logo_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/175c23ba14cc4685ba17b2eb0ffe95dc.png",
+        "cover_url": "https://aecworks-bucket-local.s3.amazonaws.com/images/175c23ba14cc4685ba17b2eb0ffe95dc.png",
+        "slug": "parametricos",
+        "thread": 99,
+        "created_at": "2020-08-25T07:45:26.392Z",
+        "updated_at": "2020-08-25T07:48:04.821Z",
+        "created_by": 1,
+        "last_revision": null,
+        "hashtags": [
+            1,
+            2,
+            3,
+            7,
+            8,
+            9,
+            10,
+            13
+        ],
+        "clappers": []
+    }
+}
 ]

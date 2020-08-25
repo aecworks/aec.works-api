@@ -18,7 +18,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ALLOW_METHODS = ("GET", "POST", "PATCH", "OPTIONS")
+CORS_ALLOW_METHODS = ("GET", "POST", "PUT", "PATCH", "OPTIONS")
 CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     # Apps
     "api.users",
     "api.community",
+    "api.images",
 ]
 
 MIDDLEWARE = [
@@ -169,6 +170,7 @@ AWS_S3_REGION_NAME = "us-west-1"
 AWS_DEFAULT_ACL = "public-read"
 AWS_STORAGE_BUCKET_NAME = config("DJANGO_S3_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = config("DJANGO_S3_DOMAIN", default=None)  # prod only
+AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
 # Sentry
 # https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147

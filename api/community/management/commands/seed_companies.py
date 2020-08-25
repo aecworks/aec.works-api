@@ -11,6 +11,8 @@ from django.core.files.images import ImageFile
 
 from api.community.models import Company
 from api.community import services
+from api.images.models import Image
+from api.users.models import Profile
 
 
 class Command(BaseCommand):
@@ -24,6 +26,8 @@ class Command(BaseCommand):
         url = "https://www.aecstartups.com/.netlify/functions/airtable"
         resp = requests.get(url)
         data = resp.json()
+
+        profile = Profile.objects.first()
 
         for record in data["records"]:
             record = record["fields"]
@@ -49,27 +53,29 @@ class Command(BaseCommand):
                 description=description,
                 website=website,
                 location=location,
+                created_by=profile,
             )
 
+            # print(slug)
+            # print(defaults)
             company, _ = Company.objects.update_or_create(slug=slug, defaults=defaults)
 
             # Image
             if image_path:
                 logo = make_image(slug, image_path)
                 if logo:
-                    company.logo = logo
+                    img = Image.objects.create(image=logo)
+                    company.logo_url = img.image.url
+                    company.cover_url = img.image.url
 
             company.save()
-            if company.logo:
-                company.cover = company.logo
-                company.save()
 
             # Hashtags
             hashtags = services.get_or_create_hashtags(tags)
             company.hashtags.set(hashtags)
 
-            # msg = f"Created {company.slug}"
-            # self.stdout.write(self.style.SUCCESS(msg))
+            msg = f"Created {company.slug}"
+            self.stdout.write(self.style.SUCCESS(msg))
 
 
 def get_crunchbase_id(url):

@@ -13,7 +13,6 @@ from .models import (
     Thread,
     Company,
     CompanyRevision,
-    TemporaryImage,
 )
 
 updatable_attributes = [
@@ -23,8 +22,8 @@ updatable_attributes = [
     "location",
     "twitter_handle",
     "crunchbase_id",
-    "logo",
-    "cover",
+    "logo_url",
+    "cover_url",
     "hashtags",
 ]
 
@@ -99,10 +98,6 @@ def create_company(*, profile, validated_data) -> Company:
     company = Company.objects.create(created_by=profile, **validated_data)
     company.hashtags.set(hashtags)
     return company
-
-
-def create_temp_image(*, image) -> TemporaryImage:
-    return TemporaryImage.objects.create(image=image)
 
 
 @transaction.atomic

@@ -14,6 +14,7 @@ urlpatterns = [
     # Apps
     path("community/", include("api.community.urls")),
     path("users/", include("api.users.urls")),
+    path("images/", include("api.images.urls")),
     # Debug Toolbar
     path("__debug__/", include(debug_toolbar.urls)),
 ]

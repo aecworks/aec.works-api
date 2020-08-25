@@ -50,10 +50,10 @@ class CompanyAdmin(admin.ModelAdmin):
         "website",
         "twitter_handle",
         "crunchbase_id",
-        "logo",
-        "cover",
-        "created_by",
         "last_revision",
+        "logo_url",
+        "cover_url",
+        "created_by",
     ]
 
 
@@ -66,11 +66,11 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         "website",
         "twitter_handle",
         "crunchbase_id",
-        "logo",
-        "cover",
         "created_by",
         "applied",
         "approved_by",
+        "logo_url",
+        "cover_url",
     ]
 
 
