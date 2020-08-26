@@ -18,5 +18,5 @@ class ImageUploadView(views.APIView):
 
     def put(self, request, filename, format=None):
         file = request.data["file"]
-        temp_image = create_image(image_file=file)
-        return Response(ImageResponseSerializer(temp_image).data, status=201)
+        image = create_image(image_file=file)
+        return Response(ImageResponseSerializer(image).data, status=201)

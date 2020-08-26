@@ -21,8 +21,8 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
-    clap_count = serializers.IntegerField(default=None)
-    thread_size = serializers.IntegerField(default=None)
+    clap_count = serializers.IntegerField()
+    thread_size = serializers.IntegerField()
     created_by = ProfileSerializer()
 
     class Meta:
@@ -79,9 +79,6 @@ class RequestCompanySerializer(serializers.ModelSerializer):
 
 class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
     hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
-
-    logo_id = serializers.IntegerField(required=False)
-    cover_id = serializers.IntegerField(required=False)
 
     class Meta:
         model = models.Company
@@ -185,3 +182,16 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
             return Response(ResponseCompanyRevisionSerializer(revision).data)
         else:
             return Response(status=404)
+
+
+class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_companies()
+    expected_exceptions = {}
+    lookup_field = "slug"
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, slug):
+        company = self.get_object()
+        profile = request.user.profile
+        result = services.company_clap(company=company, profile=profile)
+        return Response(result)

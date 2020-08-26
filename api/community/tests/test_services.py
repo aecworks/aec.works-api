@@ -16,6 +16,16 @@ class TestServices:
         assert rv2 == 1
         assert post.clappers.count() == 1
 
+    def test_companyClap(self):
+        profile = ProfileFactory()
+        company = factories.CompanyFactory()
+        assert company.clappers.count() == 0
+        rv = services.company_clap(company=company, profile=profile)
+        assert rv == 1
+        rv2 = services.company_clap(company=company, profile=profile)
+        assert rv2 == 1
+        assert company.clappers.count() == 1
+
     def test_comment_clap(self):
         thread = factories.ThreadFactory()
         comment = factories.CommentFactory(thread=thread)

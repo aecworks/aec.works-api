@@ -79,9 +79,13 @@ def annotate_with_thread_size(queryset):
     # itself is not included, so we add that on top.
     return queryset.annotate(
         _ancestor_count=models.Subquery(
-            threads.values("_ancestor_count")[:1], output_field=models.IntegerField(),
+            threads.values("_ancestor_count")[:1],
+            output_field=models.IntegerField(default=0),
         )
     ).annotate(
-        thread_size=models.F("_ancestor_count")
-        + models.Count("thread__comments", distinct=True)
+        thread_size=models.functions.Coalesce(
+            models.F("_ancestor_count")
+            + models.Count("thread__comments", distinct=True),
+            0,
+        )
     )
