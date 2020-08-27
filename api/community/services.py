@@ -5,6 +5,7 @@ from django.db import transaction
 from django.utils.text import slugify
 from django.core.exceptions import PermissionDenied
 
+from api.community.choices import PostBanner
 from api.common.utils import update_instance
 from .models import (
     Comment,
@@ -76,11 +77,20 @@ def get_or_create_hashtags(hashtag_names: List[str]) -> List[Hashtag]:
     return [get_or_create_hashtag(name) for name in hashtag_names]
 
 
+def generate_post_banner(profile):
+    if profile.posts.count() == 0:
+        return PostBanner.FIRST_POST.value
+    return ""
+
+
 @transaction.atomic
 def create_post(*, profile, title: str, body: str, hashtag_names: List[str]) -> Post:
     hashtags = get_or_create_hashtags(hashtag_names)
     thread = Thread.objects.create()
-    post = Post.objects.create(profile=profile, title=title, body=body, thread=thread)
+    banner = generate_post_banner(profile)
+    post = Post.objects.create(
+        profile=profile, title=title, body=body, thread=thread, banner=banner
+    )
     post.hashtags.set(hashtags)
     return post
 

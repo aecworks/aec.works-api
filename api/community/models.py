@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 from api.common.mixins import ReprMixin
+from api.community.choices import PostBanner
 
 from . import querysets
 
@@ -108,6 +109,9 @@ class Post(ReprMixin, models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     hot_datetime = models.DateTimeField(auto_now_add=True)
+    banner = models.CharField(
+        max_length=32, choices=[(c.name, c.value) for c in PostBanner], default="",
+    )
 
 
 class Thread(ReprMixin, models.Model):
