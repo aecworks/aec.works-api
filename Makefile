@@ -1,23 +1,23 @@
 .PHONY: tests
 
-docker-start:
+start:
 	docker network create aecworks-network || true
 	docker-compose up -d web
 
-docker-db:
+db:
 	docker network create aecworks-network || true
 	docker-compose up -d postgres
 
-docker-bash:
+bash:
 	docker exec -it django bash
 
-docker-attach:
+attach:
 	docker attach django
 
-docker-logs:
+logs:
 	docker logs django -f
 
-docker-rebuild:
+rebuild:
 	docker-compose build --force-rm
 	make docker-start
 
@@ -29,6 +29,9 @@ dev:
 
 lint:
 	bash ./scripts/lint.sh
+
+format:
+	bash ./scripts/format.sh
 
 test:
 	python -m pytest

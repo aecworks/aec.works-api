@@ -6,7 +6,7 @@ from django_extensions.db.fields import AutoSlugField
 from rest_framework.authtoken.models import Token
 
 from api.common.mixins import ReprMixin
-from .choices import UserSourceChoices
+from .choices import UserProviderChoices
 
 
 class CustomUserManager(BaseUserManager):
@@ -30,10 +30,10 @@ class CustomUserManager(BaseUserManager):
 class User(ReprMixin, AbstractUser):
     email = models.EmailField(unique=True)
     username = None
-    source = models.CharField(
+    provider = models.CharField(
         max_length=16,
-        choices=[(c.name, c.value) for c in UserSourceChoices],
-        default=UserSourceChoices.SIGN_UP.name,
+        choices=[(c.name, c.value) for c in UserProviderChoices],
+        default=UserProviderChoices.SIGN_UP.value,
     )
     name = models.CharField(max_length=255, null=False, blank=True, default="")
     first_name = None
@@ -57,7 +57,7 @@ class Profile(ReprMixin, models.Model):
     location = models.CharField(max_length=64, blank=True, null=True)
     twitter = models.CharField(max_length=15, null=True, blank=True)
     github_url = models.URLField(blank=True, null=True)
-    avatar = models.ImageField(blank=True, null=True)
+    avatar_url = models.URLField(blank=True, null=True)
 
     @property
     def email(self):

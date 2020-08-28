@@ -11,7 +11,7 @@
             "is_active": true,
             "date_joined": "2020-05-18T05:07:27.024Z",
             "email": "dev@dev.com",
-            "source": "SIGN_UP",
+            "provider": "SIGN_UP",
             "groups": [],
             "user_permissions": []
         }
@@ -27,7 +27,7 @@
             "location": null,
             "twitter": null,
             "github_url": null,
-            "avatar": ""
+            "avatar_url": ""
         }
     }
 ]

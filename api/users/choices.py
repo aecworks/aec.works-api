@@ -1,6 +1,7 @@
 from enum import Enum
 
 
-class UserSourceChoices(Enum):
-    SIGN_UP = "Sign Up"
-    GITHUB = "Github"
+class UserProviderChoices(Enum):
+    SIGN_UP = "registration"
+    GITHUB = "github"
+    LINKEDIN = "linkedin"

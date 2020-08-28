@@ -1,8 +1,13 @@
 from typing import Tuple
+import logging
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 import requests
 
+from api.images.service import create_image_from_url
+
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
@@ -10,39 +15,44 @@ class ProviderException(Exception):
     ...
 
 
-class GithubProvider:
-
-    API_URL = "https://api.github.com"
-    PROFILE_URL = f"{API_URL}/user"
-    EMAIL_URL = f"{API_URL}/user/emails"
-    DEFAULT_HEADERS = {"Accept": "application/vnd.github.v3+json"}
-
+class BaseProvider:
     @classmethod
     def get_user_data_from_code(cls, code) -> Tuple[str, dict]:
         access_token = cls._get_access_token(code)
-        email, user_data, profile_data = cls._get_user_from_token(access_token)
+        email, user_data, profile_data = cls._agg_user_data(access_token)
         return email, user_data, profile_data
 
     @classmethod
     def _get_access_token(cls, code):
-        payload = dict(
-            client_id=settings.GITHUB_CLIENT_ID,
-            client_secret=settings.GITHUB_CLIENT_SECRET,
-            code=code,
-        )
-        resp = requests.post(
-            "https://github.com/login/oauth/access_token",
-            json=payload,
-            headers={"Accept": "application/json"},
-        )
-        response = resp.json()
+        params = {"code": code, **cls.AUTH_PARAMS}
+        resp = requests.post(cls.AUTH_URL, params=params, headers=cls.AUTH_HEADER,)
+        if resp.status_code != 200:
+            raise ProviderException(f"{cls.NAME}: {resp.status_code} {resp.content}")
+
         try:
+            response = resp.json()
             return response["access_token"]
         except KeyError:
-            raise ProviderException("Unexpected Response From Github")
+            logger.error(f"provider error: {cls.NAME}: {resp.content}")
+            raise ProviderException(f"unexpected response from {cls.NAME}")
+
+
+class GithubProvider(BaseProvider):
+
+    NAME = "gihub"
+    API_URL = "https://api.github.com"
+    PROFILE_URL = f"{API_URL}/user"
+    EMAIL_URL = f"{API_URL}/user/emails"
+    DEFAULT_HEADERS = {"Accept": "application/vnd.github.v3+json"}
+    AUTH_URL = "https://github.com/login/oauth/access_token"
+    AUTH_HEADER = {"Accept": "application/json"}
+    AUTH_PARAMS = {
+        "client_id": settings.GITHUB_CLIENT_ID,
+        "client_secret": settings.GITHUB_CLIENT_SECRET,
+    }
 
     @classmethod
-    def _get_user_from_token(cls, access_token):
+    def _agg_user_data(cls, access_token) -> Tuple[str, dict, dict]:
         headers = {**cls.DEFAULT_HEADERS, "Authorization": f"token {access_token}"}
         gh_email_data = requests.get(cls.EMAIL_URL, headers=headers).json()
         for i in gh_email_data:
@@ -54,13 +64,149 @@ class GithubProvider:
 
         gh_user_data = requests.get(cls.PROFILE_URL, headers=headers).json()
 
-        # avatar_url = gh_user_data.get("avatar_url", None)
+        profile_photo_url = gh_user_data.get("avatar_url", None)
+        avatar_image = create_image_from_url(profile_photo_url)
+
         user_data = dict(name=gh_user_data["name"])
         profile_data = dict(
-            # model field = payload key
+            avatar_url=avatar_image.image.url,
             github_url=gh_user_data.get("html_url", None),
             bio=gh_user_data.get("bio", None),
             location=gh_user_data.get("location", None),
         )
 
+        return email, user_data, profile_data
+
+
+class LinkedInProvider(BaseProvider):
+
+    NAME = "linkedin"
+    API_URL = "https://api.linkedin.com"
+    PROFILE_URL = f"{API_URL}/v2/me"
+    EMAIL_URL = f"{API_URL}/v2/clientAwareMemberHandles?q=members&projection=(elements*(handle~))"
+    AVATAR_URL = f"{API_URL}/v2/me?projection=(id,profilePicture(displayImage~digitalmediaAsset:playableStreams))"
+
+    AUTH_URL = "https://www.linkedin.com/oauth/v2/accessToken"
+    AUTH_HEADER = {"Accept": "x-www-form-urlencoded"}
+    AUTH_PARAMS = {
+        "client_id": settings.LINKEDIN_CLIENT_ID,
+        "client_secret": settings.LINKEDIN_CLIENT_SECRET,
+        "grant_type": "authorization_code",
+        "redirect_uri": "http://localhost:8080/auth/linkedin",
+    }
+
+    @classmethod
+    def _agg_user_data(cls, access_token) -> Tuple[str, dict, dict]:
+        """
+        profile_data = {
+            "id": "1Trcn3NVi9",
+            "localizedFirstName": "Gui"
+            "localizedLastName": "Talarico",
+            "profilePicture": {
+                "displayImage": "urn:li:digitalmediaAsset:C4E03AQGbbIgo-soGlg"
+            },
+            "firstName": {
+                "localized": {
+                    "en_US": "Gui"
+                },
+                "preferredLocale": {
+                    "country": "US",
+                    "language": "en"
+                }
+            },
+            "lastName": {
+                "localized": {
+                    "en_US": "Talarico"
+                },
+                "preferredLocale": {
+                    "country": "US",
+                    "language": "en"
+                }
+            },
+        }
+        email = {
+            "elements": [
+                {
+                    "handle": "urn:li:emailAddress:471527981",
+                    "handle~": {
+                        "emailAddress": "gtalarico@gmail.com"
+                    }
+                }
+            ]
+        }
+        photo_data = {
+            "profilePicture": {
+                "displayImage": "urn:li:digitalmediaAsset:C4E03AQGbbIgo-soGlg",
+                "displayImage~": {
+                    "paging": {
+                        "count": 10,
+                        "start": 0,
+                        "links": []
+                    },
+                    "elements": [
+                        ... 100, 200, 400
+                        {
+                            "artifact": "urn:li:digitalmediaMediaArtifact:(urn:li:digitalmediaAsset:C4E03AQGbbIgo-soGlg,urn:li:digitalmediaMediaArtifactClass:profile-displayphoto-shrink_800_800)",
+                            "authorizationMethod": "PUBLIC",
+                            "data": {
+                                "com.linkedin.digitalmedia.mediaartifact.StillImage": {
+                                    "mediaType": "image/jpeg",
+                                    "rawCodecSpec": {
+                                        "name": "jpeg",
+                                        "type": "image"
+                                    },
+                                    "displaySize": {
+                                        "width": 800.0,
+                                        "uom": "PX",
+                                        "height": 800.0
+                                    },
+                                    "storageSize": {
+                                        "width": 800,
+                                        "height": 800
+                                    },
+                                    "storageAspectRatio": {
+                                        "widthAspect": 1.0,
+                                        "heightAspect": 1.0,
+                                        "formatted": "1.00:1.00"
+                                    },
+                                    "displayAspectRatio": {
+                                        "widthAspect": 1.0,
+                                        "heightAspect": 1.0,
+                                        "formatted": "1.00:1.00"
+                                    }
+                                }
+                            },
+                            "identifiers": [
+                                {
+                                    "identifier": "https://media-exp1.licdn.com/dms/image/C4E03AQGbbIgo-soGlg/profile-displayphoto-shrink_800_800/0?e=1603929600&v=beta&t=wzS2UQ-_u5cS5cM1xZJNVB3HneHqSHCwDoFlN5eu_80",
+                                    "index": 0,
+                                    "mediaType": "image/jpeg",
+                                    "file": "urn:li:digitalmediaFile:(urn:li:digitalmediaAsset:C4E03AQGbbIgo-soGlg,urn:li:digitalmediaMediaArtifactClass:profile-displayphoto-shrink_800_800,0)",
+                                    "identifierType": "EXTERNAL_URL",
+                                    "identifierExpiresInSeconds": 1603929600
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "id": "1Trcn3NVi9"
+        }
+        """
+        headers = {"Authorization": f"Bearer {access_token}"}
+
+        profile_data = requests.get(cls.PROFILE_URL, headers=headers).json()
+        email_data = requests.get(cls.EMAIL_URL, headers=headers).json()
+
+        email = email_data["elements"][0]["handle~"]["emailAddress"]
+        user_data = dict(
+            first_name=profile_data["localizedFirstName"],
+            last_name=profile_data["localizedLastName"],
+        )
+        photo_data = requests.get(cls.AVATAR_URL, headers=headers).json()
+        photo_url = photo_data["profilePicture"]["displayImage~"]["elements"][-1][
+            "identifiers"
+        ][0]["identifier"]
+        avatar = create_image_from_url(photo_url)
+        profile_data = dict(avatar_url=avatar.image.url)
         return email, user_data, profile_data

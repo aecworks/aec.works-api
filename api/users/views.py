@@ -6,9 +6,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from api.common.exceptions import ErrorsMixin
 from . import selectors, services
-from .auth import GithubProvider, ProviderException
+from .auth import GithubProvider, LinkedInProvider, ProviderException
 from .models import Profile
-from .choices import UserSourceChoices
+from .choices import UserProviderChoices
 
 from .serializers import ProfileSerializer, ProfileDetailSerializer
 
@@ -36,7 +36,7 @@ class ProfileDetailView(
 
 class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileDetailSerializer
     queryset = Profile.objects.all()
 
     def get(self, request):
@@ -45,21 +45,28 @@ class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIV
         return Response(serializer.data)
 
 
-class GithubView(ErrorsMixin, views.APIView):
+class OauthLoginView(ErrorsMixin, views.APIView):
     expected_exceptions = {ProviderException: drf_exceptions.ValidationError}
-    queryset = 1
 
-    def post(self, request):
+    def post(self, request, provider_name):
         code = request.query_params.get("code")
         if not code:
             raise drf_exceptions.ValidationError("code is missing")
 
-        email, user_data, profile_data = GithubProvider.get_user_data_from_code(code)
-        user_data.update({"source": UserSourceChoices.GITHUB.name})
+        providers = {
+            UserProviderChoices.LINKEDIN.value: LinkedInProvider,
+            UserProviderChoices.GITHUB.value: GithubProvider,
+        }
+        if provider_name not in providers:
+            raise drf_exceptions.NotFound(f"provider not supported: {provider_name}")
+
+        provider = providers[provider_name]
+
+        email, user_data, profile_data = provider.get_user_data_from_code(code)
+        user_data.update({"source": provider_name})
 
         user = services.create_or_update_user(email=email, defaults=user_data)
         services.update_profile(user=user, defaults=profile_data)
-        # TODO. set avatar image from avatar_url
 
         jwt_dict = services.get_jwt_for_user(user)
         return Response(jwt_dict)
