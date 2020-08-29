@@ -10,5 +10,5 @@ class Image(ReprMixin, models.Model):
     image = models.ImageField(upload_to=generate_image_path_partial)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, related_name="images", on_delete=models.PROTECT
+        User, related_name="images", on_delete=models.PROTECT, null=True, blank=True
     )

@@ -23,5 +23,5 @@ def test_image_upload(client, jwt_auth_header):
     # img = BytesIO(b"mybinarydata")
     # img.name = "myimage.jpg"
     # TODO Properly test this
-    resp = client.put(url, data="xxx")
+    resp = client.put(url, data="xxx", **jwt_auth_header)
     assert resp.status_code == 201
