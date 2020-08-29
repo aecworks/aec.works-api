@@ -17,14 +17,14 @@ class ProviderException(Exception):
 
 class BaseProvider:
     @classmethod
-    def get_user_data_from_code(cls, code) -> Tuple[str, dict]:
-        access_token = cls._get_access_token(code)
+    def get_user_data_from_code(cls, code, redirect_uri) -> Tuple[str, dict]:
+        access_token = cls._get_access_token(code, redirect_uri)
         email, user_data, profile_data = cls._agg_user_data(access_token)
         return email, user_data, profile_data
 
     @classmethod
-    def _get_access_token(cls, code):
-        params = {"code": code, **cls.AUTH_PARAMS}
+    def _get_access_token(cls, code, redirect_uri):
+        params = {"code": code, "redirect_uri": redirect_uri, **cls.AUTH_PARAMS}
         resp = requests.post(cls.AUTH_URL, params=params, headers=cls.AUTH_HEADER,)
         if resp.status_code != 200:
             raise ProviderException(f"{cls.NAME}: {resp.status_code} {resp.content}")
@@ -92,7 +92,6 @@ class LinkedInProvider(BaseProvider):
         "client_id": settings.LINKEDIN_CLIENT_ID,
         "client_secret": settings.LINKEDIN_CLIENT_SECRET,
         "grant_type": "authorization_code",
-        "redirect_uri": "http://localhost:8080/auth/linkedin",
     }
 
     @classmethod

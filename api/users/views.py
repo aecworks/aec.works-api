@@ -50,6 +50,7 @@ class OauthLoginView(ErrorsMixin, views.APIView):
 
     def post(self, request, provider_name):
         code = request.query_params.get("code")
+        redirect_uri = request.query_params.get("redirect_uri")
         if not code:
             raise drf_exceptions.ValidationError("code is missing")
 
@@ -62,7 +63,9 @@ class OauthLoginView(ErrorsMixin, views.APIView):
 
         provider = providers[provider_name]
 
-        email, user_data, profile_data = provider.get_user_data_from_code(code)
+        email, user_data, profile_data = provider.get_user_data_from_code(
+            code, redirect_uri
+        )
         user_data.update({"source": provider_name})
 
         user = services.create_or_update_user(email=email, defaults=user_data)
