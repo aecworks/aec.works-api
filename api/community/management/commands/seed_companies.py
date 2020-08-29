@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 if logo:
                     img = Image.objects.create(image=logo)
                     company.logo_url = img.image.url
-                    company.cover_url = img.image.url
+                    company.cover_url = ""
 
             company.save()
 

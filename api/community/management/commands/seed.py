@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from django.core.management import call_command
 from api.users.factories import ProfileFactory
 from api.community import models
@@ -32,7 +33,8 @@ class Command(BaseCommand):
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
 
-        call_command("loaddata", "api/community/fixtures/companies.json")
+        call_command
+        # call_command("loaddata", "api/community/fixtures/companies.json")
         # for company in models.Company.objects.all():
         #     thread = f.ThreadFactory()
         #     company.thread = thread

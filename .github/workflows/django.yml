@@ -65,5 +65,7 @@ jobs:
           DATABASE_URL: "postgres://postgres:postgres@postgres:5432/aecworks_db"
           GITHUB_CLIENT_ID: gh_test
           GITHUB_CLIENT_SECRET: gh_test
+          LINKEDIN_CLIENT_ID: gh_test
+          LINKEDIN_CLIENT_SECRET: gh_test
           AWS_ACCESS_KEY_ID: gh_test
           AWS_SECRET_ACCESS_KEY: gh_test

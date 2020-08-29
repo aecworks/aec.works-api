@@ -10,14 +10,14 @@
 
 ```bash
 # Start db (postgres) and web (django) containers
-$ make docker-start
+$ make start
 $ open "http://localhost:8000"
 
 # Stream stdout/stderr of both containers
-$ make docker-logs
+$ make logs
 
 # Open Shell inside container
-$ make docker-bash
+$ make bash
 ```
 
 ### Editor Setup
