@@ -46,7 +46,7 @@ class TestViews:
         m_update_profile.assert_called_once_with(user=user, defaults={})
         m_get_jwt_for_user.assert_called_once_with(user)
 
-    def test_oauth_missing_code(self, client):
+    def test_oauth_missing_code(selfixi, client):
         resp = client.post("/users/login/github/")
         assert resp.status_code == 400
 

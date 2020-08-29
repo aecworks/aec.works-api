@@ -5,4 +5,4 @@ from . import models
 
 @admin.register(models.Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ["image"]
+    list_display = ["image", "created_at", "created_by"]

@@ -6,8 +6,8 @@ from django.core.files.images import ImageFile
 from .models import Image
 
 
-def create_image(*, image_file) -> Image:
-    return Image.objects.create(image=image_file)
+def create_image(*, image_file, user) -> Image:
+    return Image.objects.create(image=image_file, uploaded_by=user)
 
 
 def create_image_from_url(url, **kwargs):

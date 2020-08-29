@@ -26,6 +26,8 @@ class CompanyBaseModel(models.Model):
 
 
 class CompanyRevision(CompanyBaseModel, ReprMixin):
+    # TODO: Rethink Revision model -
+    # to diff based eg. Revision.diffs = [{"field": "name", op: "delete"}]
     hashtags = models.ManyToManyField("Hashtag", related_name="+", blank=True)
 
     company = models.ForeignKey(

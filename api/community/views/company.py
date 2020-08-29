@@ -6,10 +6,7 @@ from rest_framework import (
     serializers,
     permissions,
     filters,
-    exceptions,
 )
-
-# from drf_extra_fields.fields import Base64ImageField
 
 
 from api.common.exceptions import ErrorsMixin
@@ -175,8 +172,10 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
     def post(self, request, id, action):
         if action == "approve":  # approve
             revision = self.get_object()
-            if revision.approved_by:
-                raise exceptions.ValidationError("Revision is already approved")
+            # TODO: rethink approved_by, applied by
+            # or diff model Revision.diffs = [{"field": "name", op: "delete"}]
+            # if revision.approved_by:
+            # raise exceptions.ValidationError("Revision is already approved")
 
             services.apply_revision(revision=revision, profile=request.user.profile)
             return Response(ResponseCompanyRevisionSerializer(revision).data)
