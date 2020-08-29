@@ -35,11 +35,11 @@ class TestViews:
         m_create_or_update_user.return_value = user
         m_get_jwt_for_user.return_value = {"access": "x", "refresh": "x"}
 
-        resp = client.post("/users/login/github/?code=fakecode")
+        resp = client.post("/users/login/github/?code=fakecode&redirect_uri=fakeuri")
 
         assert resp.status_code == 200
 
-        m_get_user_data_from_code.assert_called_once_with("fakecode")
+        m_get_user_data_from_code.assert_called_once_with("fakecode", "fakeuri")
         m_create_or_update_user.assert_called_once_with(
             email=user.email, defaults={"source": "github"}
         )
