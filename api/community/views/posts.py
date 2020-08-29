@@ -17,10 +17,11 @@ class PostListSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     clap_count = serializers.IntegerField()
     thread_size = serializers.IntegerField()
+    thread_id = serializers.IntegerField()
 
     class Meta:
         model = models.Post
-        exclude = ["clappers"]
+        exclude = ["clappers", "thread"]
 
 
 class NewPostRequestSerializer(serializers.ModelSerializer):

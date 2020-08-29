@@ -49,6 +49,15 @@ class ErrorsMixin:
         PermissionError: rest_exceptions.PermissionDenied,
     }
 
+    def wrap_errors(self, exc):
+        """ ensure error data is always in an "error" key with an object """
+        if not hasattr(exc, "detail"):
+            raise exc
+        if isinstance(exc.detail, str):
+            exc.detail = {"non_field_error": exc.detail}
+
+        return {"errors": exc.detail}
+
     def handle_exception(self, exc):
         if isinstance(exc, tuple(self.expected_exceptions.keys())):
             drf_exception_instance_or_cls = self.expected_exceptions[exc.__class__]
@@ -59,8 +68,9 @@ class ErrorsMixin:
                 drf_exception = drf_exception_instance_or_cls
             else:
                 drf_exception = drf_exception_instance_or_cls(_get_error_message(exc))
-            return super().handle_exception(drf_exception)
+            exc = drf_exception
 
+        exc.detail = self.wrap_errors(exc)
         return super().handle_exception(exc)
 
 
@@ -103,7 +113,6 @@ class ErrorsFormatter:
             formatted_errors = self._get_response_json_from_error_message(
                 message=str(self.exception)
             )
-
         return formatted_errors
 
     def _get_response_json_from_drf_errors(self, serializer_errors=None):

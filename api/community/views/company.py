@@ -18,16 +18,17 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
-    clap_count = serializers.IntegerField()
-    thread_size = serializers.IntegerField()
+    clap_count = serializers.IntegerField(default=0)
+    thread_size = serializers.IntegerField(default=0)
     created_by = ProfileSerializer()
+    thread_id = serializers.IntegerField()
 
     class Meta:
         model = models.Company
         fields = [
             "slug",
             "created_by",
-            "thread",
+            "thread_id",
             "created_at",
             "clap_count",
             "thread_size",
@@ -122,9 +123,11 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         return self.queryset.order_by("name")
 
     def get(self, request):
+        """ Get Company List """
         return super().list(request)
 
     def post(self, request):
+        """ Creates New Company """
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         company = services.create_company(
@@ -151,6 +154,7 @@ class CompanyRevisionListView(
         )
 
     def post(self, request, slug):
+        """ Creates New Company Revision """
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         company = self.get_object()
@@ -190,6 +194,7 @@ class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, slug):
+        """ Adds User as Clapper of Company """
         company = self.get_object()
         profile = request.user.profile
         result = services.company_clap(company=company, profile=profile)
