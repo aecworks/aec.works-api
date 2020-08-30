@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 from decouple import config, Csv
 import dj_database_url
 
@@ -22,19 +21,15 @@ CORS_ALLOW_METHODS = ("GET", "POST", "PUT", "PATCH", "OPTIONS")
 CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
+# Cookies
+SESSION_COOKIE_SECURE = not DEBUG
+
 # Social Auth
 GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = config("GITHUB_CLIENT_SECRET")
 LINKEDIN_CLIENT_ID = config("LINKEDIN_CLIENT_ID")
 LINKEDIN_CLIENT_SECRET = config("LINKEDIN_CLIENT_SECRET")
 
-
-# JWT Config
-SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-}
 # Auth
 AUTH_USER_MODEL = "users.User"
 
@@ -72,6 +67,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "api.middlewares.EnsureCsrfCookie",
     "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     # // Start Default
@@ -138,7 +134,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 25,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",

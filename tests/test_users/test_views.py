@@ -17,7 +17,6 @@ class TestViews:
         resp = client.get(url)
         assert resp.status_code == 200
 
-    @mock.patch("api.users.views.services.get_jwt_for_user")
     @mock.patch("api.users.views.services.update_profile")
     @mock.patch("api.users.views.services.create_or_update_user")
     @mock.patch("api.users.views.GithubProvider.get_user_data_from_code")
@@ -26,14 +25,12 @@ class TestViews:
         m_get_user_data_from_code,
         m_create_or_update_user,
         m_update_profile,
-        m_get_jwt_for_user,
         client,
     ):
         """ Test github/login/view """
         user = ProfileFactory().user
         m_get_user_data_from_code.return_value = user.email, {}, {}
         m_create_or_update_user.return_value = user
-        m_get_jwt_for_user.return_value = {"access": "x", "refresh": "x"}
 
         resp = client.post("/users/login/github/?code=fakecode&redirect_uri=fakeuri")
 
@@ -44,7 +41,6 @@ class TestViews:
             email=user.email, defaults={"source": "github"}
         )
         m_update_profile.assert_called_once_with(user=user, defaults={})
-        m_get_jwt_for_user.assert_called_once_with(user)
 
     def test_oauth_missing_code(selfixi, client):
         resp = client.post("/users/login/github/")
@@ -56,7 +52,7 @@ class TestViews:
 
     def test_profile_annon(self, client):
         resp = client.get("/users/profiles/me/")
-        assert resp.status_code == 401
+        assert resp.status_code == 403
 
     def test_profile(self, django_user_model):
         user = django_user_model.objects.create(email="x@x.com", password="x")

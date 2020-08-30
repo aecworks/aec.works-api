@@ -13,8 +13,18 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     email = factory.Faker("email")
     name = factory.Faker("name")
+    is_active = True
 
     profile = factory.RelatedFactory("api.users.factories.ProfileFactory", "user")
+
+    @classmethod
+    def _create(cls, model_class, *args, **kwargs):
+        password = kwargs.pop("password", None)
+        obj = super(UserFactory, cls)._create(model_class, *args, **kwargs)
+        # ensure the raw password gets set after the initial save
+        obj.set_password(password)
+        obj.save()
+        return obj
 
 
 @factory.django.mute_signals(post_save)

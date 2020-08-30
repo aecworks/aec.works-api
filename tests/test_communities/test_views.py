@@ -1,14 +1,6 @@
 import pytest
 from api.community import factories as f
 from api.users.factories import UserFactory
-from rest_framework_simplejwt.tokens import AccessToken
-
-
-@pytest.fixture
-def jwt_auth_header(client, django_user_model):
-    user = UserFactory()
-    token = AccessToken.for_user(user)
-    return dict(HTTP_AUTHORIZATION="JWT {}".format(token))
 
 
 @pytest.mark.django_db
@@ -29,32 +21,32 @@ class TestViews:
         ],
     )
     def test_get_views_annonymous(
-        self, client, django_assert_max_num_queries, path, param_factory
+        self, auth_client, django_assert_max_num_queries, path, param_factory
     ):
         if param_factory:
             path = path.format(param_factory())
         url = f"/community/{path}"
-        with django_assert_max_num_queries(6):
-            resp = client.get(url)
+        with django_assert_max_num_queries(8):
+            resp = auth_client.get(url)
             assert resp.status_code == 200
 
-    def test_post_post(self, client, jwt_auth_header):
+    def test_post_post(self, api_client, auth_client):
         url = "/community/posts/"
         payload = {
             "title": "Fake Title",
             "body": "Fake Body",
             "hashtags": [f.HashtagFactory().slug],
         }
-        resp = client.post(url, payload)
-        assert resp.status_code == 401
+        resp = api_client.post(url, payload)
+        assert resp.status_code == 403
 
-        resp = client.post(url, payload, **jwt_auth_header)
+        resp = auth_client.post(url, payload)
         assert resp.status_code == 201
 
-    def test_post_patch(self, client, jwt_auth_header):
+    def test_post_patch(self, api_client):
         post = f.PostFactory()
-        token = AccessToken.for_user(post.profile.user)
-        author_jwt_auth_header = dict(HTTP_AUTHORIZATION="JWT {}".format(token))
+        another_user = UserFactory(password="1")
+        api_client.force_login(another_user)
 
         url = f"/community/posts/{post.slug}/"
         payload = {
@@ -63,21 +55,17 @@ class TestViews:
             "hashtags": [f.HashtagFactory().slug],
         }
 
-        resp = client.patch(
-            url, payload, content_type="application/json", **jwt_auth_header
-        )
+        resp = api_client.patch(url, payload, format="json")
         # Token for random user cannot patch
         assert resp.status_code == 403
+
+        api_client.force_login(post.profile.user)
         # Token for author user can
-        resp = client.patch(
-            url, payload, content_type="application/json", **author_jwt_auth_header
-        )
+        resp = api_client.patch(url, payload, format="json")
         assert resp.status_code == 200
 
-    def test_company_patch(self, client, jwt_auth_header):
+    def test_company_revision(self, auth_client):
         company = f.CompanyFactory()
-        token = AccessToken.for_user(company.created_by.user)
-        jwt_auth_header = dict(HTTP_AUTHORIZATION="JWT {}".format(token))
 
         url = f"/community/companies/{company.slug}/revisions/"
         payload = {
@@ -86,38 +74,36 @@ class TestViews:
             "hashtags": ["x"],
             "website": "https://www.x.com",
         }
-        resp = client.post(
-            url, payload, content_type="application/json", **jwt_auth_header
-        )
+        resp = auth_client.post(url, payload, format="json")
         assert resp.status_code == 200
 
-    def test_post_clap(self, client, jwt_auth_header):
+    def test_post_clap(self, api_client, auth_client):
         post = f.PostFactory()
         url = f"/community/posts/{post.slug}/clap/"
 
-        resp = client.post(url)
-        assert resp.status_code == 401
+        resp = api_client.post(url)
+        assert resp.status_code == 403
 
-        resp = client.post(url, **jwt_auth_header)
+        resp = auth_client.post(url)
         assert resp.status_code == 200
         assert resp.content == b"1"
 
-    def test_company_clap(self, client, jwt_auth_header):
+    def test_company_clap(self, auth_client):
         company = f.CompanyFactory()
         url = f"/community/companies/{company.slug}/clap/"
 
-        resp = client.post(url, **jwt_auth_header)
+        resp = auth_client.post(url)
         assert resp.status_code == 200
         assert resp.content == b"1"
 
-    def test_post_comment_clap(self, client, jwt_auth_header):
+    def test_post_comment_clap(self, client, auth_client):
         thread = f.ThreadFactory()
         comment = f.CommentFactory(thread=thread)
         url = f"/community/comments/{comment.id}/clap/"
 
         resp = client.post(url)
-        assert resp.status_code == 401
+        assert resp.status_code == 403
 
-        resp = client.post(url, **jwt_auth_header)
+        resp = auth_client.post(url)
         assert resp.status_code == 200
         assert resp.content == b"1"
