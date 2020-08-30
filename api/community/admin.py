@@ -47,7 +47,7 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
-        "description",
+        "descrition_start",
         "website",
         "twitter_handle",
         "crunchbase_id",
@@ -56,6 +56,9 @@ class CompanyAdmin(admin.ModelAdmin):
         "cover_url",
         "created_by",
     ]
+
+    def descrition_start(self, obj):
+        return f"{obj.description[:10]}..."
 
 
 @admin.register(models.CompanyRevision)
