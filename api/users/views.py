@@ -4,6 +4,7 @@ from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 
+from django.contrib.auth import login, logout, authenticate
 from api.common.exceptions import ErrorsMixin
 from . import selectors, services
 from .auth import GithubProvider, LinkedInProvider, ProviderException
@@ -71,5 +72,26 @@ class OauthLoginView(ErrorsMixin, views.APIView):
         user = services.create_or_update_user(email=email, defaults=user_data)
         services.update_profile(user=user, defaults=profile_data)
 
-        jwt_dict = services.get_jwt_for_user(user)
-        return Response(jwt_dict)
+        login(request, user)
+        return Response(status=200)
+
+
+class Logout(ErrorsMixin, views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+        return Response(status=200)
+
+
+class Login(ErrorsMixin, views.APIView):
+    permission_classes = []
+
+    def post(self, request):
+        username = request.POST["email"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response(ProfileDetailSerializer(user.profile).data, status=200)
+        raise drf_exceptions.AuthenticationFailed()
