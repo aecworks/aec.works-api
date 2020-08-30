@@ -10,6 +10,7 @@ ROOT_DIR = os.path.dirname(API_DIR)
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv())
+CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
 
 # SSL
 SECURE_SSL_REDIRECT = config("DJANGO_SECURE_SSL_REDIRECT", cast=bool, default=False)
