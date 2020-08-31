@@ -5,7 +5,7 @@ from rest_framework import (
     generics,
     serializers,
     permissions,
-    filters,
+    # filters,
 )
 
 
@@ -118,14 +118,17 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    search_fields = ["name", "description"]
-    filter_backends = [filters.SearchFilter]
+    # search_fields = ["name", "description"]
+    # filter_backends = [filters.SearchFilter]
 
     def get_queryset(self):
+        query = self.request.query_params.get("search")
+        hashtag_names = []
+
         if hashtag_query := self.request.query_params.get("hashtags"):
-            slugs = services.parse_hashtag_query(hashtag_query)
-            return self.queryset.filter(hashtags__slug__in=slugs)
-        return self.queryset.order_by("name")
+            hashtag_names = services.parse_hashtag_query(hashtag_query)
+
+        return selectors.query_companies(query, hashtag_names).order_by("name")
 
     def get(self, request):
         """ Get Company List """

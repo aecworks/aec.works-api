@@ -33,15 +33,21 @@ class TestViews:
     def test_get_companies_filter(self, auth_client):
         a = f.HashtagFactory(slug="a")
         b = f.HashtagFactory(slug="b")
+        c = f.HashtagFactory(slug="c")
         c_1 = f.CompanyFactory()
         c_2 = f.CompanyFactory()
+        c_3 = f.CompanyFactory()
         c_1.hashtags.set([a])
         c_2.hashtags.set([a, b])
+        c_3.hashtags.set([a, b, c])
 
         resp = auth_client.get("/community/companies/?hashtags=a")
+        assert resp.json()["count"] == 3
+
+        resp = auth_client.get("/community/companies/?hashtags=a,b")
         assert resp.json()["count"] == 2
 
-        resp = auth_client.get("/community/companies/?hashtags=b")
+        resp = auth_client.get("/community/companies/?hashtags=a,b,c")
         assert resp.json()["count"] == 1
 
     def test_post_post(self, api_client, auth_client):

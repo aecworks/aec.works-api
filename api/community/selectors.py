@@ -1,3 +1,4 @@
+from django.db.models import Count
 from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
@@ -29,6 +30,26 @@ def get_companies():
         .with_counts()
         .all()
     )
+
+
+# def search_companies_with_all_hashtags(query, slugs):
+#     get_companies_with_all_hashtags.filter()
+
+
+def query_companies(query, hashtag_slugs):
+    qs = get_companies()
+
+    if hashtag_slugs:
+        qs_with_one_of = qs.filter(hashtags__slug__in=hashtag_slugs)
+        qs_with_both = qs_with_one_of.annotate(
+            n_matches=Count("hashtags", distinct=True)
+        ).filter(n_matches=len(hashtag_slugs))
+        qs = qs_with_both
+
+    if query:
+        qs = qs.filter(name__icontains=query)
+
+    return qs
 
 
 def get_revisions():

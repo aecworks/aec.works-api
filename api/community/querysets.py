@@ -77,7 +77,7 @@ def annotate_with_thread_size(queryset):
     )
     # Comment count subquery includes "descendent count", but the top level comment
     # itself is not included, so we add that on top.
-    return queryset.annotate(
+    qs = queryset.annotate(
         _ancestor_count=models.Subquery(
             threads.values("_ancestor_count")[:1],
             output_field=models.IntegerField(default=0),
@@ -89,3 +89,4 @@ def annotate_with_thread_size(queryset):
             0,
         )
     )
+    return qs
