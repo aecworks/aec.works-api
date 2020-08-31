@@ -30,6 +30,20 @@ class TestViews:
             resp = auth_client.get(url)
             assert resp.status_code == 200
 
+    def test_get_companies_filter(self, auth_client):
+        a = f.HashtagFactory(slug="a")
+        b = f.HashtagFactory(slug="b")
+        c_1 = f.CompanyFactory()
+        c_2 = f.CompanyFactory()
+        c_1.hashtags.set([a])
+        c_2.hashtags.set([a, b])
+
+        resp = auth_client.get("/community/companies/?hashtags=a")
+        assert resp.json()["count"] == 2
+
+        resp = auth_client.get("/community/companies/?hashtags=b")
+        assert resp.json()["count"] == 1
+
     def test_post_post(self, api_client, auth_client):
         url = "/community/posts/"
         payload = {

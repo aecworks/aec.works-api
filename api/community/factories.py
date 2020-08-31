@@ -17,7 +17,6 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     )
     crunchbase_id = factory.LazyAttribute(lambda o: o.twitter_handle)
     # logo
-    # hashtags
     # clappers
     # thread
     # created_at
