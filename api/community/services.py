@@ -137,3 +137,9 @@ def apply_revision(*, revision, profile):
     revision.approved_by = profile
     revision.applied = True
     revision.save()
+
+
+def parse_hashtag_query(query: str):
+    if not query:
+        return []
+    return query.split(",")

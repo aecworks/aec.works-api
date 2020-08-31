@@ -107,6 +107,10 @@ class CompanyDetailView(
 
 
 class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
+    """
+    eg. /community/companies/?search=web&hashtags=software
+    """
+
     serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
     pagination_class = LimitOffsetPagination
@@ -118,8 +122,9 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     filter_backends = [filters.SearchFilter]
 
     def get_queryset(self):
-        if hashtag_slug := self.request.query_params.get("hashtag"):
-            return self.queryset.filter(hashtags__slug__iexact=hashtag_slug)
+        if hashtag_query := self.request.query_params.get("hashtags"):
+            slugs = services.parse_hashtag_query(hashtag_query)
+            return self.queryset.filter(hashtags__slug__in=slugs)
         return self.queryset.order_by("name")
 
     def get(self, request):

@@ -1,9 +1,5 @@
-from rest_framework import mixins, generics, serializers, permissions
-
-# from rest_framework import exceptions as drf_exceptions
-# from rest_framework.pagination import LimitOffsetPagination
+from rest_framework import mixins, generics, serializers, permissions, filters
 from api.common.exceptions import ErrorsMixin
-
 from .. import selectors
 
 
@@ -22,10 +18,11 @@ class HashtagListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     serializer_class = HashtagListSerializer
     queryset = selectors.get_hashtags()
     pagination_class = None
-    # pagination_class = LimitOffsetPagination
-    # page_size = 50
     expected_exceptions = {}
     permission_classes = [permissions.AllowAny]
+
+    search_fields = ["slug"]
+    filter_backends = [filters.SearchFilter]
 
     def get(self, request):
         return super().list(request)
