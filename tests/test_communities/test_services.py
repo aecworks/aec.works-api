@@ -68,9 +68,18 @@ class TestServices:
         assert revision.name == "x"
 
     def test_apply_revision(self):
+        h_a = factories.HashtagFactory(slug="a")
+        h_b = factories.HashtagFactory(slug="b")
+        h_c = factories.HashtagFactory(slug="c")
+
         profile = ProfileFactory()
+        hashtags = [h_a, h_b]
         company = factories.CompanyFactory()
+        company.hashtags.set(hashtags)
+
         revision = factories.CompanyRevisionFactory(company=company)
+        new_hahstags = [h_a, h_c]
+        revision.hashtags.set(new_hahstags)
 
         services.apply_revision(revision=revision, profile=profile)
 
@@ -78,3 +87,4 @@ class TestServices:
         assert revision.company == company
         assert revision.approved_by == profile
         assert revision.applied is True
+        assert set([h.slug for h in company.hashtags.all()]) == set(["a", "c"])

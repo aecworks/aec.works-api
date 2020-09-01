@@ -28,6 +28,8 @@ def update_instance(instance, validated_data):
     # updated instance and we do not want it to collide with .update()
     for attr, value in m2m_fields:
         field = getattr(instance, attr)
+        if value.__class__.__name__ == "ManyRelatedManager":
+            value = value.all()
         field.set(value)
 
     return instance

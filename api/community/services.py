@@ -129,7 +129,7 @@ def create_revision(*, company, profile, validated_data) -> CompanyRevision:
 
 @transaction.atomic
 def apply_revision(*, revision, profile):
-    update_data = {k: v for k, v in vars(revision).items() if k in updatable_attributes}
+    update_data = {attr: getattr(revision, attr) for attr in updatable_attributes}
     update_data["last_revision"] = revision
     update_instance(revision.company, update_data)
 
