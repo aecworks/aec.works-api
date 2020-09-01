@@ -80,7 +80,13 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Hashtag)
 class HashtagAdmin(admin.ModelAdmin):
-    list_display = ["slug"]
+    list_display = ["slug", "post_count", "company_names"]
+
+    def company_names(self, obj):
+        return [c.name for c in obj.companies.all()]
+
+    def post_count(self, obj):
+        return obj.posts.count()
 
 
 @admin.register(models.Post)

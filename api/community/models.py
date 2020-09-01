@@ -1,10 +1,10 @@
 from django.db import models
 from django_extensions.db.fields import AutoSlugField
 from mptt import models as mptt_models
-from django.utils.text import slugify
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
+from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
 from api.community.choices import PostBanner
 
@@ -82,9 +82,7 @@ class Company(CompanyBaseModel, ReprMixin):
 
 class Hashtag(ReprMixin, models.Model):
     objects = querysets.HashtagQueryset.as_manager()
-    # Note: called slug but not typical slug (removes dashes)
-    # TODO: allow case?
-    slug = models.SlugField(max_length=32, unique=True, db_index=True)
+    slug = models.CharField(max_length=32, unique=True, db_index=True)
     # reverse: posts -> Post
     # reverse: companies -> Company
 
@@ -167,7 +165,7 @@ def add_thread(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=Hashtag)
 def slugify_hashtag(sender, instance, **kwargs):
-    instance.slug = slugify(instance.slug).replace("-", "")
+    instance.slug = to_hashtag(instance.slug)
 
 
 # TODO

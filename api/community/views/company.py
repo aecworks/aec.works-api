@@ -32,6 +32,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "created_at",
             "clap_count",
             "thread_size",
+            "last_revision_id",
             *services.updatable_attributes,
         ]
 

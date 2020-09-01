@@ -2,11 +2,10 @@ from typing import List
 from math import log
 from datetime import timedelta
 from django.db import transaction
-from django.utils.text import slugify
 from django.core.exceptions import PermissionDenied
 
 from api.community.choices import PostBanner
-from api.common.utils import update_instance
+from api.common.utils import update_instance, to_hashtag
 from .models import (
     Comment,
     Hashtag,
@@ -67,8 +66,8 @@ def create_comment(*, profile, text, **parent_kwarg) -> Comment:
 
 
 def get_or_create_hashtag(hashtag_name: str) -> Hashtag:
-    slug = slugify(hashtag_name).replace("-", "")
-    return Hashtag.objects.filter(slug=slug).first() or Hashtag.objects.create(
+    slug = to_hashtag(hashtag_name)
+    return Hashtag.objects.filter(slug__iexact=slug).first() or Hashtag.objects.create(
         slug=slug
     )
 

@@ -32,15 +32,14 @@ def get_companies():
     )
 
 
-# def search_companies_with_all_hashtags(query, slugs):
-#     get_companies_with_all_hashtags.filter()
-
-
 def query_companies(query, hashtag_slugs):
     qs = get_companies()
 
     if hashtag_slugs:
-        qs_with_one_of = qs.filter(hashtags__slug__in=hashtag_slugs)
+        # Achieve case insensitive __in using regex:
+        reg_pat = f"({'|'.join(hashtag_slugs)})"
+        qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
+        # qs_with_one_of = qs.filter(hashtags__slug__in=hashtag_slugs)
         qs_with_both = qs_with_one_of.annotate(
             n_matches=Count("hashtags", distinct=True)
         ).filter(n_matches=len(hashtag_slugs))

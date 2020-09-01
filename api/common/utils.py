@@ -1,3 +1,4 @@
+import string
 from rest_framework import serializers
 from rest_framework.utils import model_meta
 
@@ -30,3 +31,8 @@ def update_instance(instance, validated_data):
         field.set(value)
 
     return instance
+
+
+def to_hashtag(text: str):
+    """ Only leters, no symbols but allows case """
+    return "".join([c for c in text if c in string.ascii_letters])
