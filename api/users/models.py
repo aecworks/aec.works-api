@@ -29,14 +29,15 @@ class CustomUserManager(BaseUserManager):
 
 class User(ReprMixin, AbstractUser):
     email = models.EmailField(unique=True)
-    username = None
     provider = models.CharField(
         max_length=16,
         choices=[(c.name, c.value) for c in UserProviderChoices],
         default=UserProviderChoices.SIGN_UP.value,
     )
     name = models.CharField(max_length=255, null=False, blank=True, default="")
+
     # Not in use:
+    username = None
     first_name = None
     last_name = None
 
@@ -69,7 +70,7 @@ class Profile(ReprMixin, models.Model):
         return self.user.name
 
     def __str__(self):
-        return f"<Profile user={self.user.username}>"
+        return f"<Profile user={self.user.email}>"
 
 
 @receiver(post_save, sender=User)
