@@ -7,7 +7,7 @@ setup:
 build:
   docker:
     web: Dockerfile.heroku
-    worker: Dockerfile
+    worker: Dockerfile.heroku
 run:
   web: ./scripts/serve-prod.sh
   worker: ./scripts/start-worker.sh

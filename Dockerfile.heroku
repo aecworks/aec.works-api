@@ -18,4 +18,5 @@ EXPOSE $PORT
 ADD . /code
 WORKDIR /code
 
+# Set in heroky.yml
 # CMD ["./scripts/serve-prod.sh"]
