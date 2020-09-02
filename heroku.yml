@@ -3,6 +3,11 @@ setup:
     - plan: heroku-postgresql:hobby-dev
       as: DATABASE
     - plan: heroku-redis:hobby-dev
+      as: REDIS
 build:
   docker:
     web: Dockerfile.heroku
+    worker: Dockerfile.heroku
+run:
+  web: ./scripts/serve-prod.sh
+  worker: ./scripts/start-worker.sh

@@ -17,4 +17,6 @@ EXPOSE $PORT
 # Copy Files Into Container
 ADD . /code
 WORKDIR /code
-CMD ["./scripts/serve-prod.sh"]
+
+# Set in heroky.yml
+# CMD ["./scripts/serve-prod.sh"]

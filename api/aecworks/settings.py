@@ -1,6 +1,9 @@
 import os
 from decouple import config, Csv
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_DIR = os.path.dirname(PROJECT_DIR)
@@ -23,7 +26,9 @@ CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
 # Cookies
-SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = config(
+    "DJANGO_SESSION_COOKIE_SECURE", cast=bool, default=not DEBUG
+)
 
 # Social Auth
 GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID")
@@ -61,6 +66,7 @@ INSTALLED_APPS = [
     "mptt",
     "django_extensions",
     "debug_toolbar",
+    # "django_celery_results",
     # Apps
     "api.users",
     "api.community",
@@ -130,7 +136,6 @@ USE_L10N = True
 USE_TZ = True
 
 # Rest Framework Settings
-
 REST_FRAMEWORK = {
     "PAGE_SIZE": 25,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
@@ -148,9 +153,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
+# Static
 STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
@@ -159,7 +162,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 # DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
@@ -172,5 +174,16 @@ AWS_STORAGE_BUCKET_NAME = config("DJANGO_S3_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = config("DJANGO_S3_DOMAIN", default=None)  # prod only
 AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
+# CELERY STUFF
+CELERY_BROKER_URL = config("REDIS_URL")
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
+
 # Sentry
-# https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147
+if not DEBUG:
+    sentry_sdk.init(
+        dsn="https://3dedba3c033348c2ae0cdd9033ef2aa8@o179529.ingest.sentry.io/5414395",
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )
