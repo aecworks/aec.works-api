@@ -73,6 +73,7 @@ class GithubProvider(BaseProvider):
             github_url=gh_user_data.get("html_url", None),
             bio=gh_user_data.get("bio", None),
             location=gh_user_data.get("location", None),
+            twitter=gh_user_data.get("twitter_username", None),
         )
 
         return email, user_data, profile_data
@@ -198,10 +199,10 @@ class LinkedInProvider(BaseProvider):
         email_data = requests.get(cls.EMAIL_URL, headers=headers).json()
 
         email = email_data["elements"][0]["handle~"]["emailAddress"]
-        user_data = dict(
-            first_name=profile_data["localizedFirstName"],
-            last_name=profile_data["localizedLastName"],
-        )
+
+        name = "{localizedFirstName} {localizedLastName}".format(**profile_data)
+        user_data = dict(name=name)
+
         photo_data = requests.get(cls.AVATAR_URL, headers=headers).json()
         photo_url = photo_data["profilePicture"]["displayImage~"]["elements"][-1][
             "identifiers"

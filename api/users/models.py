@@ -36,6 +36,7 @@ class User(ReprMixin, AbstractUser):
         default=UserProviderChoices.SIGN_UP.value,
     )
     name = models.CharField(max_length=255, null=False, blank=True, default="")
+    # Not in use:
     first_name = None
     last_name = None
 
