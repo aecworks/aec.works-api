@@ -1,6 +1,9 @@
 import os
 from decouple import config, Csv
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_DIR = os.path.dirname(PROJECT_DIR)
@@ -133,7 +136,6 @@ USE_L10N = True
 USE_TZ = True
 
 # Rest Framework Settings
-
 REST_FRAMEWORK = {
     "PAGE_SIZE": 25,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
@@ -151,6 +153,7 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Static
 STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
@@ -171,10 +174,16 @@ AWS_STORAGE_BUCKET_NAME = config("DJANGO_S3_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = config("DJANGO_S3_DOMAIN", default=None)  # prod only
 AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
-# Sentry
-# https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147
-
 # CELERY STUFF
 CELERY_BROKER_URL = config("REDIS_URL")
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
+
+# Sentry
+if not DEBUG:
+    sentry_sdk.init(
+        dsn="https://3dedba3c033348c2ae0cdd9033ef2aa8@o179529.ingest.sentry.io/5414395",
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )
