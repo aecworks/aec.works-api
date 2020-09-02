@@ -78,7 +78,7 @@ class GithubProvider(BaseProvider):
         profile_photo_url = gh_user_data.get("avatar_url", None)
         avatar_image = create_image_from_url(profile_photo_url)
 
-        user_data = dict(name=gh_user_data["name"])
+        user_data = dict(name=gh_user_data["name"] or gh_user_data["login"])
         profile_data = dict(
             avatar_url=avatar_image.image.url,
             github_url=gh_user_data.get("html_url", None),
