@@ -151,9 +151,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
@@ -162,7 +159,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 # DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
@@ -180,6 +176,5 @@ AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
 # CELERY STUFF
 CELERY_BROKER_URL = config("REDIS_URL")
-# CELERY_RESULT_BACKEND = config("REDIS_URL")
-# CELERY_RESULT_BACKEND = "django-db"
-# CELERY_CACHE_BACKEND = "django-cache"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
