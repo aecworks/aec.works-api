@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     "mptt",
     "django_extensions",
     "debug_toolbar",
-    "django_celery_results",
+    # "django_celery_results",
     # Apps
     "api.users",
     "api.community",
@@ -178,6 +178,6 @@ AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
 # CELERY STUFF
 CELERY_BROKER_URL = config("REDIS_URL")
-CELERY_RESULT_BACKEND = config("REDIS_URL")
-CELERY_RESULT_BACKEND = "django-db"
-CELERY_CACHE_BACKEND = "django-cache"
+# CELERY_RESULT_BACKEND = config("REDIS_URL")
+# CELERY_RESULT_BACKEND = "django-db"
+# CELERY_CACHE_BACKEND = "django-cache"
