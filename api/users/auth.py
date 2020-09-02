@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 import requests
 
 from api.images.service import create_image_from_url
+from .choices import UserProviderChoices
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -16,10 +17,20 @@ class ProviderException(Exception):
 
 
 class BaseProvider:
+    NAME: str
+    API_URL: str
+    PROFILE_URL: str
+    EMAIL_URL: str
+    DEFAULT_HEADERS: dict
+    AUTH_URL: str
+    AUTH_HEADER: dict
+    AUTH_PARAMS: dict
+
     @classmethod
     def get_user_data_from_code(cls, code, redirect_uri) -> Tuple[str, dict]:
         access_token = cls._get_access_token(code, redirect_uri)
         email, user_data, profile_data = cls._agg_user_data(access_token)
+        user_data["provider"] = cls.NAME
         return email, user_data, profile_data
 
     @classmethod
@@ -39,7 +50,7 @@ class BaseProvider:
 
 class GithubProvider(BaseProvider):
 
-    NAME = "gihub"
+    NAME = UserProviderChoices.GITHUB.value
     API_URL = "https://api.github.com"
     PROFILE_URL = f"{API_URL}/user"
     EMAIL_URL = f"{API_URL}/user/emails"
@@ -81,7 +92,7 @@ class GithubProvider(BaseProvider):
 
 class LinkedInProvider(BaseProvider):
 
-    NAME = "linkedin"
+    NAME = UserProviderChoices.LINKEDIN.value
     API_URL = "https://api.linkedin.com"
     PROFILE_URL = f"{API_URL}/v2/me"
     EMAIL_URL = f"{API_URL}/v2/clientAwareMemberHandles?q=members&projection=(elements*(handle~))"

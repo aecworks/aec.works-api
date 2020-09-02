@@ -29,7 +29,7 @@ class TestViews:
     ):
         """ Test github/login/view """
         user = ProfileFactory().user
-        m_get_user_data_from_code.return_value = user.email, {}, {}
+        m_get_user_data_from_code.return_value = user.email, {"provider": "github"}, {}
         m_create_or_update_user.return_value = user
 
         resp = client.post("/users/login/github/?code=fakecode&redirect_uri=fakeuri")
@@ -38,7 +38,7 @@ class TestViews:
 
         m_get_user_data_from_code.assert_called_once_with("fakecode", "fakeuri")
         m_create_or_update_user.assert_called_once_with(
-            email=user.email, defaults={"source": "github"}
+            email=user.email, defaults={"provider": "github"}
         )
         m_update_profile.assert_called_once_with(user=user, defaults={})
 
