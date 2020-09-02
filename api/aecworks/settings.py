@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     "mptt",
     "django_extensions",
     "debug_toolbar",
-    # "django_celery_results",
+    "django_celery_results",
     # Apps
     "api.users",
     "api.community",
