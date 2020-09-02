@@ -7,5 +7,7 @@ setup:
 build:
   docker:
     web: Dockerfile.heroku
+    worker: Dockerfile
 run:
-  worker: celery -A api worker -l info
+  web: ./scripts/serve-prod.sh
+  worker: ./scripts/start-worker.sh
