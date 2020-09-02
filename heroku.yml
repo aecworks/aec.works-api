@@ -3,6 +3,9 @@ setup:
     - plan: heroku-postgresql:hobby-dev
       as: DATABASE
     - plan: heroku-redis:hobby-dev
+      as: REDIS
 build:
   docker:
     web: Dockerfile.heroku
+run:
+  worker: celery -A api worker -l info

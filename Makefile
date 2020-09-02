@@ -19,13 +19,13 @@ logs:
 
 rebuild:
 	docker-compose build --force-rm
-	make docker-start
+	make start
 
 seed:
 	python manage.py seed
 
 dev:
-	DJANGO_DEBUG=1 python manage.py runserver
+	CELERY_TASK_ALWAYS_EAGER=1 DJANGO_DEBUG=1 python manage.py runserver
 
 lint:
 	bash ./scripts/lint.sh
@@ -43,3 +43,5 @@ clean:
 setup:
 	bash ./scripts/setup.sh
 
+worker:
+	celery -A api worker -l info

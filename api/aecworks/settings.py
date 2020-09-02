@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "mptt",
     "django_extensions",
     "debug_toolbar",
+    "django_celery_results",
     # Apps
     "api.users",
     "api.community",
@@ -174,3 +175,9 @@ AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
 # Sentry
 # https://github.com/gtalarico/apidocs.api/blob/6ee8acdf2ed40fa9110747698fe94baea9c4a49f/apidocs/settings.py#L147
+
+# CELERY STUFF
+CELERY_BROKER_URL = config("REDIS_URL")
+CELERY_RESULT_BACKEND = config("REDIS_URL")
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
