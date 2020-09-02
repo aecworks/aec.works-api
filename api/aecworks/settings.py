@@ -23,7 +23,9 @@ CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
 # Cookies
-SESSION_COOKIE_SECURE = config("DJANGO_SESSION_COOKIE_SECURE", default=not DEBUG)
+SESSION_COOKIE_SECURE = config(
+    "DJANGO_SESSION_COOKIE_SECURE", cast=bool, default=not DEBUG
+)
 
 # Social Auth
 GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID")
