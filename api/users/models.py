@@ -3,7 +3,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
-from rest_framework.authtoken.models import Token
 
 from api.common.mixins import ReprMixin
 from .choices import UserProviderChoices
@@ -77,10 +76,3 @@ class Profile(ReprMixin, models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-        Token.objects.create(user=instance)
-
-
-# Not sure this is needed?
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
