@@ -46,25 +46,6 @@ class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIV
         return Response(serializer.data)
 
 
-class ProfileTweetsView(
-    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
-):
-    permission_classes = []
-    serializer_class = ProfileDetailSerializer
-    queryset = Profile.objects.all()
-
-    def get(self, request, slug):
-        from api.external.twitter import get_timeline
-
-        profile = selectors.get_profile(slug)
-        handle = profile.twitter
-        # serializer = self.get_serializer()
-        if handle:
-            return Response({"tweeets": get_timeline(handle)})
-        else:
-            return Response()
-
-
 class OauthLoginView(ErrorsMixin, views.APIView):
     expected_exceptions = {ProviderException: drf_exceptions.ValidationError}
 

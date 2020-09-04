@@ -6,6 +6,7 @@ whitenoise==5.1.0
 Pillow==6.2.2
 redis==3.5.3
 sentry-sdk==0.17.2
+tweepy==3.9.0
 
 celery==4.4.7
 django-celery-results==1.2.1
