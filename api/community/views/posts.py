@@ -1,5 +1,5 @@
 from django.core.exceptions import PermissionDenied
-from rest_framework import mixins, generics, serializers, permissions, filters
+from rest_framework import mixins, generics, serializers, permissions
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
@@ -51,13 +51,17 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     page_size = 50
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    search_fields = ["title", "body"]
-    filter_backends = [filters.SearchFilter]
 
     def get_queryset(self):
-        if hashtag_slug := self.request.query_params.get("hashtag"):
-            return self.queryset.filter(hashtags__slug__iexact=hashtag_slug)
-        return self.queryset.order_by("-hot_datetime", "created_at", "slug")
+        query = self.request.query_params.get("search")
+        hashtag_names = []
+
+        if hashtag_query := self.request.query_params.get("hashtags"):
+            hashtag_names = services.parse_hashtag_query(hashtag_query)
+
+        return selectors.query_posts(self.queryset, query, hashtag_names).order_by(
+            "-hot_datetime", "created_at", "slug"
+        )
 
     def get(self, request):
         return super().list(request)
