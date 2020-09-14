@@ -31,7 +31,7 @@ class CompanyRevision(CompanyBaseModel, ReprMixin):
     hashtags = models.ManyToManyField("Hashtag", related_name="+", blank=True)
 
     company = models.ForeignKey(
-        "Company", on_delete=models.PROTECT, related_name="revisions",
+        "Company", on_delete=models.CASCADE, related_name="revisions",
     )
     applied = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -70,7 +70,7 @@ class Company(CompanyBaseModel, ReprMixin):
     )
     last_revision = models.ForeignKey(
         "CompanyRevision",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         related_name="+",
         null=True,
         blank=True,

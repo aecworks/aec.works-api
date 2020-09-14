@@ -18,10 +18,18 @@ from api.users.models import Profile
 class Command(BaseCommand):
     help = "Closes the specified poll for voting"
 
-    # def add_arguments(self, parser):
-    #     parser.add_argument('poll_ids', nargs='+', type=int)
+    def add_arguments(self, parser):
+
+        parser.add_argument(
+            "--update",
+            action="store_true",
+            default=False,
+            help="Update if slug clashes with one already defined",
+        )
 
     def handle(self, *args, **options):
+
+        should_update = options["update"]
 
         url = "https://www.aecstartups.com/.netlify/functions/airtable"
         resp = requests.get(url)
@@ -56,9 +64,19 @@ class Command(BaseCommand):
                 created_by=profile,
             )
 
-            # print(slug)
-            # print(defaults)
-            company, _ = Company.objects.update_or_create(slug=slug, defaults=defaults)
+            exists = Company.objects.filter(slug=slug).exists()
+
+            if not exists:
+                print(f"Creating: {slug}")
+                company = Company.objects.create(slug=slug, **defaults)
+            else:
+                if not should_update:
+                    print(f"Already exist: {slug}")
+                    continue
+                print(f"Updating exist: {slug}")
+                company, _ = Company.objects.update_or_create(
+                    slug=slug, defaults=defaults
+                )
 
             # Image
             if image_path:

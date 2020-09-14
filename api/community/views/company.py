@@ -119,9 +119,6 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    # search_fields = ["name", "description"]
-    # filter_backends = [filters.SearchFilter]
-
     def get_queryset(self):
         query = self.request.query_params.get("search")
         hashtag_names = []
@@ -129,7 +126,9 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         if hashtag_query := self.request.query_params.get("hashtags"):
             hashtag_names = services.parse_hashtag_query(hashtag_query)
 
-        return selectors.query_companies(query, hashtag_names).order_by("name")
+        return selectors.query_companies(self.queryset, query, hashtag_names).order_by(
+            "name"
+        )
 
     def get(self, request):
         """ Get Company List """

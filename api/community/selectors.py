@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
@@ -32,22 +32,31 @@ def get_companies():
     )
 
 
-def query_companies(query, hashtag_slugs):
-    qs = get_companies()
+def query_multi_hashtag(qs, hashtag_slugs):
+    # Achieve case insensitive __in using regex:
+    reg_pat = f"({'|'.join(hashtag_slugs)})"
+    qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
+    # qs_with_one_of = qs.filter(hashtags__slug__in=hashtag_slugs)
+    qs_with_both = qs_with_one_of.annotate(
+        n_matches=Count("hashtags", distinct=True)
+    ).filter(n_matches=len(hashtag_slugs))
+    return qs_with_both
 
+
+def query_posts(qs, query, hashtag_slugs):
     if hashtag_slugs:
-        # Achieve case insensitive __in using regex:
-        reg_pat = f"({'|'.join(hashtag_slugs)})"
-        qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
-        # qs_with_one_of = qs.filter(hashtags__slug__in=hashtag_slugs)
-        qs_with_both = qs_with_one_of.annotate(
-            n_matches=Count("hashtags", distinct=True)
-        ).filter(n_matches=len(hashtag_slugs))
-        qs = qs_with_both
+        qs = query_multi_hashtag(qs, hashtag_slugs)
+    if query:
+        filters = Q(title__icontains=query) | Q(body__icontains=query)
+        qs = qs.filter(filters)
+    return qs
 
+
+def query_companies(qs, query, hashtag_slugs):
+    if hashtag_slugs:
+        qs = query_multi_hashtag(qs, hashtag_slugs)
     if query:
         qs = qs.filter(name__icontains=query)
-
     return qs
 
 
