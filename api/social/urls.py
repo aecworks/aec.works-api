@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     # /social/
-    path("twitter/timeline/<str:handle>", views.TweetTimelineView.as_view()),
+    path("twitter/timeline/<str:handle>/", views.TweetTimelineView.as_view()),
 ]
