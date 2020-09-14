@@ -70,3 +70,5 @@ jobs:
           AWS_ACCESS_KEY_ID: gh_test
           AWS_SECRET_ACCESS_KEY: gh_test
           REDIS_URL: gh_test
+          TWITTER_API_KEY: gh_test
+          TWITTER_API_SECRET: gh_test
