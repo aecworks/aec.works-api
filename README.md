@@ -32,24 +32,20 @@ $ make setup
 
 ```bash
 
-# Start db (postgres) and web (django) containers
+# start service containers (postgres & redis) & start dev server
 $ make start
 
-# Stream stdout/stderr of both containers
+# stream stdout/stderr of containers
 $ make logs
-
-# Open Shell inside container
-$ make bash
 ```
 
 ### Editor Setup
 
 **Requirements**
 
-* VSCode Recommended
+* VS Code (recommended)
 
-VS Code is not required but highly recommended - if using a different editor, make sure the settings in `.vscode/settings.json` and `.editorconfig` are respected.
-
+VS Code is not required but highly recommended - if using a different editor make sure the settings in `.vscode/settings.json` and `.editorconfig` are respected.
 With correct editor setup, files should be automatically linted (flake8 + mypy) and formatted (black).
 
 
