@@ -8,12 +8,8 @@ auth = tweepy.AppAuthHandler(consumer_key, consumer_secret)
 api = tweepy.API(auth)
 
 
-def get_timeline(twitter_handle):
+def get_timeline(twitter_handle, num=5):
     items = []
-    for item in tweepy.Cursor(api.user_timeline, screen_name=twitter_handle).items(5):
-        item.id
-        item.text  # text
-        item.created_at
-        item.entities["hashtags"]
+    for item in tweepy.Cursor(api.user_timeline, screen_name=twitter_handle).items(num):
         items.append(item._json)
     return items

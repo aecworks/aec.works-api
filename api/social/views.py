@@ -2,8 +2,6 @@ from rest_framework.response import Response
 from rest_framework import (
     views,
     exceptions,
-    # serializers,
-    # permissions,
 )
 
 from api.common.exceptions import ErrorsMixin
@@ -16,5 +14,5 @@ class TweetTimelineView(ErrorsMixin, views.APIView):
     expected_exceptions = {TweepError: exceptions.APIException}
 
     def get(self, request, handle):
-        tweets = get_timeline(handle)
+        tweets = get_timeline(handle, num=5)
         return Response(tweets)
