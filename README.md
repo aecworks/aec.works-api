@@ -42,18 +42,6 @@ $ make bash
 * [Install Remote Container Extension](https://code.visualstudio.com/docs/remote/containers)
 
 
-### Local Python Virtual Environment
-
-If you don't want to user VS Remote Containers or for any other reason need to setup a local Python Environment:
-
-* Python 3.8 (pyenv recommended)
-* `python -m venv .venv`
-* `source ./.venv/bin/activate`
-* `pip install -r requirements.txt`
-* `pip install -r requirements-dev.txt`
-* python manage.py runserver
-
-
 ## Contributing
 
 This project loosely follows patterns established by [Django-Styleguide](https://github.com/HackSoftware/Django-Styleguide) and [Django Api Domain](https://phalt.github.io/django-api-domains/styleguide/).

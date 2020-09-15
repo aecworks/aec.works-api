@@ -4,9 +4,8 @@ start:
 	docker network create aecworks-network || true
 	docker-compose up -d web
 
-db:
-	docker network create aecworks-network || true
-	docker-compose up -d postgres
+stop:
+	docker-compose down
 
 bash:
 	docker exec -it django bash
