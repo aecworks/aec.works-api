@@ -1,15 +1,15 @@
 import tweepy
 from django.conf import settings
 
-consumer_key = settings.TWITTER_API_KEY
-consumer_secret = settings.TWITTER_API_SECRET
 
-auth = tweepy.AppAuthHandler(consumer_key, consumer_secret)
-api = tweepy.API(auth)
+def get_tweepy_client():
+    auth = tweepy.AppAuthHandler(settings.TWITTER_API_KEY, settings.TWITTER_API_SECRET)
+    return tweepy.API(auth)
 
 
-def get_timeline(twitter_handle, num=5):
+def get_timeline(handle, num=5):
+    client = get_tweepy_client()
     items = []
-    for item in tweepy.Cursor(api.user_timeline, screen_name=twitter_handle).items(num):
+    for item in client.Cursor(client.user_timeline, screen_name=handle).items(num):
         items.append(item._json)
     return items
