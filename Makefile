@@ -1,8 +1,14 @@
-.PHONY: tests
+.PHONY: tests setup env
 
 start:
 	docker network create aecworks-network || true
-	docker-compose up -d web
+	docker-compose up -d redis postgres
+	make serve
+
+serve:
+	export CELERY_TASK_ALWAYS_EAGER=1
+	export DJANGO_DEBUG=1
+	bash ./scripts/serve-dev.sh
 
 stop:
 	docker-compose down
@@ -20,24 +26,21 @@ rebuild:
 	docker-compose build --force-rm
 	make start
 
-seed:
-	docker exec -it django python manage.py seed
-
-local:
-	CELERY_TASK_ALWAYS_EAGER=1 DJANGO_DEBUG=1 python manage.py runserver
-
 lint:
-	docker exec django bash ./scripts/lint.sh
+	bash ./scripts/lint.sh
 
 format:
-	docker exec django bash ./scripts/format.sh
+	bash ./scripts/format.sh
 
 test:
-	docker exec django python -m pytest
+	bash ./scripts/test.sh
 
 clean:
-	python -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"
-	python -c "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__')]"
+	bash ./scripts/clean.sh
 
 setup:
 	bash ./scripts/setup.sh
+	make env
+
+env:
+	bash ./scripts/envup.sh

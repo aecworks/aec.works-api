@@ -1,7 +1,0 @@
-#!/bin/bash
-
-source ./scripts/console.sh
-
-info "pre-commit hook 👀"
-
-make lint

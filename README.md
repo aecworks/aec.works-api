@@ -10,21 +10,25 @@
 
 * Docker
 * make
+* Python 3.8
+
+Note:
+
+Instructions for setting up Python 3.8 varies by environment and OS.
+For Windows, I recommend using the installers from [python.org/downloads/](https://www.python.org/downloads/). For Mac or Linux, you can use the installers as well, or [pyenv](https://github.com/pyenv/pyenv) (recommended).
+
 
 #### Setup
 
-Configure project and install dependencies:
+Configure project and install all dependencies:
 
 ```
 $ make setup
 ```
 
-#### Dev
-
-
+#### Dev-ing
 
 ```bash
-# Get .env file
 
 # Start db (postgres) and web (django) containers
 $ make start

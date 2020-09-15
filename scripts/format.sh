@@ -2,4 +2,6 @@
 
 source ./scripts/console.sh
 
-black . --exclude "\.venv|migrations"
+info "Formatting 🧹"
+
+./.venv/bin/black . --exclude "\.venv|migrations"
