@@ -1,8 +1,7 @@
+## aec.works-api
+![Django CI](https://github.com/aecworks/aec.works-api/workflows/Django%20CI/badge.svg)
+
 ![logo](https://aec.works/img/logo-black.10fa9bc4.svg)
-
-### aec.works-api
-
----
 
 
 ### Development Environment
