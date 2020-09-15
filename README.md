@@ -10,7 +10,7 @@
 
 #### Setup
 
-Configure project and install depedencies:
+Configure project and install dependencies:
 
 ```
 $ make setup
