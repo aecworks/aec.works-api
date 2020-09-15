@@ -21,24 +21,6 @@ services:
       POSTGRES_PASSWORD: postgres
       PGPASSWORD: postgres
 
-  web:
-    container_name: django
-    restart: always
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 8000:8000
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - .:/code
-    stdin_open: true
-    tty: true
-
 volumes:
   postgres_data:
 

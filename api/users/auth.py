@@ -58,8 +58,8 @@ class GithubProvider(BaseProvider):
     AUTH_URL = "https://github.com/login/oauth/access_token"
     AUTH_HEADER = {"Accept": "application/json"}
     AUTH_PARAMS = {
-        "client_id": settings.GITHUB_CLIENT_ID,
-        "client_secret": settings.GITHUB_CLIENT_SECRET,
+        "client_id": settings.OAUTH_GITHUB_CLIENT_ID,
+        "client_secret": settings.OAUTH_GITHUB_CLIENT_SECRET,
     }
 
     @classmethod
@@ -102,8 +102,8 @@ class LinkedInProvider(BaseProvider):
     AUTH_URL = "https://www.linkedin.com/oauth/v2/accessToken"
     AUTH_HEADER = {"Accept": "x-www-form-urlencoded"}
     AUTH_PARAMS = {
-        "client_id": settings.LINKEDIN_CLIENT_ID,
-        "client_secret": settings.LINKEDIN_CLIENT_SECRET,
+        "client_id": settings.OAUTH_LINKEDIN_CLIENT_ID,
+        "client_secret": settings.OAUTH_LINKEDIN_CLIENT_SECRET,
         "grant_type": "authorization_code",
     }
 

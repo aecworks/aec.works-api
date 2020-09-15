@@ -6,8 +6,8 @@ setup:
       as: REDIS
 build:
   docker:
-    web: Dockerfile.heroku
-    worker: Dockerfile.heroku
+    web: Dockerfile.deploy
+    worker: Dockerfile.deploy
 run:
   web: ./scripts/serve-prod.sh
   worker: ./scripts/start-worker.sh
