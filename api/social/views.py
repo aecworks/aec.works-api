@@ -1,12 +1,9 @@
 from rest_framework.response import Response
-from rest_framework import (
-    views,
-    exceptions,
-)
+from rest_framework import views, exceptions
+from tweepy.error import TweepError
 
 from api.common.exceptions import ErrorsMixin
 from .twitter import get_timeline
-from tweepy.error import TweepError
 
 
 class TweetTimelineView(ErrorsMixin, views.APIView):
