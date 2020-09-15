@@ -25,7 +25,7 @@ class CompanyBaseModel(models.Model):
         abstract = True
 
 
-class CompanyRevision(CompanyBaseModel, ReprMixin):
+class CompanyRevision(ReprMixin, CompanyBaseModel):
     # TODO: Rethink Revision model -
     # to diff based eg. Revision.diffs = [{"field": "name", op: "delete"}]
     hashtags = models.ManyToManyField("Hashtag", related_name="+", blank=True)
@@ -46,7 +46,7 @@ class CompanyRevision(CompanyBaseModel, ReprMixin):
     )
 
 
-class Company(CompanyBaseModel, ReprMixin):
+class Company(ReprMixin, CompanyBaseModel):
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
 
     objects = querysets.CompanyQueryset.as_manager()
@@ -64,7 +64,6 @@ class Company(CompanyBaseModel, ReprMixin):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # TODO Replace with: M2M Contributors
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
@@ -75,9 +74,23 @@ class Company(CompanyBaseModel, ReprMixin):
         null=True,
         blank=True,
     )
+    # TODO
+    # related_profiles = models.ManyToManyField(
+    #     "users.Profile", related_name="related_companies"
+    # )
 
     class Meta:
         verbose_name_plural = "companies"
+
+
+class Article(ReprMixin, models.Model):
+    url = models.URLField()
+    company = models.ForeignKey(
+        "Company", on_delete=models.CASCADE, related_name="articles"
+    )
+    created_by = models.ForeignKey(
+        "users.Profile", related_name="articles", on_delete=models.PROTECT,
+    )
 
 
 class Hashtag(ReprMixin, models.Model):

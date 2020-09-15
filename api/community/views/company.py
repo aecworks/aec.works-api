@@ -22,6 +22,10 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     thread_size = serializers.IntegerField(default=0)
     created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
+    articles = serializers.SerializerMethodField()
+
+    def get_articles(self, o):
+        return [a.url for a in o.articles.all()]
 
     class Meta:
         model = models.Company
@@ -33,6 +37,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "clap_count",
             "thread_size",
             "last_revision_id",
+            "articles",
             *services.updatable_attributes,
         ]
 
