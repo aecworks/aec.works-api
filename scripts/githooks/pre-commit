@@ -2,6 +2,6 @@
 
 source ./scripts/console.sh
 
-info "👀 pre-commit hook"
+info "pre-commit hook 👀"
 
 make lint
