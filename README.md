@@ -22,10 +22,13 @@ $ make setup
 
 #### Dev
 
+
+
 ```bash
+# Get .env file
+
 # Start db (postgres) and web (django) containers
 $ make start
-$ open "http://localhost:8000"
 
 # Stream stdout/stderr of both containers
 $ make logs
