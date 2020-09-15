@@ -1,3 +1,3 @@
 import celery
 
-app = celery.Celery("example")
+app = celery.Celery()
