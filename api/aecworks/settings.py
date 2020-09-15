@@ -156,13 +156,8 @@ REST_FRAMEWORK = {
 STATIC_ROOT = os.path.join(ROOT_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [os.path.join(ROOT_DIR, "static")]
-MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
-MEDIA_URL = "/media/"
-
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-# DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
 
 # AWS
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")

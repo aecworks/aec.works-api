@@ -22,26 +22,23 @@ rebuild:
 	make start
 
 seed:
-	python manage.py seed
+	docker exec -it django python manage.py seed
 
-dev:
+local:
 	CELERY_TASK_ALWAYS_EAGER=1 DJANGO_DEBUG=1 python manage.py runserver
 
 lint:
-	bash ./scripts/lint.sh
+	docker exec django bash ./scripts/lint.sh
 
 format:
-	bash ./scripts/format.sh
+	docker exec django bash ./scripts/format.sh
 
 test:
-	python -m pytest
+	docker exec django python -m pytest
 
 clean:
-	python3 -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"
-	python3 -c "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__')]"
+	python -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"
+	python -c "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__')]"
 
 setup:
 	bash ./scripts/setup.sh
-
-worker:
-	celery -A api worker -l info
