@@ -161,16 +161,16 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 MEDIA_URL = "/media/"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "django.contrib.staticfiles.storage.FileSystemStorage"
 
 # AWS
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-AWS_S3_REGION_NAME = "us-west-1"
-AWS_DEFAULT_ACL = "public-read"
 AWS_STORAGE_BUCKET_NAME = config("DJANGO_S3_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = config("DJANGO_S3_DOMAIN", default=None)  # prod only
+AWS_S3_REGION_NAME = "us-west-1"
+AWS_DEFAULT_ACL = "public-read"
 AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
 
 # CELERY STUFF
