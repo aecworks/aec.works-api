@@ -64,7 +64,6 @@ class Company(CompanyBaseModel, ReprMixin):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # TODO Replace with: M2M Contributors
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
