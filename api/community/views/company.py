@@ -14,6 +14,15 @@ from api.users.serializers import ProfileSerializer
 from .. import models, selectors, services
 
 
+class RequestArticleSerializer(serializers.Serializer):
+    url = serializers.CharField(required=True)
+
+
+class ResponseArticleSerializer(serializers.Serializer):
+    url = serializers.CharField(required=True)
+    opengraph_data = serializers.JSONField()
+
+
 class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
@@ -22,10 +31,10 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     thread_size = serializers.IntegerField(default=0)
     created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
-    articles = serializers.SerializerMethodField()
+    articles = ResponseArticleSerializer(many=True)
 
-    def get_articles(self, o):
-        return [a.url for a in o.articles.all()]
+    # def get_articles(self, o):
+    # return [a.url for a in o.articles.all()]
 
     class Meta:
         model = models.Company
@@ -97,16 +106,6 @@ class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
             "logo_url",
             "cover_url",
         ]
-
-
-class RequestArticleSerializer(serializers.Serializer):
-    url = serializers.CharField(required=True)
-
-
-class ResponseArticleSerializer(serializers.Serializer):
-    url = serializers.CharField(required=True)
-    created_by = ProfileSerializer()
-    opengraph_data = serializers.JSONField()
 
 
 class CompanyDetailView(

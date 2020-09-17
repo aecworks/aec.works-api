@@ -141,8 +141,8 @@ def apply_revision(*, revision, profile):
 
 
 def create_company_article(*, company, url, profile):
-    article = Article.objects.create(url=url, company=company, created_by=profile)
     og_article = OpenGraph(url=url)
+    og_data = None
     if og_article.is_valid():
         tags = [
             "site_name",
@@ -154,8 +154,11 @@ def create_company_article(*, company, url, profile):
             "image:height",
             "image:width",
         ]
-        article.opengraph_data = {k: v for k, v in og_article.items() if k in tags}
-        article.save()
+        og_data = {k: v for k, v in og_article.items() if k in tags}
+
+    article = Article.objects.create(
+        url=url, company=company, created_by=profile, opengraph_data=og_data
+    )
     return article
 
 

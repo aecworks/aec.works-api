@@ -75,10 +75,6 @@ class Company(ReprMixin, CompanyBaseModel):
         null=True,
         blank=True,
     )
-    # TODO
-    # related_profiles = models.ManyToManyField(
-    #     "users.Profile", related_name="related_companies"
-    # )
 
     class Meta:
         verbose_name_plural = "companies"
