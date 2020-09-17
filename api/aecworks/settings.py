@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # "django.contrib.sites",
     # Extensions
     "rest_framework",
+    "rest_framework.authtoken",
     "djoser",
     "corsheaders",
     "mptt",
@@ -76,9 +77,9 @@ MIDDLEWARE = [
     "api.middlewares.EnsureCsrfCookie",
     "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     # // Start Default
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

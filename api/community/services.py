@@ -3,10 +3,12 @@ from math import log
 from datetime import timedelta
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
+import opengraph
 
 from api.community.choices import PostBanner
 from api.common.utils import update_instance, to_hashtag
 from .models import (
+    Article,
     Comment,
     Hashtag,
     Post,
@@ -136,6 +138,13 @@ def apply_revision(*, revision, profile):
     revision.approved_by = profile
     revision.applied = True
     revision.save()
+
+
+def create_company_article(*, company, url, profile):
+    # article = Article.objects.create(url=url, company=company, created_by=profile)
+    og_article = opengraph.OpenGraph(url=url)
+    breakpoint()
+    # return article
 
 
 def parse_hashtag_query(query: str):

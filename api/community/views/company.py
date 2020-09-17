@@ -99,6 +99,10 @@ class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
         ]
 
 
+class RequestArticleSerializer(serializers.Serializer):
+    url = serializers.CharField(required=True)
+
+
 class CompanyDetailView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
 ):
@@ -202,8 +206,8 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
 
 class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
     queryset = selectors.get_companies()
-    expected_exceptions = {}
     lookup_field = "slug"
+    expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, slug):
@@ -212,3 +216,22 @@ class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
         profile = request.user.profile
         result = services.company_clap(company=company, profile=profile)
         return Response(result)
+
+
+class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_companies()
+    lookup_field = "slug"
+    expected_exceptions = {}
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, slug):
+        """ Adds article to a company """
+        serializer = RequestArticleSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        company = self.get_object()
+        profile = request.user.profile
+        url = serializer.validated_data["url"]
+
+        services.create_company_article(company=company, url=url, profile=profile)
+        return Response()
