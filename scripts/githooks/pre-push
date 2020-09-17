@@ -4,4 +4,5 @@ source ./scripts/console.sh
 
 info "pre-push hook 🚀 "
 
+make lint
 make test
