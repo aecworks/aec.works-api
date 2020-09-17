@@ -103,6 +103,12 @@ class RequestArticleSerializer(serializers.Serializer):
     url = serializers.CharField(required=True)
 
 
+class ResponseArticleSerializer(serializers.Serializer):
+    url = serializers.CharField(required=True)
+    created_by = ProfileSerializer()
+    opengraph_data = serializers.JSONField()
+
+
 class CompanyDetailView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
 ):
@@ -233,5 +239,8 @@ class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):
         profile = request.user.profile
         url = serializer.validated_data["url"]
 
-        services.create_company_article(company=company, url=url, profile=profile)
-        return Response()
+        article = services.create_company_article(
+            company=company, url=url, profile=profile
+        )
+
+        return Response(ResponseArticleSerializer(article).data)

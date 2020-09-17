@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django_extensions.db.fields import AutoSlugField
 from mptt import models as mptt_models
 from django.db.models.signals import pre_save, post_save
@@ -88,6 +89,7 @@ class Article(ReprMixin, models.Model):
     company = models.ForeignKey(
         "Company", on_delete=models.CASCADE, related_name="articles"
     )
+    opengraph_data = JSONField(default={})
     created_by = models.ForeignKey(
         "users.Profile", related_name="articles", on_delete=models.PROTECT,
     )

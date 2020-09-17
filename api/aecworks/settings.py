@@ -15,6 +15,12 @@ DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv())
 CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
 
+
+# Cookies
+SESSION_COOKIE_SECURE = config(
+    "DJANGO_SESSION_COOKIE_SECURE", cast=bool, default=not DEBUG
+)
+
 # SSL
 SECURE_SSL_REDIRECT = config("DJANGO_SECURE_SSL_REDIRECT", cast=bool, default=False)
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -25,10 +31,6 @@ CORS_ALLOW_METHODS = ("GET", "POST", "PUT", "PATCH", "OPTIONS")
 CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
-# Cookies
-SESSION_COOKIE_SECURE = config(
-    "DJANGO_SESSION_COOKIE_SECURE", cast=bool, default=not DEBUG
-)
 
 # Social Auth
 OAUTH_GITHUB_CLIENT_ID = config("OAUTH_GITHUB_CLIENT_ID")
@@ -75,9 +77,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "api.middlewares.EnsureCsrfCookie",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     # // Start Default
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",

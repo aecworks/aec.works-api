@@ -3,7 +3,7 @@ from math import log
 from datetime import timedelta
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
-import opengraph
+from opengraph.opengraph import OpenGraph
 
 from api.community.choices import PostBanner
 from api.common.utils import update_instance, to_hashtag
@@ -141,10 +141,22 @@ def apply_revision(*, revision, profile):
 
 
 def create_company_article(*, company, url, profile):
-    # article = Article.objects.create(url=url, company=company, created_by=profile)
-    og_article = opengraph.OpenGraph(url=url)
-    breakpoint()
-    # return article
+    article = Article.objects.create(url=url, company=company, created_by=profile)
+    og_article = OpenGraph(url=url)
+    if og_article.is_valid():
+        tags = [
+            "site_name",
+            "type",
+            "title",
+            "description",
+            "image",
+            "image:alt",
+            "image:height",
+            "image:width",
+        ]
+        article.opengraph_data = {k: v for k, v in og_article.items() if k in tags}
+        article.save()
+    return article
 
 
 def parse_hashtag_query(query: str):
