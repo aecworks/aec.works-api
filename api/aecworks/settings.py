@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "api.users",
     "api.community",
     "api.images",
+    "api.webhooks",
 ]
 
 MIDDLEWARE = [
