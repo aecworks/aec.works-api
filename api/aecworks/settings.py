@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # "django.contrib.sites",
     # Extensions
     "rest_framework",
+    "rest_framework.authtoken",
     "djoser",
     "corsheaders",
     "mptt",
