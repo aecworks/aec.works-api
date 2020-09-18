@@ -14,6 +14,15 @@ from api.users.serializers import ProfileSerializer
 from .. import models, selectors, services
 
 
+class RequestArticleSerializer(serializers.Serializer):
+    url = serializers.CharField(required=True)
+
+
+class ResponseArticleSerializer(serializers.Serializer):
+    url = serializers.CharField(required=True)
+    opengraph_data = serializers.JSONField()
+
+
 class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
@@ -22,6 +31,10 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     thread_size = serializers.IntegerField(default=0)
     created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
+    articles = ResponseArticleSerializer(many=True)
+
+    # def get_articles(self, o):
+    # return [a.url for a in o.articles.all()]
 
     class Meta:
         model = models.Company
@@ -33,6 +46,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "clap_count",
             "thread_size",
             "last_revision_id",
+            "articles",
             *services.updatable_attributes,
         ]
 
@@ -197,8 +211,8 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
 
 class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
     queryset = selectors.get_companies()
-    expected_exceptions = {}
     lookup_field = "slug"
+    expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, slug):
@@ -207,3 +221,25 @@ class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
         profile = request.user.profile
         result = services.company_clap(company=company, profile=profile)
         return Response(result)
+
+
+class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_companies()
+    lookup_field = "slug"
+    expected_exceptions = {}
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, slug):
+        """ Adds article to a company """
+        serializer = RequestArticleSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        company = self.get_object()
+        profile = request.user.profile
+        url = serializer.validated_data["url"]
+
+        article = services.create_company_article(
+            company=company, url=url, profile=profile
+        )
+
+        return Response(ResponseArticleSerializer(article).data)

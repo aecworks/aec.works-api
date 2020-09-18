@@ -4,6 +4,11 @@ from mptt.admin import MPTTModelAdmin
 from . import models
 
 
+@admin.register(models.Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ["id", "url", "company"]
+
+
 @admin.register(models.Comment)
 class CommentAdmin(MPTTModelAdmin):
     list_display = [

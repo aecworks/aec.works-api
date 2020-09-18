@@ -83,6 +83,7 @@ class Logout(ErrorsMixin, views.APIView):
 
 
 class Login(ErrorsMixin, views.APIView):
+    authentication_classes = []
     permission_classes = []
 
     def post(self, request):
