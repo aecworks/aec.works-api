@@ -23,8 +23,8 @@ def get_comment_children(*, parent_id):
     return get_comments().filter(parent_id=parent_id)
 
 
-def get_company_from_twitter_handle(handle):
-    return Company.objects.filter(twitter_handle__iexact=handle).first()
+def get_company(**kwargs):
+    return Company.objects.get(**kwargs)
 
 
 def get_companies():

@@ -1,24 +1,29 @@
-from rest_framework import generics, serializers, permissions
+from rest_framework import generics, serializers, permissions, exceptions
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 
 from api.common.exceptions import ErrorsMixin
-from api.community.selectors import get_company_from_twitter_handle
-from api.community.services import create_company_article
+from .services import create_article_from_tweet, TweetCompanyReferenceNotFound
 
 
 class WebhookSerializer(serializers.Serializer):
-    url = serializers.URLField(required=True)
     text = serializers.CharField(required=True)
-    mentioned = serializers.CharField(required=False)
-    hashtags = serializers.CharField(required=False)
+    url = serializers.URLField(allow_blank=True, allow_null=True)
+    mentioned = serializers.CharField(allow_blank=True, allow_null=True)
+    hashtags = serializers.CharField(allow_blank=True, allow_null=True)
 
 
 class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
+    expected_exceptions = {TweetCompanyReferenceNotFound: exceptions.ValidationError}
 
     def post(self, request):
+        """
+        This endopint is hit by a Zappier automation everytime @aecworks tweets
+        Zapier payloads is defined in `WebhookSerializer`
+        """
+
         serializer = WebhookSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -26,13 +31,14 @@ class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
         text = serializer.validated_data["text"]
         mentioned = serializer.validated_data.get("mentioned")
         hashtags = serializer.validated_data.get("hashtags")
-        print(text)
-        print(hashtags)
 
-        company = get_company_from_twitter_handle(mentioned)
-        if not mentioned or not company:
-            return Response()
+        if not url:
+            return Response("no url", status=204)
+        if "aecworks" not in hashtags:
+            return Response("aecworks hashtag not present", status=204)
 
         profile = request.user.profile
-        create_company_article(company=company, url=url, profile=profile)
-        return Response()
+        article = create_article_from_tweet(
+            url=url, text=text, mentioned=mentioned, hashtags=hashtags, profile=profile
+        )
+        return Response(article.id, status=201)

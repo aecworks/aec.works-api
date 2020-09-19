@@ -51,6 +51,7 @@ class ErrorsMixin:
 
     def wrap_errors(self, exc):
         """ ensure error data is always in an "error" key with an object """
+
         if not hasattr(exc, "detail"):
             raise exc
         if isinstance(exc.detail, str):

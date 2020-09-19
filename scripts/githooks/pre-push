@@ -1,12 +1,9 @@
 #!/bin/bash
 
+set -e
 source ./scripts/console.sh
 
 info "pre-push hook 🚀 "
 
-result=0
-trap 'result=1' ERR
 make lint
 make test
-exit "$result"
-
