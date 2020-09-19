@@ -6,7 +6,7 @@ https://github.com/HackSoftware/Django-Styleguide
 
 """
 
-from typying import Dict
+from typing import Dict
 from rest_framework import exceptions as rest_exceptions
 
 from rest_framework.views import exception_handler

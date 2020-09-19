@@ -8,9 +8,9 @@ from .services import create_article_from_tweet, TweetCompanyReferenceNotFound
 
 class WebhookSerializer(serializers.Serializer):
     text = serializers.CharField(required=True)
-    url = serializers.URLField(allow_blank=True, allow_null=True)
-    mentioned = serializers.CharField(allow_blank=True, allow_null=True)
-    hashtags = serializers.CharField(allow_blank=True, allow_null=True)
+    url = serializers.URLField(allow_blank=True, allow_null=True, required=False)
+    mentioned = serializers.CharField(required=True, allow_null=True, allow_blank=True)
+    hashtags = serializers.CharField(required=True, allow_null=True, allow_blank=True)
 
 
 class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
@@ -30,7 +30,7 @@ class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
         url = serializer.validated_data["url"]
         text = serializer.validated_data["text"]
         mentioned = serializer.validated_data.get("mentioned")
-        hashtags = serializer.validated_data.get("hashtags")
+        hashtags = serializer.validated_data.get("hashtags") or ""
 
         if not url:
             return Response("no url", status=204)
