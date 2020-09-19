@@ -6,7 +6,7 @@ https://github.com/HackSoftware/Django-Styleguide
 
 """
 
-
+from typying import Dict
 from rest_framework import exceptions as rest_exceptions
 
 from rest_framework.views import exception_handler
@@ -43,7 +43,7 @@ class ErrorsMixin:
     without the mixin, they return 500 status code which is not desired.
     """
 
-    expected_exceptions = {
+    expected_exceptions: Dict[Exception, Exception] = {
         ValueError: rest_exceptions.ValidationError,
         ValidationError: rest_exceptions.ValidationError,
         PermissionError: rest_exceptions.PermissionDenied,
