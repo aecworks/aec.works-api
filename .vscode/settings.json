@@ -6,9 +6,7 @@
     "python.formatting.blackPath": "black",
     "editor.formatOnSave": true,
     "[python]": {
-        "editor.rulers": [
-            88
-        ]
+        "editor.rulers": [88]
     },
     "files.associations": {
         "Dockerfile*": "dockerfile",
@@ -28,5 +26,5 @@
         "**/*.pytest_cache": true,
         "**/*.coverage": true
     },
-    "python.pythonPath": "/Users/gtalarico/dev/repos/gtalarico/aec.works/aec.works-api/.venv/bin/python3.8",
+    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.8/bin/python3"
 }
