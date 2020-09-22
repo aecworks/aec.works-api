@@ -44,3 +44,6 @@ setup:
 
 env:
 	bash ./scripts/envup.sh
+
+seed:
+	bash ./scripts/seed.sh

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 source ./scripts/console.sh
 
 info "pre-push hook 🚀 "

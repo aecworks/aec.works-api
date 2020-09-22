@@ -140,7 +140,7 @@ def apply_revision(*, revision, profile):
     revision.save()
 
 
-def create_company_article(*, company, url, profile):
+def create_company_article(*, company, url, profile) -> Article:
     og_article = OpenGraph(url=url, scrape=True)
     og_data = None
     if og_article.is_valid():
