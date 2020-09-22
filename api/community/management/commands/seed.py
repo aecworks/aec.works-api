@@ -33,12 +33,4 @@ class Command(BaseCommand):
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
 
-        call_command
-        # call_command("loaddata", "api/community/fixtures/companies.json")
-        # for company in models.Company.objects.all():
-        #     thread = f.ThreadFactory()
-        #     company.thread = thread
-        #     company.save()
-        #     comment = f.CommentFaThreadFactory(profile=profile, thread=thread)
-        #     comment.clappers.add(profile)
-        #     company.clappers.add(profile)
+        call_command("loaddata", "api/community/fixtures/companies.json")
