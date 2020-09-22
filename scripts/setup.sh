@@ -5,8 +5,9 @@ source ./scripts/console.sh
 
 pybinary="python3.8"
 
-if ! command -v $pybinary &> /dev/null
-then
+
+$pybinary -V &> /dev/null
+if [ $? -ne 0 ]; then
     # Can't find python
     error "$pybinary binary could not be found 🤷‍♀️"
     error "make sure you have python 3.8 installed and available in your PATH"
