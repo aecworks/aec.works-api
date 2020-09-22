@@ -36,6 +36,12 @@ This command will handle the following for you:
 
 See `scripts/setup.sh` for more details.
 
+
+To make sure everything functions, run test suite:
+```
+$ make test
+```
+
 #### Dev-ing
 
 ```bash
