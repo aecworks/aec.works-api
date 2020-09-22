@@ -214,6 +214,7 @@ class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
     lookup_field = "slug"
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ResponseCompanySerializer  # TODO For docs only
 
     def post(self, request, slug):
         """ Adds User as Clapper of Company """
@@ -228,6 +229,7 @@ class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):
     lookup_field = "slug"
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ResponseArticleSerializer
 
     def post(self, request, slug):
         """ Adds article to a company """

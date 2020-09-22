@@ -14,15 +14,19 @@ class WebhookSerializer(serializers.Serializer):
 
 
 class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
+    """ Twitter Webhook """
+
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
     expected_exceptions = {TweetCompanyReferenceNotFound: exceptions.ValidationError}
+    serializer_class = WebhookSerializer
 
     def post(self, request):
         """
-        This endopint is hit by a Zappier automation everytime @aecworks tweets
-        Zapier payloads is defined in `WebhookSerializer`
+        Twitter Webhook
         """
+        # This endopint is hit by a Zappier automation everytime @aecworks tweets
+        # Zapier payloads is defined in `WebhookSerializer`
 
         serializer = WebhookSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -96,7 +96,7 @@ ROOT_URLCONF = "api.aecworks.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["api/aecworks/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
