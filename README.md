@@ -56,6 +56,16 @@ $ make start
 $ make logs
 ```
 
+#### Virtual Environment
+
+If you need to run commands using the venv interpreter, just activate the virtual environment first.
+
+```bash
+$ source .venv/bin/activate
+$ (.venv) python manage.py migrate
+```
+If you are not familiar with Python's venv module you can [checkout the docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#activating-a-virtual-environment).
+
 ### Editor Setup
 
 **Requirements**
