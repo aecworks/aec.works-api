@@ -20,7 +20,7 @@ else
     info  "creating python virtual environment 🏠"
     $pybinary -m venv .venv
 
-    info  "installing pyhton depedencies - hang tight 🕐"
+    info  "installing python dependencies - hang tight 🕐"
     "./.venv/bin/$pybinary" -m pip install -q --upgrade pip
     "./.venv/bin/$pybinary" -m pip install -q -r requirements.txt
     "./.venv/bin/$pybinary" -m pip install -q -r requirements-dev.txt
