@@ -26,6 +26,11 @@ Configure project and install all dependencies:
 $ make setup
 ```
 
+To make sure everything functions, run test suite:
+```
+$ make test
+```
+
 > Note: access to `aecworks-env` which holds env secrets must be granted first
 
 #### Dev-ing

@@ -1,3 +1,5 @@
+# TODO Replace with Request Factory Tests, much faster
+
 from unittest import mock
 import pytest
 from rest_framework.test import APIClient

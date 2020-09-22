@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # "django.contrib.sites",
     # Extensions
     "rest_framework",
+    "rest_framework.authtoken",
     "djoser",
     "corsheaders",
     "mptt",
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
     "api.users",
     "api.community",
     "api.images",
+    "api.webhooks",
 ]
 
 MIDDLEWARE = [

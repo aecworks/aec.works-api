@@ -7,7 +7,7 @@ class CompanyFactory(factory.django.DjangoModelFactory):
         model = models.Company
 
     name = factory.Faker("company")
-    # slug
+    # slug - use signal
     description = factory.Faker("paragraph", nb_sentences=2)
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
 
@@ -40,6 +40,7 @@ class CompanyRevisionFactory(factory.django.DjangoModelFactory):
 class HashtagFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Hashtag
+        django_get_or_create = ("slug",)
 
     slug = factory.Faker("word")
 
