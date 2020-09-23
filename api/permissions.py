@@ -8,9 +8,6 @@ class IsReadOnly(permissions.BasePermission):
 
 class BaseGroupPermissions(permissions.BasePermission):
     def has_permission(self, request, view):
-        print(request.user)
-        print(request.user.groups.all())
-        print(request.user.groups.filter(name__in=self.group_names).exists())
         if request.user.groups.filter(name__in=self.group_names).exists():
             return True
         else:
