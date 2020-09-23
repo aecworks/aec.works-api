@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-editor_permissions = ["add_companyrevision", "change_company", "can_apply_revision"]
+editor_permissions = ["add_companyrevision", "change_company", "apply_companyrevision"]
 creator_permissions = ["add_company", "delete_company"]
 group_settings = {
     "editors": editor_permissions,

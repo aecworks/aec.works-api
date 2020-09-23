@@ -7,17 +7,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0020_null_opengraph'),
+        ("community", "0020_null_opengraph"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='company',
-            options={'permissions': [('can_apply_revision', 'Can Apply Revision')], 'verbose_name_plural': 'companies'},
+            name="company",
+            options={
+                "permissions": [("apply_companyrevision", "Can Apply Revision")],
+                "verbose_name_plural": "companies",
+            },
         ),
         migrations.AlterField(
-            model_name='article',
-            name='opengraph_data',
+            model_name="article",
+            name="opengraph_data",
             field=django.contrib.postgres.fields.jsonb.JSONField(default=dict),
         ),
     ]

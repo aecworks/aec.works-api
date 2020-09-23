@@ -78,7 +78,7 @@ class Company(ReprMixin, CompanyBaseModel):
 
     class Meta:
         verbose_name_plural = "companies"
-        permissions = [("can_apply_revision", "Can Apply Revision")]
+        permissions = [("apply_companyrevision", "Can Apply Revision")]
 
 
 class Article(ReprMixin, models.Model):
