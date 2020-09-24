@@ -14,7 +14,7 @@ class Command(BaseCommand):
         while True:
             for hashtag in models.Hashtag.objects.all():
                 yield hashtag
-            yield f.Hashtag()
+            yield f.HashtagFactory()
 
     def handle(self, *args, **options):
         hashtag_generator = self.get_hashtag()
