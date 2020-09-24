@@ -4,6 +4,7 @@ import debug_toolbar
 
 urlpatterns = [
     # Admin + Jet (Admin Skin)
+    path("", admin.site.urls),
     path("admin/", admin.site.urls),
     path("jet/", include("jet.urls", "jet")),
     # DRF Browsable Api Auth
