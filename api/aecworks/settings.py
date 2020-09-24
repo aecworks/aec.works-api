@@ -25,7 +25,7 @@ CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
 
 # CRSF
-CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+CSRF_TRUSTED_ORIGINS = config("DJANGO_CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
 
 # Cookies
 SESSION_COOKIE_SECURE = config(
