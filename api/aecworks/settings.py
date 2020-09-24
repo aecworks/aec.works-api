@@ -43,7 +43,7 @@ AUTH_USER_MODEL = "users.User"
 
 # Sites
 SITE_ID = 1
-INTERNAL_IPS = ["localhost"]
+INTERNAL_IPS = ["localhost", "127.0.0.1"]
 
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
