@@ -13,7 +13,6 @@ ROOT_DIR = os.path.dirname(API_DIR)
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv())
-CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
 
 # SSL
 SECURE_SSL_REDIRECT = config("DJANGO_SECURE_SSL_REDIRECT", cast=bool, default=False)
@@ -24,6 +23,9 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_METHODS = ("GET", "POST", "PUT", "PATCH", "OPTIONS")
 CORS_ORIGIN_WHITELIST = config("DJANGO_CORS_ORIGIN_WHITELIST", default="", cast=Csv())
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[\w-]+--aecworks\.netlify\.app$"]
+
+# CRSF
+CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
 
 # Cookies
 SESSION_COOKIE_SECURE = config(
