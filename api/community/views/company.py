@@ -9,6 +9,7 @@ from rest_framework import (
 )
 
 
+from api.permissions import IsCreatorPermission, IsEditorPermission, IsReadOnly
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
 from .. import models, selectors, services
@@ -32,9 +33,6 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
     articles = ResponseArticleSerializer(many=True)
-
-    # def get_articles(self, o):
-    # return [a.url for a in o.articles.all()]
 
     class Meta:
         model = models.Company
@@ -131,7 +129,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     pagination_class = LimitOffsetPagination
     page_size = 25
     expected_exceptions = {}
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsCreatorPermission | IsReadOnly]
 
     def get_queryset(self):
         query = self.request.query_params.get("search")
@@ -164,7 +162,7 @@ class CompanyRevisionListView(
     serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
     lookup_field = "slug"
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsEditorPermission | IsReadOnly]
     expected_exceptions = {}
 
     def get(self, request, slug):
@@ -193,16 +191,11 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
     queryset = selectors.get_revisions()
     expected_exceptions = {}
     lookup_field = "id"
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsEditorPermission | IsReadOnly]
 
     def post(self, request, id, action):
         if action == "approve":  # approve
             revision = self.get_object()
-            # TODO: rethink approved_by, applied by
-            # or diff model Revision.diffs = [{"field": "name", op: "delete"}]
-            # if revision.approved_by:
-            # raise exceptions.ValidationError("Revision is already approved")
-
             services.apply_revision(revision=revision, profile=request.user.profile)
             return Response(ResponseCompanyRevisionSerializer(revision).data)
         else:
