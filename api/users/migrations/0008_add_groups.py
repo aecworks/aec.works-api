@@ -7,6 +7,7 @@ editor_permissions = [
     "change_company",
     "apply_companyrevision",
     "add_company",
+    "add_hashtag",
     "delete_company",
 ]
 group_settings = {

@@ -44,7 +44,9 @@ class BaseProvider:
             response = resp.json()
             return response["access_token"]
         except KeyError:
+            print(f"provider error: {cls.NAME}: {resp.content}")
             logger.error(f"provider error: {cls.NAME}: {resp.content}")
+            print("logger above")
             raise ProviderException(f"unexpected response from {cls.NAME}")
 
 

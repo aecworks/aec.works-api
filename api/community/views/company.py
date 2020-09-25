@@ -9,7 +9,7 @@ from rest_framework import (
 )
 
 
-from api.permissions import IsCreatorPermission, IsEditorPermission, IsReadOnly
+from api.permissions import IsEditorPermission, IsReadOnly
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
 from .. import models, selectors, services
@@ -129,7 +129,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     pagination_class = LimitOffsetPagination
     page_size = 25
     expected_exceptions = {}
-    permission_classes = [IsCreatorPermission | IsReadOnly]
+    permission_classes = [IsEditorPermission | IsReadOnly]
 
     def get_queryset(self):
         query = self.request.query_params.get("search")

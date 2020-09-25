@@ -18,8 +18,3 @@ class BaseGroupPermissions(permissions.BasePermission):
 class IsEditorPermission(BaseGroupPermissions):
     message = "Must Be Editor"
     group_names = ["editors", "creators"]
-
-
-class IsCreatorPermission(BaseGroupPermissions):
-    message = "Must Be Creator"
-    group_names = ["creators"]
