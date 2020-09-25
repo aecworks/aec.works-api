@@ -185,3 +185,16 @@ if not DEBUG:
         traces_sample_rate=1.0,
         send_default_pii=True,
     )
+
+
+log_level = "INFO" if DEBUG else "WARN"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    # "root": {"handlers": ["console"], "level": "WARNING"},
+    "loggers": {
+        "": {"handlers": ["console"], "level": log_level, "propagate": True},
+        "django": {"handlers": ["console"], "level": log_level, "propagate": False},
+    },
+}

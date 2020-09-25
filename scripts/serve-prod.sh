@@ -17,5 +17,5 @@ exec gunicorn api.aecworks.wsgi \
     --name gunicorn \
     --bind 0.0.0.0:$PORT \
     --log-level=info \
-    --log-file - \
+    --log-file=- \
     "$@"
