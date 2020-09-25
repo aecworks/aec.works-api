@@ -185,3 +185,9 @@ if not DEBUG:
         traces_sample_rate=1.0,
         send_default_pii=True,
     )
+
+
+import logging  # noqa
+
+logger = logging.getLogger(__name__)
+logger.error("test")
