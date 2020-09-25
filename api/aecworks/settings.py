@@ -187,7 +187,14 @@ if not DEBUG:
     )
 
 
-import logging  # noqa
-
-logger = logging.getLogger(__name__)
-logger.error("test")
+log_level = "INFO" if DEBUG else "WARN"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    # "root": {"handlers": ["console"], "level": "WARNING"},
+    "loggers": {
+        "": {"handlers": ["console"], "level": log_level, "propagate": True},
+        "django": {"handlers": ["console"], "level": log_level, "propagate": False},
+    },
+}
