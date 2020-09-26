@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     # Extensions
     "rest_framework",
     "rest_framework.authtoken",
+    "graphene_django",
     "djoser",
     "corsheaders",
     "mptt",
@@ -115,7 +116,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "api.aecworks.wsgi.application"
 
 DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)}
-
+GRAPHENE = {"SCHEMA": "api.gql_schema.schema"}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
