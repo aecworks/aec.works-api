@@ -29,7 +29,7 @@ def get_company(**kwargs):
 
 def get_companies():
     return (
-        Company.objects.select_related("created_by", "thread")
+        Company.objects.select_related("created_by__user", "thread")
         .prefetch_related("hashtags", "articles")
         .with_counts()
         .all()
