@@ -7,6 +7,7 @@ urlpatterns = [
     path("comments/", views.CommentListView.as_view()),
     path("comments/<int:id>/clap/", views.CommentClapView.as_view()),
     path("companies/", views.CompanyListView.as_view()),
+    path("companies/claps/", views.CompanyClapsListView.as_view()),
     path("companies/<str:slug>/", views.CompanyDetailView.as_view()),
     path("companies/<str:slug>/clap/", views.CompanyClapView.as_view()),
     path("companies/<str:slug>/articles/", views.CompanyArticleListView.as_view()),

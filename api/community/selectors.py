@@ -36,6 +36,10 @@ def get_companies():
     )
 
 
+def get_company_claps():
+    return Company.clappers.through.objects.all()
+
+
 def query_multi_hashtag(qs, hashtag_slugs):
     # Achieve case insensitive __in using regex:
     reg_pat = f"({'|'.join(hashtag_slugs)})"
