@@ -1,4 +1,5 @@
-from datetime import timedelta, date
+from datetime import timedelta
+from django.utils import timezone
 from django.db.models import Count, Q
 from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
@@ -12,12 +13,9 @@ def get_thread(*, id):
 
 
 def get_recent_comments(days_back=7):
-    today = date.today()
-    recent = today - timedelta(days=days_back)
-    tomorrow = today + timedelta(days=1)
-    return (
-        Comment.objects.filter(created_at__range=[recent, tomorrow]).with_counts().all()
-    )
+    now = timezone.now()
+    recent = now - timedelta(days=days_back)
+    return Comment.objects.filter(created_at__range=[recent, now]).with_counts().all()
 
 
 def get_thread_comments(*, thread_id):
