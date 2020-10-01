@@ -23,6 +23,7 @@
             "user": [
                 "dev@dev.com"
             ],
+            "slug": "dev-user",
             "bio": null,
             "location": null,
             "twitter": null,

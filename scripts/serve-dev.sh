@@ -6,7 +6,7 @@ info "Activating python venv"
 source .venv/bin/activate || exit 1
 
 info "Running collecstatic"
-python manage.py collectstatic --noinput --link -v 0 --no-post-process
+python manage.py collectstatic --noinput --link -v 0 --no-post-process --ignore .venv
 
 info "Checking DB Connection"
 while ! python manage.py inspectdb >/dev/null; do
