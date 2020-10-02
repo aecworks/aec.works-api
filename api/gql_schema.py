@@ -1,7 +1,10 @@
 import graphene
 from graphene_django import DjangoObjectType
+from graphene_django.rest_framework.mutation import SerializerMutation
 
-from api.community import selectors
+# Test Serializer Integration
+from api.community.views.posts import NewPostRequestSerializer
+from api.community import selectors, services
 from api.community.models import (
     Article,
     Company,
@@ -76,6 +79,43 @@ class ThreadType(DjangoObjectType):
         fields = "__all__"
 
 
+class CreatePostWithSerializer(SerializerMutation):
+    class Meta:
+        serializer_class = NewPostRequestSerializer
+        model_operations = ["create"]
+        # lookup_field = 'id'
+
+    @classmethod
+    def get_serializer_kwargs(cls, root, info, **input):
+        # Gets messy
+        input["profile"] = info.context.user.profile
+        kwargs = super(CreatePostWithSerializer, cls).get_serializer_kwargs(
+            root, info, **input
+        )
+        return kwargs
+
+
+class CreatePost(graphene.Mutation):
+    class Arguments:
+        # Replaces Serializers
+        title = graphene.String(required=True)
+        body = graphene.String(required=True)
+        hashtag_names = graphene.List(graphene.String)
+
+    post = graphene.Field(PostType)
+
+    @classmethod
+    def mutate(cls, root, info, **kwargs):
+        profile = info.context.user.profile
+        post = services.create_post(profile=profile, **kwargs)
+        return cls(post=post)
+
+
+class Mutation(graphene.ObjectType):
+    create_post = CreatePost.Field()
+    create_post_with_serializer = CreatePostWithSerializer.Field()
+
+
 class Query(graphene.ObjectType):
     companies = graphene.List(CompanyType, hashtag=graphene.String(required=False))
     company_by_slug = graphene.Field(CompanyType, slug=graphene.String(required=True))
@@ -93,4 +133,13 @@ class Query(graphene.ObjectType):
         return Post.objects.all()
 
 
-schema = graphene.Schema(query=Query)
+class AuthorizationMiddleware(object):
+    def resolve(self, next, root, info, **args):
+        is_authenticated = info.context.user.is_authenticated
+        is_mutation = info.operation.operation == "mutation"
+        if is_mutation and not is_authenticated:
+            return None
+        return next(root, info, **args)
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
