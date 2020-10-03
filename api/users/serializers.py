@@ -5,7 +5,7 @@ from .models import Profile
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["slug", "name", "avatar_url"]
+        fields = ["slug", "name", "bio", "location", "avatar_url"]
 
 
 class ProfileDetailSerializer(serializers.ModelSerializer):
