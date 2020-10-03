@@ -117,8 +117,8 @@ WSGI_APPLICATION = "api.aecworks.wsgi.application"
 
 DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"), conn_max_age=600)}
 GRAPHENE = {
-    "SCHEMA": "api.gql_schema.schema",
-    "MIDDLEWARE": ("api.gql_schema.AuthorizationMiddleware",),
+    "SCHEMA": "api.graphql.schema.schema",
+    "MIDDLEWARE": ("api.graphql.middlewares.AuthorizationMiddleware",),
 }
 
 # Password validation
