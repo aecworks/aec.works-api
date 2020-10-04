@@ -3,6 +3,6 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.Image)
+@admin.register(models.ImageAsset)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ["image", "created_at", "created_by"]
+    list_display = ["file", "created_at", "created_by"]

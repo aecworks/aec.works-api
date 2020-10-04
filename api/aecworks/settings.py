@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "debug_toolbar",
     "django_celery_results",
+    "django_cleanup",
     # Apps
     "api.users",
     "api.community",

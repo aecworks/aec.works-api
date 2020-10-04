@@ -7,6 +7,7 @@ from django.dispatch import receiver
 
 from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
+from api.images.models import ImageAsset
 from api.community.choices import PostBanner
 
 from . import querysets

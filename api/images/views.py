@@ -1,24 +1,31 @@
-from rest_framework import views, serializers, permissions
-from rest_framework.parsers import FileUploadParser
+from rest_framework import views, serializers, permissions, exceptions
 from rest_framework.response import Response
 
-from .service import create_image
+from .service import create_image_asset
+from .utils import UuidNamedFileUploadParser
 
 
-class ImageResponseSerializer(serializers.Serializer):
-    url = serializers.ImageField(source="image")
+class ImageAssetResponseSerializer(serializers.Serializer):
+    url = serializers.ImageField(source="file")
+    created_at = serializers.DateTimeField()
+    width = serializers.IntegerField()
+    height = serializers.IntegerField()
     created_at = serializers.DateTimeField()
 
 
-class ImageRequestSerializer(serializers.Serializer):
-    image = serializers.ImageField()
-
-
-class ImageUploadView(views.APIView):
+class ImageAssetUploadView(views.APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    parser_classes = [FileUploadParser]
+    parser_classes = [UuidNamedFileUploadParser]
 
-    def put(self, request, filename, format=None):
+    def put(self, request, **kwargs):
         file = request.data["file"]
-        image = create_image(image_file=file, user=request.user)
-        return Response(ImageResponseSerializer(image).data, status=201)
+        try:
+            width = int(request.query_params.get("width", 0))
+            height = int(request.query_params.get("height", 0))
+        except ValueError:
+            raise exceptions.ValidationError("width and height must be numbers")
+
+        image = create_image_asset(
+            image_file=file, width=width, height=height, profile=request.user.profile
+        )
+        return Response(ImageAssetResponseSerializer(image).data, status=201)

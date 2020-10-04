@@ -8,9 +8,8 @@ urlpatterns = [
     path("jet/", include("jet.urls", "jet")),
     # DRF Browsable Api Auth
     path("api-auth/", include("rest_framework.urls")),
-    # Djoser Auth - users, token and jwt urls
+    # Djoser Auth - users, token
     path("auth/", include("djoser.urls")),
-    path("auth/", include("djoser.urls.jwt")),
     # Apps
     path("community/", include("api.community.urls")),
     path("users/", include("api.users.urls")),
