@@ -1,12 +1,13 @@
 import requests
 import io
-import base64
 import PIL
 
 from django.core.files.images import ImageFile
 from .utils import uuid_filename_from_content_type
 from .models import ImageAsset
 
+from .utils import uuid_filename_from_content_type
+from .models import ImageAsset
 
 def create_image_asset(
     *, image_file, width=None, height=None, profile=None
@@ -15,18 +16,12 @@ def create_image_asset(
         image_file = resize(image_file, width, height)
     return ImageAsset.objects.create(file=image_file, created_by=profile)
 
-
-def create_image_file_from_data_uri(data_uri: str) -> ImageFile:
-    """  Given a data-uri string, create a ImageFile object.
-    eg. ("data:image/png;base64,iVBOR...") => ImageFile
-    """
-    #
-    _, data = data_uri.split("data:")
-    content_type, b64_data = data.split(";base64,")
-    filename = uuid_filename_from_content_type(content_type)
-    fp = io.BytesIO()
-    fp.write(base64.b64decode(b64_data))
-    return ImageFile(fp, name=filename)
+def create_image_asset(
+    *, image_file, width=None, height=None, profile=None
+) -> ImageAsset:
+    if width or height:
+        image_file = resize(image_file, width, height)
+    return ImageAsset.objects.create(file=image_file, created_by=profile)
 
 
 def create_image_from_url(url, **kwargs):
