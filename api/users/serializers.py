@@ -3,6 +3,11 @@ from .models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    avatar_url = serializers.SerializerMethodField()
+
+    def get_avatar_url(self, obj):
+        return obj.avatar_img.file.url
+
     class Meta:
         model = Profile
         fields = ["slug", "name", "bio", "location", "avatar_url"]
