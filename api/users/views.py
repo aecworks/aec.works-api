@@ -8,15 +8,20 @@ from django.contrib.auth import login, logout, authenticate
 from api.common.exceptions import ErrorsMixin
 from . import selectors, services
 from .auth import GithubProvider, LinkedInProvider, ProviderException
-from .models import Profile
 from .choices import UserProviderChoices
 
 from .serializers import ProfileSerializer, ProfileDetailSerializer
 
 
+PROVIDERS = {
+    UserProviderChoices.LINKEDIN.value: LinkedInProvider,
+    UserProviderChoices.GITHUB.value: GithubProvider,
+}
+
+
 class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = ProfileSerializer
-    queryset = selectors.get_profiles()
+    queryset = selectors.get_distinct_profiles()
     pagination_class = LimitOffsetPagination
     page_size = 100
 
@@ -28,7 +33,7 @@ class ProfileDetailView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
 ):
     serializer_class = ProfileDetailSerializer
-    queryset = Profile.objects.all()
+    queryset = selectors.get_distinct_profiles()
     lookup_field = "slug"
 
     def get(self, request, slug):
@@ -38,7 +43,7 @@ class ProfileDetailView(
 class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileDetailSerializer
-    queryset = Profile.objects.all()
+    queryset = selectors.get_distinct_profiles()
 
     def get(self, request):
         user = request.user
@@ -55,14 +60,10 @@ class OauthLoginView(ErrorsMixin, views.APIView):
         if not code:
             raise drf_exceptions.ValidationError("code is missing")
 
-        providers = {
-            UserProviderChoices.LINKEDIN.value: LinkedInProvider,
-            UserProviderChoices.GITHUB.value: GithubProvider,
-        }
-        if provider_name not in providers:
+        try:
+            provider = PROVIDERS[provider_name]
+        except KeyError:
             raise drf_exceptions.NotFound(f"provider not supported: {provider_name}")
-
-        provider = providers[provider_name]
 
         email, user_data, profile_data = provider.get_user_data_from_code(
             code, redirect_uri
