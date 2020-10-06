@@ -4,14 +4,14 @@
         "pk": 1,
         "fields": {
             "password": "pbkdf2_sha256$150000$MnfFqNEMDBP2$W/gOH/WMD2XZyG9BjBnU5ncomy/0EmtvwNukpyslcOI=",
-            "last_login": "2020-05-18T05:09:32.520Z",
+            "last_login": "2020-10-06T07:20:41.109Z",
             "is_superuser": true,
-            "name": "Dev User",
             "is_staff": true,
             "is_active": true,
             "date_joined": "2020-05-18T05:07:27.024Z",
             "email": "dev@dev.com",
             "provider": "SIGN_UP",
+            "name": "Dev User",
             "groups": [],
             "user_permissions": []
         }
@@ -27,7 +27,8 @@
             "bio": null,
             "location": null,
             "twitter": null,
-            "github": null
+            "github": null,
+            "avatar_img": 14
         }
     }
 ]
