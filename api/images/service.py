@@ -16,8 +16,11 @@ def create_image_asset(
     return ImageAsset.objects.create(file=image_file, created_by=profile)
 
 
-def create_image_file_from_data_uri(data_uri: str):
-    # data:image/png;base64,iVBOR...
+def create_image_file_from_data_uri(data_uri: str) -> ImageFile:
+    """  Given a data-uri string, create a ImageFile object.
+    eg. ("data:image/png;base64,iVBOR...") => ImageFile
+    """
+    #
     _, data = data_uri.split("data:")
     content_type, b64_data = data.split(";base64,")
     filename = uuid_filename_from_content_type(content_type)
@@ -27,6 +30,7 @@ def create_image_file_from_data_uri(data_uri: str):
 
 
 def create_image_from_url(url, **kwargs):
+    # TODO return only ImageFile
     resp = requests.get(url, **kwargs)
     filename = uuid_filename_from_content_type(resp.headers["Content-Type"])
     fp = io.BytesIO()
