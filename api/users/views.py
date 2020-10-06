@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics, views
+from rest_framework import mixins, generics, views, filters
 from rest_framework.response import Response
 from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
@@ -19,6 +19,9 @@ class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     queryset = selectors.get_profiles()
     pagination_class = LimitOffsetPagination
     page_size = 100
+
+    search_fields = ["bio", "location", "user__name"]
+    filter_backends = [filters.SearchFilter]
 
     def get(self, request):
         return super().list(request)
