@@ -7,7 +7,6 @@ from django.dispatch import receiver
 
 from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
-from api.images.models import ImageAsset
 from api.community.choices import PostBanner
 
 from . import querysets
@@ -127,12 +126,11 @@ class Post(ReprMixin, models.Model):
     )
     cover_img = models.ForeignKey(
         "images.ImageAsset",
-        related_name="post_covers",
+        related_name="posts",
         on_delete=models.PROTECT,
         blank=True,
         null=True,
     )
-    images = models.ManyToManyField("images.ImageAsset", related_name="posts")
 
 
 class Thread(ReprMixin, models.Model):

@@ -88,9 +88,6 @@ def generate_post_banner(profile):
 
 
 def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
-    """ Given a html body, create one `ImageAsset` for each <img>
-    Returns an updated body and a list of generated `ImageAsset` objects
-    """
     soup = BeautifulSoup(body, "html.parser")
     img_assets = []
     for img_tag in soup.find_all("img"):

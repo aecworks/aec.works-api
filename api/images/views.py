@@ -6,6 +6,7 @@ from .utils import UuidNamedFileUploadParser
 
 
 class ImageAssetResponseSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     url = serializers.ImageField(source="file")
     created_at = serializers.DateTimeField()
     width = serializers.IntegerField()
