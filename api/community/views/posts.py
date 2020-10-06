@@ -6,7 +6,6 @@ from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
-
 from .. import models, selectors, services
 
 
@@ -18,10 +17,26 @@ class PostListSerializer(serializers.ModelSerializer):
     clap_count = serializers.IntegerField()
     thread_size = serializers.IntegerField()
     thread_id = serializers.IntegerField()
+    banner = serializers.CharField(source="get_banner_display")
+    cover_img_url = serializers.SerializerMethodField()
+
+    def get_cover_img_url(self, obj):
+        return obj.cover_img.file.url if obj.cover_img else None
 
     class Meta:
         model = models.Post
-        exclude = ["clappers", "thread"]
+        fields = [
+            "hashtags",
+            "profile",
+            "title",
+            "body",
+            "clap_count",
+            "thread_size",
+            "thread_id",
+            "slug",
+            "banner",
+            "cover_img_url",
+        ]
 
 
 class NewPostRequestSerializer(serializers.ModelSerializer):
@@ -38,10 +53,23 @@ class NewPostResponseSerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
+    banner = serializers.CharField(source="get_banner_display")
+    cover_img_url = serializers.SerializerMethodField()
+
+    def get_cover_img_url(self, obj):
+        return obj.cover_img.file.url if obj.cover_img else None
 
     class Meta:
         model = models.Post
-        fields = ["hashtags", "title", "body", "thread_id", "slug"]
+        fields = [
+            "hashtags",
+            "title",
+            "body",
+            "thread_id",
+            "slug",
+            "banner",
+            "cover_img_url",
+        ]
 
 
 class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):

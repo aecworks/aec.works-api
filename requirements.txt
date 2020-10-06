@@ -7,6 +7,7 @@ Pillow==6.2.2
 redis==3.5.3
 sentry-sdk==0.17.2
 topicaxis-opengraph==0.5
+beautifulsoup4==4.9.3
 
 celery==4.4.7
 django-celery-results==1.2.1

@@ -1,11 +1,14 @@
-from typing import List
+from typing import List, Tuple
 from math import log
 from datetime import timedelta
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from opengraph.opengraph import OpenGraph
+from bs4 import BeautifulSoup
 
 from api.community.choices import PostBanner
+from api.images.service import create_image_file_from_data_uri, create_image_asset
+from api.images.models import ImageAsset
 from api.common.utils import update_instance, to_hashtag
 from .models import (
     Article,
@@ -84,13 +87,31 @@ def generate_post_banner(profile):
     return ""
 
 
+def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
+    soup = BeautifulSoup(body, "html.parser")
+    img_assets = []
+    for img_tag in soup.find_all("img"):
+        img_file = create_image_file_from_data_uri(img_tag["src"])
+        img_asset = create_image_asset(image_file=img_file, profile=profile)
+        img_tag["src"] = img_asset.file.url
+        img_assets.append(img_asset)
+    return str(soup), img_assets
+
+
 @transaction.atomic
 def create_post(*, profile, title: str, body: str, hashtag_names: List[str]) -> Post:
     hashtags = get_or_create_hashtags(hashtag_names)
     thread = Thread.objects.create()
     banner = generate_post_banner(profile)
+    updated_body, imgs = extract_image_assets(body, profile)
+    cover_img = None if not imgs else imgs[0]
     post = Post.objects.create(
-        profile=profile, title=title, body=body, thread=thread, banner=banner
+        profile=profile,
+        title=title,
+        body=updated_body,
+        cover_img=cover_img,
+        thread=thread,
+        banner=banner,
     )
     post.hashtags.set(hashtags)
     return post

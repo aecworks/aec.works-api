@@ -7,7 +7,6 @@ from django.dispatch import receiver
 
 from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
-from api.images.models import ImageAsset
 from api.community.choices import PostBanner
 
 from . import querysets
@@ -124,6 +123,13 @@ class Post(ReprMixin, models.Model):
     hot_datetime = models.DateTimeField(auto_now_add=True)
     banner = models.CharField(
         max_length=32, choices=[(c.name, c.value) for c in PostBanner], default="",
+    )
+    cover_img = models.ForeignKey(
+        "images.ImageAsset",
+        related_name="posts",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
     )
 
 

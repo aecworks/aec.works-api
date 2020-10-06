@@ -1,8 +1,4 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-# from django.db.models.signals import pre_delete
-# from django.dispatch import receiver
 
 from api.common.mixins import ReprMixin
 from .utils import generate_image_path_partial
@@ -24,4 +20,3 @@ class ImageAsset(ReprMixin, models.Model):
     )
     height = models.PositiveIntegerField(blank=True, null=True)
     width = models.PositiveIntegerField(blank=True, null=True)
-

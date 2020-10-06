@@ -96,7 +96,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "slug", "profile", "title", "words"]
+    list_display = ["id", "slug", "profile", "title", "cover_img", "words"]
 
     def words(self, obj):
         return len(obj.body.split(" "))
