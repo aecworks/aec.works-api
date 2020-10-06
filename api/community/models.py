@@ -126,11 +126,12 @@ class Post(ReprMixin, models.Model):
     )
     cover_img = models.ForeignKey(
         "images.ImageAsset",
-        related_name="posts",
+        related_name="post_covers",
         on_delete=models.PROTECT,
         blank=True,
         null=True,
     )
+    images = models.ManyToManyField("images.ImageAsset", related_name="posts")
 
 
 class Thread(ReprMixin, models.Model):
