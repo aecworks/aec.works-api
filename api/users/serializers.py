@@ -6,7 +6,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     avatar_url = serializers.SerializerMethodField()
 
     def get_avatar_url(self, obj):
-        return obj.avatar_img.file.url
+        return None if not obj.avatar_img else obj.avatar_img.file.url
 
     class Meta:
         model = Profile

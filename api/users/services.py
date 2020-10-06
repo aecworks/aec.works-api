@@ -13,7 +13,7 @@ def update_profile(*, user, profile_data):
     avatar_url = defaults.pop("avatar_url", None)
     if avatar_url:
         img_file = create_image_file_from_url(avatar_url)
-        img_asset = create_image_asset(image_file=img_file, profile=user.profile)
+        img_asset = create_image_asset(img_file=img_file, profile=user.profile)
         defaults["avatar_img"] = img_asset
     profile, _ = Profile.objects.update_or_create(user=user, defaults=defaults)
     return profile

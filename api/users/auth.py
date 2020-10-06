@@ -17,14 +17,15 @@ class ProviderException(Exception):
 
 class UserData(NamedTuple):
     name: str
+    provider: str
 
 
 class ProfileData(NamedTuple):
-    avatar_url: str
-    github_url: str
-    bio: str
-    location: str
-    twitter: str
+    avatar_url: str = ""
+    github: str = ""
+    bio: str = ""
+    location: str = ""
+    twitter: str = ""
 
 
 class BaseProvider:
@@ -43,7 +44,6 @@ class BaseProvider:
     ) -> Tuple[str, UserData, ProfileData]:
         access_token = cls._get_access_token(code, redirect_uri)
         email, user_data, profile_data = cls._agg_user_data(access_token)
-        user_data["provider"] = cls.NAME
         return email, user_data, profile_data
 
     @classmethod
@@ -59,6 +59,10 @@ class BaseProvider:
         except KeyError:
             logger.error(f"provider error: {cls.NAME}: {resp.content}")
             raise ProviderException(f"unexpected response from {cls.NAME}")
+
+    @classmethod
+    def _agg_user_data(cls, access_token) -> Tuple[str, UserData, ProfileData]:
+        raise NotImplementedError("provider must define user data aggregation method")
 
 
 class GithubProvider(BaseProvider):
@@ -77,6 +81,9 @@ class GithubProvider(BaseProvider):
 
     @classmethod
     def _agg_user_data(cls, access_token) -> Tuple[str, UserData, ProfileData]:
+        """
+        Payload https://developer.github.com/v3/users/#get-a-user
+        """
         headers = {**cls.DEFAULT_HEADERS, "Authorization": f"token {access_token}"}
         gh_email_data = requests.get(cls.EMAIL_URL, headers=headers).json()
         for i in gh_email_data:
@@ -90,11 +97,12 @@ class GithubProvider(BaseProvider):
 
         profile_photo_url = gh_user_data.get("avatar_url", None)
 
-        # 'name' can be null
-        user_data = UserData(name=gh_user_data["name"] or gh_user_data["login"])
+        # 'name' can be null, fallback to username
+        name = gh_user_data["name"] or gh_user_data["login"]
+        user_data = UserData(name=name, provider=GithubProvider.NAME)
         profile_data = ProfileData(
             avatar_url=profile_photo_url,
-            github_url=gh_user_data.get("html_url", None),
+            github=gh_user_data["login"],
             bio=gh_user_data.get("bio", None),
             location=gh_user_data.get("location", None),
             twitter=gh_user_data.get("twitter_username", None),
@@ -225,7 +233,7 @@ class LinkedInProvider(BaseProvider):
         email = email_data["elements"][0]["handle~"]["emailAddress"]
 
         name = "{localizedFirstName} {localizedLastName}".format(**profile_data)
-        user_data = UserData(name=name)
+        user_data = UserData(name=name, provider=LinkedInProvider.NAME)
 
         photo_data = requests.get(cls.AVATAR_URL, headers=headers).json()
         photo_url = photo_data["profilePicture"]["displayImage~"]["elements"][-1][
