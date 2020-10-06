@@ -16,7 +16,8 @@ class TestServices:
         )
         assert post.title == title
         assert post.hashtags.filter(slug="bagels").exists()
-        assert post.cover_img
+        # Cover image was created and is also stored in post.images
+        assert post.images.filter(id=post.cover_img.id).exists()
 
     def test_excract_cover_img(self):
         profile = ProfileFactory()

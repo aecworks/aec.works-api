@@ -114,6 +114,8 @@ def create_post(*, profile, title: str, body: str, hashtag_names: List[str]) -> 
         banner=banner,
     )
     post.hashtags.set(hashtags)
+    if imgs:
+        post.images.set(imgs)
     return post
 
 
