@@ -58,7 +58,7 @@ class Profile(ReprMixin, models.Model):
     location = models.CharField(max_length=64, blank=True, null=True)
     twitter = models.CharField(max_length=15, null=True, blank=True)
     github = models.CharField(max_length=40, null=True, blank=True)
-    avatar_img = models.ForeignKey(
+    avatar = models.ForeignKey(
         "images.ImageAsset", on_delete=models.PROTECT, null=True, blank=True
     )
 

@@ -33,6 +33,14 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
     articles = ResponseArticleSerializer(many=True)
+    cover_url = serializers.SerializerMethodField()
+    logo_url = serializers.SerializerMethodField()
+
+    def get_cover_url(self, obj):
+        return obj.cover.file.url if obj.cover else None
+
+    def get_logo_url(self, obj):
+        return obj.logo.file.url if obj.logo else None
 
     class Meta:
         model = models.Company
@@ -45,6 +53,8 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "thread_size",
             "last_revision_id",
             "articles",
+            "logo_url",
+            "cover_url",
             *services.updatable_attributes,
         ]
 
@@ -56,6 +66,14 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
     company = serializers.SlugRelatedField(slug_field="slug", read_only=True)
     approved_by = ProfileSerializer()
     created_by = ProfileSerializer()
+    cover_url = serializers.SerializerMethodField()
+    logo_url = serializers.SerializerMethodField()
+
+    def get_cover_url(self, obj):
+        return obj.cover.file.url if obj.cover else None
+
+    def get_logo_url(self, obj):
+        return obj.logo.file.url if obj.logo else None
 
     class Meta:
         model = models.CompanyRevision
@@ -66,6 +84,8 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
             "created_by",
             "created_at",
             "company",
+            "logo_url",
+            "cover_url",
             *services.updatable_attributes,
         ]
 
@@ -79,12 +99,12 @@ class RequestCompanySerializer(serializers.ModelSerializer):
             "name",
             "description",
             "website",
-            "twitter_handle",
+            "twitter",
             "location",
             "crunchbase_id",
             "hashtags",
-            "logo_url",
-            "cover_url",
+            "logo",
+            "cover",
         ]
 
 
@@ -97,12 +117,12 @@ class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "website",
-            "twitter_handle",
+            "twitter",
             "location",
             "crunchbase_id",
             "hashtags",
-            "logo_url",
-            "cover_url",
+            "logo",
+            "cover",
         ]
 
 

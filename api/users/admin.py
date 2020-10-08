@@ -8,9 +8,9 @@ from .models import User, Profile
 class CustomBaseUserAdmin(BaseUserAdmin):
     # Because we overided the UserModel, we need to modify UserAdmin to exlude fields
     ordering = ["email"]
-    list_display = ["email", "is_staff"]
+    list_display = ["email", "is_staff", "provider"]
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("email", "password", "provider")}),
         (_("Personal info"), {"fields": ("name",)}),
         (
             _("Permissions"),

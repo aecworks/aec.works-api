@@ -12,10 +12,8 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
 
     website = factory.Faker("url")
-    twitter_handle = factory.LazyAttribute(
-        lambda o: o.name.lower().replace(" ", "")[:14]
-    )
-    crunchbase_id = factory.LazyAttribute(lambda o: o.twitter_handle)
+    twitter = factory.LazyAttribute(lambda o: o.name.lower().replace(" ", "")[:14])
+    crunchbase_id = factory.LazyAttribute(lambda o: o.twitter)
     # logo
     # clappers
     # thread

@@ -54,11 +54,11 @@ class CompanyAdmin(admin.ModelAdmin):
         "name",
         "descrition_start",
         "website",
-        "twitter_handle",
+        "twitter",
         "crunchbase_id",
         "last_revision",
-        "logo_url",
-        "cover_url",
+        "logo",
+        "cover",
         "created_by",
     ]
 
@@ -73,13 +73,13 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         "name",
         "description",
         "website",
-        "twitter_handle",
+        "twitter",
         "crunchbase_id",
         "created_by",
         "applied",
         "approved_by",
-        "logo_url",
-        "cover_url",
+        "logo",
+        "cover",
     ]
 
 
@@ -96,7 +96,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "slug", "profile", "title", "cover_img", "words"]
+    list_display = ["id", "slug", "profile", "title", "cover", "words"]
 
     def words(self, obj):
         return len(obj.body.split(" "))
