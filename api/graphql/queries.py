@@ -1,6 +1,6 @@
 import graphene
-
-from api import community
+from django.db import models
+from api import community, users
 from . import types as t
 
 
@@ -58,6 +58,24 @@ class PostQuery:
     post_by_slug = graphene.Field(t.PostType, slug=graphene.String(required=True))
 
     def resolve_post_by_slug(root, info, slug):
+        return community.models.Post.objects.filter(slug=slug).first()
+
+
+class ProfileQuery:
+    profiles = graphene.List(t.ProfileType, filter=graphene.String(),)
+
+    def resolve_profiles(root, info, filter=""):
+        qs = users.selectors.get_profiles()
+        filters = (
+            models.Q(bio__contains=filter)
+            | models.Q(location__contains=filter)
+            | models.Q(user__name__contains=filter)
+        )
+        return qs.filter(filters)
+
+    profile_by_slug = graphene.Field(t.ProfileType, slug=graphene.String(required=True))
+
+    def resolve_profile_by_slug(root, info, slug):
         return community.models.Post.objects.filter(slug=slug).first()
 
 
