@@ -95,7 +95,7 @@ def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
     img_assets = []
     for img_tag in soup.find_all("img"):
         img_file = create_image_file_from_data_uri(img_tag["src"])
-        img_asset = create_image_asset(image_file=img_file, profile=profile)
+        img_asset = create_image_asset(img_file=img_file, profile=profile)
         img_tag["src"] = img_asset.file.url
         img_assets.append(img_asset)
     return str(soup), img_assets

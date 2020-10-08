@@ -7,13 +7,19 @@ from django.core.files.images import ImageFile
 from .utils import uuid_filename_from_content_type
 from .models import ImageAsset
 
-
 def create_image_asset(
     *, image_file, width=None, height=None, profile=None
 ) -> ImageAsset:
     if width or height:
         image_file = resize(image_file, width, height)
     return ImageAsset.objects.create(file=image_file, created_by=profile)
+
+def create_image_asset(
+    *, img_file, width=None, height=None, profile=None
+) -> ImageAsset:
+    if width or height:
+        img_file = resize(img_file, width, height)
+    return ImageAsset.objects.create(file=img_file, created_by=profile)
 
 
 def create_image_file_from_data_uri(data_uri: str) -> ImageFile:
@@ -29,14 +35,13 @@ def create_image_file_from_data_uri(data_uri: str) -> ImageFile:
     return ImageFile(fp, name=filename)
 
 
-def create_image_from_url(url, **kwargs):
+def create_image_file_from_url(url, **kwargs) -> ImageFile:
     # TODO return only ImageFile
     resp = requests.get(url, **kwargs)
     filename = uuid_filename_from_content_type(resp.headers["Content-Type"])
     fp = io.BytesIO()
     fp.write(resp.content)
-    image = ImageFile(fp, name=filename)
-    return create_image_asset(image_file=image)
+    return ImageFile(fp, name=filename)
 
 
 def resize(image_file, width, height):

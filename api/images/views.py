@@ -27,6 +27,6 @@ class ImageAssetUploadView(views.APIView):
             raise exceptions.ValidationError("width and height must be numbers")
 
         image = create_image_asset(
-            image_file=file, width=width, height=height, profile=request.user.profile
+            img_file=file, width=width, height=height, profile=request.user.profile
         )
         return Response(ImageAssetResponseSerializer(image).data, status=201)

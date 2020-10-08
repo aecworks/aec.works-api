@@ -1,3 +1,5 @@
+# TODO rewrite with request factory for speed instead of client
+
 import pytest
 from api.community import factories as f
 from api.users.factories import UserFactory

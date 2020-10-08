@@ -70,8 +70,8 @@ class OauthLoginView(ErrorsMixin, views.APIView):
         email, user_data, profile_data = provider.get_user_data_from_code(
             code, redirect_uri
         )
-        user = services.create_or_update_user(email=email, defaults=user_data)
-        services.update_profile(user=user, defaults=profile_data)
+        user = services.create_or_update_user(email=email, user_data=user_data)
+        services.update_profile(user=user, profile_data=profile_data)
 
         login(request, user)
         return Response(status=200)

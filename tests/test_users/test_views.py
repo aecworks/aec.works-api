@@ -4,6 +4,7 @@ from unittest import mock
 import pytest
 from rest_framework.test import APIClient
 from api.users.factories import ProfileFactory
+from api.users.auth import UserData, ProfileData
 
 
 @pytest.mark.django_db
@@ -31,7 +32,9 @@ class TestViews:
     ):
         """ Test github/login/view """
         user = ProfileFactory().user
-        m_get_user_data_from_code.return_value = user.email, {"provider": "github"}, {}
+        user_data = UserData(name="Fake Name", provider="github")
+        profile_data = ProfileData()
+        m_get_user_data_from_code.return_value = (user.email, user_data, profile_data)
         m_create_or_update_user.return_value = user
 
         resp = client.post("/users/login/github/?code=fakecode&redirect_uri=fakeuri")
@@ -40,9 +43,9 @@ class TestViews:
 
         m_get_user_data_from_code.assert_called_once_with("fakecode", "fakeuri")
         m_create_or_update_user.assert_called_once_with(
-            email=user.email, defaults={"provider": "github"}
+            email=user.email, user_data=user_data
         )
-        m_update_profile.assert_called_once_with(user=user, defaults={})
+        m_update_profile.assert_called_once_with(user=user, profile_data=profile_data)
 
     def test_oauth_missing_code(selfixi, client):
         resp = client.post("/users/login/github/")
