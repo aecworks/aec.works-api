@@ -16,7 +16,7 @@ urlpatterns = [
     path("users/", include("api.users.urls")),
     path("images/", include("api.images.urls")),
     path("webhooks/", include("api.webhooks.urls")),
-    path("graphql", GraphQLView.as_view(graphiql=True)),
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
     # Debug Toolbar
     path("__debug__/", include(debug_toolbar.urls)),
 ]

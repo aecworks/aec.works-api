@@ -69,3 +69,11 @@ class CommentFactory(factory.django.DjangoModelFactory):
 
     text = factory.Faker("paragraph")
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
+
+
+class ArticleFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Article
+
+    url = factory.Faker("url")
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
