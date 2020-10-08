@@ -25,10 +25,10 @@ updatable_attributes = [
     "description",
     "website",
     "location",
-    "twitter_handle",
+    "twitter",
     "crunchbase_id",
-    "logo_url",
-    "cover_url",
+    "logo",
+    "cover",
     "hashtags",
 ]
 
@@ -112,7 +112,7 @@ def create_post(*, profile, title: str, body: str, hashtag_names: List[str]) -> 
         profile=profile,
         title=title,
         body=updated_body,
-        cover_img=cover_img,
+        cover=cover_img,
         thread=thread,
         banner=banner,
     )

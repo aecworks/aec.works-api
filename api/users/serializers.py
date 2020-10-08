@@ -6,7 +6,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     avatar_url = serializers.SerializerMethodField()
 
     def get_avatar_url(self, obj):
-        return None if not obj.avatar_img else obj.avatar_img.file.url
+        return None if not obj.avatar else obj.avatar.file.url
 
     class Meta:
         model = Profile
@@ -17,6 +17,10 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
     provider = serializers.SerializerMethodField()
     name = serializers.CharField()
     groups = serializers.SerializerMethodField()
+    avatar_url = serializers.SerializerMethodField()
+
+    def get_avatar_url(self, obj):
+        return None if not obj.avatar else obj.avatar.file.url
 
     def get_provider(self, profile):
         return profile.user.provider

@@ -19,7 +19,7 @@ def create_article_from_tweet(*, url, text, mentioned, hashtags, profile):
     its slug
     """
     if mentioned:
-        get_kwargs = dict(twitter_handle__iexact=mentioned)
+        get_kwargs = dict(twitter__iexact=mentioned)
     else:
         match = re.search(r"@\.(\w+)", text)
         if not match:

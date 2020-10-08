@@ -15,7 +15,7 @@ def up(apps, schema_editor):
         if profile.avatar_url:
             img_file = create_image_file_from_url(profile.avatar_url)
             img = ImageAsset.objects.create(file=img_file, created_by=profile)
-            profile.avatar_img = img
+            profile.avatar = img
             profile.save()
 
 
@@ -23,8 +23,8 @@ def down(apps, schema_editor):
     """ Set Url from ImageAsset Url """
     Profile = apps.get_model("users", "Profile")
     for profile in Profile.objects.all():
-        if profile.avatar_img:
-            profile.avatar_url = profile.avatar_img.file.url
+        if profile.avatar:
+            profile.avatar_url = profile.avatar.file.url
             profile.save()
 
 

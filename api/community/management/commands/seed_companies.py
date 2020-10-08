@@ -11,7 +11,7 @@ from django.core.files.images import ImageFile
 
 from api.community.models import Company
 from api.community import services
-from api.images.models import Image
+from api.images.service import create_image_asset
 from api.users.models import Profile
 
 
@@ -82,9 +82,9 @@ class Command(BaseCommand):
             if image_path:
                 logo = make_image(slug, image_path)
                 if logo:
-                    img = Image.objects.create(image=logo)
-                    company.logo_url = img.image.url
-                    company.cover_url = ""
+                    img = create_image_asset(img_file=logo)
+                    company.logo = img
+                    # company.cover = ""
 
             company.save()
 

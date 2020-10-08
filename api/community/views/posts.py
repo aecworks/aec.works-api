@@ -18,10 +18,10 @@ class PostListSerializer(serializers.ModelSerializer):
     thread_size = serializers.IntegerField()
     thread_id = serializers.IntegerField()
     banner = serializers.CharField(source="get_banner_display")
-    cover_img_url = serializers.SerializerMethodField()
+    cover_url = serializers.SerializerMethodField()
 
-    def get_cover_img_url(self, obj):
-        return obj.cover_img.file.url if obj.cover_img else None
+    def get_cover_url(self, obj):
+        return obj.cover.file.url if obj.cover else None
 
     class Meta:
         model = models.Post
@@ -35,7 +35,7 @@ class PostListSerializer(serializers.ModelSerializer):
             "thread_id",
             "slug",
             "banner",
-            "cover_img_url",
+            "cover_url",
         ]
 
 
@@ -54,10 +54,10 @@ class NewPostResponseSerializer(serializers.ModelSerializer):
         many=True, read_only=True, slug_field="slug"
     )
     banner = serializers.CharField(source="get_banner_display")
-    cover_img_url = serializers.SerializerMethodField()
+    cover_url = serializers.SerializerMethodField()
 
-    def get_cover_img_url(self, obj):
-        return obj.cover_img.file.url if obj.cover_img else None
+    def get_cover_url(self, obj):
+        return obj.cover.file.url if obj.cover else None
 
     class Meta:
         model = models.Post
@@ -68,7 +68,7 @@ class NewPostResponseSerializer(serializers.ModelSerializer):
             "thread_id",
             "slug",
             "banner",
-            "cover_img_url",
+            "cover_url",
         ]
 
 

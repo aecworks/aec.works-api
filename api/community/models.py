@@ -17,10 +17,22 @@ class CompanyBaseModel(models.Model):
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
     location = models.CharField(max_length=64, default="")
-    twitter_handle = models.CharField(max_length=15, blank=True, null=True)
+    twitter = models.CharField(max_length=15, blank=True, null=True)
     crunchbase_id = models.CharField(max_length=128, blank=True, null=True)
-    logo_url = models.URLField(blank=True, null=True)
-    cover_url = models.URLField(blank=True, null=True)
+    logo = models.ForeignKey(
+        "images.ImageAsset",
+        related_name="+",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    cover = models.ForeignKey(
+        "images.ImageAsset",
+        related_name="+",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         abstract = True
@@ -124,7 +136,7 @@ class Post(ReprMixin, models.Model):
     banner = models.CharField(
         max_length=32, choices=[(c.name, c.value) for c in PostBanner], default="",
     )
-    cover_img = models.ForeignKey(
+    cover = models.ForeignKey(
         "images.ImageAsset",
         related_name="post_covers",
         on_delete=models.PROTECT,
