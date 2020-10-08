@@ -111,4 +111,3 @@ def test_posts(gql_client):
 
     assert "errors" not in resp
     assert len(resp["data"]["posts"]) == 1
-

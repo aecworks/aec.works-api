@@ -7,12 +7,6 @@ from django.core.files.images import ImageFile
 from .utils import uuid_filename_from_content_type
 from .models import ImageAsset
 
-def create_image_asset(
-    *, image_file, width=None, height=None, profile=None
-) -> ImageAsset:
-    if width or height:
-        image_file = resize(image_file, width, height)
-    return ImageAsset.objects.create(file=image_file, created_by=profile)
 
 def create_image_asset(
     *, img_file, width=None, height=None, profile=None
