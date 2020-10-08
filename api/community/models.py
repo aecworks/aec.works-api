@@ -124,6 +124,14 @@ class Post(ReprMixin, models.Model):
     banner = models.CharField(
         max_length=32, choices=[(c.name, c.value) for c in PostBanner], default="",
     )
+    cover_img = models.ForeignKey(
+        "images.ImageAsset",
+        related_name="post_covers",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+    )
+    images = models.ManyToManyField("images.ImageAsset", related_name="posts")
 
 
 class Thread(ReprMixin, models.Model):

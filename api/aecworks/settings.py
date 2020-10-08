@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "debug_toolbar",
     "django_celery_results",
+    "django_cleanup",
     # Apps
     "api.users",
     "api.community",
@@ -171,6 +172,9 @@ AWS_S3_CUSTOM_DOMAIN = config("DJANGO_S3_DOMAIN", default=None)  # prod only
 AWS_S3_REGION_NAME = "us-west-1"
 AWS_DEFAULT_ACL = "public-read"
 AWS_QUERYSTRING_AUTH = False  # Remove Query Auth from Image Url
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
 
 # CELERY STUFF
 CELERY_BROKER_URL = config("REDIS_URL")
