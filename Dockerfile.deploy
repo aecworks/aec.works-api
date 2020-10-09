@@ -2,12 +2,13 @@ FROM python:3.8-slim
 
 # Setup directories
 RUN mkdir /code
+
 # Python Config
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Python dependencies
-RUN pip install --upgrade pip==19.2.1
+RUN pip install --upgrade pip==20.2.3
 ADD requirements.txt /code/
 ADD requirements-dev.txt /code/
 RUN pip install -r /code/requirements.txt
@@ -18,5 +19,5 @@ EXPOSE $PORT
 ADD . /code
 WORKDIR /code
 
-# Set in heroky.yml
+# Set in heroku.yml
 # CMD ["./scripts/serve-prod.sh"]
