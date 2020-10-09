@@ -92,7 +92,6 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
             "-hot_datetime", "created_at", "slug"
         )
 
-    @method_decorator(cache_page(60 * 60))
     def get(self, request):
         return super().list(request)
 
