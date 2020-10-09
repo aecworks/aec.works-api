@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 source ./scripts/console.sh
 
 info "pre-commit hook ✨ "
@@ -10,6 +9,8 @@ if [ -n "$breakpoint" ]; then
     error "Please remove breakpoint before commiting ❌ "
     info "${breakpoint}"
     exit 1
+else
+    info "Done"
+    exit 0
 fi
 
-info "Done"
