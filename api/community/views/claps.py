@@ -11,7 +11,6 @@ from .. import selectors
 class CompanyClapResponseSerializer(serializers.Serializer):
     name = serializers.CharField(source="company.name")
     slug = serializers.CharField(source="company.slug")
-    logo_url = serializers.CharField(source="company.logo_url")
 
 
 class CompanyClapsListView(ErrorsMixin, generics.GenericAPIView):
