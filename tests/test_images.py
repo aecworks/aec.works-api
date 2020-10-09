@@ -5,7 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from api.users.factories import UserFactory
 from api.images.views import ImageAssetUploadView
-from api.images.service import create_image_file_from_data_uri
+from api.images.services import create_image_file_from_data_uri
 
 
 @mock.patch("api.images.views.create_image_asset")

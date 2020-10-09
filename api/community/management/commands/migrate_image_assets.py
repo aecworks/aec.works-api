@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from api.users.models import Profile
 from api.community.models import Company, CompanyRevision
 from api.images.models import ImageAsset
-from api.images.service import create_image_file_from_url
+from api.images.services import create_image_file_from_url
 
 
 class Command(BaseCommand):

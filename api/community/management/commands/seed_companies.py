@@ -11,7 +11,7 @@ from django.core.files.images import ImageFile
 
 from api.community.models import Company
 from api.community import services
-from api.images.service import create_image_asset
+from api.images.services import create_image_asset
 from api.users.models import Profile
 
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RED='\033[0;31m'
+RED='\033[1;31m'
 L_GREEN='\033[1;32m'
 L_BLUE='\033[1;34m'
 L_GREY='\033[0;37m'
@@ -16,7 +16,7 @@ console() {
 
 error() {
   local msg=$1
-  console 'RED' "!==> $msg"
+  console 'RED' "==> $msg"
 }
 
 info() {

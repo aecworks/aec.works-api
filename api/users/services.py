@@ -1,5 +1,5 @@
 from .models import User, Profile
-from api.images.service import create_image_file_from_url, create_image_asset
+from api.images.services import create_image_file_from_url, create_image_asset
 
 
 def create_or_update_user(*, email, user_data):

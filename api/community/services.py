@@ -7,7 +7,7 @@ from opengraph.opengraph import OpenGraph
 from bs4 import BeautifulSoup
 
 from api.community.choices import PostBanner
-from api.images.service import create_image_file_from_data_uri, create_image_asset
+from api.images.services import create_image_file_from_data_uri, create_image_asset
 from api.images.models import ImageAsset
 from api.common.utils import update_instance, to_hashtag
 from .models import (
