@@ -1,7 +1,7 @@
 from rest_framework import views, serializers, permissions, exceptions
 from rest_framework.response import Response
 
-from .service import create_image_asset
+from .services import create_image_asset
 from .utils import UuidNamedFileUploadParser
 
 
@@ -25,7 +25,6 @@ class ImageAssetUploadView(views.APIView):
             height = int(request.query_params.get("height", 0))
         except ValueError:
             raise exceptions.ValidationError("width and height must be numbers")
-
         image = create_image_asset(
             img_file=file, width=width, height=height, profile=request.user.profile
         )
