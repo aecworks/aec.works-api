@@ -19,11 +19,6 @@ class CompanyBaseModel(models.Model):
     location = models.CharField(max_length=64, default="")
     twitter = models.CharField(max_length=15, blank=True, null=True)
     crunchbase_id = models.CharField(max_length=128, blank=True, null=True)
-
-    # WILL DEPRECATE
-    logo_url = models.URLField(blank=True, null=True)
-    cover_url = models.URLField(blank=True, null=True)
-
     logo = models.ForeignKey(
         "images.ImageAsset",
         related_name="+",
