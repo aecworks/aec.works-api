@@ -4,6 +4,8 @@ from rest_framework import exceptions as drf_exceptions
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.contrib.auth import login, logout, authenticate
 from api.common.exceptions import ErrorsMixin
 from . import selectors, services
@@ -23,6 +25,7 @@ class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     search_fields = ["bio", "location", "user__name"]
     filter_backends = [filters.SearchFilter]
 
+    @method_decorator(cache_page(60 * 60))
     def get(self, request):
         return super().list(request)
 
@@ -34,6 +37,7 @@ class ProfileDetailView(
     queryset = Profile.objects.all()
     lookup_field = "slug"
 
+    @method_decorator(cache_page(60 * 60))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
@@ -43,6 +47,7 @@ class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIV
     serializer_class = ProfileDetailSerializer
     queryset = Profile.objects.all()
 
+    @method_decorator(cache_page(60 * 60))
     def get(self, request):
         user = request.user
         serializer = self.get_serializer(user.profile)

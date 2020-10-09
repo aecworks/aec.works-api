@@ -6,6 +6,8 @@ from rest_framework import (
     serializers,
     permissions,
 )
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 from api.permissions import IsEditorPermission, IsReadOnly
@@ -134,6 +136,7 @@ class CompanyDetailView(
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    @method_decorator(cache_page(60 * 60))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
@@ -161,6 +164,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
             "name"
         )
 
+    @method_decorator(cache_page(60 * 60))
     def get(self, request):
         """ Get Company List """
         return super().list(request)
