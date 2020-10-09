@@ -136,7 +136,7 @@ class CompanyDetailView(
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
