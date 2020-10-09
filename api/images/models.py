@@ -1,5 +1,6 @@
 from django.db import models
 
+from versatileimagefield.fields import VersatileImageField
 from api.common.mixins import ReprMixin
 
 
@@ -12,7 +13,7 @@ class ImageAsset(ReprMixin, models.Model):
         null=True,
         blank=True,
     )
-    file = models.ImageField(
+    file = VersatileImageField(
         upload_to="images/", width_field="width", height_field="height",
     )
 

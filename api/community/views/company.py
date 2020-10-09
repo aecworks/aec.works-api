@@ -5,7 +5,6 @@ from rest_framework import (
     generics,
     serializers,
     permissions,
-    # filters,
 )
 
 
@@ -37,10 +36,10 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
 
     def get_cover_url(self, obj):
-        return obj.cover.file.url if obj.cover else None
+        return obj.cover.file.crop["800x400"].url if obj.cover else None
 
     def get_logo_url(self, obj):
-        return obj.logo.file.url if obj.logo else None
+        return obj.logo.file.crop["80x80"].url if obj.logo else None
 
     class Meta:
         model = models.Company
@@ -70,10 +69,10 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
 
     def get_cover_url(self, obj):
-        return obj.cover.file.url if obj.cover else None
+        return obj.cover.file.crop["800x400"].url if obj.cover else None
 
     def get_logo_url(self, obj):
-        return obj.logo.file.url if obj.logo else None
+        return obj.logo.file.crop["80x80"].url if obj.logo else None
 
     class Meta:
         model = models.CompanyRevision
