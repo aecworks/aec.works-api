@@ -61,6 +61,8 @@ class CompanyAdmin(admin.ModelAdmin):
         "cover",
         "created_by",
     ]
+    raw_id_fields = ["logo", "cover"]
+    readonly_fields = ["thread"]
 
     def descrition_start(self, obj):
         return f"{obj.description[:10]}..."
@@ -81,6 +83,7 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         "logo",
         "cover",
     ]
+    raw_id_fields = ["logo", "cover"]
 
 
 @admin.register(models.Hashtag)
@@ -100,3 +103,5 @@ class PostAdmin(admin.ModelAdmin):
 
     def words(self, obj):
         return len(obj.body.split(" "))
+
+    raw_id_fields = ["cover"]
