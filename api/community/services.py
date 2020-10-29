@@ -81,7 +81,7 @@ def create_comment(*, profile, text, thread, parent=None) -> Comment:
         or Post.objects.filter(thread_id=thread.id).first()
     )
     if owner:
-        owner.thread_count += 1
+        owner.thread_size += 1
         owner.save()
     else:
         # This should not happen - all thread should be assigned to a Company or Post

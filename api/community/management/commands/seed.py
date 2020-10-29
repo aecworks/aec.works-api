@@ -33,4 +33,4 @@ class Command(BaseCommand):
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
 
-        # call_command("loaddata", "api/community/fixtures/companies.json")
+        call_command("loaddata", "api/community/fixtures/companies.json")

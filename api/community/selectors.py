@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Prefetch
 from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
@@ -31,11 +31,12 @@ def get_company(**kwargs):
 
 
 def get_companies():
-    return (
+    qs = (
         Company.objects.select_related("thread", "logo", "cover")
-        .prefetch_related("hashtags", "articles")
+        .prefetch_related("hashtags", "articles",)
         .all()
     )
+    return qs
 
 
 def get_company_claps():
@@ -46,7 +47,6 @@ def query_multi_hashtag(qs, hashtag_slugs):
     # Achieve case insensitive __in using regex:
     reg_pat = f"({'|'.join(hashtag_slugs)})"
     qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
-    # qs_with_one_of = qs.filter(hashtags__slug__in=hashtag_slugs)
     qs_with_both = qs_with_one_of.annotate(
         n_matches=Count("hashtags", distinct=True)
     ).filter(n_matches=len(hashtag_slugs))
@@ -84,7 +84,7 @@ def get_hashtags():
 
 def get_posts():
     return (
-        Post.objects.select_related("profile__user")
+        Post.objects.select_related("profile__user", "profile__avatar")
         .prefetch_related("hashtags", "companies", "thread__comments")
         .all()
     )

@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name="company",
-            name="thread_count",
+            name="thread_size",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AddField(
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name="post",
-            name="thread_count",
+            name="thread_size",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.RunPython(up, down),

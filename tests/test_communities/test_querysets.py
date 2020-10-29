@@ -16,7 +16,7 @@ class TestQuerysets:
         factories.CommentFactory(parent=c0)
         c0.clappers.add(profile)
 
-        comments = models.Comment.objects..all()
+        comments = models.Comment.objects.all()
         assert comments[0].clap_count == 1
         assert comments[0].reply_count == 2
         assert comments[1].clap_count == 0
