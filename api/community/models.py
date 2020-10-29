@@ -9,8 +9,6 @@ from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
 from api.community.choices import PostBanner
 
-from . import querysets
-
 
 class CompanyBaseModel(models.Model):
     name = models.CharField(blank=False, max_length=255)
@@ -62,11 +60,12 @@ class CompanyRevision(ReprMixin, CompanyBaseModel):
 class Company(ReprMixin, CompanyBaseModel):
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
 
-    objects = querysets.CompanyQueryset.as_manager()
     slug = AutoSlugField(populate_from="name", db_index=True)
+    clap_count = models.PositiveIntegerField(default=0)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
+    thread_count = models.PositiveIntegerField(default=0)
     thread = models.OneToOneField(
         "Thread",
         related_name="post",
@@ -105,14 +104,12 @@ class Article(ReprMixin, models.Model):
 
 
 class Hashtag(ReprMixin, models.Model):
-    objects = querysets.HashtagQueryset.as_manager()
     slug = models.CharField(max_length=32, unique=True, db_index=True)
     # reverse: posts -> Post
     # reverse: companies -> Company
 
 
 class Post(ReprMixin, models.Model):
-    objects = querysets.PostQueryset.as_manager()
 
     title = models.CharField(blank=False, max_length=100)
     slug = AutoSlugField(populate_from="title", db_index=True)
@@ -121,11 +118,13 @@ class Post(ReprMixin, models.Model):
     profile = models.ForeignKey(
         "users.Profile", related_name="posts", on_delete=models.PROTECT
     )
+    thread_count = models.PositiveIntegerField(default=0)
     thread = models.ForeignKey(
         "Thread", related_name="+", on_delete=models.CASCADE, blank=True, null=True
     )
     companies = models.ManyToManyField(Company, related_name="posts", blank=True)
     hashtags = models.ManyToManyField(Hashtag, related_name="posts", blank=True)
+    clap_count = models.PositiveIntegerField(default=0)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_posts", blank=True
     )
@@ -151,14 +150,9 @@ class Thread(ReprMixin, models.Model):
 
 
 class Comment(ReprMixin, mptt_models.MPTTModel):
-    objects = querysets.CommentQueryset.as_manager()
 
     thread = models.ForeignKey(
-        "Thread",
-        related_name="comments",
-        blank=True,
-        null=True,
-        on_delete=models.CASCADE,
+        "Thread", related_name="comments", on_delete=models.CASCADE,
     )
     parent = mptt_models.TreeForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
@@ -167,6 +161,7 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
     profile = models.ForeignKey(
         "users.Profile", related_name="comments", on_delete=models.PROTECT
     )
+    clap_count = models.PositiveIntegerField(default=0)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_comments", blank=True
     )
@@ -174,16 +169,6 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ["created_at"]
-
-    def clean(self, *args, **kwargs):
-        if self.parent and self.thread:
-            raise Exception("invalid parent: must a have parent or thread but not both")
-        elif not self.parent and not self.thread:
-            raise Exception("missing parent: comment must a have a parent or thread")
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super().save(*args, **kwargs)
 
 
 @receiver(post_save, sender=Company)

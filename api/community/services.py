@@ -1,10 +1,11 @@
 from typing import List, Tuple
 from math import log
 from datetime import timedelta
-from django.db import transaction
+from django.db import transaction, models
 from django.core.exceptions import PermissionDenied
 from opengraph.opengraph import OpenGraph
 from bs4 import BeautifulSoup
+import logging
 
 from api.community.choices import PostBanner
 from api.images.services import create_image_file_from_data_uri, create_image_asset
@@ -19,6 +20,8 @@ from .models import (
     Company,
     CompanyRevision,
 )
+
+logger = logging.getLogger(__name__)
 
 updatable_attributes = [
     "name",
@@ -48,26 +51,42 @@ def bump_hot_datetime(post, clap_count):
 
 def comment_clap(*, comment, profile) -> int:
     comment.clappers.add(profile)
-    return comment.clappers.count()
+    comment.clap_count += 1
+    comment.save()
+    return comment.clap_count
 
 
 def company_clap(*, company, profile) -> int:
     company.clappers.add(profile)
-    clap_count = company.clappers.count()
+    company.clap_count += 1
+    company.save()
     # bump_hot_datetime(post, clap_count)
-    return clap_count
+    return company.clap_count
 
 
 def post_clap(*, post, profile) -> int:
     post.clappers.add(profile)
-    clap_count = post.clappers.count()
-    bump_hot_datetime(post, clap_count)
-    return clap_count
+    post.clap_count += 1
+    post.save()
+    bump_hot_datetime(post, post.clap_count)
+    return post.clap_count
 
 
-def create_comment(*, profile, text, **parent_kwarg) -> Comment:
-    # must include parent=, parent_id, thread, or thread_id
-    return Comment.objects.create(profile=profile, text=text, **parent_kwarg)
+def create_comment(*, profile, text, thread, parent=None) -> Comment:
+    comment = Comment.objects.create(
+        profile=profile, text=text, thread=thread, parent=parent
+    )
+    owner = (
+        Company.objects.filter(thread_id=thread.id).first()
+        or Post.objects.filter(thread_id=thread.id).first()
+    )
+    if owner:
+        owner.thread_count += 1
+        owner.save()
+    else:
+        # This should not happen - all thread should be assigned to a Company or Post
+        logger.warning(f"thread_id is orphan: {thread.id}")
+    return comment
 
 
 def get_or_create_hashtag(hashtag_name: str) -> Hashtag:

@@ -14,17 +14,8 @@ from .. import models, selectors, services
 
 
 class RequestCommentSerializer(serializers.ModelSerializer):
-    thread_id = serializers.IntegerField(required=False)
+    thread_id = serializers.IntegerField(required=True)
     parent_id = serializers.IntegerField(required=False)
-
-    def validate(self, data):
-        if "thread_id" not in data and "parent_id" not in data:
-            raise serializers.ValidationError("thread_id or parent_id required")
-        elif "thread_id" in data and "parent_id" in data:
-            raise serializers.ValidationError(
-                "thread_id or parent_id required but not both"
-            )
-        return data
 
     class Meta:
         model = models.Comment
@@ -82,16 +73,14 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         serializer = RequestCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         text = serializer.validated_data.pop("text")
+
         parent_id = serializer.validated_data.pop("parent_id", None)
         thread_id = serializer.validated_data.pop("thread_id", None)
-        if thread_id:
-            thread = models.Thread.objects.get(id=thread_id)
-            parent_kwarg = dict(thread=thread)
-        else:
-            comment = models.Comment.objects.get(id=parent_id)
-            parent_kwarg = dict(parent=comment)
+        thread = models.Thread.objects.get(id=thread_id)
+        parent = None if not parent_id else models.Comment.objects.get(id=parent_id)
+
         comment = services.create_comment(
-            profile=request.user.profile, text=text, **parent_kwarg
+            profile=request.user.profile, text=text, thread=thread, parent=parent
         )
         return Response(ResponseCommentSerializer(comment).data)
 

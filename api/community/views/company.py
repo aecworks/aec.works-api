@@ -29,7 +29,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     )
     clap_count = serializers.IntegerField(default=0)
     thread_size = serializers.IntegerField(default=0)
-    created_by = ProfileSerializer()
+    # created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
     articles = ResponseArticleSerializer(many=True)
     cover_url = serializers.SerializerMethodField()
@@ -45,7 +45,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
         model = models.Company
         fields = [
             "slug",
-            "created_by",
+            # "created_by",
             "thread_id",
             "created_at",
             "clap_count",

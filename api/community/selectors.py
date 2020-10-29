@@ -5,7 +5,7 @@ from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
 def get_comments():
-    return Comment.objects.select_related("profile__user").with_counts().all()
+    return Comment.objects.select_related("profile__user").all()
 
 
 def get_thread(*, id):
@@ -15,7 +15,7 @@ def get_thread(*, id):
 def get_recent_comments(days_back=7):
     now = timezone.now()
     recent = now - timedelta(days=days_back)
-    return Comment.objects.filter(created_at__range=[recent, now]).with_counts().all()
+    return Comment.objects.filter(created_at__range=[recent, now]).all()
 
 
 def get_thread_comments(*, thread_id):
@@ -32,9 +32,8 @@ def get_company(**kwargs):
 
 def get_companies():
     return (
-        Company.objects.select_related("created_by__user", "thread")
+        Company.objects.select_related("thread", "logo", "cover")
         .prefetch_related("hashtags", "articles")
-        .with_counts()
         .all()
     )
 
@@ -80,13 +79,12 @@ def get_revisions():
 
 
 def get_hashtags():
-    return Hashtag.objects.with_counts().all()
+    return Hashtag.objects.all()
 
 
 def get_posts():
     return (
         Post.objects.select_related("profile__user")
         .prefetch_related("hashtags", "companies", "thread__comments")
-        .with_counts()
         .all()
     )
