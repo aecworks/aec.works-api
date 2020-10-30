@@ -9,6 +9,8 @@ from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
 from api.community.choices import PostBanner
 
+from . import querysets
+
 
 class CompanyBaseModel(models.Model):
     name = models.CharField(blank=False, max_length=255)
@@ -104,6 +106,7 @@ class Article(ReprMixin, models.Model):
 
 
 class Hashtag(ReprMixin, models.Model):
+    objects = querysets.HashtagQueryset.as_manager()
     slug = models.CharField(max_length=32, unique=True, db_index=True)
     # reverse: posts -> Post
     # reverse: companies -> Company

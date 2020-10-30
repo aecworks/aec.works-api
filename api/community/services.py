@@ -51,14 +51,14 @@ def bump_hot_datetime(post, clap_count):
 
 def comment_clap(*, comment, profile) -> int:
     comment.clappers.add(profile)
-    comment.clap_count += 1
+    comment.clap_count = comment.clappers.count()
     comment.save()
     return comment.clap_count
 
 
 def company_clap(*, company, profile) -> int:
     company.clappers.add(profile)
-    company.clap_count += 1
+    company.clap_count = company.clappers.count()
     company.save()
     # bump_hot_datetime(post, clap_count)
     return company.clap_count
@@ -66,7 +66,7 @@ def company_clap(*, company, profile) -> int:
 
 def post_clap(*, post, profile) -> int:
     post.clappers.add(profile)
-    post.clap_count += 1
+    post.clap_count = post.clappers.count()
     post.save()
     bump_hot_datetime(post, post.clap_count)
     return post.clap_count
