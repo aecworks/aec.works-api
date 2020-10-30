@@ -1,6 +1,8 @@
 from faker import Faker
 import factory
 from django.db.models.signals import post_save
+
+from api.images.factories import ImageAssetFactory
 from . import models
 
 faker = Faker()
@@ -38,3 +40,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     twitter = factory.LazyAttribute(lambda n: faker.user_name()[:15])
 
     user = factory.SubFactory(UserFactory, profile=None)
+
+    @factory.post_generation
+    def post(obj, *args, **kwargs):
+        obj.avatar = ImageAssetFactory(created_by=obj)
+        obj.save()

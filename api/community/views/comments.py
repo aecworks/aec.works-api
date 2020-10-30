@@ -14,17 +14,8 @@ from .. import models, selectors, services
 
 
 class RequestCommentSerializer(serializers.ModelSerializer):
-    thread_id = serializers.IntegerField(required=False)
-    parent_id = serializers.IntegerField(required=False)
-
-    def validate(self, data):
-        if "thread_id" not in data and "parent_id" not in data:
-            raise serializers.ValidationError("thread_id or parent_id required")
-        elif "thread_id" in data and "parent_id" in data:
-            raise serializers.ValidationError(
-                "thread_id or parent_id required but not both"
-            )
-        return data
+    thread_id = serializers.IntegerField(required=True)
+    parent_id = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = models.Comment
@@ -32,8 +23,8 @@ class RequestCommentSerializer(serializers.ModelSerializer):
 
 
 class ResponseCommentSerializer(serializers.ModelSerializer):
-    clap_count = serializers.IntegerField(default=0)
-    reply_count = serializers.IntegerField(default=0)
+    clap_count = serializers.IntegerField()
+    reply_count = serializers.IntegerField()
 
     profile = ProfileSerializer()
 
@@ -67,13 +58,10 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     def get_queryset(self):
         thread_id = self.request.query_params.get("thread_id", None)
         parent_id = self.request.query_params.get("parent_id", None)
-        if parent_id and not thread_id:
+        if parent_id:
             return selectors.get_comment_children(parent_id=parent_id)
-        elif thread_id and not parent_id:
-            return selectors.get_thread_comments(thread_id=thread_id)
         else:
-            msg = "must provide thread_id or parent_id but not both"
-            raise drf_exceptions.ValidationError(msg)
+            return selectors.get_thread_comments(thread_id=thread_id)
 
     def get(self, request):
         return super().list(request)
@@ -82,16 +70,14 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         serializer = RequestCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         text = serializer.validated_data.pop("text")
+
         parent_id = serializer.validated_data.pop("parent_id", None)
         thread_id = serializer.validated_data.pop("thread_id", None)
-        if thread_id:
-            thread = models.Thread.objects.get(id=thread_id)
-            parent_kwarg = dict(thread=thread)
-        else:
-            comment = models.Comment.objects.get(id=parent_id)
-            parent_kwarg = dict(parent=comment)
+        thread = models.Thread.objects.get(id=thread_id)
+        parent = None if not parent_id else models.Comment.objects.get(id=parent_id)
+
         comment = services.create_comment(
-            profile=request.user.profile, text=text, **parent_kwarg
+            profile=request.user.profile, text=text, thread=thread, parent=parent
         )
         return Response(ResponseCommentSerializer(comment).data)
 

@@ -28,8 +28,8 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
         many=True, read_only=True, slug_field="slug"
     )
     clap_count = serializers.IntegerField(default=0)
-    thread_size = serializers.IntegerField(default=0)
-    created_by = ProfileSerializer()
+    thread_size = serializers.IntegerField(default=0, source="thread.size")
+    # created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
     articles = ResponseArticleSerializer(many=True)
     cover_url = serializers.SerializerMethodField()
@@ -45,7 +45,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
         model = models.Company
         fields = [
             "slug",
-            "created_by",
+            # "created_by",
             "thread_id",
             "created_at",
             "clap_count",
@@ -146,7 +146,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
     pagination_class = LimitOffsetPagination
-    page_size = 25
+    page_size = 10
     expected_exceptions = {}
     permission_classes = [IsEditorPermission | IsReadOnly]
 
