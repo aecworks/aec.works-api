@@ -34,16 +34,13 @@ class CommentsInline(admin.TabularInline):
 
 @admin.register(models.Thread)
 class ThreadAdmin(admin.ModelAdmin):
-    list_display = ["id", "root_comments", "thread_size"]
+    list_display = ["id", "root_comments", "size"]
     inlines = [
         CommentsInline,
     ]
 
     def root_comments(self, obj):
         return obj.comments.count()
-
-    def thread_size(self, obj):
-        return sum(c.get_descendant_count() for c in obj.comments.all())
 
 
 @admin.register(models.Company)

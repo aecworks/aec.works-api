@@ -109,3 +109,20 @@ class TestServices:
         assert revision.approved_by == profile
         assert revision.applied is True
         assert set([h.slug for h in company.hashtags.all()]) == set(["a", "c"])
+
+    def test_create_comment(self):
+        profile = ProfileFactory()
+        text = "xxx"
+        thread = factories.ThreadFactory()
+        assert thread.size == 0
+
+        comment = services.create_comment(profile=profile, text=text, thread=thread)
+        assert thread.size == 1
+        assert comment.text == text
+        assert comment.profile == profile
+
+        services.create_comment(
+            profile=profile, text=text, thread=thread, parent=comment
+        )
+        assert comment.reply_count == 1
+        assert thread.size == 2

@@ -76,16 +76,11 @@ def create_comment(*, profile, text, thread, parent=None) -> Comment:
     comment = Comment.objects.create(
         profile=profile, text=text, thread=thread, parent=parent
     )
-    owner = (
-        Company.objects.filter(thread_id=thread.id).first()
-        or Post.objects.filter(thread_id=thread.id).first()
-    )
-    if owner:
-        owner.thread_size += 1
-        owner.save()
-    else:
-        # This should not happen - all thread should be assigned to a Company or Post
-        logger.warning(f"thread_id is orphan: {thread.id}")
+    thread.size += 1
+    thread.save()
+    if parent:
+        parent.reply_count = parent.get_children().count()
+        parent.save()
     return comment
 
 

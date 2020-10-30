@@ -1,6 +1,8 @@
 from faker import Faker
 import factory
 from django.db.models.signals import post_save
+
+from api.images.factories import ImageAssetFactory
 from . import models
 
 faker = Faker()
@@ -41,7 +43,5 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def post(obj, *args, **kwargs):
-        from api.images.factories import ImageAssetFactory
-
         obj.avatar = ImageAssetFactory(created_by=obj)
         obj.save()

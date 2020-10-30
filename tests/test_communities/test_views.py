@@ -15,10 +15,10 @@ class TestViews:
                 "comments/?parent_id={0}",
                 lambda: f.CommentFactory(thread=f.ThreadFactory()).id,
             ],
-            ["companies/", lambda: [f.CompanyFactory() for _ in range(5)]],
+            ["companies/", lambda: [f.CompanyFactory() for _ in range(3)]],
             ["companies/{0}/", lambda: f.CompanyFactory().slug],
-            ["hashtags/", lambda: [f.HashtagFactory() for _ in range(5)]],
-            ["posts/", lambda: [f.PostFactory() for _ in range(5)]],
+            ["hashtags/", lambda: [f.HashtagFactory() for _ in range(3)]],
+            ["posts/", lambda: [f.PostFactory() for _ in range(3)]],
             ["posts/{0}/", lambda: f.PostFactory().slug],
         ],
     )

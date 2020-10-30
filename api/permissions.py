@@ -8,13 +8,13 @@ class IsReadOnly(permissions.BasePermission):
 
 class BaseGroupPermissions(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.user.groups.filter(name__in=self.group_names).exists():
+        if request.user.groups.filter(name__contains=self.group_name).exists():
             return True
         else:
-            self.message = f"Permission denied, user not in '{self.group_names}' group"
+            self.message = f"Permission denied, user not in '{self.group_name}' group"
             return False
 
 
 class IsEditorPermission(BaseGroupPermissions):
     message = "Must Be Editor"
-    group_names = ["editors"]
+    group_name = "editors"

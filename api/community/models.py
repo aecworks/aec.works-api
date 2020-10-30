@@ -67,7 +67,6 @@ class Company(ReprMixin, CompanyBaseModel):
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
-    thread_size = models.PositiveIntegerField(default=0)
     thread = models.OneToOneField(
         "Thread",
         related_name="post",
@@ -121,7 +120,6 @@ class Post(ReprMixin, models.Model):
     profile = models.ForeignKey(
         "users.Profile", related_name="posts", on_delete=models.PROTECT
     )
-    thread_size = models.PositiveIntegerField(default=0)
     thread = models.ForeignKey(
         "Thread", related_name="+", on_delete=models.CASCADE, blank=True, null=True
     )
@@ -149,7 +147,7 @@ class Post(ReprMixin, models.Model):
 
 
 class Thread(ReprMixin, models.Model):
-    ...
+    size = models.PositiveIntegerField(default=0)
 
 
 class Comment(ReprMixin, mptt_models.MPTTModel):
@@ -164,6 +162,7 @@ class Comment(ReprMixin, mptt_models.MPTTModel):
     profile = models.ForeignKey(
         "users.Profile", related_name="comments", on_delete=models.PROTECT
     )
+    reply_count = models.PositiveIntegerField(default=0)
     clap_count = models.PositiveIntegerField(default=0)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_comments", blank=True

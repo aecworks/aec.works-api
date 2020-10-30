@@ -15,7 +15,7 @@ from .. import models, selectors, services
 
 class RequestCommentSerializer(serializers.ModelSerializer):
     thread_id = serializers.IntegerField(required=True)
-    parent_id = serializers.IntegerField(required=False)
+    parent_id = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = models.Comment
@@ -23,8 +23,8 @@ class RequestCommentSerializer(serializers.ModelSerializer):
 
 
 class ResponseCommentSerializer(serializers.ModelSerializer):
-    clap_count = serializers.IntegerField(default=0)
-    reply_count = serializers.IntegerField(default=0)
+    clap_count = serializers.IntegerField()
+    reply_count = serializers.IntegerField()
 
     profile = ProfileSerializer()
 
@@ -58,13 +58,10 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     def get_queryset(self):
         thread_id = self.request.query_params.get("thread_id", None)
         parent_id = self.request.query_params.get("parent_id", None)
-        if parent_id and not thread_id:
+        if parent_id:
             return selectors.get_comment_children(parent_id=parent_id)
-        elif thread_id and not parent_id:
-            return selectors.get_thread_comments(thread_id=thread_id)
         else:
-            msg = "must provide thread_id or parent_id but not both"
-            raise drf_exceptions.ValidationError(msg)
+            return selectors.get_thread_comments(thread_id=thread_id)
 
     def get(self, request):
         return super().list(request)

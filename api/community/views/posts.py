@@ -15,8 +15,8 @@ class PostListSerializer(serializers.ModelSerializer):
     )
     profile = ProfileSerializer()
     clap_count = serializers.IntegerField()
-    thread_size = serializers.IntegerField()
-    thread_id = serializers.IntegerField()
+    thread_size = serializers.IntegerField(source="thread.size")
+    thread_id = serializers.IntegerField(source="thread.size")
     banner = serializers.CharField(source="get_banner_display")
     cover_url = serializers.SerializerMethodField()
 
@@ -76,7 +76,7 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = PostListSerializer
     queryset = selectors.get_posts()
     pagination_class = LimitOffsetPagination
-    page_size = 50
+    page_size = 10
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

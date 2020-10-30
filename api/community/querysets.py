@@ -1,7 +1,4 @@
 from django.db import models
-from api.common.lookups import Floor
-from mptt.querysets import TreeQuerySet
-from django.apps import apps
 
 
 class HashtagQueryset(models.QuerySet):
