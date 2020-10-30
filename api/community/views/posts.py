@@ -117,7 +117,7 @@ class PostDetailView(
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     expected_exceptions = {PermissionDenied: drf_exceptions.PermissionDenied}
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 

@@ -25,7 +25,7 @@ class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     search_fields = ["bio", "location", "user__name"]
     filter_backends = [filters.SearchFilter]
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60))
     def get(self, request):
         return super().list(request)
 
@@ -37,7 +37,7 @@ class ProfileDetailView(
     queryset = Profile.objects.all()
     lookup_field = "slug"
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
@@ -47,7 +47,7 @@ class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIV
     serializer_class = ProfileDetailSerializer
     queryset = Profile.objects.all()
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60))
     def get(self, request):
         user = request.user
         serializer = self.get_serializer(user.profile)
