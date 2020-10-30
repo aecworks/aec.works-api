@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
-from django.db.models import Count, Q, Prefetch
+from django.db.models import Count, Q
 from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 

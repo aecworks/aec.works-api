@@ -1,7 +1,7 @@
 from typing import List, Tuple
 from math import log
 from datetime import timedelta
-from django.db import transaction, models
+from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from opengraph.opengraph import OpenGraph
 from bs4 import BeautifulSoup
