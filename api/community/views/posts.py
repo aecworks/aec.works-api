@@ -76,7 +76,6 @@ class PostListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = PostListSerializer
     queryset = selectors.get_posts()
     pagination_class = LimitOffsetPagination
-    page_size = 10
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

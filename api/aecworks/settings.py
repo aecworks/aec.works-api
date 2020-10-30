@@ -142,7 +142,7 @@ USE_TZ = True
 
 # Rest Framework Settings
 REST_FRAMEWORK = {
-    "PAGE_SIZE": 25,
+    "PAGE_SIZE": 10,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",

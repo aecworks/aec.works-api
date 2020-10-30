@@ -52,7 +52,6 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         models.Thread.DoesNotExist: drf_exceptions.ValidationError,
         models.Comment.DoesNotExist: drf_exceptions.ValidationError,
     }
-    page_size = 10
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
