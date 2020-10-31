@@ -54,11 +54,14 @@ jobs:
           pip install -r requirements.txt
               pip install -r requirements-dev.txt
 
-      - name: Cache
-        uses: actions/cache@v1.2.0
+      - name: Cache pip
+        uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
 
       - name: Lint
         run: |
@@ -82,4 +85,4 @@ jobs:
 
       - name: Upload Coverage
         run: |
-          pip install --user codecov && codecov -t $CODECOV_TOKEN
+          pip install codecov && codecov -t $CODECOV_TOKEN
