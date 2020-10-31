@@ -7,9 +7,9 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  container-job:
     runs-on: ubuntu-latest
-    # container: python:3.8-slim
+    container: python:3.8-slim
 
     strategy:
       max-parallel: 1
@@ -17,11 +17,9 @@ jobs:
         python-version: [3.8]
 
     services:
-      # Label used to access the service container
       postgres:
         image: postgres:9.6
         env:
-          # Match docker-compose - and DATABASE_URL below
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -32,6 +30,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
       redis:
         image: redis
         ports:
@@ -69,8 +68,8 @@ jobs:
         run: |
           pytest --cov=./
         env:
-          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
-          REDIS_URL: redis://localhost:6379
+          DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+          REDIS_URL: redis://redis:6379
           DJANGO_ALLOWED_HOSTS: "*"
           DJANGO_SECRET_KEY: gh_test
           DJANGO_S3_BUCKET_NAME: "gh_test"
