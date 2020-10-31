@@ -5,7 +5,8 @@ __pycache__
 .env
 .venv
 .coverage
-htmlcov
+htmlcov/
+
 
 # Editor directories and files
 .idea

@@ -25,7 +25,10 @@ class Command(BaseCommand):
             thread = f.ThreadFactory()
             comment = f.CommentFactory(profile=profile, thread=thread)
             comment_2 = f.CommentFactory(profile=profile, thread=thread)
-            [f.CommentFactory(profile=profile, parent=comment) for _ in range(10)]
+            [
+                f.CommentFactory(profile=profile, parent=comment, thread=thread)
+                for _ in range(10)
+            ]
             comment.clappers.add(profile)
             comment_2.clappers.add(profile)
 
@@ -33,4 +36,4 @@ class Command(BaseCommand):
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
 
-        call_command("loaddata", "api/community/fixtures/companies.json")
+        # call_command("loaddata", "api/community/fixtures/companies.json")
