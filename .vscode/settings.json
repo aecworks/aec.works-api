@@ -1,32 +1,30 @@
 {
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": true,
-    "python.linting.lintOnSave": true,
-    "python.formatting.provider": "black",
-    "python.formatting.blackPath": "black",
-    "editor.formatOnSave": true,
-    "[python]": {
-        "editor.rulers": [
-            88
-        ]
-    },
-    "files.associations": {
-        "Dockerfile*": "dockerfile",
-        ".env*": "dotenv"
-    },
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/*.pyc": true,
-        "**/__pycache__": true,
-        "**/.mypy_cache": true,
-        "**/.cache": true,
-        "**/*.egg-info": true,
-        "**/*.pytest_cache": true,
-        "**/*.coverage": true
-    },
-    "python.pythonPath": ".venv/bin/python3.8",
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.lintOnSave": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "black",
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.rulers": [88]
+  },
+  "files.associations": {
+    "Dockerfile*": "dockerfile",
+    ".env*": "dotenv"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/*.pyc": true,
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/.cache": true,
+    "**/*.egg-info": true,
+    "**/*.pytest_cache": true,
+    "**/*.coverage": true
+  },
+  "python.pythonPath": ".venv/bin/python3.8"
 }
