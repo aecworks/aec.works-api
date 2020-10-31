@@ -60,7 +60,7 @@ jobs:
         run: |
           pytest --cov=./
         env:
-          DATABASE_URL: "postgres://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}/postgres"
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
           DJANGO_SECRET_KEY: gh_test
           DJANGO_ALLOWED_HOSTS: "*"
           DJANGO_S3_BUCKET_NAME: "gh_test"
