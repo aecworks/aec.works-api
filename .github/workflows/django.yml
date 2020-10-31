@@ -32,6 +32,15 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v2
@@ -61,8 +70,9 @@ jobs:
           pytest --cov=./
         env:
           DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
-          DJANGO_SECRET_KEY: gh_test
+          REDIS_URL: redis://localhost:6379
           DJANGO_ALLOWED_HOSTS: "*"
+          DJANGO_SECRET_KEY: gh_test
           DJANGO_S3_BUCKET_NAME: "gh_test"
           OAUTH_GITHUB_CLIENT_ID: gh_test
           OAUTH_GITHUB_CLIENT_SECRET: gh_test
@@ -70,7 +80,6 @@ jobs:
           OAUTH_LINKEDIN_CLIENT_SECRET: gh_test
           AWS_ACCESS_KEY_ID: gh_test
           AWS_SECRET_ACCESS_KEY: gh_test
-          REDIS_URL: gh_test
 
       - name: Upload Coverage
         run: |
