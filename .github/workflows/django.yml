@@ -7,9 +7,9 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  container-job:
     runs-on: ubuntu-latest
-    # container: python:3.8-slim
+    container: python:3.8
 
     strategy:
       max-parallel: 1
@@ -17,17 +17,26 @@ jobs:
         python-version: [3.8]
 
     services:
-      # Label used to access the service container
       postgres:
         image: postgres:9.6
         env:
-          # Match docker-compose - and DATABASE_URL below
-          POSTGRES_DB: aecworks_db
+          POSTGRES_DB: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          PGPASSWORD: postgres
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -39,17 +48,19 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip # not working
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-              pip install -r requirements-dev.txt
-
-      - name: Cache
-        uses: actions/cache@v1.2.0
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
 
       - name: Lint
         run: |
@@ -57,16 +68,20 @@ jobs:
 
       - name: Run Tests
         run: |
-          python manage.py test
+          pytest --cov=./
         env:
-          DJANGO_SECRET_KEY: gh_test
+          DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+          REDIS_URL: redis://redis:6379
           DJANGO_ALLOWED_HOSTS: "*"
+          DJANGO_SECRET_KEY: gh_test
           DJANGO_S3_BUCKET_NAME: "gh_test"
-          DATABASE_URL: "postgres://postgres:postgres@postgres:5432/aecworks_db"
           OAUTH_GITHUB_CLIENT_ID: gh_test
           OAUTH_GITHUB_CLIENT_SECRET: gh_test
           OAUTH_LINKEDIN_CLIENT_ID: gh_test
           OAUTH_LINKEDIN_CLIENT_SECRET: gh_test
           AWS_ACCESS_KEY_ID: gh_test
           AWS_SECRET_ACCESS_KEY: gh_test
-          REDIS_URL: gh_test
+
+      - name: Upload Coverage
+        run: curl -s https://codecov.io/bash | bash
+        # pip install codecov && codecov -t ${{ secrets.CODECOV_TOKEN }}

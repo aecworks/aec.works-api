@@ -4,6 +4,11 @@ from api.users.factories import UserFactory
 from rest_framework.test import APIClient
 
 
+@pytest.fixture(autouse=True)
+def use_in_memory_storage(settings):
+    settings.DEFAULT_FILE_STORAGE = "inmemorystorage.InMemoryStorage"
+
+
 @pytest.fixture(scope="function")
 def auth_client(db):
     user = UserFactory(password="1")
