@@ -82,4 +82,4 @@ jobs:
 
       - name: Upload Coverage
         run: |
-          bash <(curl -s https://codecov.io/bash)
+          pip install --user codecov && codecov -t $CODECOV_TOKEN
