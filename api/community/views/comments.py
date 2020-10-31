@@ -72,6 +72,7 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
         parent_id = serializer.validated_data.pop("parent_id", None)
         thread_id = serializer.validated_data.pop("thread_id", None)
+
         thread = models.Thread.objects.get(id=thread_id)
         parent = None if not parent_id else models.Comment.objects.get(id=parent_id)
 

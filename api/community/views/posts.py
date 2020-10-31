@@ -18,7 +18,7 @@ class PostListSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     clap_count = serializers.IntegerField()
     thread_size = serializers.IntegerField(source="thread.size")
-    thread_id = serializers.IntegerField(source="thread.size")
+    thread_id = serializers.IntegerField()
     banner = serializers.CharField(source="get_banner_display")
     cover_url = serializers.SerializerMethodField()
 
