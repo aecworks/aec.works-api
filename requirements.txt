@@ -19,7 +19,7 @@ celery==4.4.7
 django-celery-results==1.2.1
 
 django==2.2.13
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-camel-case==1.1.2
 django-extra-fields==3.0.0
 djoser==2.0.3
