@@ -20,14 +20,14 @@ class Command(BaseCommand):
         hashtag_generator = self.get_hashtag()
         profile = ProfileFactory()
 
-        for _ in range(10):
+        for _ in range(150):
             hashtag = next(hashtag_generator)
             thread = f.ThreadFactory()
             comment = f.CommentFactory(profile=profile, thread=thread)
             comment_2 = f.CommentFactory(profile=profile, thread=thread)
             [
                 f.CommentFactory(profile=profile, parent=comment, thread=thread)
-                for _ in range(10)
+                for _ in range(25)
             ]
             comment.clappers.add(profile)
             comment_2.clappers.add(profile)
@@ -36,4 +36,4 @@ class Command(BaseCommand):
             post.hashtags.add(hashtag)
             post.clappers.add(profile)
 
-        call_command("loaddata", "api/community/fixtures/companies.json")
+        # call_command("loaddata", "api/community/fixtures/companies.json")
