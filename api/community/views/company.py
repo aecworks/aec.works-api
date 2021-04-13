@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import (
     mixins,
     generics,
@@ -148,7 +148,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     serializer_class = ResponseCompanySerializer
     queryset = selectors.get_companies()
-    pagination_class = LimitOffsetPagination
+    pagination_class = PageNumberPagination
     page_size = 10
     expected_exceptions = {}
     permission_classes = [IsEditorPermission | IsReadOnly]
