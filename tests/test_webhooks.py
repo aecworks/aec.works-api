@@ -9,12 +9,12 @@ from api.webhooks.services import (
 
 @pytest.mark.django_db
 def test_article_from_tweet():
-    company = CompanyFactory(twitter="xxx")
+    company = CompanyFactory(twitter="MyHandle")
     profile = ProfileFactory()
     url = "https://abc.com"
     article = create_article_from_tweet(
         url=url,
-        mentioned="xxx",
+        mentioned="myhandle",
         text="See this @xxx",
         hashtags="abc,def",
         profile=profile,
