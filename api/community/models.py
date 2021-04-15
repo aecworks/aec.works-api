@@ -98,7 +98,7 @@ class Article(ReprMixin, models.Model):
     company = models.ForeignKey(
         "Company", on_delete=models.CASCADE, related_name="articles"
     )
-    opengraph_data = JSONField(default=dict)
+    opengraph_data = JSONField(default=dict, blank=True)
     created_by = models.ForeignKey(
         "users.Profile", related_name="articles", on_delete=models.PROTECT,
     )

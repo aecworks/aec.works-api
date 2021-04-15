@@ -3,14 +3,13 @@ from math import log
 from datetime import timedelta
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
-from opengraph.opengraph import OpenGraph
 from bs4 import BeautifulSoup
 import logging
 
 from api.community.choices import PostBanner
 from api.images.services import create_image_file_from_data_uri, create_image_asset
 from api.images.models import ImageAsset
-from api.common.utils import update_instance, to_hashtag
+from api.common.utils import update_instance, to_hashtag, get_og_data
 from .models import (
     Article,
     Comment,
@@ -181,21 +180,7 @@ def apply_revision(*, revision, profile):
 
 
 def create_company_article(*, company, url, profile) -> Article:
-    og_article = OpenGraph(url=url, scrape=True)
-    og_data = None
-    if og_article.is_valid():
-        tags = [
-            "site_name",
-            "type",
-            "title",
-            "description",
-            "image",
-            "image:alt",
-            "image:height",
-            "image:width",
-        ]
-        og_data = {k: v for k, v in og_article.items() if k in tags}
-
+    og_data = get_og_data(url)
     article = Article.objects.create(
         url=url, company=company, created_by=profile, opengraph_data=og_data
     )

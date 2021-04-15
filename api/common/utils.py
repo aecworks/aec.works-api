@@ -1,6 +1,12 @@
 import string
+import logging
+import requests
 from rest_framework import serializers
 from rest_framework.utils import model_meta
+from opengraph.opengraph import OpenGraph
+
+
+logger = logging.getLogger(__name__)
 
 
 def inline_serializer(*, fields, data=None, **kwargs):
@@ -38,3 +44,27 @@ def update_instance(instance, validated_data):
 def to_hashtag(text: str):
     """ Only leters, no symbols but allows case """
     return "".join([c for c in text if c in string.ascii_letters])
+
+
+def get_og_data(url: str):
+
+    resp = requests.get(url)
+    if not resp.ok:
+        logger.info(f"could not get opengraph data for url: {url}: {resp}")
+        return None
+
+    og_data = None
+    og_article = OpenGraph(html=resp.content, scrape=True)
+    if og_article.is_valid():
+        tags = [
+            "site_name",
+            "type",
+            "title",
+            "description",
+            "image",
+            "image:alt",
+            "image:height",
+            "image:width",
+        ]
+        og_data = {k: v for k, v in og_article.items() if k in tags}
+    return og_data

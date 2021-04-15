@@ -1,12 +1,19 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
+from api.common.utils import get_og_data
 from . import models
 
 
 @admin.register(models.Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["id", "url", "company"]
+    list_display = ["id", "url", "company", "created_by"]
+
+    def save_model(self, request, obj, form, change):
+        og_data = get_og_data(obj.url)
+        obj.opengraph_data = og_data
+        obj.save()
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(models.Comment)
