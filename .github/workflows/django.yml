@@ -9,7 +9,6 @@ on:
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: python:3.8
 
     strategy:
       max-parallel: 1
@@ -43,8 +42,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -70,8 +70,8 @@ jobs:
         run: |
           pytest --cov=./
         env:
-          DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"
-          REDIS_URL: redis://redis:6379
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+          REDIS_URL: redis://localhost:6379
           DJANGO_ALLOWED_HOSTS: "*"
           DJANGO_SECRET_KEY: gh_test
           DJANGO_S3_BUCKET_NAME: "gh_test"
