@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "djoser",
     "corsheaders",
-    "mptt",
     "django_extensions",
     "debug_toolbar",
     "django_celery_results",
