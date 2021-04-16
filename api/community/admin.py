@@ -1,5 +1,4 @@
 from django.contrib import admin
-from mptt.admin import MPTTModelAdmin
 
 from api.common.utils import get_og_data
 from . import models
@@ -17,7 +16,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Comment)
-class CommentAdmin(MPTTModelAdmin):
+class CommentAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "text_start",
