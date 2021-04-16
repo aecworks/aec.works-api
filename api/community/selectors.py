@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
-from django.db.models import Count, Q
+from django.db import models as m
 from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
@@ -28,11 +28,26 @@ def get_company(**kwargs):
 
 def get_companies():
     qs = (
-        Company.objects.select_related("thread", "logo", "cover")
-        .prefetch_related("hashtags", "articles",)
+        Company.objects.select_related("logo", "cover")
+        .prefetch_related("hashtags", "articles")
         .all()
     )
     return qs
+
+
+def get_companies_annotated(profile_id=-1):
+    """
+    Annotates Companies with "thread_size" (comment count)
+    and `user_did_clap` indicating if provided profile has clapped
+    """
+    return get_companies().annotate(
+        thread_size=m.Count("thread__comments", distinct=True),
+        user_did_clap=m.Case(
+            m.When(clappers__id__contains=profile_id, then=True),
+            default=False,
+            output_field=m.BooleanField(),
+        ),
+    )
 
 
 def get_company_claps():
@@ -44,7 +59,7 @@ def query_multi_hashtag(qs, hashtag_slugs):
     reg_pat = f"({'|'.join(hashtag_slugs)})"
     qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
     qs_with_both = qs_with_one_of.annotate(
-        n_matches=Count("hashtags", distinct=True)
+        n_matches=m.Count("hashtags", distinct=True)
     ).filter(n_matches=len(hashtag_slugs))
     return qs_with_both
 
@@ -53,7 +68,7 @@ def query_posts(qs, query, hashtag_slugs):
     if hashtag_slugs:
         qs = query_multi_hashtag(qs, hashtag_slugs)
     if query:
-        filters = Q(title__icontains=query) | Q(body__icontains=query)
+        filters = m.Q(title__icontains=query) | m.Q(body__icontains=query)
         qs = qs.filter(filters)
     return qs
 
