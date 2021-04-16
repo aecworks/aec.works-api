@@ -147,30 +147,26 @@ class Post(ReprMixin, models.Model):
 
 
 class Thread(ReprMixin, models.Model):
-    size = models.PositiveIntegerField(default=0)
+    ...
 
 
-class Comment(ReprMixin, mptt_models.MPTTModel):
+class Comment(ReprMixin, models.Model):
 
     thread = models.ForeignKey(
         "Thread", related_name="comments", on_delete=models.CASCADE,
-    )
-    parent = mptt_models.TreeForeignKey(
-        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
     )
     text = models.TextField()
     profile = models.ForeignKey(
         "users.Profile", related_name="comments", on_delete=models.PROTECT
     )
-    reply_count = models.PositiveIntegerField(default=0)
     clap_count = models.PositiveIntegerField(default=0)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_comments", blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class MPTTMeta:
-        order_insertion_by = ["created_at"]
+    class Meta:
+        ordering = ["created_at"]
 
 
 @receiver(post_save, sender=Company)

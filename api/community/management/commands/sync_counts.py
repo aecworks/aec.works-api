@@ -16,16 +16,6 @@ class Command(BaseCommand):
             post.clap_count = post.clappers.count()
             post.save()
 
-        for thread in models.Thread.objects.all():
-            top_level_comments = models.Comment.objects.filter(
-                thread_id=thread.id, level=0
-            )
-            thread_size = 0
-            for top_level in top_level_comments:
-                thread_size += top_level.get_descendants(include_self=True).count()
-                thread.size = thread_size
-                thread.save()
-
         for comment in models.Comment.objects.all():
-            comment.reply_count = comment.get_children().count()
+            comment.clap_count = comment.clappers.count()
             comment.save()

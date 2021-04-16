@@ -10,11 +10,7 @@ class TestViews:
     @pytest.mark.parametrize(
         "path,param_factory",
         [
-            ["comments/?thread_id={0}", lambda: f.ThreadFactory().id],
-            [
-                "comments/?parent_id={0}",
-                lambda: f.CommentFactory(thread=f.ThreadFactory()).id,
-            ],
+            ["comments/{0}/", lambda: f.ThreadFactory().id],
             ["companies/", lambda: [f.CompanyFactory() for _ in range(3)]],
             ["companies/{0}/", lambda: f.CompanyFactory().slug],
             ["hashtags/", lambda: [f.HashtagFactory() for _ in range(3)]],

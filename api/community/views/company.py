@@ -30,12 +30,15 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
         many=True, read_only=True, slug_field="slug"
     )
     clap_count = serializers.IntegerField(default=0)
-    thread_size = serializers.IntegerField(default=0, source="thread.size")
+    thread_size = serializers.IntegerField(default=0)
     # created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
     articles = ResponseArticleSerializer(many=True)
     cover_url = serializers.SerializerMethodField()
     logo_url = serializers.SerializerMethodField()
+
+    def get_thread_size(self, obj):
+        return obj.thread.comments.count()
 
     def get_cover_url(self, obj):
         return obj.cover.file.crop["800x400"].url if obj.cover else None
