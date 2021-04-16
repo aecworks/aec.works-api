@@ -17,10 +17,13 @@ class PostListSerializer(serializers.ModelSerializer):
     )
     profile = ProfileSerializer()
     clap_count = serializers.IntegerField()
-    thread_size = serializers.IntegerField(source="thread.size")
+    thread_size = serializers.IntegerField(default=0)
     thread_id = serializers.IntegerField()
     banner = serializers.CharField(source="get_banner_display")
     cover_url = serializers.SerializerMethodField()
+
+    def get_thread_size(self, obj):
+        return obj.thread.comments.count()
 
     def get_cover_url(self, obj):
         return obj.cover.file.url if obj.cover else None

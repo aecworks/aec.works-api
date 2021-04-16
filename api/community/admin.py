@@ -21,18 +21,13 @@ class CommentAdmin(MPTTModelAdmin):
     list_display = [
         "id",
         "text_start",
-        "parent",
         "thread",
         "profile",
         "created_at",
-        "replies",
     ]
 
     def text_start(self, obj):
         return f"{obj.text[:10]}..."
-
-    def replies(self, obj):
-        return obj.get_children().count()
 
 
 class CommentsInline(admin.TabularInline):
@@ -41,12 +36,12 @@ class CommentsInline(admin.TabularInline):
 
 @admin.register(models.Thread)
 class ThreadAdmin(admin.ModelAdmin):
-    list_display = ["id", "root_comments", "size"]
+    list_display = ["id", "comment_count"]
     inlines = [
         CommentsInline,
     ]
 
-    def root_comments(self, obj):
+    def comment_count(self, obj):
         return obj.comments.count()
 
 

@@ -71,15 +71,8 @@ def post_clap(*, post, profile) -> int:
     return post.clap_count
 
 
-def create_comment(*, profile, text, thread, parent=None) -> Comment:
-    comment = Comment.objects.create(
-        profile=profile, text=text, thread=thread, parent=parent
-    )
-    thread.size += 1
-    thread.save()
-    if parent:
-        parent.reply_count = parent.get_children().count()
-        parent.save()
+def create_comment(*, profile, text, thread) -> Comment:
+    comment = Comment.objects.create(profile=profile, text=text, thread=thread)
     return comment
 
 

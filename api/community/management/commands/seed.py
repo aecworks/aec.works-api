@@ -23,14 +23,11 @@ class Command(BaseCommand):
         for _ in range(150):
             hashtag = next(hashtag_generator)
             thread = f.ThreadFactory()
-            comment = f.CommentFactory(profile=profile, thread=thread)
-            comment_2 = f.CommentFactory(profile=profile, thread=thread)
-            [
-                f.CommentFactory(profile=profile, parent=comment, thread=thread)
-                for _ in range(25)
+            comments = [
+                f.CommentFactory(profile=profile, thread=thread) for _ in range(25)
             ]
-            comment.clappers.add(profile)
-            comment_2.clappers.add(profile)
+            comments[0].clappers.add(profile)
+            comments[1].clappers.add(profile)
 
             post = f.PostFactory(profile=profile, thread=thread)
             post.hashtags.add(hashtag)

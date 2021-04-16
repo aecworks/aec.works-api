@@ -19,11 +19,7 @@ def get_recent_comments(days_back=7):
 
 
 def get_thread_comments(*, thread_id):
-    return get_comments().filter(level=0, thread_id=thread_id)
-
-
-def get_comment_children(*, parent_id):
-    return get_comments().filter(parent_id=parent_id)
+    return get_comments().filter(thread_id=thread_id)
 
 
 def get_company(**kwargs):

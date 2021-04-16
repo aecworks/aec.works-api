@@ -114,15 +114,12 @@ class TestServices:
         profile = ProfileFactory()
         text = "xxx"
         thread = factories.ThreadFactory()
-        assert thread.size == 0
+        assert thread.comments.count() == 0
 
         comment = services.create_comment(profile=profile, text=text, thread=thread)
-        assert thread.size == 1
+        assert thread.comments.count() == 1
         assert comment.text == text
         assert comment.profile == profile
 
-        services.create_comment(
-            profile=profile, text=text, thread=thread, parent=comment
-        )
-        assert comment.reply_count == 1
-        assert thread.size == 2
+        services.create_comment(profile=profile, text=text, thread=thread)
+        assert thread.comments.count() == 2
