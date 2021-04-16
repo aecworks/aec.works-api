@@ -14,11 +14,9 @@ from .. import models, selectors, services
 
 
 class RequestCommentSerializer(serializers.ModelSerializer):
-    thread_id = serializers.IntegerField(required=True)
-
     class Meta:
         model = models.Comment
-        fields = ["text", "thread_id"]
+        fields = ["text"]
 
 
 class ResponseCommentSerializer(serializers.ModelSerializer):
@@ -52,12 +50,11 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     def get(self, request, thread_id):
         return super().list(request)
 
-    def post(self, request):
+    def post(self, request, thread_id):
         serializer = RequestCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         text = serializer.validated_data.pop("text")
-        thread_id = serializer.validated_data.pop("thread_id", None)
 
         thread = models.Thread.objects.get(id=thread_id)
         comment = services.create_comment(
