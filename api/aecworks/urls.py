@@ -3,6 +3,8 @@ from django.urls import path, include
 import debug_toolbar
 
 urlpatterns = [
+    # Sitemap
+    path("", include("api.aecworks.sitemaps")),
     # Admin + Jet (Admin Skin)
     path("", admin.site.urls),
     path("jet/", include("jet.urls", "jet")),

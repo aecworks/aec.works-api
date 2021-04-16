@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.sites",
+    "django.contrib.sites",  # sitemaps
+    "django.contrib.sitemaps",  # sitemaps
     # Extensions
     "rest_framework",
     "rest_framework.authtoken",
