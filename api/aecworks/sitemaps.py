@@ -16,7 +16,7 @@ class IndexSitemap(Sitemap):
 
 
 class CompanySitemap(Sitemap):
-    changefreq = "yearly"
+    changefreq = "monthly"
     priority = 0.5
     limit = 500
 

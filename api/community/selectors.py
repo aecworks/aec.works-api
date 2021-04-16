@@ -5,7 +5,7 @@ from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
 
 
 def get_comments():
-    return Comment.objects.select_related("profile__user").all()
+    return Comment.objects.select_related("profile__avatar", "profile__user").all()
 
 
 def get_thread(*, id):
