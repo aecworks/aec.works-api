@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django_extensions.db.fields import AutoSlugField
-from mptt import models as mptt_models
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
