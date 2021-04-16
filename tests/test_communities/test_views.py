@@ -114,6 +114,18 @@ class TestViews:
         assert resp.status_code == 200
         assert resp.content == b"1"
 
+    def test_post_comment(self, client, auth_client):
+        thread = f.ThreadFactory()
+        url = f"/community/comments/{thread.id}/"
+        payload = dict(text="xxx")
+        resp = client.post(url, payload=payload, format="json")
+        assert resp.status_code == 403
+
+        resp = auth_client.post(url, payload, format="json")
+        assert resp.status_code == 201
+        assert resp.json()["text"] == "xxx"
+        assert resp.json()["clapCount"] == 0
+
     def test_post_comment_clap(self, client, auth_client):
         thread = f.ThreadFactory()
         comment = f.CommentFactory(thread=thread)

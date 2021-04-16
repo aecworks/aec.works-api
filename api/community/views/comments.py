@@ -60,7 +60,7 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         comment = services.create_comment(
             profile=request.user.profile, text=text, thread=thread
         )
-        return Response(ResponseCommentSerializer(comment).data)
+        return Response(ResponseCommentSerializer(comment).data, status=201)
 
 
 class CommentClapView(ErrorsMixin, generics.GenericAPIView):
