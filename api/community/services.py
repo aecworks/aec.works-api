@@ -184,3 +184,7 @@ def parse_hashtag_query(query: str):
     if not query:
         return []
     return query.split(",")
+
+
+def get_clapped_companies(*, profile):
+    Company.clappers

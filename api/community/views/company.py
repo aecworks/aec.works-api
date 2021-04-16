@@ -29,16 +29,13 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
-    clap_count = serializers.IntegerField(default=0)
     thread_size = serializers.IntegerField(default=0)
-    # created_by = ProfileSerializer()
     thread_id = serializers.IntegerField()
     articles = ResponseArticleSerializer(many=True)
+    clap_count = serializers.IntegerField(default=0)
+    user_did_clap = serializers.BooleanField(default=False)
     cover_url = serializers.SerializerMethodField()
     logo_url = serializers.SerializerMethodField()
-
-    def get_thread_size(self, obj):
-        return obj.thread.comments.count()
 
     def get_cover_url(self, obj):
         return obj.cover.file.crop["800x400"].url if obj.cover else None
@@ -50,10 +47,10 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
         model = models.Company
         fields = [
             "slug",
-            # "created_by",
             "thread_id",
             "created_at",
             "clap_count",
+            "user_did_clap",
             "thread_size",
             "last_revision_id",
             "articles",
@@ -139,7 +136,7 @@ class CompanyDetailView(
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    # @method_decorator(cache_page(60))
+    @method_decorator(cache_page(60))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
@@ -157,20 +154,28 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     permission_classes = [IsEditorPermission | IsReadOnly]
 
     def get_queryset(self):
+        user = self.request.user
+
+        if user.is_authenticated:
+            qs = selectors.get_companies_annotated(profile_id=user.profile.id)
+        else:
+            qs = selectors.get_companies()
+
         query = self.request.query_params.get("search")
         hashtag_names = []
 
         if hashtag_query := self.request.query_params.get("hashtags"):
             hashtag_names = services.parse_hashtag_query(hashtag_query)
 
-        return selectors.query_companies(self.queryset, query, hashtag_names).order_by(
-            "name"
-        )
+        return selectors.query_companies(qs, query, hashtag_names).order_by("name")
 
-    @method_decorator(cache_page(60))
+    # @method_decorator(cache_page(60))
     def get(self, request):
-        """ Get Company List """
-        return super().list(request)
+        """ Get Company List - matches 'ListModelMixin' for pagination"""
+        qs = self.get_queryset()
+        page = self.paginate_queryset(qs)
+        serializer = self.get_serializer(page, many=True,)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request):
         """ Creates New Company """
