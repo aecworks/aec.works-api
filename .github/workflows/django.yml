@@ -82,6 +82,7 @@ jobs:
           AWS_ACCESS_KEY_ID: gh_test
           AWS_SECRET_ACCESS_KEY: gh_test
 
-      - name: Upload Coverage
-        run: curl -s https://codecov.io/bash | bash
-        # pip install codecov && codecov -t ${{ secrets.CODECOV_TOKEN }}
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
