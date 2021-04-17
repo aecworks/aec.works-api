@@ -1,8 +1,9 @@
-from faker import Faker
 import factory
 from django.db.models.signals import post_save
+from faker import Faker
 
 from api.images.factories import ImageAssetFactory
+
 from . import models
 
 faker = Faker()

@@ -1,7 +1,8 @@
 import pytest
 from django.core.exceptions import PermissionDenied
-from api.users.factories import ProfileFactory
+
 from api.community import factories, services
+from api.users.factories import ProfileFactory
 
 
 @pytest.mark.django_db

@@ -6,7 +6,12 @@
   "python.formatting.blackPath": "black",
   "editor.formatOnSave": true,
   "[python]": {
-    "editor.rulers": [88]
+    "editor.rulers": [
+      88
+    ],
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
   },
   "files.associations": {
     "Dockerfile*": "dockerfile",

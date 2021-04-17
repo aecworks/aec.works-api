@@ -1,7 +1,9 @@
 from datetime import timedelta
-from django.utils import timezone
+
 from django.db import models as m
-from .models import Company, CompanyRevision, Comment, Post, Hashtag, Thread
+from django.utils import timezone
+
+from .models import Comment, Company, CompanyRevision, Hashtag, Post, Thread
 
 
 def get_comments():

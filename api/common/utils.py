@@ -1,12 +1,12 @@
-import string
 import logging
+import string
+
 import requests
-from django.utils.html import format_html
 from django.urls import reverse
+from django.utils.html import format_html
+from opengraph.opengraph import OpenGraph
 from rest_framework import serializers
 from rest_framework.utils import model_meta
-from opengraph.opengraph import OpenGraph
-
 
 logger = logging.getLogger(__name__)
 

@@ -35,34 +35,41 @@ This command will handle the following for you:
 
 See `scripts/setup.sh` for more details.
 
-To make sure everything functions, run test suite:
+Now let's spin up our docker resources and test that everything works:
 
 ```
+$ make start
 $ make test
 ```
 
-#### Dev-ing
+This will spin up a Postgres database and Redis instance as defined in
+our `docker-compose.yml` file.
+
+You can check the status of these containers with `docker ps`.
+
+#### Developing
 
 ```bash
 
-# seed database with fixtures
+# first seed database with fixtures
 $ make seed
 
-# start service containers (postgres & redis) & start dev server
-$ make start
+# start our dev server
+$ make serve
 
-# stream stdout/stderr of containers
-$ make logs
 ```
 
 #### Virtual Environment
 
-If you need to run commands using the venv interpreter, just activate the virtual environment first.
+If you need to run commands using the interpreter created in the `.venv` virtual environment, just activate the virtual environment first.
 
 ```bash
 $ source .venv/bin/activate
 $ (.venv) python manage.py migrate
 ```
+
+Note: this command my vary based on the Operating System your are using.
+
 
 If you are not familiar with Python's venv module you can [checkout the docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#activating-a-virtual-environment).
 
@@ -87,7 +94,7 @@ aecworks-api/
 │   ├── community  -> Django App: Community Domain (Posts, Companies, Articles, Etc)
 │   ├── images     -> Django App: Images
 │   ├── users      -> Django App: Users, Profiles
-│   └── webhooks   -> Django App: Wehooks
+│   └── webhooks   -> Django App: Wehooks (Twitter Zapier Integration)
 ├── ...
 ```
 
@@ -140,4 +147,4 @@ To run the frontend locally see [aecworks-web](https://github.com/aecworks/aec.w
 
 ## License
 
-TODO - Not Licensed
+GNU GPL V3

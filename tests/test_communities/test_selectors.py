@@ -1,6 +1,7 @@
 import pytest
+
+from api.community import factories, selectors, services
 from api.users.factories import ProfileFactory
-from api.community import factories, services, selectors
 
 
 @pytest.mark.django_db

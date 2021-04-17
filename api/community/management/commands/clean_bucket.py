@@ -1,8 +1,8 @@
-from django.core.management.base import BaseCommand
-from django.conf import settings
-from api.images.models import ImageAsset
-
 import boto3
+from django.conf import settings
+from django.core.management.base import BaseCommand
+
+from api.images.models import ImageAsset
 
 
 class Command(BaseCommand):

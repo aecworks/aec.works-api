@@ -1,6 +1,6 @@
 from django.urls import path
-from api.community import views
 
+from api.community import views
 
 urlpatterns = [
     # /community/

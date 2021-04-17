@@ -1,15 +1,10 @@
-from rest_framework import (
-    mixins,
-    generics,
-    serializers,
-    pagination,
-    permissions,
-)
 from rest_framework import exceptions as drf_exceptions
+from rest_framework import generics, mixins, pagination, permissions, serializers
 from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
+
 from .. import models, selectors, services
 
 

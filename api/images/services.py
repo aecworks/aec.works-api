@@ -1,11 +1,12 @@
-import requests
-import io
 import base64
-import PIL
+import io
 
+import PIL
+import requests
 from django.core.files.images import ImageFile
-from .utils import uuid_filename_from_content_type
+
 from .models import ImageAsset
+from .utils import uuid_filename_from_content_type
 
 
 def create_image_asset(

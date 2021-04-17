@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
 
 from api.common.mixins import ReprMixin
+
 from .choices import UserProviderChoices
 
 

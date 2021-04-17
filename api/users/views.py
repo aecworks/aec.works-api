@@ -1,19 +1,19 @@
-from rest_framework import mixins, generics, views, filters
-from rest_framework.response import Response
-from rest_framework import exceptions as drf_exceptions
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import IsAuthenticated
-
+from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.contrib.auth import login, logout, authenticate
+from rest_framework import exceptions as drf_exceptions
+from rest_framework import filters, generics, mixins, views
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from api.common.exceptions import ErrorsMixin
+
 from . import selectors, services
 from .auth import GithubProvider, LinkedInProvider, ProviderException
-from .models import Profile
 from .choices import UserProviderChoices
-
-from .serializers import ProfileSerializer, ProfileDetailSerializer
+from .models import Profile
+from .serializers import ProfileDetailSerializer, ProfileSerializer
 
 
 class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
