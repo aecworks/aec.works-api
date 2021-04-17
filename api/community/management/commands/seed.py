@@ -19,10 +19,8 @@ class Command(BaseCommand):
 
             company = models.Company.objects.filter(name=name).first()
             if company:
-                print(f"> Updated: {name}")
-                company, _ = models.Company.objects.update_or_create(
-                    slug=company.slug, defaults=data
-                )
+                print(f"> Already exists: {name} - flush or delete to recreate")
+                continue
             else:
                 print(f"> Created: {name}")
                 company = services.create_company(profile=profile, validated_data=data)
