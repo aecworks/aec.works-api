@@ -59,6 +59,11 @@ $ make serve
 
 ```
 
+#### Admin Panel
+
+You can inspect the models and seed data through the builtin admin panel at `localhost:8000`.
+For convenience a superuser is provisioned in the dev environment `dev@dev.com` password `1`.
+
 #### Virtual Environment
 
 If you need to run commands using the interpreter created in the `.venv` virtual environment, just activate the virtual environment first.

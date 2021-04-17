@@ -1,8 +1,7 @@
-from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
 from api.community import factories as f
-from api.community import services
+from api.community import models, services
 from api.images.services import create_image_asset, create_image_file_from_url
 from api.users.factories import ProfileFactory
 
@@ -16,9 +15,20 @@ class Command(BaseCommand):
 
         for name, description, logo_url, cover_url, hashtags in seed_data:
 
-            print(f"> Created: {name}")
-            data = dict(name=name, description=description, hashtags=hashtags,)
-            company = services.create_company(profile=profile, validated_data=data)
+            data = dict(name=name, description=description)
+
+            company = models.Company.objects.filter(name=name).first()
+            if company:
+                print(f"> Updated: {name}")
+                company, _ = models.Company.objects.update_or_create(
+                    slug=company.slug, defaults=data
+                )
+            else:
+                print(f"> Created: {name}")
+                company = services.create_company(profile=profile, validated_data=data)
+
+            hashtags = services.get_or_create_hashtags(hashtags)
+            company.hashtags.set(hashtags)
 
             # Logo
             logo_file = create_image_file_from_url(logo_url)
@@ -38,13 +48,26 @@ class Command(BaseCommand):
                 f.CommentFactory(profile=profile, thread=company.thread)
                 for _ in range(3)
             ]
-            comments[0].clappers.add(profile)
-            comments[1].clappers.add(profile_2)
+
+            services.comment_clap(comment=comments[0], profile=profile)
+            services.comment_clap(comment=comments[2], profile=profile_2)
 
             if name[0] > "g":
-                company.clappers.add(profile)
+                services.company_clap(company=company, profile=profile)
 
             print("    comments")
+
+            if name == "1Build" and company.articles.count() == 0:
+                services.create_company_article(
+                    company=company,
+                    url="https://www.archdaily.com/793082/la-serena-house-sebastian-gaviria-gomez?ad_medium=widget&ad_name=selected-buildings-stream",
+                    profile=profile,
+                )
+                services.create_company_article(
+                    company=company,
+                    url="https://www.archdaily.com/788489/nilo-houses-alberto-burckhard-plus-carolina-echeverri?ad_medium=widget&ad_name=recommendation",
+                    profile=profile,
+                )
 
 
 # [(c.name,c.description, c.logo.file.url, c.cover.file.url, [h.slug for h in c.hashtags.all()]) for c in C.objects.all() if c.logo and c.cover][:30]
@@ -260,4 +283,3 @@ seed_data = [
         ["CodeCompliance"],
     ),
 ]
-
