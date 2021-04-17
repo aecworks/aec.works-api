@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.common.utils import get_og_data
+from api.common.utils import get_og_data, admin_linkify
 from . import models
 
 
@@ -58,6 +58,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "logo",
         "cover",
         "created_by",
+        admin_linkify(field_name="thread"),
     ]
     raw_id_fields = ["logo", "cover"]
     readonly_fields = ["thread"]

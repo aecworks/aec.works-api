@@ -20,8 +20,9 @@ class RequestCommentSerializer(serializers.ModelSerializer):
 
 
 class ResponseCommentSerializer(serializers.ModelSerializer):
-    clap_count = serializers.IntegerField()
     profile = ProfileSerializer()
+    clap_count = serializers.IntegerField()
+    user_did_clap = serializers.BooleanField(default=False)
 
     class Meta:
         model = models.Comment
@@ -29,6 +30,7 @@ class ResponseCommentSerializer(serializers.ModelSerializer):
             "id",
             "created_at",
             "clap_count",
+            "user_did_clap",
             "profile",
             "text",
         ]
@@ -45,7 +47,14 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def get_queryset(self):
         thread_id = self.kwargs["thread_id"]
-        return selectors.get_thread_comments(thread_id=thread_id)
+        user = self.request.user
+
+        if user.is_authenticated:
+            return selectors.get_thread_comments_annotated(
+                thread_id=thread_id, profile_id=user.profile.id
+            )
+        else:
+            return selectors.get_thread_comments(thread_id=thread_id)
 
     def get(self, request, thread_id):
         return super().list(request)
