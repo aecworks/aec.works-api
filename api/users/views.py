@@ -47,7 +47,6 @@ class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIV
     serializer_class = ProfileDetailSerializer
     queryset = Profile.objects.all()
 
-    @method_decorator(cache_page(60))
     def get(self, request):
         user = request.user
         serializer = self.get_serializer(user.profile)
