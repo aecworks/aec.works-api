@@ -4,6 +4,7 @@ from unittest import mock
 import pytest
 from rest_framework.test import APIClient
 from api.users.factories import ProfileFactory
+from api.users.choices import UserProviderChoices
 from api.users.auth import UserData, ProfileData
 
 
@@ -32,7 +33,7 @@ class TestViews:
     ):
         """ Test github/login/view """
         user = ProfileFactory().user
-        user_data = UserData(name="Fake Name", provider="github")
+        user_data = UserData(name="Fake Name", provider=UserProviderChoices.GITHUB.name)
         profile_data = ProfileData()
         m_get_user_data_from_code.return_value = (user.email, user_data, profile_data)
         m_create_or_update_user.return_value = user
