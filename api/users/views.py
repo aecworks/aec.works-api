@@ -64,8 +64,8 @@ class OauthLoginView(ErrorsMixin, views.APIView):
             raise drf_exceptions.ValidationError("code is missing")
 
         providers = {
-            UserProviderChoices.LINKEDIN.name: LinkedInProvider,
-            UserProviderChoices.GITHUB.name: GithubProvider,
+            UserProviderChoices.LINKEDIN.value: LinkedInProvider,
+            UserProviderChoices.GITHUB.value: GithubProvider,
         }
         if provider_name not in providers:
             raise drf_exceptions.NotFound(f"provider not supported: {provider_name}")
