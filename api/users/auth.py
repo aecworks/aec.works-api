@@ -67,7 +67,7 @@ class BaseProvider:
 
 class GithubProvider(BaseProvider):
 
-    NAME = UserProviderChoices.GITHUB.value
+    NAME = UserProviderChoices.GITHUB.name
     API_URL = "https://api.github.com"
     PROFILE_URL = f"{API_URL}/user"
     EMAIL_URL = f"{API_URL}/user/emails"
@@ -113,7 +113,7 @@ class GithubProvider(BaseProvider):
 
 class LinkedInProvider(BaseProvider):
 
-    NAME = UserProviderChoices.LINKEDIN.value
+    NAME = UserProviderChoices.LINKEDIN.name
     API_URL = "https://api.linkedin.com"
     PROFILE_URL = f"{API_URL}/v2/me"
     EMAIL_URL = f"{API_URL}/v2/clientAwareMemberHandles?q=members&projection=(elements*(handle~))"
