@@ -22,6 +22,20 @@ def get_thread_comments(*, thread_id):
     return get_comments().filter(thread_id=thread_id)
 
 
+def get_thread_comments_annotated(*, thread_id, profile_id=-1):
+    return (
+        get_comments()
+        .filter(thread_id=thread_id)
+        .annotate(
+            user_did_clap=m.Case(
+                m.When(clappers__id__contains=profile_id, then=True),
+                default=False,
+                output_field=m.BooleanField(),
+            ),
+        )
+    )
+
+
 def get_company(**kwargs):
     return Company.objects.get(**kwargs)
 
