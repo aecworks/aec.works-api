@@ -31,7 +31,7 @@ class User(ReprMixin, AbstractUser):
     provider = models.CharField(
         max_length=16,
         choices=[(c.name, c.value) for c in UserProviderChoices],
-        default=UserProviderChoices.SIGN_UP.value,
+        default=UserProviderChoices.SIGN_UP.name,
     )
     name = models.CharField(max_length=255, null=False, blank=True, default="")
 
