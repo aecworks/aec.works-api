@@ -1,11 +1,11 @@
-from django.db import models
 from django.contrib.postgres.fields import JSONField
-from django_extensions.db.fields import AutoSlugField
-from django.db.models.signals import pre_save, post_save
+from django.db import models
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django_extensions.db.fields import AutoSlugField
 
-from api.common.utils import to_hashtag
 from api.common.mixins import ReprMixin
+from api.common.utils import to_hashtag
 from api.community.choices import PostBanner
 
 from . import querysets

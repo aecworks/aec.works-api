@@ -1,5 +1,7 @@
-from rest_framework import mixins, generics, serializers, permissions, filters
+from rest_framework import filters, generics, mixins, permissions, serializers
+
 from api.common.exceptions import ErrorsMixin
+
 from .. import selectors
 
 

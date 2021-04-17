@@ -1,11 +1,12 @@
-from unittest import mock
 import base64
-from rest_framework.test import APIRequestFactory
-from django.core.files.uploadedfile import SimpleUploadedFile
+from unittest import mock
 
-from api.users.factories import UserFactory
-from api.images.views import ImageAssetUploadView
+from django.core.files.uploadedfile import SimpleUploadedFile
+from rest_framework.test import APIRequestFactory
+
 from api.images.services import create_image_file_from_data_uri
+from api.images.views import ImageAssetUploadView
+from api.users.factories import UserFactory
 
 
 @mock.patch("api.images.views.create_image_asset")

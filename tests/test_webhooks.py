@@ -1,9 +1,10 @@
 import pytest
-from api.users.factories import ProfileFactory
+
 from api.community.factories import CompanyFactory
+from api.users.factories import ProfileFactory
 from api.webhooks.services import (
-    create_article_from_tweet,
     TweetCompanyReferenceNotFound,
+    create_article_from_tweet,
 )
 
 

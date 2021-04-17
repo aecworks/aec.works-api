@@ -1,9 +1,9 @@
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
-from django.core.management import call_command
-from api.users.factories import ProfileFactory
-from api.community import models
 from api.community import factories as f
+from api.community import models
+from api.users.factories import ProfileFactory
 
 
 class Command(BaseCommand):

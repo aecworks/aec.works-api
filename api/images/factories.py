@@ -1,5 +1,6 @@
-import io
 import datetime
+import io
+
 import factory
 from PIL import Image
 

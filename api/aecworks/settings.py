@@ -1,9 +1,9 @@
 import os
-from decouple import config, Csv
+
 import dj_database_url
 import sentry_sdk
+from decouple import Csv, config
 from sentry_sdk.integrations.django import DjangoIntegration
-
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 API_DIR = os.path.dirname(PROJECT_DIR)

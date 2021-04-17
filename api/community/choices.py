@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 # class EmployeeCountChoices(Enum):
 #     TEN = "1 - 10"
 #     FIFTY = "11 - 50"

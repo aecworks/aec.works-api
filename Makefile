@@ -3,7 +3,6 @@
 start:
 	docker network create aecworks-network || true
 	docker-compose up -d redis postgres
-	make serve
 
 serve:
 	export CELERY_TASK_ALWAYS_EAGER=1

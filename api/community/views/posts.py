@@ -1,13 +1,14 @@
-from rest_framework import mixins, generics, serializers, permissions
-from rest_framework import exceptions as drf_exceptions
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.response import Response
 from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework import exceptions as drf_exceptions
+from rest_framework import generics, mixins, permissions, serializers
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
+
 from .. import models, selectors, services
 
 

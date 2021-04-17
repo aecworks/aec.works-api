@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from api.common.utils import get_og_data, admin_linkify
+from api.common.utils import admin_linkify, get_og_data
+
 from . import models
 
 

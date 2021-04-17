@@ -1,10 +1,8 @@
-from rest_framework import (
-    generics,
-    serializers,
-    permissions,
-)
+from rest_framework import generics, permissions, serializers
 from rest_framework.response import Response
+
 from api.common.exceptions import ErrorsMixin
+
 from .. import selectors
 
 

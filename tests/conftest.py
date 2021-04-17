@@ -1,7 +1,8 @@
 import pytest
 from django.contrib.auth.models import Group
-from api.users.factories import UserFactory
 from rest_framework.test import APIClient
+
+from api.users.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

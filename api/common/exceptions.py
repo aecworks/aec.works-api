@@ -7,13 +7,12 @@ https://github.com/HackSoftware/Django-Styleguide
 """
 
 from typing import Dict
-from rest_framework import exceptions as rest_exceptions
-
-from rest_framework.views import exception_handler
-from rest_framework.settings import api_settings
-from rest_framework import exceptions
 
 from django.core.exceptions import ValidationError
+from rest_framework import exceptions
+from rest_framework import exceptions as rest_exceptions
+from rest_framework.settings import api_settings
+from rest_framework.views import exception_handler
 
 
 def _get_error_message(exc):

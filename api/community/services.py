@@ -1,24 +1,18 @@
-from typing import List, Tuple
-from math import log
-from datetime import timedelta
-from django.db import transaction
-from django.core.exceptions import PermissionDenied
-from bs4 import BeautifulSoup
 import logging
+from datetime import timedelta
+from math import log
+from typing import List, Tuple
 
+from bs4 import BeautifulSoup
+from django.core.exceptions import PermissionDenied
+from django.db import transaction
+
+from api.common.utils import get_og_data, to_hashtag, update_instance
 from api.community.choices import PostBanner
-from api.images.services import create_image_file_from_data_uri, create_image_asset
 from api.images.models import ImageAsset
-from api.common.utils import update_instance, to_hashtag, get_og_data
-from .models import (
-    Article,
-    Comment,
-    Hashtag,
-    Post,
-    Thread,
-    Company,
-    CompanyRevision,
-)
+from api.images.services import create_image_asset, create_image_file_from_data_uri
+
+from .models import Article, Comment, Company, CompanyRevision, Hashtag, Post, Thread
 
 logger = logging.getLogger(__name__)
 

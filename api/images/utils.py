@@ -1,6 +1,7 @@
 from uuid import uuid4
-from rest_framework.parsers import FileUploadParser
+
 from rest_framework.exceptions import ParseError
+from rest_framework.parsers import FileUploadParser
 
 
 class UuidNamedFileUploadParser(FileUploadParser):

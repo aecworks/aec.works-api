@@ -1,11 +1,13 @@
 # TODO Replace with Request Factory Tests, much faster
 
 from unittest import mock
+
 import pytest
 from rest_framework.test import APIClient
-from api.users.factories import ProfileFactory
+
+from api.users.auth import ProfileData, UserData
 from api.users.choices import UserProviderChoices
-from api.users.auth import UserData, ProfileData
+from api.users.factories import ProfileFactory
 
 
 @pytest.mark.django_db

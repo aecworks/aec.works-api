@@ -1,6 +1,6 @@
-from django.urls import path
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps import views as sitemap_views
+from django.urls import path
 from django.views.decorators.cache import cache_page
 
 

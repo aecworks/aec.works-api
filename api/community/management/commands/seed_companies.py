@@ -1,16 +1,17 @@
-from django.utils.text import slugify
-import requests
 from io import BytesIO
+
+import requests
+from django.utils.text import slugify
 
 """
 WIP - this will be used to pull and sync aecstartups.com data
 """
 
-from django.core.management.base import BaseCommand
 from django.core.files.images import ImageFile
+from django.core.management.base import BaseCommand
 
-from api.community.models import Company
 from api.community import services
+from api.community.models import Company
 from api.images.services import create_image_asset
 from api.users.models import Profile
 
