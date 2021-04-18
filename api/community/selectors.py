@@ -44,10 +44,8 @@ def get_company(**kwargs):
 
 
 def get_companies():
-    qs = (
-        Company.objects.select_related("logo", "cover")
-        .prefetch_related("hashtags", "articles")
-        .all()
+    qs = Company.objects.select_related("logo", "cover").prefetch_related(
+        "hashtags", "articles"
     )
     return qs
 
@@ -70,6 +68,7 @@ def get_companies_annotated(profile_id=-1):
             ),
         )
     )
+    return qs
 
 
 def get_company_claps():
