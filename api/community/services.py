@@ -65,8 +65,11 @@ def post_clap(*, post, profile) -> int:
     return post.clap_count
 
 
+@transaction.atomic
 def create_comment(*, profile, text, thread) -> Comment:
     comment = Comment.objects.create(profile=profile, text=text, thread=thread)
+    thread.size += 1
+    thread.save()
     return comment
 
 

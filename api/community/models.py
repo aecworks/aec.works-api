@@ -147,7 +147,7 @@ class Post(ReprMixin, models.Model):
 
 
 class Thread(ReprMixin, models.Model):
-    ...
+    size = models.PositiveIntegerField(default=0)
 
 
 class Comment(ReprMixin, models.Model):
