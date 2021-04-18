@@ -86,6 +86,7 @@ class Company(ReprMixin, CompanyBaseModel):
         null=True,
         blank=True,
     )
+    banner = models.CharField(max_length=32, default="", blank=True)
 
     class Meta:
         verbose_name_plural = "companies"
