@@ -1,5 +1,3 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response

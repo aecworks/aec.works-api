@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
         for name, description, logo_url, cover_url, hashtags in seed_data:
 
-            data = dict(name=name, description=description)
+            data = dict(name=name, description=description, url="https://aec.works")
 
             company = models.Company.objects.filter(name=name).first()
             if company:
