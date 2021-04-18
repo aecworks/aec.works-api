@@ -22,11 +22,11 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
-    thread_size = serializers.IntegerField(default=0)
     thread_id = serializers.IntegerField()
+    thread_size = serializers.IntegerField(source="thread.size")
+    clap_count = serializers.IntegerField()
+    user_did_clap = serializers.BooleanField(allow_null=True, default=None)
     articles = ResponseArticleSerializer(many=True)
-    clap_count = serializers.IntegerField(default=0)
-    user_did_clap = serializers.BooleanField(default=False)
     cover_url = serializers.SerializerMethodField()
     logo_url = serializers.SerializerMethodField()
 

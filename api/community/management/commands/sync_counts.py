@@ -19,3 +19,7 @@ class Command(BaseCommand):
         for comment in models.Comment.objects.all():
             comment.clap_count = comment.clappers.count()
             comment.save()
+
+        for thread in models.Thread.objects.all():
+            thread.size = thread.comments.count()
+            thread.save()
