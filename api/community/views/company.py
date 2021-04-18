@@ -1,5 +1,3 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -131,7 +129,13 @@ class CompanyDetailView(
     lookup_field = "slug"
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    @method_decorator(cache_page(60))
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return selectors.get_companies_annotated(profile_id=user.profile.id)
+        else:
+            return selectors.get_companies()
+
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
@@ -150,7 +154,6 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def get_queryset(self):
         user = self.request.user
-
         if user.is_authenticated:
             qs = selectors.get_companies_annotated(profile_id=user.profile.id)
         else:
@@ -167,10 +170,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     # @method_decorator(cache_page(60))
     def get(self, request):
         """ Get Company List - matches 'ListModelMixin' for pagination"""
-        qs = self.get_queryset()
-        page = self.paginate_queryset(qs)
-        serializer = self.get_serializer(page, many=True,)
-        return self.get_paginated_response(serializer.data)
+        return super().list(request)
 
     def post(self, request):
         """ Creates New Company """
