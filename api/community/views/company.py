@@ -49,6 +49,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "articles",
             "logo_url",
             "cover_url",
+            "banner",
             *services.updatable_attributes,
         ]
 
