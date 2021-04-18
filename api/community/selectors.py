@@ -33,6 +33,7 @@ def get_thread_comments_annotated(*, thread_id, profile_id=-1):
                 m.When(clappers__id__contains=profile_id, then=True),
                 default=False,
                 output_field=m.BooleanField(),
+                distinct=True,
             ),
         )
     )
@@ -56,13 +57,18 @@ def get_companies_annotated(profile_id=-1):
     Annotates Companies with "thread_size" (comment count)
     and `user_did_clap` indicating if provided profile has clapped
     """
-    return get_companies().annotate(
-        thread_size=m.Count("thread__comments", distinct=True),
-        user_did_clap=m.Case(
-            m.When(clappers__id__contains=profile_id, then=True),
-            default=False,
-            output_field=m.BooleanField(),
-        ),
+    return (
+        get_companies()
+        .order_by()
+        .annotate(
+            thread_size=m.Count("thread__comments", distinct=True),
+            user_did_clap=m.Case(
+                m.When(clappers__id__contains=profile_id, then=True),
+                default=False,
+                output_field=m.BooleanField(),
+                distinct=True,
+            ),
+        )
     )
 
 
