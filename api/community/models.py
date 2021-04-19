@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
 
 from api.common.mixins import ReprMixin
-from api.common.utils import to_hashtag
+from api.common.utils import delete_cache_key, to_hashtag
 from api.community.choices import PostBanner
 
 from . import querysets
@@ -181,6 +181,19 @@ def add_thread(sender, instance, created, **kwargs):
 @receiver(pre_save, sender=Hashtag)
 def slugify_hashtag(sender, instance, **kwargs):
     instance.slug = to_hashtag(instance.slug)
+
+
+@receiver(post_save, sender=Article)
+@receiver(post_save, sender=Company)
+@receiver(post_save, sender=Company.clappers.through)
+@receiver(post_save, sender=Hashtag)
+@receiver(post_save, sender=Thread)
+def delete_list_cache(sender, instance, **kwargs):
+    if sender == Hashtag:
+        delete_cache_key("hashtag_list_get")
+
+    if sender in [Article, Company, Company.clappers.through, Thread]:
+        delete_cache_key("company_list_get")
 
 
 # TODO
