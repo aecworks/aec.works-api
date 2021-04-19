@@ -28,6 +28,6 @@ class HashtagListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     search_fields = ["slug"]
     filter_backends = [filters.SearchFilter]
 
-    @method_decorator(cache_page(60))
+    @method_decorator(cache_page(3600, key_prefix="hashtag_list_get"))
     def get(self, request):
         return super().list(request)

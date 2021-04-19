@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -184,7 +186,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         else:
             return qs.order_by(sort_by)
 
-    # @method_decorator(cache_page(60))
+    @method_decorator(cache_page(3600, key_prefix="company_list_get"))
     def get(self, request):
         """ Get Company List - matches 'ListModelMixin' for pagination"""
         return super().list(request)
