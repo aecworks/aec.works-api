@@ -17,21 +17,22 @@ class Command(BaseCommand):
             *list(CompanyRevision.objects.all()),
         ]
         for obj in all_companies:
-            if obj.logo_url:
-                img_file = create_image_file_from_url(obj.logo_url)
+            if obj.logo:
+                img_file = create_image_file_from_url(obj.logo.file.url)
                 img = ImageAsset.objects.create(file=img_file)
                 obj.logo = img
-                print(f"[{obj}] {img} for {obj.logo_url}")
+                print(f"[{obj}] {img} for {obj.logo}")
                 obj.save()
 
-            if obj.cover_url:
-                img_file = create_image_file_from_url(obj.cover_url)
+            if obj.cover:
+                img_file = create_image_file_from_url(obj.cover.file.url)
                 img = ImageAsset.objects.create(file=img_file)
                 obj.cover = img
-                print(f"[{obj}] {img} for {obj.cover_url}")
+                print(f"[{obj}] {img} for {obj.cover}")
                 obj.save()
+
         for obj in Profile.objects.all():
-            if obj.avatar_url:
+            if obj.avatar:
                 img_file = create_image_file_from_url(obj.avatar_url)
                 img = ImageAsset.objects.create(file=img_file)
                 obj.avatar = img

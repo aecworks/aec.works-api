@@ -53,15 +53,24 @@ def get_companies_annotated(profile_id=-1):
     """
     Annotates Companies with "thread_size" (comment count)
     and `user_did_clap` indicating if provided profile has clapped
+    note using annotate with references to many to many table generates duplicate
+    entries so we must use subqueries
     """
-    return get_companies().annotate(
-        user_did_clap=m.Case(
-            m.When(clappers__id__contains=profile_id, then=True),
-            default=False,
-            output_field=m.BooleanField(),
-            distinct=True,
-        ),
+    sub_profile_claps = (
+        Company.clappers.through.objects.filter(
+            profile_id=profile_id, company_id=m.OuterRef("id")
+        )[:1]
+        .values("id")
+        .annotate(user_clap_count=m.Count("id"))
     )
+    qs = get_companies().annotate(
+        user_did_clap=m.Subquery(
+            sub_profile_claps.values("user_clap_count")[:1],
+            output_field=m.BooleanField(),
+            default=False,
+        )
+    )
+    return qs
 
 
 def get_company_claps():

@@ -9,7 +9,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:9.6
+    image: postgres:12.6
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
