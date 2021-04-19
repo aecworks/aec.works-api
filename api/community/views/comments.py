@@ -17,7 +17,7 @@ class RequestCommentSerializer(serializers.ModelSerializer):
 class ResponseCommentSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     clap_count = serializers.IntegerField()
-    user_did_clap = serializers.BooleanField(allow_null=True, default=None)
+    user_did_clap = serializers.BooleanField(default=False)
 
     class Meta:
         model = models.Comment

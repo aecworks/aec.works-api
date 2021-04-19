@@ -25,7 +25,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     thread_id = serializers.IntegerField()
     thread_size = serializers.IntegerField(source="thread.size")
     clap_count = serializers.IntegerField()
-    user_did_clap = serializers.BooleanField(allow_null=True, default=None)
+    user_did_clap = serializers.BooleanField(default=False)
     articles = ResponseArticleSerializer(many=True)
     cover_url = serializers.SerializerMethodField()
     logo_url = serializers.SerializerMethodField()

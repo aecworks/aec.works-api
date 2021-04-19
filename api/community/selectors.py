@@ -29,11 +29,18 @@ def get_thread_comments_annotated(*, thread_id, profile_id=-1):
         get_comments()
         .filter(thread_id=thread_id)
         .annotate(
-            user_did_clap=m.Case(
-                m.When(clappers__id__contains=profile_id, then=True),
-                default=False,
-                output_field=m.BooleanField(),
-            ),
+            user_did_clap=m.Exists(
+                Comment.clappers.through.objects.filter(
+                    comment_id=m.OuterRef("pk"), profile_id=profile_id
+                )
+            )
+        )
+    )
+    return get_companies().objects.annotate(
+        user_did_clap=m.Exists(
+            Company.clappers.through.objects.filter(
+                company_id=m.OuterRef("pk"), profile_id=profile_id
+            )
         )
     )
 
@@ -43,10 +50,9 @@ def get_company(**kwargs):
 
 
 def get_companies():
-    qs = Company.objects.select_related("logo", "cover", "thread").prefetch_related(
+    return Company.objects.select_related("logo", "cover", "thread").prefetch_related(
         "hashtags", "articles"
     )
-    return qs
 
 
 def get_companies_annotated(profile_id=-1):
@@ -56,21 +62,14 @@ def get_companies_annotated(profile_id=-1):
     note using annotate with references to many to many table generates duplicate
     entries so we must use subqueries
     """
-    sub_profile_claps = (
-        Company.clappers.through.objects.filter(
-            profile_id=profile_id, company_id=m.OuterRef("id")
-        )[:1]
-        .values("id")
-        .annotate(user_clap_count=m.Count("id"))
-    )
-    qs = get_companies().annotate(
-        user_did_clap=m.Subquery(
-            sub_profile_claps.values("user_clap_count")[:1],
-            output_field=m.BooleanField(),
-            default=False,
+
+    return get_companies().annotate(
+        user_did_clap=m.Exists(
+            Company.clappers.through.objects.filter(
+                company_id=m.OuterRef("pk"), profile_id=profile_id
+            )
         )
     )
-    return qs
 
 
 def get_company_claps():
