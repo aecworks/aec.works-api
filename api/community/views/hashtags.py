@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import filters, generics, mixins, permissions, serializers
 
 from api.common.exceptions import ErrorsMixin
@@ -26,5 +28,6 @@ class HashtagListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     search_fields = ["slug"]
     filter_backends = [filters.SearchFilter]
 
+    @method_decorator(cache_page(60))
     def get(self, request):
         return super().list(request)

@@ -138,3 +138,21 @@ class TestViews:
         resp = auth_client.post(url)
         assert resp.status_code == 200
         assert resp.content == b"1"
+
+    def test_company_list_sorting(self, client):
+        for name, location in zip("cab", "yxz"):
+            f.CompanyFactory(name=name, location=location)
+
+        url = "/community/companies/?sort=name"
+        resp = client.get(url)
+        assert resp.status_code == 200
+        assert resp.json()["results"][0]["name"] == "a"  # lowest company name
+
+        url = "/community/companies/?sort=name&reverse=1"
+        assert client.get(url).json()["results"][0]["name"] == "c"
+
+        url = "/community/companies/?sort=location"
+        assert client.get(url).json()["results"][0]["location"] == "x"
+
+        url = "/community/companies/?sort=location&reverse=1"
+        assert client.get(url).json()["results"][0]["location"] == "z"
