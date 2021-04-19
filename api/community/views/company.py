@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -7,6 +9,8 @@ from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
 from .. import models, selectors, services
+
+logger = logging.getLogger(__name__)
 
 
 class RequestArticleSerializer(serializers.Serializer):
@@ -30,10 +34,16 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
 
     def get_cover_url(self, obj):
-        return obj.cover.file.crop["800x400"].url if obj.cover else None
+        try:
+            return obj.cover.file.crop["800x400"].url if obj.cover else None
+        except KeyError:
+            logger.error(f"failed to cover image for: {obj}")
 
     def get_logo_url(self, obj):
-        return obj.logo.file.crop["80x80"].url if obj.logo else None
+        try:
+            return obj.logo.file.crop["80x80"].url if obj.logo else None
+        except KeyError:
+            logger.error(f"failed to logo image for: {obj}")
 
     class Meta:
         model = models.Company
