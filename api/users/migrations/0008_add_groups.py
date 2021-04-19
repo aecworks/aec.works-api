@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+# TODO - this is flaky - if flushing, groups are lost
 editor_permissions = [
     "add_companyrevision",
     "change_company",
