@@ -166,21 +166,23 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         if hashtag_query := self.request.query_params.get("hashtags"):
             hashtag_names = services.parse_hashtag_query(hashtag_query)
 
+        qs = selectors.query_companies(qs, query, hashtag_names)
+
         # /companies/?sort=claps
         sort_query = self.request.query_params.get("sort")
         sort_query_map = {
             # user facin query: field name
-            "name": "name",
-            "claps": "clap_count",
-            "update": "updated_at",
-            "location": "location",
+            "name": "name",  # default alfa
+            "claps": "-clap_count",  # default: hight to low
+            "updated": "-updated_at",  # default: oldest to newest
+            "location": "location",  # default: alfa
         }
         sort_by = sort_query_map.get(sort_query, "name")
         # provide ?reverse=1 to revert sorting
         if self.request.query_params.get("reverse"):
-            sort_by = "-" + sort_by
-
-        return selectors.query_companies(qs, query, hashtag_names).order_by(sort_by)
+            return qs.order_by(sort_by).reverse()
+        else:
+            return qs.order_by(sort_by)
 
     # @method_decorator(cache_page(60))
     def get(self, request):
