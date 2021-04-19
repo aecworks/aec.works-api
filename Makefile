@@ -34,6 +34,9 @@ format:
 test:
 	bash ./scripts/test.sh
 
+coverage:
+	bash ./scripts/coverage.sh
+
 clean:
 	bash ./scripts/clean.sh
 
