@@ -12,10 +12,10 @@ from . import querysets
 
 
 class CompanyBaseModel(models.Model):
-    name = models.CharField(blank=False, max_length=255)
+    name = models.CharField(blank=False, max_length=255, db_index=True)
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
-    location = models.CharField(max_length=64, default="")
+    location = models.CharField(max_length=64, default="Somewhere", db_index=True)
     twitter = models.CharField(max_length=15, blank=True, null=True)
     crunchbase_id = models.CharField(max_length=128, blank=True, null=True)
     logo = models.ForeignKey(
@@ -62,7 +62,7 @@ class Company(ReprMixin, CompanyBaseModel):
     hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
 
     slug = AutoSlugField(populate_from="name", db_index=True)
-    clap_count = models.PositiveIntegerField(default=0)
+    clap_count = models.PositiveIntegerField(default=0, db_index=True)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
     )
@@ -75,7 +75,7 @@ class Company(ReprMixin, CompanyBaseModel):
         null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
