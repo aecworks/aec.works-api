@@ -22,6 +22,20 @@ class TestSelectors:
         assert companies_2.all()[0].user_did_clap is False
         assert companies_2.all()[1].user_did_clap is True
 
+    def test_annotated_company_bug(self):
+        """ sometimes annotate causes query to return duplicates """
+        profile = ProfileFactory()
+        profile_2 = ProfileFactory()
+        company = factories.CompanyFactory()
+        _ = factories.CompanyFactory()
+
+        services.company_clap(company=company, profile=profile)
+        services.company_clap(company=company, profile=profile_2)
+
+        n_annotated = selectors.get_companies_annotated(profile_id=profile.id).count()
+        n_companies = selectors.get_companies().count()
+        assert n_annotated == n_companies
+
     def test_annotated_comments(self):
         thread = factories.ThreadFactory()
 
@@ -44,3 +58,20 @@ class TestSelectors:
         )
         assert comments_2.all()[0].user_did_clap is False
         assert comments_2.all()[1].user_did_clap is True
+
+    def test_annotated_comments_annotated(self):
+        """ sometimes annotate causes query to return duplicates """
+        profile = ProfileFactory()
+        profile_2 = ProfileFactory()
+        thread = factories.ThreadFactory()
+        comment = factories.CommentFactory(thread=thread)
+        comment_2 = factories.CommentFactory(thread=thread)
+
+        services.comment_clap(comment=comment, profile=profile)
+        services.comment_clap(comment=comment_2, profile=profile_2)
+
+        n_annotated = selectors.get_thread_comments_annotated(
+            thread_id=thread.id, profile_id=profile.id
+        ).count()
+        n_comments = selectors.get_thread_comments(thread_id=thread.id).count()
+        assert n_annotated == n_comments
