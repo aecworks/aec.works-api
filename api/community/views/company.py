@@ -214,7 +214,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         else:
             return qs.order_by(sort_by)
 
-    @method_decorator(cache_control(max_age=60))
+    @method_decorator(cache_control(max_age=0))
     @method_decorator(condition(last_modified_func=caching.company_list_last_modified))
     def get(self, request):
         """ Get Company List - matches 'ListModelMixin' for pagination"""
