@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from api.common.exceptions import ErrorsMixin
 from api.users.serializers import ProfileSerializer
 
-from .. import models, selectors, services
+from .. import annotations, models, selectors, services
 
 
 class RequestCommentSerializer(serializers.ModelSerializer):
@@ -44,12 +44,10 @@ class CommentListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         thread_id = self.kwargs["thread_id"]
         user = self.request.user
 
+        qs = selectors.get_thread_comments(thread_id=thread_id)
         if user.is_authenticated:
-            return selectors.get_thread_comments_annotated(
-                thread_id=thread_id, profile_id=user.profile.id
-            )
-        else:
-            return selectors.get_thread_comments(thread_id=thread_id)
+            qs = annotations.annotate_comment_claps(qs, profile_id=user.profile.id)
+        return qs
 
     def get(self, request, thread_id):
         return super().list(request)
