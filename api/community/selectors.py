@@ -24,52 +24,17 @@ def get_thread_comments(*, thread_id):
     return get_comments().filter(thread_id=thread_id)
 
 
-def get_thread_comments_annotated(*, thread_id, profile_id=-1):
-    return (
-        get_comments()
-        .filter(thread_id=thread_id)
-        .annotate(
-            user_did_clap=m.Exists(
-                Comment.clappers.through.objects.filter(
-                    comment_id=m.OuterRef("pk"), profile_id=profile_id
-                )
-            )
-        )
-    )
-    return get_companies().objects.annotate(
-        user_did_clap=m.Exists(
-            Company.clappers.through.objects.filter(
-                company_id=m.OuterRef("pk"), profile_id=profile_id
-            )
-        )
-    )
-
-
 def get_company(**kwargs):
     return Company.objects.get(**kwargs)
 
 
-def get_companies():
-    return Company.objects.select_related("logo", "cover", "thread").prefetch_related(
-        "hashtags", "articles"
-    )
-
-
-def get_companies_annotated(profile_id=-1):
-    """
-    Annotates Companies with "thread_size" (comment count)
-    and `user_did_clap` indicating if provided profile has clapped
-    note using annotate with references to many to many table generates duplicate
-    entries so we must use subqueries
-    """
-
-    return get_companies().annotate(
-        user_did_clap=m.Exists(
-            Company.clappers.through.objects.filter(
-                company_id=m.OuterRef("pk"), profile_id=profile_id
-            )
+def get_companies(prefetch=True):
+    qs = Company.objects.all()
+    if prefetch:
+        qs = qs.select_related("logo", "cover", "thread").prefetch_related(
+            "hashtags", "articles"
         )
-    )
+    return qs
 
 
 def get_company_claps():
