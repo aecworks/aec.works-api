@@ -45,11 +45,12 @@ class ProfileDetailView(
 class ProfileMeView(ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileDetailSerializer
-    queryset = Profile.objects.all()
+    queryset = selectors.get_profiles()
 
     def get(self, request):
         user = request.user
-        serializer = self.get_serializer(user.profile)
+        profile = selectors.get_profiles().get(user=user)
+        serializer = self.get_serializer(profile)
         return Response(serializer.data)
 
 

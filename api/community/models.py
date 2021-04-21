@@ -8,8 +8,6 @@ from api.common.mixins import ReprMixin
 from api.common.utils import to_hashtag
 from api.community.choices import PostBanner
 
-from . import querysets
-
 
 class CompanyBaseModel(models.Model):
     name = models.CharField(blank=False, max_length=255, db_index=True)
@@ -105,8 +103,8 @@ class Article(ReprMixin, models.Model):
 
 
 class Hashtag(ReprMixin, models.Model):
-    objects = querysets.HashtagQueryset.as_manager()
     slug = models.CharField(max_length=32, unique=True, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
     # reverse: posts -> Post
     # reverse: companies -> Company
 
@@ -181,12 +179,3 @@ def add_thread(sender, instance, created, **kwargs):
 @receiver(pre_save, sender=Hashtag)
 def slugify_hashtag(sender, instance, **kwargs):
     instance.slug = to_hashtag(instance.slug)
-
-
-# TODO
-# class ModerationFlag(ReprMixin, models.Model):
-#   content_type: [ Comment | Company | Post ]
-#   content: GenericForeignKey
-#   flagged: [SPAN, ABUSIVE]
-#   STATUS: [{PENDING, APPROVED, BLOCKED]
-#   reviewer: Profile
