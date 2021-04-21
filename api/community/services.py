@@ -144,6 +144,11 @@ def create_company(*, profile, validated_data) -> Company:
     hashtags = get_or_create_hashtags(hashtag_names)
     company = Company.objects.create(created_by=profile, **validated_data)
     company.hashtags.set(hashtags)
+    # Apply First Revision so we have an easy way to revert back
+    revision = create_revision(
+        company=company, profile=profile, validated_data=validated_data
+    )
+    apply_revision(revision=revision, profile=profile)
     return company
 
 
