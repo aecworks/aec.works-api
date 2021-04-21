@@ -2,6 +2,7 @@ import logging
 import string
 
 import requests
+from django.core.cache import cache
 from django.urls import reverse
 from django.utils.html import format_html
 from opengraph.opengraph import OpenGraph
@@ -92,3 +93,9 @@ def admin_linkify(field_name):
 
     _linkify.short_description = field_name  # Sets column name
     return _linkify
+
+
+def delete_cache_key(key_prefix):
+    keys = [k for k in cache.keys("*") if f".{key_prefix}." in k]
+    logger.info(f"deteling cache keys: {len(keys)}")
+    cache.delete_many(keys)

@@ -5,20 +5,19 @@ from django.views.decorators.cache import cache_page
 
 
 class IndexSitemap(Sitemap):
-    changefreq = "monthly"
+    changefreq = "weekly"
     priority = 1
 
     def items(self):
-        return ["/"]
+        return ["/", "/about", "/companies"]
 
     def location(self, obj):
         return obj
 
 
 class CompanySitemap(Sitemap):
-    changefreq = "monthly"
-    priority = 0.5
-    limit = 500
+    changefreq = "weekly"
+    priority = 0.9
 
     def items(self):
         from api.community.selectors import get_companies  # noqa

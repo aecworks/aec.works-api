@@ -77,7 +77,7 @@ def get_revisions():
 
 
 def get_hashtags():
-    return Hashtag.objects.with_counts().all()
+    return Hashtag.objects.all()
 
 
 def get_posts():
