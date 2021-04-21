@@ -2,6 +2,7 @@ import logging
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.http import condition
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -10,7 +11,7 @@ from api.common.exceptions import ErrorsMixin
 from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
-from .. import annotations, models, selectors, services
+from .. import annotations, caching, models, selectors, services
 
 logger = logging.getLogger(__name__)
 
@@ -211,7 +212,8 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         else:
             return qs.order_by(sort_by)
 
-    @method_decorator(cache_page(3600, key_prefix="company_list_get"))
+    @method_decorator(condition(last_modified_func=caching.company_last_modified))
+    @method_decorator(cache_page(3600, key_prefix=caching.CachePrefix.COMPANY_LIST))
     def get(self, request):
         """ Get Company List - matches 'ListModelMixin' for pagination"""
         return super().list(request)

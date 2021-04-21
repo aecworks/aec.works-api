@@ -77,7 +77,17 @@ def get_revisions():
 
 
 def get_hashtags():
-    return Hashtag.objects.with_counts().all()
+    return Hashtag.objects.annotate(
+        company_count=m.Count("companies", distinct=True),
+        post_count=m.Count("posts", distinct=True),
+    )
+
+
+def get_hashtags_simple():
+    return Hashtag.objects.annotate(
+        company_count=m.Count("companies", distinct=True),
+        post_count=m.Count("posts", distinct=True),
+    )
 
 
 def get_posts():
