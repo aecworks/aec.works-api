@@ -194,12 +194,3 @@ def delete_list_cache(sender, instance, **kwargs):
 
     if sender in [Article, Company, Company.clappers.through, Thread]:
         delete_cache_key("company_list_get")
-
-
-# TODO
-# class ModerationFlag(ReprMixin, models.Model):
-#   content_type: [ Comment | Company | Post ]
-#   content: GenericForeignKey
-#   flagged: [SPAN, ABUSIVE]
-#   STATUS: [{PENDING, APPROVED, BLOCKED]
-#   reviewer: Profile
