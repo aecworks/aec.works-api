@@ -7,10 +7,10 @@ def hashtag_last_modified(request) -> str:
 
 
 def company_list_last_modified(request) -> str:
-    lastmod = selectors.get_companies().order_by("updated_at").last()
+    lastmod = selectors.get_companies(prefetch=False).order_by("updated_at").last()
     return lastmod.updated_at
 
 
 def company_last_modified(request, slug) -> str:
-    company = selectors.get_companies().filter(slug=slug).first()
+    company = selectors.get_companies(prefetch=False).filter(slug=slug).first()
     return None if not company else company.updated_at
