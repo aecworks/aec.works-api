@@ -1,6 +1,6 @@
 import pytest
 
-from api.community import factories, selectors, services
+from api.community import annotations, factories, selectors, services
 from api.users.factories import ProfileFactory
 
 
@@ -15,10 +15,14 @@ class TestSelectors:
         assert services.company_clap(company=company_1, profile=profile_1) == 1
         assert services.company_clap(company=company_2, profile=profile_2) == 1
 
-        companies_1 = selectors.get_companies_annotated(profile_id=profile_1.id)
+        companies_1 = annotations.annotate_company_claps(
+            selectors.get_companies(), profile_id=profile_1.id
+        )
         assert companies_1.all()[0].user_did_clap is True
         assert companies_1.all()[1].user_did_clap is False
-        companies_2 = selectors.get_companies_annotated(profile_id=profile_2.id)
+        companies_2 = annotations.annotate_company_claps(
+            selectors.get_companies(), profile_id=profile_2.id
+        )
         assert companies_2.all()[0].user_did_clap is False
         assert companies_2.all()[1].user_did_clap is True
 
@@ -32,7 +36,9 @@ class TestSelectors:
         services.company_clap(company=company, profile=profile)
         services.company_clap(company=company, profile=profile_2)
 
-        n_annotated = selectors.get_companies_annotated(profile_id=profile.id).count()
+        n_annotated = annotations.annotate_comment_claps(
+            selectors.get_companies(), profile_id=profile.id
+        ).count()
         n_companies = selectors.get_companies().count()
         assert n_annotated == n_companies
 
@@ -47,14 +53,14 @@ class TestSelectors:
         assert services.comment_clap(comment=comment_1, profile=profile_1) == 1
         assert services.comment_clap(comment=comment_2, profile=profile_2) == 1
 
-        comments_1 = selectors.get_thread_comments_annotated(
-            thread_id=thread.id, profile_id=profile_1.id
+        comments_1 = annotations.annotate_comment_claps(
+            selectors.get_thread_comments(thread_id=thread.id), profile_id=profile_1.id,
         )
         assert comments_1.all()[0].user_did_clap is True
         assert comments_1.all()[1].user_did_clap is False
 
-        comments_2 = selectors.get_thread_comments_annotated(
-            thread_id=thread.id, profile_id=profile_2.id
+        comments_2 = annotations.annotate_comment_claps(
+            selectors.get_thread_comments(thread_id=thread.id), profile_id=profile_2.id
         )
         assert comments_2.all()[0].user_did_clap is False
         assert comments_2.all()[1].user_did_clap is True
@@ -70,8 +76,8 @@ class TestSelectors:
         services.comment_clap(comment=comment, profile=profile)
         services.comment_clap(comment=comment_2, profile=profile_2)
 
-        n_annotated = selectors.get_thread_comments_annotated(
-            thread_id=thread.id, profile_id=profile.id
+        n_annotated = annotations.annotate_comment_claps(
+            selectors.get_thread_comments(thread_id=thread.id), profile_id=profile.id
         ).count()
         n_comments = selectors.get_thread_comments(thread_id=thread.id).count()
         assert n_annotated == n_comments

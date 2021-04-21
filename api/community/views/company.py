@@ -8,7 +8,7 @@ from api.common.exceptions import ErrorsMixin
 from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
-from .. import models, selectors, services
+from .. import annotations, models, selectors, services
 
 logger = logging.getLogger(__name__)
 
@@ -64,6 +64,14 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
         ]
 
 
+class ResponseCompanyDetailSerializer(ResponseCompanySerializer):
+    created_by = ProfileSerializer()
+
+    class Meta:
+        model = models.Company
+        fields = ["created_by"] + ResponseCompanySerializer.Meta.fields
+
+
 class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
@@ -75,10 +83,16 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
 
     def get_cover_url(self, obj):
-        return obj.cover.file.crop["800x400"].url if obj.cover else None
+        try:
+            return obj.cover.file.crop["800x400"].url if obj.cover else None
+        except KeyError:
+            logger.error(f"failed to cover image for: {obj}")
 
     def get_logo_url(self, obj):
-        return obj.logo.file.crop["80x80"].url if obj.logo else None
+        try:
+            return obj.logo.file.crop["80x80"].url if obj.logo else None
+        except KeyError:
+            logger.error(f"failed to logo image for: {obj}")
 
     class Meta:
         model = models.CompanyRevision
@@ -134,7 +148,7 @@ class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
 class CompanyDetailView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
 ):
-    serializer_class = ResponseCompanySerializer
+    serializer_class = ResponseCompanyDetailSerializer
     queryset = selectors.get_companies()
     expected_exceptions = {}
     lookup_field = "slug"
@@ -142,10 +156,12 @@ class CompanyDetailView(
 
     def get_queryset(self):
         user = self.request.user
+        qs = selectors.get_companies().select_related(
+            "created_by__avatar", "created_by__user"
+        )
         if user.is_authenticated:
-            return selectors.get_companies_annotated(profile_id=user.profile.id)
-        else:
-            return selectors.get_companies()
+            qs = annotations.annotate_company_claps(qs, profile_id=user.profile.id)
+        return qs
 
     def get(self, request, slug):
         return super().retrieve(request, slug)
@@ -165,10 +181,9 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def get_queryset(self):
         user = self.request.user
+        qs = selectors.get_companies()
         if user.is_authenticated:
-            qs = selectors.get_companies_annotated(profile_id=user.profile.id)
-        else:
-            qs = selectors.get_companies()
+            qs = annotations.annotate_company_claps(qs, profile_id=user.profile.id)
 
         query = self.request.query_params.get("search")
         hashtag_names = []
