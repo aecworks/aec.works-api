@@ -26,3 +26,7 @@ def annotate_comment_claps(qs, profile_id=-1):
             )
         )
     )
+
+
+def annotate_company_count(qs):
+    return qs.annotate(company_count=m.Count("companies", distinct=True),)

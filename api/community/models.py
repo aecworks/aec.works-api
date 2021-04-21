@@ -179,4 +179,3 @@ def add_thread(sender, instance, created, **kwargs):
 @receiver(pre_save, sender=Hashtag)
 def slugify_hashtag(sender, instance, **kwargs):
     instance.slug = to_hashtag(instance.slug)
-
