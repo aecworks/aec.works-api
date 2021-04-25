@@ -1,8 +1,14 @@
 import pytest
 from django.contrib.auth.models import Group
+from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from api.users.factories import UserFactory
+
+
+@pytest.fixture(autouse=True)
+def setup_groups(settings):
+    call_command("groups")
 
 
 @pytest.fixture(autouse=True)
