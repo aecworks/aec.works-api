@@ -13,7 +13,7 @@ from . import selectors, services
 from .auth import GithubProvider, LinkedInProvider, ProviderException
 from .choices import UserProviderChoices
 from .models import Profile
-from .serializers import ProfileDetailSerializer, ProfileSerializer
+from .serializers import LoginSerializer, ProfileDetailSerializer, ProfileSerializer
 
 
 class ProfileListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIView):
@@ -95,9 +95,11 @@ class Login(ErrorsMixin, views.APIView):
     permission_classes = []
 
     def post(self, request):
-        username = request.POST["email"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+        password = serializer.validated_data["password"]
+        user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
             return Response(ProfileDetailSerializer(user.profile).data, status=200)

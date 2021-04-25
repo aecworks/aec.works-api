@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from api.images.services import create_image_asset, create_image_file_from_url
 
 from .models import Profile, User
@@ -18,3 +20,9 @@ def update_profile(*, user, profile_data):
         defaults["avatar"] = img_asset
     profile, _ = Profile.objects.update_or_create(user=user, defaults=defaults)
     return profile
+
+
+@lru_cache()
+def default_avatar(email):
+    initials = email[:2].upper()
+    return f"https://avatars.dicebear.com/api/initials/{initials}.svg"
