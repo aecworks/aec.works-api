@@ -2,34 +2,26 @@
 
 from django.db import migrations
 
-# TODO - this is flaky - if flushing, groups are lost
-editor_permissions = [
-    "add_companyrevision",
-    "change_company",
-    "apply_companyrevision",
-    "add_company",
-    "add_hashtag",
-    "delete_company",
-]
-group_settings = {
-    "editors": editor_permissions,
-}
+# MOVED
+# editor_permissions = [
+#     "add_companyrevision",
+#     "change_company",
+#     "apply_companyrevision",
+#     "add_company",
+#     "add_hashtag",
+#     "delete_company",
+# ]
+# group_settings = {
+#     "editors": editor_permissions,
+# }
 
 
 def up(apps, schema_editor):
-    Group = apps.get_model("auth", "Group")
-    Permission = apps.get_model("auth", "Permission")
-
-    for group_name, permissions in group_settings.items():
-        group, created = Group.objects.get_or_create(name=group_name)
-        permissions = Permission.objects.filter(codename__in=permissions)
-        view_permissions = Permission.objects.filter(codename__contains="view")
-        group.permissions.set(permissions | view_permissions)
+    ...
 
 
 def down(apps, schema_editor):
-    Group = apps.get_model("auth", "Group")
-    Group.objects.filter(name__in=group_settings.keys()).delete()
+    ...
 
 
 class Migration(migrations.Migration):
