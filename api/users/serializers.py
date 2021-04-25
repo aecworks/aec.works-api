@@ -1,13 +1,19 @@
 from rest_framework import serializers
 
 from .models import Profile
+from .services import default_avatar
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     avatar_url = serializers.SerializerMethodField()
 
     def get_avatar_url(self, obj):
-        return None if not obj.avatar else obj.avatar.file.url
+        return obj.avatar.file.url if obj.avatar else default_avatar(obj.email)
 
     class Meta:
         model = Profile
@@ -21,7 +27,7 @@ class ProfileDetailSerializer(serializers.ModelSerializer):
     avatar_url = serializers.SerializerMethodField()
 
     def get_avatar_url(self, obj):
-        return None if not obj.avatar else obj.avatar.file.url
+        return obj.avatar.file.url if obj.avatar else default_avatar(obj.email)
 
     def get_provider(self, profile):
         return profile.user.provider

@@ -20,24 +20,15 @@
     "model": "users.profile",
     "pk": 1,
     "fields": {
-      "user": ["dev@dev.com"],
+      "user": [
+        "dev@dev.com"
+      ],
       "slug": "dev-user",
       "bio": "I am a test ser",
       "location": "My Computer",
       "twitter": "devhandle",
       "github": "dev",
-      "avatar": 1
-    }
-  },
-  {
-    "model": "images.imageasset",
-    "pk": 1,
-    "fields": {
-      "created_at": "2020-10-07T05:45:18.881Z",
-      "created_by": 1,
-      "file": "images/2dfa08e4d0434ba1b1ad0a97a5034e8e.jpg",
-      "height": 400,
-      "width": 400
+      "avatar": null
     }
   }
 ]
