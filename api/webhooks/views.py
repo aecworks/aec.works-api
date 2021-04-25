@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import exceptions, generics, permissions, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
@@ -34,9 +36,9 @@ class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
         hashtags = serializer.validated_data.get("hashtags") or ""
 
         if not url:
-            return Response("no url", status=204)
-        if "aecworks" not in hashtags:
-            return Response("aecworks hashtag not present", status=204)
+            return Response("twitter: no url", status=200)
+        if not re.match("add", text, re.IGNORECASE):
+            return Response("twitter: must being with add", status=200)
 
         profile = request.user.profile
         article = create_article_from_tweet(
