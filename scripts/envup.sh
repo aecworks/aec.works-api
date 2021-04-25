@@ -3,7 +3,7 @@
 source ./scripts/console.sh
 
 info "🔑 fetching shared .env file from github.com/aecworks/aecworks-env"
-git clone -q --depth=1 https://github.com/aecworks/aecworks-envx
+git clone -q --depth=1 https://github.com/aecworks/aecworks-env
 
 if [ $? -eq 0 ]; then
     info "  fetched env "
