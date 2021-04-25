@@ -75,6 +75,7 @@ jobs:
           DJANGO_ALLOWED_HOSTS: "*"
           DJANGO_SECRET_KEY: gh_test
           DJANGO_S3_BUCKET_NAME: "gh_test"
+          DJANGO_S3_STORAGE: 0
           OAUTH_GITHUB_CLIENT_ID: gh_test
           OAUTH_GITHUB_CLIENT_SECRET: gh_test
           OAUTH_LINKEDIN_CLIENT_ID: gh_test
