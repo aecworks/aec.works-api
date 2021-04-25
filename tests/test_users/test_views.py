@@ -68,3 +68,16 @@ class TestViews:
         client.force_authenticate(user=user)
         resp = client.get("/users/profiles/me/")
         assert resp.status_code == 200
+
+    def test_login(self, django_user_model):
+        name = "x"
+        email = "x@x.com"
+        password = "1"
+        user = django_user_model(name=name, email=email)
+        user.set_password(password)
+        user.save()
+
+        client = APIClient()
+        resp = client.post("/users/login/", {"email": email, "password": password})
+        assert resp.status_code == 200
+        assert resp.json()["name"] == name
