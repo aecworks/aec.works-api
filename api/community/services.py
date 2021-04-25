@@ -179,6 +179,8 @@ def create_company_article(*, company, url, profile) -> Article:
     article = Article.objects.create(
         url=url, company=company, created_by=profile, opengraph_data=og_data
     )
+    # Touch to udpate `_updated_at`
+    company.save()
     return article
 
 
