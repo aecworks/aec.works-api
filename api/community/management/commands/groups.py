@@ -1,17 +1,7 @@
-from django.contrib.auth.models import Group, Permission
 from django.core.management.base import BaseCommand
 
-editor_permissions = [
-    "add_companyrevision",
-    "change_company",
-    "apply_companyrevision",
-    "add_company",
-    "add_hashtag",
-    "delete_company",
-]
-group_settings = {
-    "editors": editor_permissions,
-}
+from api.users.groups import groups_permissions
+from api.users.services import create_group_and_permissions, delete_group
 
 
 class Command(BaseCommand):
@@ -25,13 +15,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if options["delete"]:
-            print(f"deleting groups: {group_settings.keys()}")
-            Group.objects.filter(name__in=group_settings.keys()).delete()
+            for name in groups_permissions.keys():
+                delete_group(name)
 
         else:
-            for group_name, permissions in group_settings.items():
-                group, created = Group.objects.get_or_create(name=group_name)
-                permissions = Permission.objects.filter(codename__in=permissions)
-                view_permissions = Permission.objects.filter(codename__contains="view")
-                group.permissions.set(permissions | view_permissions)
-                print(f"Created group: {group_name}: {permissions}")
+            create_group_and_permissions(groups_permissions)
