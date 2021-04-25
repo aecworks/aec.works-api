@@ -207,7 +207,8 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
             "updated": "-updated_at",  # default: oldest to newest
             "location": "location",  # default: alfa
         }
-        sort_by = sort_query_map.get(sort_query, "name")
+        default = "-updated_at"
+        sort_by = sort_query_map.get(sort_query, default)
         # provide ?reverse=1 to revert sorting
         if self.request.query_params.get("reverse"):
             return qs.order_by(sort_by).reverse()
