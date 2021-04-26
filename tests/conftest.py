@@ -7,7 +7,7 @@ from api.users.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
-def setup_groups(settings):
+def setup_groups(db):
     call_command("groups")
 
 
