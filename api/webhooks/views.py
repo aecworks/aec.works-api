@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class WebhookSerializer(serializers.Serializer):
     text = serializers.CharField(required=True)
     url = serializers.URLField(allow_blank=True, allow_null=True, required=False)
-    mentioned = serializers.CharField(required=True, allow_null=True, allow_blank=True)
+    mentioned = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 
 class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
