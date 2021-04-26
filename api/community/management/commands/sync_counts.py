@@ -9,8 +9,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         for company in models.Company.objects.all():
-            company.clap_count = company.clappers.count()
-            company.save()
+            clap_count = company.clappers.count()
+            models.Company.objects.filter(pk=company.id).update(clap_count=clap_count)
 
         for post in models.Post.objects.all():
             post.clap_count = post.clappers.count()
