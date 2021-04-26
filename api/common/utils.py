@@ -54,7 +54,7 @@ def get_og_data(url: str):
     resp = requests.get(url)
     if not resp.ok:
         logger.info(f"could not get opengraph data for url: {url}: {resp}")
-        return None
+        return {}
 
     og_data = None
     og_article = OpenGraph(html=resp.content, scrape=True)
