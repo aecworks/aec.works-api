@@ -31,8 +31,8 @@ def resolve_company(text, mentioned):
     else:
         match = re.search(r"@\.(\w+)", text)
         if not match:
-            raise TweetCompanyReferenceNotFound("no company reference found")
-        get_kwargs = dict(slug=match.group(1))
+            return
+        get_kwargs = dict(slug__iexact=match.group(1))
 
     company = Company.objects.filter(**get_kwargs).first()
     return company
