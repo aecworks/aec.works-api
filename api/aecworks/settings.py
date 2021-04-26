@@ -213,7 +213,8 @@ if not DEBUG:
 
 
 explicit_log_level = config("DJANGO_LOG_LEVEL", default="INFO")
-assert explicit_log_level in ["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL", "FATAL"]
+if explicit_log_level not in ["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL", "FATAL"]:
+    explicit_log_level = "DEBUG"
 log_level = explicit_log_level or "DEBUG" if DEBUG else "INFO"
 
 LOGGING = {
