@@ -212,12 +212,14 @@ if not DEBUG:
     )
 
 
-log_level = "INFO" if DEBUG else "WARN"
+explicit_log_level = config("DJANGO_LOG_LEVEL", default="INFO")
+assert explicit_log_level in ["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL", "FATAL"]
+log_level = explicit_log_level or "DEBUG" if DEBUG else "INFO"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
-    # "root": {"handlers": ["console"], "level": "WARNING"},
     "loggers": {
         "": {"handlers": ["console"], "level": log_level, "propagate": True},
         "django": {"handlers": ["console"], "level": log_level, "propagate": False},
