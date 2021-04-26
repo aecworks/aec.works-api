@@ -39,12 +39,15 @@ class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
         serializer = WebhookSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        url = serializer.validated_data["url"]
+        urls = serializer.validated_data["url"]
         text = serializer.validated_data["text"]
         mentioned = serializer.validated_data.get("mentioned")
 
+        # If multiple provided, just get first
+        url = urls.split(",")[0]
+
         if not is_add_article(text):
-            msg = "twitter: doesnt match pattern add <url> to <mention>"
+            msg = f"twitter: doesnt match pattern add <url> to <mention>: {text}"
             logger.info(msg)
             return Response(msg, status=200)
 
@@ -56,7 +59,7 @@ class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
         company = resolve_company(text, mentioned)
 
         if not company:
-            msg = "twitter: did not match anh company"
+            msg = f"twitter: did not match company: text={text} mentioned={mentioned}"
             logger.info(msg)
             return Response(msg, status=200)
 
