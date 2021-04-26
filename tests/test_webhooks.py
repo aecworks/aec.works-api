@@ -5,6 +5,7 @@ from api.users.factories import ProfileFactory
 from api.webhooks.services import (
     TweetCompanyReferenceNotFound,
     create_article_from_tweet,
+    is_add_article,
 )
 
 
@@ -58,3 +59,8 @@ def test_article_from_tweet_using_no_match():
             hashtags="",
             profile=profile,
         )
+
+
+def test_is_add_article():
+    assert is_add_article("Add https://t.co/aEQasd to @aec_works")
+    assert not is_add_article("Add this")
