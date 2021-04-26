@@ -144,11 +144,14 @@ def create_company(*, profile, validated_data) -> Company:
     hashtags = get_or_create_hashtags(hashtag_names)
     company = Company.objects.create(created_by=profile, **validated_data)
     company.hashtags.set(hashtags)
+
     # Apply First Revision so we have an easy way to revert back
-    revision = create_revision(
-        company=company, profile=profile, validated_data=validated_data
+    revision = CompanyRevision.objects.create(
+        company=company, created_by=profile, **validated_data
     )
+    revision.hashtags.set(hashtags)
     apply_revision(revision=revision, profile=profile)
+
     return company
 
 
@@ -179,6 +182,8 @@ def create_company_article(*, company, url, profile) -> Article:
     article = Article.objects.create(
         url=url, company=company, created_by=profile, opengraph_data=og_data
     )
+    # Touch to udpate `_updated_at`
+    company.save()
     return article
 
 

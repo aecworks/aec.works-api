@@ -3,6 +3,7 @@
 import pytest
 
 from api.community import factories as f
+from api.images.factories import ImageAssetFactory
 from api.users.factories import UserFactory
 
 
@@ -82,6 +83,33 @@ class TestViews:
         # Token for author user can
         resp = api_client.patch(url, payload, format="json")
         assert resp.status_code == 200
+
+    def test_company_create(self, auth_client):
+        logo = ImageAssetFactory()
+        url = "/community/companies/"
+        payload = {
+            "name": "Test 1",
+            "description": "asdasd",
+            "location": "São Paulo, Brazil",
+            "website": "https://aec.works",
+            "twitter": "xxx",
+            "crunchbaseId": "zzz",
+            "logo": logo.id,
+            "cover": logo.id,
+            "hashtags": ["A", "B"],
+            "lastRevisionId": "",
+        }
+        resp = auth_client.post(url, payload, format="json")
+        assert resp.status_code == 200
+        created = resp.json()
+        assert "A" in created["hashtags"]
+        assert "B" in created["hashtags"]
+        assert payload["website"] == created["website"]
+        assert payload["description"] == created["description"]
+        assert payload["twitter"] == created["twitter"]
+        assert payload["crunchbaseId"] == created["crunchbaseId"]
+        assert payload["logo"] == logo.id
+        assert payload["cover"] == logo.id
 
     def test_company_revision(self, auth_client):
         company = f.CompanyFactory()
