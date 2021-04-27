@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     "django_cleanup",
     "versatileimagefield",
     # Apps
-    "api.users.apps.UsersConfig",
+    "api.users",
     "api.community",
     "api.images",
     "api.webhooks",
