@@ -108,6 +108,7 @@ class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
             "company",
             "logo_url",
             "cover_url",
+            "note",
             *services.updatable_attributes,
         ]
 
@@ -130,22 +131,10 @@ class RequestCompanySerializer(serializers.ModelSerializer):
         ]
 
 
-class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
-    hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
-
+class RequestCompanyRevisionSerializer(RequestCompanySerializer):
     class Meta:
-        model = models.Company
-        fields = [
-            "name",
-            "description",
-            "website",
-            "twitter",
-            "location",
-            "crunchbase_id",
-            "hashtags",
-            "logo",
-            "cover",
-        ]
+        model = models.CompanyRevision
+        fields = RequestCompanySerializer.Meta.fields + ["note"]
 
 
 class CompanyDetailView(
@@ -234,7 +223,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 class CompanyRevisionListView(
     ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
 ):
-    serializer_class = ResponseCompanySerializer
+    serializer_class = None
     queryset = selectors.get_companies()
     lookup_field = "slug"
     permission_classes = [IsEditorPermission | IsReadOnly]
@@ -250,7 +239,7 @@ class CompanyRevisionListView(
 
     def post(self, request, slug):
         """ Creates New Company Revision """
-        serializer = RequestCompanySerializer(data=request.data)
+        serializer = RequestCompanyRevisionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         company = self.get_object()
         revision = services.create_revision(

@@ -54,6 +54,7 @@ class CompanyRevision(ReprMixin, CompanyBaseModel):
     created_by = models.ForeignKey(
         "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
     )
+    note = models.CharField(default="", blank=True, max_length=255)
 
 
 class Company(ReprMixin, CompanyBaseModel):
