@@ -38,7 +38,7 @@ class TestServices:
         assert rv2 == 1
         assert post.clappers.count() == 1
 
-    def test_companyClap(self):
+    def test_company_clap(self):
         profile = ProfileFactory()
         company = factories.CompanyFactory()
         assert company.clappers.count() == 0
