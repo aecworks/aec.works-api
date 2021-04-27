@@ -8,8 +8,7 @@ coverage:
         target: 80
     patch:
       default:
-        target: auto
-        threshold: 1%
+        target: 50
 
 codecov:
   require_ci_to_pass: yes

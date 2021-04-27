@@ -44,15 +44,11 @@ def bump_hot_datetime(post, clap_count):
 
 def comment_clap(*, comment, profile) -> int:
     comment.clappers.add(profile)
-    comment.clap_count = comment.clappers.count()
-    comment.save()
     return comment.clap_count
 
 
 def company_clap(*, company, profile) -> int:
     company.clappers.add(profile)
-    company.clap_count = company.clappers.count()
-    company.save()
     # bump_hot_datetime(post, clap_count)
     return company.clap_count
 
@@ -68,8 +64,6 @@ def post_clap(*, post, profile) -> int:
 @transaction.atomic
 def create_comment(*, profile, text, thread) -> Comment:
     comment = Comment.objects.create(profile=profile, text=text, thread=thread)
-    thread.size += 1
-    thread.save()
     return comment
 
 

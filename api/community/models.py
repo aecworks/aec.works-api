@@ -1,6 +1,6 @@
 from django.contrib.postgres.fields import JSONField
 from django.db import models
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import m2m_changed, post_delete, post_save, pre_save
 from django.dispatch import receiver
 from django_extensions.db.fields import AutoSlugField
 
@@ -173,6 +173,28 @@ def add_thread(sender, instance, created, **kwargs):
     if not instance.thread:
         thread = Thread.objects.create()
         instance.thread = thread
+        instance.save()
+
+
+@receiver(post_save, sender=Comment)
+def increment_thread_size(sender, instance, created, **kwargs):
+    if created:
+        Thread.objects.filter(id=instance.thread.id).update(size=models.F("size") + 1)
+
+
+@receiver(post_delete, sender=Comment)
+def decrement_thread_size(sender, instance, **kwargs):
+    Thread.objects.filter(id=instance.thread.id).update(size=models.F("size") - 1)
+
+
+@receiver(m2m_changed, sender=Company.clappers.through)
+@receiver(m2m_changed, sender=Comment.clappers.through)
+def increment_company_clap(sender, instance, action, **kwargs):
+    if action == "post_add":
+        instance.clap_count = instance.clappers.count()
+        instance.save()
+    elif action == "post_remove":
+        instance.clap_count = instance.clappers.count()
         instance.save()
 
 
