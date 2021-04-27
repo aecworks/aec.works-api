@@ -266,7 +266,7 @@ class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
 
 
 class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
-    queryset = selectors.get_companies()
+    queryset = selectors.get_companies(prefetch=False)
     lookup_field = "slug"
     expected_exceptions = {}
     permission_classes = [permissions.IsAuthenticated]
