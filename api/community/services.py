@@ -12,6 +12,7 @@ from api.community.choices import CompanyStatus, PostBanner
 from api.images.models import ImageAsset
 from api.images.services import create_image_asset, create_image_file_from_data_uri
 from api.users.models import Profile
+from api.users.services import user_is_editor
 
 from .models import Article, Comment, Company, CompanyRevision, Hashtag, Post, Thread
 
@@ -202,6 +203,16 @@ def apply_revision(*, revision, profile):
     revision.approved_by = profile
     revision.applied = True
     revision.save()
+
+
+def can_create_company(profile: Profile) -> bool:
+    if user_is_editor(profile.user):
+        return True
+
+    pending_submissions = Company.objects.filter(
+        created_by=profile, status=CompanyStatus.SUBMITTED.name
+    )
+    return pending_submissions.count() <= 1
 
 
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:

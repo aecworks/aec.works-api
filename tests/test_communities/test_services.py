@@ -1,8 +1,8 @@
 import pytest
 from django.core.exceptions import PermissionDenied
 
-from api.community import factories, services
-from api.users.factories import ProfileFactory
+from api.community import choices, factories, services
+from api.users.factories import ProfileFactory, UserFactory
 
 
 @pytest.mark.django_db
@@ -124,3 +124,24 @@ class TestServices:
 
         services.create_comment(profile=profile, text=text, thread=thread)
         assert thread.comments.count() == 2
+
+    def test_can_create_company(self):
+        user = UserFactory(groups=["editors"])
+        profile = ProfileFactory(user=user)
+
+        assert services.can_create_company(profile)
+
+        user2 = UserFactory(groups=[])
+        profile2 = ProfileFactory(user=user2)
+
+        assert services.can_create_company(profile2)
+
+        factories.CompanyFactory(
+            created_by=profile2, status=choices.CompanyStatus.SUBMITTED.name
+        )
+        assert services.can_create_company(profile2)
+
+        factories.CompanyFactory(
+            created_by=profile2, status=choices.CompanyStatus.SUBMITTED.name
+        )
+        assert not services.can_create_company(profile2)

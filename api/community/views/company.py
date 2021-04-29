@@ -11,7 +11,7 @@ from api.common.exceptions import ErrorsMixin
 from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
-from .. import annotations, caching, choices, models, selectors, services
+from .. import annotations, caching, choices, exceptions, models, selectors, services
 
 logger = logging.getLogger(__name__)
 
@@ -176,7 +176,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
     pagination_class = PageNumberPagination
     page_size = 10
     expected_exceptions = {}
-    permission_classes = [IsEditorPermission | IsReadOnly]
+    permission_classes = [permissions.IsAuthenticated | IsReadOnly]
 
     def get_queryset(self):
         user = self.request.user
@@ -218,10 +218,17 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     def post(self, request):
         """ Creates New Company """
+
+        profile = request.user.profile
+
+        if not services.can_create_company(profile):
+            raise exceptions.TooManyPendingReviews()
+
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         company = services.create_company(
-            profile=request.user.profile,
+            profile=profile,
             name=serializer.validated_data["name"],
             description=serializer.validated_data["description"],
             website=serializer.validated_data["website"],

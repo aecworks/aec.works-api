@@ -1,4 +1,5 @@
 import factory
+from django.contrib.auth.models import Group
 from django.db.models.signals import post_save
 from faker import Faker
 
@@ -29,6 +30,18 @@ class UserFactory(factory.django.DjangoModelFactory):
         obj.save()
         return obj
 
+    @factory.post_generation
+    def groups(self, create, extracted, **kwargs):
+        # Simple build, do nothing.
+        if not create:
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for group_name in extracted:
+                group = GroupFactory(name=group_name)
+                self.groups.add(group)
+
 
 @factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -46,3 +59,11 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     def post(obj, *args, **kwargs):
         obj.avatar = ImageAssetFactory(created_by=obj)
         obj.save()
+
+
+class GroupFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Group
+        django_get_or_create = ("name",)
+
+    name = "editors"

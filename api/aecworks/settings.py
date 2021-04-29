@@ -229,10 +229,6 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        "PIL": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
+        "PIL": {"handlers": ["console"], "level": "INFO", "propagate": False},
     },
 }
