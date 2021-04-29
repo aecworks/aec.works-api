@@ -11,7 +11,7 @@ from api.common.exceptions import ErrorsMixin
 from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
-from .. import annotations, caching, models, selectors, services
+from .. import annotations, caching, choices, models, selectors, services
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +25,10 @@ class ResponseArticleSerializer(serializers.Serializer):
     opengraph_data = serializers.JSONField()
 
 
+class RequestCompanyModerateSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=[c.name for c in choices.CompanyStatus])
+
+
 class ResponseCompanySerializer(serializers.ModelSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
@@ -35,6 +39,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     articles = ResponseArticleSerializer(many=True)
     cover_url = serializers.SerializerMethodField()
     logo_url = serializers.SerializerMethodField()
+    status = serializers.CharField()
 
     def get_cover_url(self, obj):
         try:
@@ -63,6 +68,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "cover_url",
             "banner",
             "updated_at",
+            "status",
             *services.updatable_attributes,
         ]
 
@@ -178,13 +184,14 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         if user.is_authenticated:
             qs = annotations.annotate_company_claps(qs, profile_id=user.profile.id)
 
-        query = self.request.query_params.get("search")
-        hashtag_names = []
+        q_search = self.request.query_params.get("search")
+        q_status = self.request.query_params.get(
+            "status", choices.CompanyStatus.APPROVED.name
+        )
+        q_hashtags = self.request.query_params.get("hashtags")
+        hashtag_names = services.parse_hashtag_query(q_hashtags)
 
-        if hashtag_query := self.request.query_params.get("hashtags"):
-            hashtag_names = services.parse_hashtag_query(hashtag_query)
-
-        qs = selectors.query_companies(qs, query, hashtag_names)
+        qs = selectors.filter_companies(qs, q_search, hashtag_names, q_status)
 
         # /companies/?sort=claps
         sort_query = self.request.query_params.get("sort")
@@ -214,7 +221,17 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         company = services.create_company(
-            profile=request.user.profile, validated_data=serializer.validated_data,
+            profile=request.user.profile,
+            name=serializer.validated_data["name"],
+            description=serializer.validated_data["description"],
+            website=serializer.validated_data["website"],
+            location=serializer.validated_data["location"],
+            twitter=serializer.validated_data.get("twitter", ""),
+            crunchbase_id=serializer.validated_data.get("crunchbase_id", ""),
+            logo=serializer.validated_data.get("logo", None),
+            cover=serializer.validated_data.get("cover", None),
+            hashtag_names=serializer.validated_data.get("hashtags", []),
+            status=choices.CompanyStatus.SUBMITTED.name,
         )
         return Response(ResponseCompanySerializer(company).data)
 
@@ -277,6 +294,29 @@ class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
         profile = request.user.profile
         result = services.company_clap(company=company, profile=profile)
         return Response(result)
+
+
+class CompanyModerateView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_companies(prefetch=False)
+    lookup_field = "slug"
+    expected_exceptions = {}
+    permission_classes = [IsEditorPermission | IsReadOnly]
+    serializer_class = None
+
+    def post(self, request, slug):
+        """ Moderates View"""
+
+        serializer = RequestCompanyModerateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        status = serializer.validated_data["status"]
+
+        company = self.get_object()
+        profile = request.user.profile
+
+        company = services.moderate_company(
+            company=company, profile=profile, status=status
+        )
+        return Response(ResponseCompanyDetailSerializer(company).data)
 
 
 class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):

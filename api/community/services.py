@@ -8,9 +8,10 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 from api.common.utils import get_og_data, to_hashtag, update_instance
-from api.community.choices import PostBanner
+from api.community.choices import CompanyStatus, PostBanner
 from api.images.models import ImageAsset
 from api.images.services import create_image_asset, create_image_file_from_data_uri
+from api.users.models import Profile
 
 from .models import Article, Comment, Company, CompanyRevision, Hashtag, Post, Thread
 
@@ -133,15 +134,47 @@ def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: Lis
 
 
 @transaction.atomic
-def create_company(*, profile, validated_data) -> Company:
-    hashtag_names = validated_data.pop("hashtags", [])
+def create_company(
+    *,
+    profile: Profile,
+    name: str,
+    description: str,
+    website: str,
+    twitter: str,
+    location: str,
+    crunchbase_id: str,
+    logo: int,
+    cover: int,
+    hashtag_names: List[str],
+    status: str,
+) -> Company:
     hashtags = get_or_create_hashtags(hashtag_names)
-    company = Company.objects.create(created_by=profile, **validated_data)
+    company = Company.objects.create(
+        created_by=profile,
+        name=name,
+        description=description,
+        website=website,
+        twitter=twitter,
+        location=location,
+        crunchbase_id=crunchbase_id,
+        logo=logo,
+        cover=cover,
+        status=status,
+    )
     company.hashtags.set(hashtags)
 
     # Apply First Revision so we have an easy way to revert back
     revision = CompanyRevision.objects.create(
-        company=company, created_by=profile, **validated_data
+        company=company,
+        created_by=profile,
+        name=name,
+        description=description,
+        website=website,
+        twitter=twitter,
+        location=location,
+        crunchbase_id=crunchbase_id,
+        logo=logo,
+        cover=cover,
     )
     revision.hashtags.set(hashtags)
     apply_revision(revision=revision, profile=profile)
@@ -169,6 +202,12 @@ def apply_revision(*, revision, profile):
     revision.approved_by = profile
     revision.applied = True
     revision.save()
+
+
+def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:
+    company.status = status
+    company.save()
+    return company
 
 
 def create_company_article(*, company, url, profile) -> Article:

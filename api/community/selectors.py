@@ -60,11 +60,13 @@ def query_posts(qs, query, hashtag_slugs):
     return qs
 
 
-def query_companies(qs, query, hashtag_slugs):
+def filter_companies(qs, search, hashtag_slugs, status):
     if hashtag_slugs:
         qs = query_multi_hashtag(qs, hashtag_slugs)
-    if query:
-        qs = qs.filter(name__icontains=query)
+    if search:
+        qs = qs.filter(name__icontains=search)
+    if status:
+        qs = qs.filter(status=status)
     return qs
 
 

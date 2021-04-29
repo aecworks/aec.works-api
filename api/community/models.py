@@ -6,7 +6,7 @@ from django_extensions.db.fields import AutoSlugField
 
 from api.common.mixins import ReprMixin
 from api.common.utils import to_hashtag
-from api.community.choices import PostBanner
+from api.community.choices import CompanyStatus, PostBanner
 
 
 class CompanyBaseModel(models.Model):
@@ -85,6 +85,11 @@ class Company(ReprMixin, CompanyBaseModel):
         blank=True,
     )
     banner = models.CharField(max_length=32, default="", blank=True)
+    status = models.CharField(
+        max_length=32,
+        choices=[(c.name, c.value) for c in CompanyStatus],
+        default=CompanyStatus.APPROVED.name,
+    )
 
     class Meta:
         verbose_name_plural = "companies"

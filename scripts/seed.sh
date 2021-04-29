@@ -7,3 +7,4 @@ info "Seeding DB 🌿"
 
 ./.venv/bin/python3.8 manage.py seed
 ./.venv/bin/python3.8 manage.py groups
+./.venv/bin/python3.8 manage.py loaddata api/aecworks/fixtures/users.json

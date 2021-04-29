@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from api.community import choices
 from api.community import factories as f
 from api.community import models, services
 from api.images.services import create_image_asset, create_image_file_from_url
@@ -28,20 +29,25 @@ class Command(BaseCommand):
             hashtags,
         ) in seed_data:
 
-            data = dict(
-                name=name, description=description, website=website, location=location
-            )
-
             company = models.Company.objects.filter(name=name).first()
             if company:
                 print(f"> Already exists: {name} - flush or delete to recreate")
                 continue
             else:
                 print(f"> Created: {name}")
-                company = services.create_company(profile=profile, validated_data=data)
-
-            hashtags = services.get_or_create_hashtags(hashtags)
-            company.hashtags.set(hashtags)
+                company = services.create_company(
+                    profile=profile,
+                    name=name,
+                    description=description,
+                    website=website,
+                    location=location,
+                    twitter="",
+                    crunchbase_id="",
+                    logo=None,
+                    cover=None,
+                    hashtag_names=hashtags,
+                    status=choices.CompanyStatus.APPROVED.name,
+                )
 
             # Logo
             logo_file = create_image_file_from_url(logo_url)

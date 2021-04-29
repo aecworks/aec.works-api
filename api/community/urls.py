@@ -10,6 +10,7 @@ urlpatterns = [
     path("companies/claps/<str:profile>/", views.CompanyClapsListView.as_view()),
     path("companies/<str:slug>/", views.CompanyDetailView.as_view()),
     path("companies/<str:slug>/clap/", views.CompanyClapView.as_view()),
+    path("companies/<str:slug>/moderate/", views.CompanyModerateView.as_view()),
     path("companies/<str:slug>/articles/", views.CompanyArticleListView.as_view()),
     path("revisions/<int:id>/<str:action>", views.CompanyRevisionDetailView.as_view()),
     path("companies/<str:slug>/revisions/", views.CompanyRevisionListView.as_view()),
