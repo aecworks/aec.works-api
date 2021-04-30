@@ -92,12 +92,3 @@ class HashtagAdmin(admin.ModelAdmin):
     def company_names(self, obj):
         return [c.name for c in obj.companies.all()]
 
-
-@admin.register(models.Post)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ["id", "slug", "profile", "title", "cover", "words"]
-
-    def words(self, obj):
-        return len(obj.body.split(" "))
-
-    raw_id_fields = ["cover"]

@@ -8,14 +8,14 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils.text import slugify
 
-from api.common.utils import get_og_data, to_hashtag, update_instance
-from api.community.choices import ModerationStatus, PostBanner
+from api.common.utils import get_og_data, to_hashtag
+from api.community.choices import ModerationStatus
 from api.images.models import ImageAsset
 from api.images.services import create_image_asset, create_image_file_from_data_uri
 from api.users.models import Profile
 from api.users.services import user_is_editor
 
-from .models import Article, Comment, Company, CompanyRevision, Hashtag, Post, Thread
+from .models import Article, Comment, Company, CompanyRevision, Hashtag, Thread
 
 logger = logging.getLogger(__name__)
 
@@ -80,14 +80,6 @@ def company_clap(*, company, profile) -> int:
     return company.clap_count
 
 
-def post_clap(*, post, profile) -> int:
-    post.clappers.add(profile)
-    post.clap_count = post.clappers.count()
-    post.save()
-    bump_hot_datetime(post, post.clap_count)
-    return post.clap_count
-
-
 @transaction.atomic
 def create_comment(*, profile, text, thread) -> Comment:
     comment = Comment.objects.create(profile=profile, text=text, thread=thread)
@@ -105,6 +97,7 @@ def get_or_create_hashtags(hashtag_names: List[str]) -> List[Hashtag]:
     return [get_or_create_hashtag(name) for name in hashtag_names]
 
 
+# TODO: Company?
 def generate_post_banner(profile):
     if profile.posts.count() == 0:
         return PostBanner.FIRST_POST.value
@@ -123,40 +116,6 @@ def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
         img_tag["src"] = img_asset.file.url
         img_assets.append(img_asset)
     return str(soup), img_assets
-
-
-@transaction.atomic
-def create_post(*, profile, title: str, body: str, hashtag_names: List[str]) -> Post:
-    hashtags = get_or_create_hashtags(hashtag_names)
-    thread = Thread.objects.create()
-    banner = generate_post_banner(profile)
-    updated_body, imgs = extract_image_assets(body, profile)
-    cover_img = None if not imgs else imgs[0]
-    post = Post.objects.create(
-        profile=profile,
-        title=title,
-        body=updated_body,
-        cover=cover_img,
-        thread=thread,
-        banner=banner,
-    )
-    post.hashtags.set(hashtags)
-    if imgs:
-        post.images.set(imgs)
-    return post
-
-
-@transaction.atomic
-def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: List[str]):
-    post = Post.objects.get(slug=slug)
-    if not post.profile == profile and not profile.user.is_staff:
-        raise PermissionDenied(f"profile '{profile.name}' cannot edit this post")
-
-    hashtags = get_or_create_hashtags(hashtag_names)
-    Post.objects.filter(id=post.id).update(title=title, body=body)
-    post.hashtags.set(hashtags)
-    post.refresh_from_db()
-    return post
 
 
 @transaction.atomic

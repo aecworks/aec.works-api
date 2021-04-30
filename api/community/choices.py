@@ -1,8 +1,10 @@
 from enum import Enum
 
 
-class PostBanner(Enum):
-    FIRST_POST = "First Post"
+class Banners(Enum):
+    HIRING = "Hiring"
+    NEW = "New"
+    ACQUIRED = "Acquired"
 
 
 class ModerationStatus(Enum):

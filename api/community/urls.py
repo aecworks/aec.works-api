@@ -15,7 +15,4 @@ urlpatterns = [
     path("revisions/<int:id>/<str:action>", views.CompanyRevisionDetailView.as_view()),
     path("companies/<str:slug>/revisions/", views.CompanyRevisionListView.as_view()),
     path("hashtags/", views.HashtagListView.as_view()),
-    path("posts/", views.PostListView.as_view()),
-    path("posts/<str:slug>/", views.PostDetailView.as_view()),
-    path("posts/<str:slug>/clap/", views.PostClapView.as_view()),
 ]

@@ -8,7 +8,7 @@ from django_extensions.db.fields import AutoSlugField
 
 from api.common.mixins import ReprMixin
 from api.common.utils import to_hashtag
-from api.community.choices import ModerationStatus, PostBanner
+from api.community.choices import ModerationStatus
 
 
 class CompanyRevision(ReprMixin, models.Model):
@@ -71,9 +71,10 @@ class Company(ReprMixin, models.Model):
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
+    # TODO make it
     current_revision = models.ForeignKey(
         "CompanyRevision",
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name="+",
         null=True,
         blank=True,
@@ -103,43 +104,7 @@ class Article(ReprMixin, models.Model):
 class Hashtag(ReprMixin, models.Model):
     slug = models.CharField(max_length=32, unique=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
-    # reverse: posts -> Post
     # reverse: companies -> Company
-
-
-class Post(ReprMixin, models.Model):
-
-    title = models.CharField(blank=False, max_length=100)
-    slug = AutoSlugField(populate_from="title", db_index=True)
-
-    body = models.TextField(blank=False)
-    profile = models.ForeignKey(
-        "users.Profile", related_name="posts", on_delete=models.PROTECT
-    )
-    thread = models.ForeignKey(
-        "Thread", related_name="+", on_delete=models.CASCADE, blank=True, null=True
-    )
-    # companies = models.ManyToManyField(Company, related_name="posts", blank=True)
-    hashtags = models.ManyToManyField(Hashtag, related_name="posts", blank=True)
-    clap_count = models.PositiveIntegerField(default=0)
-    clappers = models.ManyToManyField(
-        "users.Profile", related_name="clapped_posts", blank=True
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    hot_datetime = models.DateTimeField(auto_now_add=True)
-    banner = models.CharField(
-        max_length=32, choices=[(c.name, c.value) for c in PostBanner], default="",
-    )
-    cover = models.ForeignKey(
-        "images.ImageAsset",
-        related_name="post_covers",
-        on_delete=models.PROTECT,
-        blank=True,
-        null=True,
-    )
-    images = models.ManyToManyField("images.ImageAsset", related_name="posts")
 
 
 class Thread(ReprMixin, models.Model):
@@ -184,7 +149,6 @@ class ModerationAction(ReprMixin, models.Model):
 
 
 @receiver(post_save, sender=Company)
-@receiver(post_save, sender=Post)
 def add_thread(sender, instance, created, **kwargs):
     if not instance.thread:
         thread = Thread.objects.create()
@@ -225,4 +189,3 @@ def apply_moderation_status(sender, instance, **kwargs):
         obj = instance.content_object
         obj.status = instance.status
         obj.save()
-

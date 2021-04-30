@@ -5,6 +5,7 @@ import requests
 from django.core.cache import cache
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.text import slugify as _slugify
 from opengraph.opengraph import OpenGraph
 from rest_framework import serializers
 from rest_framework.utils import model_meta
@@ -44,9 +45,13 @@ def update_instance(instance, validated_data):
     return instance
 
 
-def to_hashtag(text: str):
+def to_hashtag(text: str) -> str:
     """ Only leters, no symbols but allows case """
     return "".join([c for c in text if c in string.ascii_letters + string.digits])
+
+
+def slugify(text: str) -> str:
+    return _slugify(text)
 
 
 def get_og_data(url: str):

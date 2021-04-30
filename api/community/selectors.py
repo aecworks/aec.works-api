@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.db import models as m
 from django.utils import timezone
 
-from .models import Comment, Company, CompanyRevision, Hashtag, Post, Thread
+from .models import Comment, Company, CompanyRevision, Hashtag, Thread
 
 
 def get_comments():
@@ -53,7 +53,7 @@ def query_multi_hashtag(qs, hashtag_slugs):
     reg_pat = f"({'|'.join(hashtag_slugs)})"
     qs_with_one_of = qs.filter(current_revision__hashtags__slug__iregex=reg_pat)
     qs_with_both = qs_with_one_of.annotate(
-        n_matches=m.Count("hashtags", distinct=True)
+        n_matches=m.Count("current_revision__hashtags", distinct=True)
     ).filter(n_matches=len(hashtag_slugs))
     return qs_with_both
 
@@ -87,11 +87,3 @@ def get_revisions():
 
 def get_hashtags():
     return Hashtag.objects.all()
-
-
-def get_posts():
-    return (
-        Post.objects.select_related("profile__user", "profile__avatar")
-        .prefetch_related("hashtags", "companies", "thread__comments")
-        .all()
-    )

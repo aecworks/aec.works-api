@@ -1,7 +1,6 @@
 from django.db import models as m
 
-from . import choices
-from .models import Comment, Company, CompanyRevision
+from .models import Comment, Company
 
 
 def annotate_company_claps(qs, profile_id=-1):

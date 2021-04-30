@@ -1,17 +1,13 @@
 import logging
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_control
-from django.views.decorators.http import condition
-from rest_framework import generics, mixins, permissions, serializers
-from rest_framework.pagination import PageNumberPagination
+from rest_framework import generics, mixins, serializers
 from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
 from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
-from .. import annotations, caching, choices, exceptions, models, selectors, services
+from .. import models, selectors, services
 
 logger = logging.getLogger(__name__)
 

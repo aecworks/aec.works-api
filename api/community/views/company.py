@@ -5,10 +5,9 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import condition
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
-from api.permissions import IsEditorPermission, IsReadOnly
+from api.permissions import IsReadOnly
 from api.users.serializers import ProfileSerializer
 
 from .. import annotations, caching, choices, exceptions, models, selectors, services
@@ -109,10 +108,10 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         sort_query = self.request.query_params.get("sort")
         sort_query_map = {
             # user facin query: field name
-            "name": "name",  # default alfa
             "claps": "-clap_count",  # default: hight to low
             "updated": "-updated_at",  # default: oldest to newest
-            "location": "location",  # default: alfa
+            "name": "current_revision__name",  # default alfa
+            "location": "current_revision__location",  # default: alfa
         }
         default = "-updated_at"
         sort_by = sort_query_map.get(sort_query, default)
@@ -134,7 +133,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         profile = request.user.profile
 
         if not services.can_create_company(profile):
-            raise exceptions.TooManyPendingReviews()
+            raise exceptions.TooManyPendingReviewsError()
 
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -148,4 +147,3 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         #     profile=profile, attributes=attributes, hashtag_names=hashtag_names
         # )
         # return Response(ResponseCompanySerializer(company).data)
-

@@ -1,21 +1,36 @@
 import factory
+from faker import Faker
 
-from . import models
+from api.common.utils import slugify
+
+from . import choices, models
 
 
 class CompanyFactory(factory.django.DjangoModelFactory):
+
+    slug = factory.LazyAttribute(lambda o: slugify(Faker().company()))
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    status = choices.ModerationStatus.REVIEWED.name
+    current_revision = None
+
+    @factory.post_generation
+    def post(obj, *args, **kwargs):
+        obj.current_revision = CompanyRevisionFactory(company=obj)
+        obj.save()
+
     class Meta:
         model = models.Company
 
-    slug = factory.Faker("company")
-    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
-    current_revision = factory.SubFactory(
-        "api.community.factories.CompanyRevisionFactory"
-    )
+    class Params:
+        duration = 5
 
 
 class CompanyRevisionFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("company")
+
+    company = factory.SubFactory("api.community.factories.CompanyFactory",)
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+
+    name = factory.LazyAttribute(lambda o: o.company.slug.title().replace("-", " "))
     description = factory.Faker("paragraph", nb_sentences=2)
 
     website = factory.Faker("url")
@@ -24,8 +39,6 @@ class CompanyRevisionFactory(factory.django.DjangoModelFactory):
 
     logo = factory.SubFactory("api.images.factories.ImageAssetFactory")
     cover = factory.SubFactory("api.images.factories.ImageAssetFactory")
-
-    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
 
     class Meta:
         model = models.CompanyRevision
@@ -41,21 +54,6 @@ class HashtagFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ("slug",)
 
     slug = factory.Faker("word")
-
-
-class PostFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.Post
-
-    body = factory.Faker("text", max_nb_chars=1000)
-    title = factory.Faker("sentence")
-    thread = None
-    profile = factory.SubFactory("api.users.factories.ProfileFactory")
-    # hashtags = []
-    # companies = []
-    # clappers = []
-    # created_at
-    # updated_at
 
 
 class ThreadFactory(factory.django.DjangoModelFactory):
