@@ -29,11 +29,18 @@ def get_company(**kwargs):
 
 
 def get_companies(prefetch=True):
+    # TODO separate revisions
     qs = Company.objects.all()
     if prefetch:
-        qs = qs.select_related("logo", "cover", "thread").prefetch_related(
-            "hashtags", "articles"
-        )
+        qs = qs.select_related(
+            "thread",
+            "current_revision__logo",
+            "current_revision__cover",
+            "current_revision__created_by__avatar",
+            "current_revision__created_by__user",
+            "current_revision__approved_by__avatar",
+            "current_revision__approved_by__user",
+        ).prefetch_related("current_revision__hashtags", "articles")
     return qs
 
 
@@ -44,7 +51,7 @@ def get_company_claps():
 def query_multi_hashtag(qs, hashtag_slugs):
     # Achieve case insensitive __in using regex:
     reg_pat = f"({'|'.join(hashtag_slugs)})"
-    qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
+    qs_with_one_of = qs.filter(current_revision__hashtags__slug__iregex=reg_pat)
     qs_with_both = qs_with_one_of.annotate(
         n_matches=m.Count("hashtags", distinct=True)
     ).filter(n_matches=len(hashtag_slugs))
@@ -64,7 +71,7 @@ def filter_companies(qs, search, hashtag_slugs, status):
     if hashtag_slugs:
         qs = query_multi_hashtag(qs, hashtag_slugs)
     if search:
-        qs = qs.filter(name__icontains=search)
+        qs = qs.filter(current_revision__name__icontains=search)
     if status:
         qs = qs.filter(status=status)
     return qs

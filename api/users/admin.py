@@ -8,7 +8,7 @@ from .models import Profile, User
 class CustomBaseUserAdmin(BaseUserAdmin):
     # Because we overided the UserModel, we need to modify UserAdmin to exlude fields
     ordering = ["email"]
-    list_display = ["email", "is_staff", "groups_", "get_provider_display"]
+    list_display = ["email", "is_staff", "is_editor", "get_provider_display"]
     fieldsets = (
         (None, {"fields": ("email", "password", "provider")}),
         (_("Personal info"), {"fields": ("name",)}),
@@ -31,8 +31,11 @@ class CustomBaseUserAdmin(BaseUserAdmin):
     )
     search_fields = ("email", "name")
 
-    def groups_(self, obj):
-        return [g.name for g in obj.groups.all()] or "-"
+    def is_editor(self, obj) -> bool:
+        return "editors" in [g.name for g in obj.groups.all()]
+
+    is_editor.boolean = True
+    is_editor.admin_order_field = "groups__name"
 
 
 # Register your models here.

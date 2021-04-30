@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.utils.text import slugify
 
 from api.community import choices
 from api.community import factories as f
@@ -26,28 +27,29 @@ class Command(BaseCommand):
             location,
             logo_url,
             cover_url,
-            hashtags,
+            hashtag_names,
         ) in seed_data:
 
-            company = models.Company.objects.filter(name=name).first()
+            slug = slugify(name)
+            company = models.Company.objects.filter(slug=slug).first()
             if company:
-                print(f"> Already exists: {name} - flush or delete to recreate")
+                print(f"> Already exists: {slug} - flush or delete to recreate")
                 continue
             else:
-                print(f"> Created: {name}")
-                company = services.create_company(
-                    profile=profile,
+                print(f"> Created: {slug}")
+                hashtags = services.get_or_create_hashtags(hashtag_names)
+                attrs = services.CompanyRevisionAttributes(
                     name=name,
                     description=description,
                     website=website,
                     location=location,
-                    twitter="",
-                    crunchbase_id="",
+                    twitter="aec_works",
+                    crunchbase_id="apple",
                     logo=None,
                     cover=None,
-                    hashtag_names=hashtags,
-                    status=choices.CompanyStatus.APPROVED.name,
+                    hashtags=hashtags,
                 )
+                company = services.create_company(created_by=profile, attrs=attrs)
 
             # Logo
             logo_file = create_image_file_from_url(logo_url)

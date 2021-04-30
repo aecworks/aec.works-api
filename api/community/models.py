@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_save
@@ -6,16 +8,32 @@ from django_extensions.db.fields import AutoSlugField
 
 from api.common.mixins import ReprMixin
 from api.common.utils import to_hashtag
-from api.community.choices import CompanyStatus, PostBanner
+from api.community.choices import ModerationStatus, PostBanner
 
 
-class CompanyBaseModel(models.Model):
+class CompanyRevision(ReprMixin, models.Model):
+    company = models.ForeignKey(
+        "Company", on_delete=models.CASCADE, related_name="revisions",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
+    )
+
+    # TODO Move to Moderation
+    approved_by = models.ForeignKey(
+        "users.Profile",
+        related_name="company_approvals",
+        on_delete=models.PROTECT,
+        null=True,
+    )
+
     name = models.CharField(blank=False, max_length=255, db_index=True)
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)
     location = models.CharField(max_length=64, default="Somewhere", db_index=True)
-    twitter = models.CharField(max_length=15, blank=True, null=True)
-    crunchbase_id = models.CharField(max_length=128, blank=True, null=True)
+    twitter = models.CharField(max_length=15, blank=True, default="")
+    crunchbase_id = models.CharField(max_length=128, blank=True, default="")
     logo = models.ForeignKey(
         "images.ImageAsset",
         related_name="+",
@@ -30,36 +48,12 @@ class CompanyBaseModel(models.Model):
         blank=True,
         null=True,
     )
-
-    class Meta:
-        abstract = True
-
-
-class CompanyRevision(ReprMixin, CompanyBaseModel):
-    # TODO: Rethink Revision model -
-    # to diff based eg. Revision.diffs = [{"field": "name", op: "delete"}]
     hashtags = models.ManyToManyField("Hashtag", related_name="+", blank=True)
-
-    company = models.ForeignKey(
-        "Company", on_delete=models.CASCADE, related_name="revisions",
-    )
-    applied = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    approved_by = models.ForeignKey(
-        "users.Profile",
-        related_name="company_approvals",
-        on_delete=models.PROTECT,
-        null=True,
-    )
-    created_by = models.ForeignKey(
-        "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
-    )
+    banner = models.CharField(max_length=32, default="", blank=True)
 
 
-class Company(ReprMixin, CompanyBaseModel):
-    hashtags = models.ManyToManyField("Hashtag", related_name="companies", blank=True)
-
-    slug = AutoSlugField(populate_from="name", db_index=True)
+class Company(ReprMixin, models.Model):
+    slug = models.SlugField(unique=True)
     clap_count = models.PositiveIntegerField(default=0, db_index=True)
     clappers = models.ManyToManyField(
         "users.Profile", related_name="clapped_companies", blank=True
@@ -77,18 +71,17 @@ class Company(ReprMixin, CompanyBaseModel):
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
-    last_revision = models.ForeignKey(
+    current_revision = models.ForeignKey(
         "CompanyRevision",
         on_delete=models.SET_NULL,
         related_name="+",
         null=True,
         blank=True,
     )
-    banner = models.CharField(max_length=32, default="", blank=True)
     status = models.CharField(
         max_length=32,
-        choices=[(c.name, c.value) for c in CompanyStatus],
-        default=CompanyStatus.APPROVED.name,
+        choices=[(c.name, c.value) for c in ModerationStatus],
+        default=ModerationStatus.UNMODERATED.name,
     )
 
     class Meta:
@@ -126,7 +119,7 @@ class Post(ReprMixin, models.Model):
     thread = models.ForeignKey(
         "Thread", related_name="+", on_delete=models.CASCADE, blank=True, null=True
     )
-    companies = models.ManyToManyField(Company, related_name="posts", blank=True)
+    # companies = models.ManyToManyField(Company, related_name="posts", blank=True)
     hashtags = models.ManyToManyField(Hashtag, related_name="posts", blank=True)
     clap_count = models.PositiveIntegerField(default=0)
     clappers = models.ManyToManyField(
@@ -172,6 +165,24 @@ class Comment(ReprMixin, models.Model):
         ordering = ["created_at"]
 
 
+class ModerationAction(ReprMixin, models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "users.Profile", related_name="moderation_actions", on_delete=models.PROTECT,
+    )
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+    # Objects Referenced in ModerationAction must have a `status` field to store `ModerationStatus`
+
+    status = models.CharField(
+        max_length=32,
+        choices=[(c.name, c.value) for c in ModerationStatus],
+        default=ModerationStatus.UNMODERATED.name,
+    )
+
+
 @receiver(post_save, sender=Company)
 @receiver(post_save, sender=Post)
 def add_thread(sender, instance, created, **kwargs):
@@ -206,3 +217,12 @@ def increment_company_clap(sender, instance, action, **kwargs):
 @receiver(pre_save, sender=Hashtag)
 def slugify_hashtag(sender, instance, **kwargs):
     instance.slug = to_hashtag(instance.slug)
+
+
+@receiver(post_save, sender=ModerationAction)
+def apply_moderation_status(sender, instance, **kwargs):
+    if hasattr(instance.content_object, "status"):
+        obj = instance.content_object
+        obj.status = instance.status
+        obj.save()
+

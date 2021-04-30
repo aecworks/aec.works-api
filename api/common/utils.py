@@ -46,7 +46,7 @@ def update_instance(instance, validated_data):
 
 def to_hashtag(text: str):
     """ Only leters, no symbols but allows case """
-    return "".join([c for c in text if c in string.ascii_letters])
+    return "".join([c for c in text if c in string.ascii_letters + string.digits])
 
 
 def get_og_data(url: str):

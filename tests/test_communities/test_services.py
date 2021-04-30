@@ -105,10 +105,9 @@ class TestServices:
 
         services.apply_revision(revision=revision, profile=profile)
 
-        assert company.last_revision == revision
+        assert company.current_revision == revision
         assert revision.company == company
         assert revision.approved_by == profile
-        assert revision.applied is True
         assert set([h.slug for h in company.hashtags.all()]) == set(["a", "c"])
 
     def test_create_comment(self):
@@ -137,11 +136,14 @@ class TestServices:
         assert services.can_create_company(profile2)
 
         factories.CompanyFactory(
-            created_by=profile2, status=choices.CompanyStatus.SUBMITTED.name
+            created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
         )
         assert services.can_create_company(profile2)
 
         factories.CompanyFactory(
-            created_by=profile2, status=choices.CompanyStatus.SUBMITTED.name
+            created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
+        )
+        factories.CompanyFactory(
+            created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
         )
         assert not services.can_create_company(profile2)

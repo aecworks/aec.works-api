@@ -7,10 +7,16 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Company
 
-    name = factory.Faker("company")
-    # slug - use signal
-    description = factory.Faker("paragraph", nb_sentences=2)
+    slug = factory.Faker("company")
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    current_revision = factory.SubFactory(
+        "api.community.factories.CompanyRevisionFactory"
+    )
+
+
+class CompanyRevisionFactory(factory.django.DjangoModelFactory):
+    name = factory.Faker("company")
+    description = factory.Faker("paragraph", nb_sentences=2)
 
     website = factory.Faker("url")
     twitter = factory.LazyAttribute(lambda o: o.name.lower().replace(" ", "")[:14])
@@ -18,24 +24,15 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
     logo = factory.SubFactory("api.images.factories.ImageAssetFactory")
     cover = factory.SubFactory("api.images.factories.ImageAssetFactory")
-    # clappers
-    # thread
-    # created_at
-    # c
-    # replaced_by
-    # approved_by
+
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+
+    class Meta:
+        model = models.CompanyRevision
 
     @factory.post_generation
     def post(obj, *args, **kwargs):
         obj.hashtags.add(HashtagFactory())
-
-
-class CompanyRevisionFactory(factory.django.DjangoModelFactory):
-    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
-    applied = False
-
-    class Meta:
-        model = models.CompanyRevision
 
 
 class HashtagFactory(factory.django.DjangoModelFactory):

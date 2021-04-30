@@ -50,22 +50,22 @@ class CompanyAdmin(admin.ModelAdmin):
     search_fields = ("name", "description")
     list_display = [
         "id",
-        "name",
-        "descrition_start",
-        "website",
-        "twitter",
-        "crunchbase_id",
-        "last_revision",
-        "logo",
-        "cover",
+        # "name",
+        # "descrition_start",
+        # "website",
+        # "twitter",
+        # "crunchbase_id",
+        "current_revision",
+        # "logo",
+        # "cover",
         "created_by",
         admin_linkify(field_name="thread"),
     ]
-    raw_id_fields = ["logo", "cover"]
+    # raw_id_fields = ["logo", "cover"]
     readonly_fields = ["thread"]
 
-    def descrition_start(self, obj):
-        return f"{obj.description[:10]}..."
+    # def descrition_start(self, obj):
+    # return f"{obj.description[:10]}..."
 
 
 @admin.register(models.CompanyRevision)
@@ -78,7 +78,6 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         "twitter",
         "crunchbase_id",
         "created_by",
-        "applied",
         "approved_by",
         "logo",
         "cover",

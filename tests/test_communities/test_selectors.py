@@ -14,7 +14,7 @@ class TestSelectors:
         company_2 = factories.CompanyFactory(name="B")
         company_2.hashtags.set([h_2])
         company_3 = factories.CompanyFactory(
-            name="C", status=choices.CompanyStatus.REJECTED.name
+            name="C", status=choices.ModerationStatus.REJECTED.name
         )
 
         qs = selectors.get_companies()
@@ -28,7 +28,7 @@ class TestSelectors:
         assert rv.first().slug == company_2.slug
 
         rv = selectors.filter_companies(
-            qs, None, None, choices.CompanyStatus.REJECTED.name
+            qs, None, None, choices.ModerationStatus.REJECTED.name
         )
         assert rv.count() == 1
         assert rv.first().slug == company_3.slug

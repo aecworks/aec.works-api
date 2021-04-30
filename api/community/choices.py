@@ -5,7 +5,8 @@ class PostBanner(Enum):
     FIRST_POST = "First Post"
 
 
-class CompanyStatus(Enum):
-    SUBMITTED = "Submitted"
-    APPROVED = "Approved"
+class ModerationStatus(Enum):
+    UNMODERATED = "Unmoderated"
     REJECTED = "Rejected"
+    REVIEWED = "Reviewed"
+    FLAGGED = "Flagged"

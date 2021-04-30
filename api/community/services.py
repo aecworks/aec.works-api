@@ -1,14 +1,15 @@
 import logging
 from datetime import timedelta
 from math import log
-from typing import List, Tuple
+from typing import List, NamedTuple, Optional, Tuple
 
 from bs4 import BeautifulSoup
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.utils.text import slugify
 
 from api.common.utils import get_og_data, to_hashtag, update_instance
-from api.community.choices import CompanyStatus, PostBanner
+from api.community.choices import ModerationStatus, PostBanner
 from api.images.models import ImageAsset
 from api.images.services import create_image_asset, create_image_file_from_data_uri
 from api.users.models import Profile
@@ -29,6 +30,30 @@ updatable_attributes = [
     "cover",
     "hashtags",
 ]
+
+
+class CompanyRevisionAttributes(NamedTuple):
+    name: str
+    description: str
+    website: str
+    location: str
+    twitter: str
+    crunchbase_id: str
+    logo: Optional[str]
+    cover: Optional[str]
+    hashtags: List[Hashtag]
+
+
+class CompanyAttributes(NamedTuple):
+    name: str
+    description: str
+    website: str
+    location: str
+    twitter: str
+    crunchbase_id: str
+    status: str
+    logo: Optional[str]
+    cover: Optional[str]
 
 
 def bump_hot_datetime(post, clap_count):
@@ -135,50 +160,18 @@ def update_post(*, profile, slug: str, title: str, body: str, hashtag_names: Lis
 
 
 @transaction.atomic
-def create_company(
-    *,
-    profile: Profile,
-    name: str,
-    description: str,
-    website: str,
-    twitter: str,
-    location: str,
-    crunchbase_id: str,
-    logo: int,
-    cover: int,
-    hashtag_names: List[str],
-    status: str,
-) -> Company:
-    hashtags = get_or_create_hashtags(hashtag_names)
-    company = Company.objects.create(
-        created_by=profile,
-        name=name,
-        description=description,
-        website=website,
-        twitter=twitter,
-        location=location,
-        crunchbase_id=crunchbase_id,
-        logo=logo,
-        cover=cover,
-        status=status,
-    )
-    company.hashtags.set(hashtags)
+def create_company(*, created_by: Profile, attrs: CompanyRevisionAttributes) -> Company:
+    kwargs = attrs._asdict()
+    slug = slugify(attrs.name)
+    hashtags = kwargs.pop("hashtags")
+    company = Company.objects.create(created_by=created_by, slug=slug)
 
     # Apply First Revision so we have an easy way to revert back
     revision = CompanyRevision.objects.create(
-        company=company,
-        created_by=profile,
-        name=name,
-        description=description,
-        website=website,
-        twitter=twitter,
-        location=location,
-        crunchbase_id=crunchbase_id,
-        logo=logo,
-        cover=cover,
+        company=company, created_by=created_by, **kwargs
     )
     revision.hashtags.set(hashtags)
-    apply_revision(revision=revision, profile=profile)
+    apply_revision(revision=revision, profile=created_by)
 
     return company
 
@@ -196,12 +189,8 @@ def create_revision(*, company, profile, validated_data) -> CompanyRevision:
 
 @transaction.atomic
 def apply_revision(*, revision, profile):
-    update_data = {attr: getattr(revision, attr) for attr in updatable_attributes}
-    update_data["last_revision"] = revision
-    update_instance(revision.company, update_data)
-
+    revision.company.current_revision = revision
     revision.approved_by = profile
-    revision.applied = True
     revision.save()
 
 
@@ -210,9 +199,9 @@ def can_create_company(profile: Profile) -> bool:
         return True
 
     pending_submissions = Company.objects.filter(
-        created_by=profile, status=CompanyStatus.SUBMITTED.name
+        created_by=profile, status=ModerationStatus.UNMODERATED.name
     )
-    return pending_submissions.count() <= 1
+    return pending_submissions.count() <= 2
 
 
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:

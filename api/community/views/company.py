@@ -12,46 +12,19 @@ from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
 from .. import annotations, caching, choices, exceptions, models, selectors, services
+from .company_articles import ResponseArticleSerializer
+from .company_revisions import CompanyRevisionSerializer
 
 logger = logging.getLogger(__name__)
 
 
-class RequestArticleSerializer(serializers.Serializer):
-    url = serializers.CharField(required=True)
-
-
-class ResponseArticleSerializer(serializers.Serializer):
-    url = serializers.CharField(required=True)
-    opengraph_data = serializers.JSONField()
-
-
-class RequestCompanyModerateSerializer(serializers.Serializer):
-    status = serializers.ChoiceField(choices=[c.name for c in choices.CompanyStatus])
-
-
 class ResponseCompanySerializer(serializers.ModelSerializer):
-    hashtags = serializers.SlugRelatedField(
-        many=True, read_only=True, slug_field="slug"
-    )
+
     thread_size = serializers.IntegerField(source="thread.size")
-    clap_count = serializers.IntegerField()
     user_did_clap = serializers.BooleanField(default=False)
+
     articles = ResponseArticleSerializer(many=True)
-    cover_url = serializers.SerializerMethodField()
-    logo_url = serializers.SerializerMethodField()
-    status = serializers.CharField()
-
-    def get_cover_url(self, obj):
-        try:
-            return obj.cover.file.crop["800x400"].url if obj.cover else None
-        except KeyError:
-            logger.error(f"failed to cover image for: {obj}")
-
-    def get_logo_url(self, obj):
-        try:
-            return obj.logo.file.crop["80x80"].url if obj.logo else None
-        except KeyError:
-            logger.error(f"failed to logo image for: {obj}")
+    current_revision = CompanyRevisionSerializer()
 
     class Meta:
         model = models.Company
@@ -60,16 +33,12 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "thread_id",
             "created_at",
             "clap_count",
-            "user_did_clap",
-            "thread_size",
-            "last_revision_id",
+            "current_revision",
             "articles",
-            "logo_url",
-            "cover_url",
-            "banner",
             "updated_at",
             "status",
-            *services.updatable_attributes,
+            "thread_size",
+            "user_did_clap",
         ]
 
 
@@ -81,65 +50,8 @@ class ResponseCompanyDetailSerializer(ResponseCompanySerializer):
         fields = ["created_by"] + ResponseCompanySerializer.Meta.fields
 
 
-class ResponseCompanyRevisionSerializer(serializers.ModelSerializer):
-    hashtags = serializers.SlugRelatedField(
-        many=True, read_only=True, slug_field="slug"
-    )
-    company = serializers.SlugRelatedField(slug_field="slug", read_only=True)
-    approved_by = ProfileSerializer()
-    created_by = ProfileSerializer()
-    cover_url = serializers.SerializerMethodField()
-    logo_url = serializers.SerializerMethodField()
-
-    def get_cover_url(self, obj):
-        try:
-            return obj.cover.file.crop["800x400"].url if obj.cover else None
-        except KeyError:
-            logger.error(f"failed to cover image for: {obj}")
-
-    def get_logo_url(self, obj):
-        try:
-            return obj.logo.file.crop["80x80"].url if obj.logo else None
-        except KeyError:
-            logger.error(f"failed to logo image for: {obj}")
-
-    class Meta:
-        model = models.CompanyRevision
-        fields = [
-            "id",
-            "applied",
-            "approved_by",
-            "created_by",
-            "created_at",
-            "company",
-            "logo_url",
-            "cover_url",
-            *services.updatable_attributes,
-        ]
-
-
-class RequestCompanySerializer(serializers.ModelSerializer):
-    hashtags = serializers.ListField(child=serializers.CharField(min_length=1))
-
-    class Meta:
-        model = models.Company
-        fields = [
-            "name",
-            "description",
-            "website",
-            "twitter",
-            "location",
-            "crunchbase_id",
-            "hashtags",
-            "logo",
-            "cover",
-        ]
-
-
-class RequestCompanyRevisionSerializer(RequestCompanySerializer):
-    class Meta:
-        model = models.CompanyRevision
-        fields = RequestCompanySerializer.Meta.fields
+class RequestCompanySerializer(serializers.Serializer):
+    current_revision = CompanyRevisionSerializer()
 
 
 class CompanyDetailView(
@@ -186,7 +98,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
         q_search = self.request.query_params.get("search")
         q_status = self.request.query_params.get(
-            "status", choices.CompanyStatus.APPROVED.name
+            "status", choices.ModerationStatus.REVIEWED.name
         )
         q_hashtags = self.request.query_params.get("hashtags")
         hashtag_names = services.parse_hashtag_query(q_hashtags)
@@ -227,122 +139,13 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         serializer = RequestCompanySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        company = services.create_company(
-            profile=profile,
-            name=serializer.validated_data["name"],
-            description=serializer.validated_data["description"],
-            website=serializer.validated_data["website"],
-            location=serializer.validated_data["location"],
-            twitter=serializer.validated_data.get("twitter", ""),
-            crunchbase_id=serializer.validated_data.get("crunchbase_id", ""),
-            logo=serializer.validated_data.get("logo", None),
-            cover=serializer.validated_data.get("cover", None),
-            hashtag_names=serializer.validated_data.get("hashtags", []),
-            status=choices.CompanyStatus.SUBMITTED.name,
-        )
-        return Response(ResponseCompanySerializer(company).data)
+        raise NotImplementedError("refactoring")
+        # hashtag_names = serializer.validated_data.pop("hashtags")
+        # attributes = services.CompanyAttributes(
+        #     status=choices.CompanyStatus.SUBMITTED.name, **serializer.validated_data
+        # )
+        # company = services.create_company(
+        #     profile=profile, attributes=attributes, hashtag_names=hashtag_names
+        # )
+        # return Response(ResponseCompanySerializer(company).data)
 
-
-class CompanyRevisionListView(
-    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView
-):
-    serializer_class = None
-    queryset = selectors.get_companies()
-    lookup_field = "slug"
-    permission_classes = [IsEditorPermission | IsReadOnly]
-    expected_exceptions = {}
-
-    def get(self, request, slug):
-        company = self.get_object()
-        return Response(
-            ResponseCompanyRevisionSerializer(
-                company.revisions.all().order_by("-created_at"), many=True
-            ).data
-        )
-
-    def post(self, request, slug):
-        """ Creates New Company Revision """
-        serializer = RequestCompanyRevisionSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        company = self.get_object()
-        revision = services.create_revision(
-            company=company,
-            profile=request.user.profile,
-            validated_data=serializer.validated_data,
-        )
-        return Response(ResponseCompanyRevisionSerializer(revision).data)
-
-
-class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
-    serializer_class = ResponseCompanySerializer
-    queryset = selectors.get_revisions()
-    expected_exceptions = {}
-    lookup_field = "id"
-    permission_classes = [IsEditorPermission | IsReadOnly]
-
-    def post(self, request, id, action):
-        if action == "approve":  # approve
-            revision = self.get_object()
-            services.apply_revision(revision=revision, profile=request.user.profile)
-            return Response(ResponseCompanyRevisionSerializer(revision).data)
-        else:
-            return Response(status=404)
-
-
-class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
-    queryset = selectors.get_companies(prefetch=False)
-    lookup_field = "slug"
-    expected_exceptions = {}
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request, slug):
-        """ Adds User as Clapper of Company """
-        company = self.get_object()
-        profile = request.user.profile
-        result = services.company_clap(company=company, profile=profile)
-        return Response(result)
-
-
-class CompanyModerateView(ErrorsMixin, generics.GenericAPIView):
-    queryset = selectors.get_companies(prefetch=False)
-    lookup_field = "slug"
-    expected_exceptions = {}
-    permission_classes = [IsEditorPermission | IsReadOnly]
-    serializer_class = None
-
-    def post(self, request, slug):
-        """ Moderates View"""
-
-        serializer = RequestCompanyModerateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        status = serializer.validated_data["status"]
-
-        company = self.get_object()
-        profile = request.user.profile
-
-        company = services.moderate_company(
-            company=company, profile=profile, status=status
-        )
-        return Response(ResponseCompanyDetailSerializer(company).data)
-
-
-class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):
-    queryset = selectors.get_companies()
-    lookup_field = "slug"
-    expected_exceptions = {}
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request, slug):
-        """ Adds article to a company """
-        serializer = RequestArticleSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        company = self.get_object()
-        profile = request.user.profile
-        url = serializer.validated_data["url"]
-
-        article = services.create_company_article(
-            company=company, url=url, profile=profile
-        )
-
-        return Response(ResponseArticleSerializer(article).data)
