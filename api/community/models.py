@@ -48,7 +48,7 @@ class CompanyRevision(ReprMixin, models.Model):
         blank=True,
         null=True,
     )
-    hashtags = models.ManyToManyField("Hashtag", related_name="+", blank=True)
+    hashtags = models.ManyToManyField("Hashtag", related_name="revisions", blank=True)
     banner = models.CharField(max_length=32, default="", blank=True)
 
 

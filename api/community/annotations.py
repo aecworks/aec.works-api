@@ -1,6 +1,7 @@
 from django.db import models as m
 
-from .models import Comment, Company
+from . import choices
+from .models import Comment, Company, CompanyRevision
 
 
 def annotate_company_claps(qs, profile_id=-1):
@@ -29,4 +30,11 @@ def annotate_comment_claps(qs, profile_id=-1):
 
 
 def annotate_company_count(qs):
-    return qs.annotate(company_count=m.Count("companies", distinct=True),)
+    # TODO verify this is correct
+    return qs.annotate(
+        company_count=m.Count(
+            "revisions",
+            distinct=True,
+            filter=m.Q(revisions__company__current_revision=m.F("id")),
+        ),
+    )
