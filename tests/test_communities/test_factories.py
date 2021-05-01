@@ -23,6 +23,8 @@ class TestFactories:
         rev = f.CompanyRevisionFactory(company=co, name="ABC")
         assert co.slug == "Name"
         assert rev.name == "ABC"
+        assert co.current_revision is None
+        assert rev in co.revisions.all()
 
     def test_comment_factory(self):
         profile = ProfileFactory()
