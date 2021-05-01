@@ -20,6 +20,7 @@ class CompanyRevision(ReprMixin, models.Model):
         "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
     )
 
+    # TODO add previous ?
     # TODO Move to Moderation
     approved_by = models.ForeignKey(
         "users.Profile",
@@ -71,14 +72,14 @@ class Company(ReprMixin, models.Model):
     created_by = models.ForeignKey(
         "users.Profile", related_name="additions", on_delete=models.PROTECT,
     )
-    # TODO make it
-    current_revision = models.ForeignKey(
+    current_revision = models.OneToOneField(
         "CompanyRevision",
         on_delete=models.PROTECT,
         related_name="+",
         null=True,
         blank=True,
     )
+
     status = models.CharField(
         max_length=32,
         choices=[(c.name, c.value) for c in ModerationStatus],

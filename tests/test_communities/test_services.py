@@ -44,7 +44,7 @@ class TestServices:
         profile = ProfileFactory()
         hashtags = [h_a, h_b]
         company = factories.CompanyFactory()
-        company.hashtags.set(hashtags)
+        company.current_revision.hashtags.set(hashtags)
 
         revision = factories.CompanyRevisionFactory(company=company)
         new_hahstags = [h_a, h_c]
@@ -55,7 +55,9 @@ class TestServices:
         assert company.current_revision == revision
         assert revision.company == company
         assert revision.approved_by == profile
-        assert set([h.slug for h in company.hashtags.all()]) == set(["a", "c"])
+        assert set([h.slug for h in company.current_revision.hashtags.all()]) == set(
+            ["a", "c"]
+        )
 
     def test_create_comment(self):
         profile = ProfileFactory()

@@ -7,16 +7,28 @@ from . import choices, models
 
 
 class CompanyFactory(factory.django.DjangoModelFactory):
+    """
+    Usage:
+
+        >>> hashtag = f.HashtagFactory(slug="XXX")
+        >>> c = f.CompanyFactory(
+                current_revision__twitter="XXX",
+                current_revision__hashtags=[hashtag]
+            )
+    """
 
     slug = factory.LazyAttribute(lambda o: slugify(Faker().company()))
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
     status = choices.ModerationStatus.REVIEWED.name
-    current_revision = None
 
     @factory.post_generation
-    def post(obj, *args, **kwargs):
-        obj.current_revision = CompanyRevisionFactory(company=obj)
-        obj.save()
+    def current_revision(obj, created, extracted, **current_revision_kwargs):
+        # Only creates revision if at least one arg is provided
+        if current_revision_kwargs:
+            obj.current_revision = CompanyRevisionFactory(
+                company=obj, **current_revision_kwargs
+            )
+            obj.save()
 
     class Meta:
         model = models.Company
@@ -27,7 +39,6 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
 class CompanyRevisionFactory(factory.django.DjangoModelFactory):
 
-    company = factory.SubFactory("api.community.factories.CompanyFactory",)
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
 
     name = factory.LazyAttribute(lambda o: o.company.slug.title().replace("-", " "))
@@ -40,12 +51,15 @@ class CompanyRevisionFactory(factory.django.DjangoModelFactory):
     logo = factory.SubFactory("api.images.factories.ImageAssetFactory")
     cover = factory.SubFactory("api.images.factories.ImageAssetFactory")
 
+    hashtags = []
+
     class Meta:
         model = models.CompanyRevision
 
     @factory.post_generation
-    def post(obj, *args, **kwargs):
-        obj.hashtags.add(HashtagFactory())
+    def hashtags(obj, created, extracted, **kwargs):
+        if extracted:
+            obj.hashtags.set(extracted)
 
 
 class HashtagFactory(factory.django.DjangoModelFactory):
@@ -57,6 +71,11 @@ class HashtagFactory(factory.django.DjangoModelFactory):
 
 
 class ThreadFactory(factory.django.DjangoModelFactory):
+
+    comments = factory.RelatedFactory(
+        "api.community.factories.CommentFactory", factory_related_name="thread"
+    )
+
     class Meta:
         model = models.Thread
 
@@ -67,3 +86,4 @@ class CommentFactory(factory.django.DjangoModelFactory):
 
     text = factory.Faker("paragraph")
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
+    thread = factory.SubFactory("api.community.factories.ThreadFactory")
