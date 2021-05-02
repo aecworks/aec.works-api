@@ -121,14 +121,13 @@ def create_company(*, created_by: Profile, revision_kwargs) -> Company:
 
     if user_is_editor(created_by.user):
         moderate_company(
-            profile=created_by, company=company, status=ModerationStatus.REVIEWED.name
+            profile=created_by, company=company, status=ModerationStatus.APPROVED.name
         )
         moderate_revision(
             profile=created_by,
             revision=company.current_revision,
-            status=ModerationStatus.REVIEWED.name,
+            status=ModerationStatus.APPROVED.name,
         )
-
     return company
 
 
@@ -168,6 +167,8 @@ def moderate_company(*, profile: Profile, company: Company, status: str) -> Comp
         object_id=company.id,
         status=status,
     )
+    if rev := company.current_revision:
+        moderate_revision(profile=profile, revision=rev, status=status)
 
     return company
 
@@ -179,13 +180,24 @@ def moderate_revision(
     revision_type = ContentType.objects.get(
         app_label="community", model="companyrevision"
     )
-
     return ModerationAction.objects.create(
         created_by=profile,
         content_type=revision_type,
         object_id=revision.id,
         status=status,
     )
+
+
+def apply_revision(*, profile: Profile, revision: CompanyRevision,) -> CompanyRevision:
+    company = revision.company
+    company.current_revision = revision
+    company.save()
+    moderate_revision(
+        profile=profile,
+        revision=company.current_revision,
+        status=ModerationStatus.APPLIED.name,
+    )
+    return revision
 
 
 def create_company_article(*, company, url, profile) -> Article:

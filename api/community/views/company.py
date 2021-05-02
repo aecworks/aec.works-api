@@ -97,7 +97,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
         q_search = self.request.query_params.get("search")
         q_status = self.request.query_params.get(
-            "status", choices.ModerationStatus.REVIEWED.name
+            "status", choices.ModerationStatus.APPROVED.name
         )
         q_hashtags = self.request.query_params.get("hashtags")
         hashtag_names = services.parse_hashtag_query(q_hashtags)
@@ -131,9 +131,6 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         """ Creates New Company """
 
         profile = request.user.profile
-
-        if not services.can_create_company(profile):
-            raise exceptions.TooManyPendingReviewsError()
 
         if not services.can_create_company(profile):
             raise exceptions.TooManyPendingReviewsError()

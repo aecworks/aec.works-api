@@ -10,5 +10,6 @@ class Banners(Enum):
 class ModerationStatus(Enum):
     UNMODERATED = "Unmoderated"
     REJECTED = "Rejected"
-    REVIEWED = "Reviewed"
+    APPROVED = "Approved"
     FLAGGED = "Flagged"
+    APPLIED = "Applied"

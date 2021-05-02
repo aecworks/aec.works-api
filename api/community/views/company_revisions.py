@@ -53,7 +53,7 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
     class Meta:
         model = models.CompanyRevision
         fields = RequestCompanyRevisionSerializer.Meta.fields + [
-            # TODO remove cover, logo ints?
+            # TODO remove cover, logo ints
             "id",
             "created_by",
             "created_at",
@@ -108,3 +108,21 @@ class CompanyRevisionListView(
             company=company, created_by=profile, attrs=attrs
         )
         return Response(ResponseCompanyRevisionSerializer(revision).data)
+
+
+class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_revisions()
+    lookup_field = "slug"
+    expected_exceptions = {}
+    permission_classes = [IsEditorPermission | IsReadOnly]
+    serializer_class = None
+
+    def post(self, request, slug):
+        """ Sets Revision """
+
+        revision = self.get_object()
+        profile = request.user.profile
+
+        revision = services.apply_revision(profile=profile, revision=revision)
+
+        return Response(ResponseDetailCompanyRevisionSerializer(revision).data)
