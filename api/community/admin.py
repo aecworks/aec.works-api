@@ -57,6 +57,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "id",
         admin_related("current_revision", "name"),
         "descrition_start",
+        "status",
         admin_related("current_revision", "website"),
         admin_related("current_revision", "twitter"),
         admin_related("current_revision", "crunchbase_id"),
@@ -90,6 +91,7 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
+        "status",
         "description",
         "website",
         "twitter",
@@ -106,12 +108,20 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         return qs
 
 
+class CompanyRevisionInline(admin.TabularInline):
+    model = models.CompanyRevision.hashtags.through
+
+
 @admin.register(models.Hashtag)
 class HashtagAdmin(admin.ModelAdmin):
+    list_filter = ["revisions__company"]
     list_display = ["slug", "company_names"]
+    inlines = [
+        CompanyRevisionInline,
+    ]
 
     def company_names(self, obj):
-        return set([c.name for c in obj.revisions.all()])
+        return ", ".join(set([c.name for c in obj.revisions.all()]))
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -121,7 +131,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
 @admin.register(models.ModerationAction)
 class ModerationActionAdmin(admin.ModelAdmin):
-    search_fields = ("content_object", "created_by", "status")
+    list_filter = ("content_object", "created_by", "status")
     list_display = [
         "id",
         "content_type",
@@ -135,4 +145,23 @@ class ModerationActionAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         qs = qs.select_related("created_by__user").prefetch_related("content_object")
+        return qs
+
+
+@admin.register(models.CompanyRevisionHistory)
+class CompanyRevisionHistoryAdmin(admin.ModelAdmin):
+    list_filter = ("created_by", "revision")
+    list_display = [
+        "id",
+        "created_at",
+        admin_linkify("created_by"),
+        admin_linkify("revision"),
+        admin_linkify("revision.company"),
+    ]
+
+    readonly_fields = ["created_by", "revision", "created_at"]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.select_related("created_by__user", "revision__company")
         return qs

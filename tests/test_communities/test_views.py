@@ -2,12 +2,13 @@
 
 import pytest
 
+from api.community import choices
 from api.community import factories as f
 from api.images.factories import ImageAssetFactory
 
 
 @pytest.mark.django_db
-class TestViews:
+class TestCommunityViews:
     @pytest.mark.parametrize(
         "path,param_factory",
         [
@@ -31,9 +32,10 @@ class TestViews:
         a = f.HashtagFactory(slug="a")
         b = f.HashtagFactory(slug="b")
         c = f.HashtagFactory(slug="c")
-        f.CompanyFactory(current_revision__hashtags=[a])
-        f.CompanyFactory(current_revision__hashtags=[a, b])
-        f.CompanyFactory(current_revision__hashtags=[a, b, c])
+        status = choices.ModerationStatus.APPROVED.name
+        f.CompanyFactory(status=status, current_revision__hashtags=[a])
+        f.CompanyFactory(status=status, current_revision__hashtags=[a, b])
+        f.CompanyFactory(status=status, current_revision__hashtags=[a, b, c])
 
         resp = auth_client.get("/community/companies/?hashtags=a")
         assert resp.json()["count"] == 3
@@ -112,6 +114,20 @@ class TestViews:
         assert resp.status_code == 200
         assert company.status == "REJECTED"
 
+    def test_company_revision_moderate(self, auth_client):
+        company = f.CompanyFactory(current_revision__status="UNMODERATED")
+        rev = company.current_revision
+        assert rev.status == "UNMODERATED"
+        url = f"/community/revisions/{rev.id}/moderate"
+
+        payload = {"status": "REJECTED"}
+        resp = auth_client.post(url, payload, format="json")
+
+        rev.refresh_from_db()
+
+        assert resp.status_code == 200
+        assert rev.status == "REJECTED"
+
     def test_company_clap(self, auth_client):
         company = f.CompanyFactory()
         url = f"/community/companies/{company.slug}/clap"
@@ -131,7 +147,9 @@ class TestViews:
     def test_company_list_sorting(self, client):
         for name, location in zip("cab", "yxz"):
             f.CompanyFactory(
-                current_revision__name=name, current_revision__location=location,
+                status=choices.ModerationStatus.APPROVED.name,
+                current_revision__name=name,
+                current_revision__location=location,
             )
 
         url = "/community/companies/?sort=name"

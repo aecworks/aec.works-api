@@ -145,6 +145,19 @@ class ModerationAction(ReprMixin, models.Model):
     )
 
 
+class CompanyRevisionHistory(ReprMixin, models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "users.Profile", related_name="revision_history", on_delete=models.PROTECT,
+    )
+    revision = models.ForeignKey(
+        "CompanyRevision", on_delete=models.CASCADE, related_name="history",
+    )
+
+    class Meta:
+        verbose_name_plural = "company revisions history"
+
+
 @receiver(post_save, sender=Company)
 def add_thread(sender, instance, created, **kwargs):
     if not instance.thread:

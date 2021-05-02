@@ -1,4 +1,5 @@
 import logging
+import operator
 import string
 
 import requests
@@ -106,7 +107,7 @@ def admin_linkify(field_name):
     """
 
     def _linkify(obj):
-        linked_obj = getattr(obj, field_name)
+        linked_obj = operator.attrgetter(field_name)(obj)
         if linked_obj is None:
             return "-"
         app_label = linked_obj._meta.app_label

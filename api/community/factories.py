@@ -19,7 +19,7 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
     slug = factory.LazyAttribute(lambda o: slugify(Faker().company()))
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
-    status = choices.ModerationStatus.APPROVED.name
+    status = choices.ModerationStatus.UNMODERATED.name
 
     @factory.post_generation
     def current_revision(obj, created, extracted, **current_revision_kwargs):

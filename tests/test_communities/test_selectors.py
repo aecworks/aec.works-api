@@ -4,7 +4,7 @@ from api.community import choices, factories, selectors
 
 
 @pytest.mark.django_db
-class TestSelectors:
+class TestCommunitySelectors:
     def test_filter_company_hashtags(self):
         h_1 = factories.HashtagFactory(slug="a")
         h_2 = factories.HashtagFactory(slug="b")

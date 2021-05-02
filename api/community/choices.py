@@ -12,4 +12,3 @@ class ModerationStatus(Enum):
     REJECTED = "Rejected"
     APPROVED = "Approved"
     FLAGGED = "Flagged"
-    APPLIED = "Applied"

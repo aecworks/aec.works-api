@@ -64,11 +64,26 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
 
 class ResponseDetailCompanyRevisionSerializer(ResponseCompanyRevisionSerializer):
     created_by = ProfileSerializer(read_only=True)
+    status = serializers.CharField()
 
     class Meta:
         model = models.CompanyRevision
-        fields = RequestCompanyRevisionSerializer.Meta.fields + [
+        fields = ResponseCompanyRevisionSerializer.Meta.fields + [
             "created_by",
+            "status",
+        ]
+
+
+class ResponseRevisionHistory(serializers.ModelSerializer):
+    created_by = ProfileSerializer(read_only=True)
+    revision = ResponseDetailCompanyRevisionSerializer()
+
+    class Meta:
+        model = models.CompanyRevisionHistory
+        fields = [
+            "created_at",
+            "created_by",
+            "revision",
         ]
 
 
@@ -116,6 +131,6 @@ class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
         revision = self.get_object()
         profile = request.user.profile
 
-        revision = services.apply_revision(profile=profile, revision=revision)
+        history = services.apply_revision(profile=profile, revision=revision)
 
-        return Response(ResponseDetailCompanyRevisionSerializer(revision).data)
+        return Response(ResponseRevisionHistory(history).data)

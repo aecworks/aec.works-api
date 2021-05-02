@@ -42,12 +42,12 @@ class CompanyModerateView(ErrorsMixin, generics.GenericAPIView):
 
 class CompanyRevisionModerateView(ErrorsMixin, generics.GenericAPIView):
     queryset = selectors.get_revisions()
-    lookup_field = "slug"
+    lookup_field = "id"
     expected_exceptions = {}
     permission_classes = [IsEditorPermission | IsReadOnly]
     serializer_class = None
 
-    def post(self, request, slug):
+    def post(self, request, id):
         """ Moderates View"""
 
         serializer = ModerationSerializer(data=request.data)

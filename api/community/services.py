@@ -20,6 +20,7 @@ from .models import (
     Comment,
     Company,
     CompanyRevision,
+    CompanyRevisionHistory,
     Hashtag,
     ModerationAction,
 )
@@ -128,6 +129,8 @@ def create_company(*, created_by: Profile, **revision_kwargs) -> Company:
             revision=company.current_revision,
             status=ModerationStatus.APPROVED.name,
         )
+
+    company.refresh_from_db()
     return company
 
 
@@ -162,6 +165,7 @@ def can_create_company(profile: Profile) -> bool:
     return pending_submissions.count() <= 2
 
 
+@transaction.atomic
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:
 
     company_type = ContentType.objects.get(app_label="community", model="company")
@@ -174,6 +178,7 @@ def moderate_company(*, profile: Profile, company: Company, status: str) -> Comp
     if rev := company.current_revision:
         moderate_revision(profile=profile, revision=rev, status=status)
 
+    company.refresh_from_db()
     return company
 
 
@@ -184,24 +189,26 @@ def moderate_revision(
     revision_type = ContentType.objects.get(
         app_label="community", model="companyrevision"
     )
-    return ModerationAction.objects.create(
+
+    ModerationAction.objects.create(
         created_by=profile,
         content_type=revision_type,
         object_id=revision.id,
         status=status,
     )
 
+    revision.refresh_from_db()
+    return revision
 
-def apply_revision(*, profile: Profile, revision: CompanyRevision,) -> CompanyRevision:
+
+@transaction.atomic
+def apply_revision(
+    *, profile: Profile, revision: CompanyRevision,
+) -> CompanyRevisionHistory:
     company = revision.company
     company.current_revision = revision
     company.save()
-    moderate_revision(
-        profile=profile,
-        revision=company.current_revision,
-        status=ModerationStatus.APPLIED.name,
-    )
-    return revision
+    return CompanyRevisionHistory.objects.create(created_by=profile, revision=revision)
 
 
 def create_company_article(*, company, url, profile) -> Article:
@@ -215,6 +222,9 @@ def create_company_article(*, company, url, profile) -> Article:
 
 
 def parse_hashtag_query(query: str):
+    """
+    given hashtags_query=a,b,c -> ["a", "b", "c"]
+    """
     if not query:
         return []
     return query.split(",")
