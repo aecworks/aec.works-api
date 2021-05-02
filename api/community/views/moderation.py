@@ -47,6 +47,9 @@ class CompanyRevisionModerateView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [IsEditorPermission | IsReadOnly]
     serializer_class = None
 
+    def get(self, id):
+        raise NotImplementedError("TODO")
+
     def post(self, request, id):
         """ Moderates View"""
 

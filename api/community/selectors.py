@@ -38,7 +38,7 @@ def get_companies(prefetch=True):
             "current_revision__cover",
             "current_revision__created_by__avatar",
             "current_revision__created_by__user",
-        ).prefetch_related("current_revision__hashtags", "articles")
+        ).prefetch_related("current_revision__hashtags")
     return qs
 
 

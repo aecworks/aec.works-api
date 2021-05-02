@@ -18,7 +18,6 @@ class RequestCompanyRevisionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CompanyRevision
         fields = [
-            # CompanyAttributes
             "name",
             "description",
             "website",
@@ -52,14 +51,12 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
 
     class Meta:
         model = models.CompanyRevision
-        fields = RequestCompanyRevisionSerializer.Meta.fields + [
-            # TODO remove cover, logo ints
-            "id",
-            "created_by",
-            "created_at",
-            "logo_url",
-            "cover_url",
+        fields = ["id", "created_by", "created_at", "logo_url", "cover_url"] + [
+            f
+            for f in RequestCompanyRevisionSerializer.Meta.fields
+            if f not in ["logo", "cover"]
         ]
+        # TODO remove cover, logo ints
 
 
 class ResponseDetailCompanyRevisionSerializer(ResponseCompanyRevisionSerializer):
@@ -99,7 +96,7 @@ class CompanyRevisionListView(
     def get(self, request, slug):
         company = self.get_object()
         return Response(
-            ResponseCompanyRevisionSerializer(
+            ResponseDetailCompanyRevisionSerializer(
                 company.revisions.all().order_by("-created_at"), many=True
             ).data
         )
@@ -115,7 +112,7 @@ class CompanyRevisionListView(
         revision = services.create_revision(
             company=company, created_by=profile, **serializer.validated_data,
         )
-        return Response(ResponseCompanyRevisionSerializer(revision).data)
+        return Response(ResponseDetailCompanyRevisionSerializer(revision).data)
 
 
 class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
@@ -124,6 +121,9 @@ class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
     expected_exceptions = {}
     permission_classes = [IsEditorPermission | IsReadOnly]
     serializer_class = None
+
+    def get(self, id):
+        raise NotImplementedError("TODO")
 
     def post(self, request, id):
         """ Sets Revision """

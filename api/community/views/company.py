@@ -26,7 +26,6 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     thread_size = serializers.IntegerField(source="thread.size")
     user_did_clap = serializers.BooleanField(default=False)
 
-    articles = ResponseArticleSerializer(many=True)
     current_revision = ResponseCompanyRevisionSerializer()
 
     class Meta:
@@ -37,7 +36,6 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
             "created_at",
             "clap_count",
             "current_revision",
-            "articles",
             "updated_at",
             "status",
             "thread_size",
@@ -47,10 +45,11 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
 
 class ResponseCompanyDetailSerializer(ResponseCompanySerializer):
     created_by = ProfileSerializer()
+    articles = ResponseArticleSerializer(many=True)
 
     class Meta:
         model = models.Company
-        fields = ["created_by"] + ResponseCompanySerializer.Meta.fields
+        fields = ["created_by", "articles"] + ResponseCompanySerializer.Meta.fields
 
 
 class CompanyDetailView(
