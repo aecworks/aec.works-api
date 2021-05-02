@@ -147,7 +147,7 @@ def moderate_company(*, profile: Profile, company: Company, status: str) -> Comp
 
     company_type = ContentType.objects.get(app_label="community", model="company")
     revision_type = ContentType.objects.get(
-        app_label="community", model="company_revision"
+        app_label="community", model="companyrevision"
     )
     ModerationAction.objects.create(
         created_by=profile,

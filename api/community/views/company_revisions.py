@@ -53,6 +53,7 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
     class Meta:
         model = models.CompanyRevision
         fields = RequestCompanyRevisionSerializer.Meta.fields + [
+            # TODO remove cover, logo ints?
             "id",
             "created_by",
             "created_at",
