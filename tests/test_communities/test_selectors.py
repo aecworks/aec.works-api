@@ -9,7 +9,7 @@ class TestSelectors:
         h_1 = factories.HashtagFactory(slug="a")
         h_2 = factories.HashtagFactory(slug="b")
 
-        company_1 = factories.CompanyFactory(slug="a", current_revision__hashtags=[h_1])
+        _ = factories.CompanyFactory(slug="a", current_revision__hashtags=[h_1])
         company_2 = factories.CompanyFactory(slug="b", current_revision__hashtags=[h_2])
         company_3 = factories.CompanyFactory(
             slug="c", status=choices.ModerationStatus.REJECTED.name

@@ -91,4 +91,3 @@ class HashtagAdmin(admin.ModelAdmin):
 
     def company_names(self, obj):
         return [c.name for c in obj.companies.all()]
-

@@ -4,7 +4,6 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_save
 from django.dispatch import receiver
-from django_extensions.db.fields import AutoSlugField
 
 from api.common.mixins import ReprMixin
 from api.common.utils import to_hashtag
@@ -51,6 +50,12 @@ class CompanyRevision(ReprMixin, models.Model):
     )
     hashtags = models.ManyToManyField("Hashtag", related_name="revisions", blank=True)
     banner = models.CharField(max_length=32, default="", blank=True)
+
+    status = models.CharField(
+        max_length=32,
+        choices=[(c.name, c.value) for c in ModerationStatus],
+        default=ModerationStatus.UNMODERATED.name,
+    )
 
 
 class Company(ReprMixin, models.Model):

@@ -4,7 +4,6 @@ import pytest
 
 from api.community import factories as f
 from api.images.factories import ImageAssetFactory
-from api.users.factories import UserFactory
 
 
 @pytest.mark.django_db
@@ -103,9 +102,28 @@ class TestViews:
         assert company.current_revision.approved_by
         assert company.current_revision == rev
 
+    def test_company_moderate(self, auth_client):
+        company = f.CompanyFactory(status="UNMODERATED")
+        url = f"/community/companies/{company.slug}/moderate"
+
+        payload = {"status": "REJECTED"}
+        resp = auth_client.post(url, payload, format="json")
+        company.refresh_from_db()
+
+        assert resp.status_code == 200
+        assert company.status == "REJECTED"
+
     def test_company_clap(self, auth_client):
         company = f.CompanyFactory()
-        url = f"/community/companies/{company.slug}/clap/"
+        url = f"/community/companies/{company.slug}/clap"
+
+        resp = auth_client.post(url)
+        assert resp.status_code == 200
+        assert resp.content == b"1"
+
+    def test_comment_clap(self, auth_client):
+        comment = f.CommentFactory()
+        url = f"/community/comments/{comment.slug}/clap"
 
         resp = auth_client.post(url)
         assert resp.status_code == 200

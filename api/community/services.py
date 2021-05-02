@@ -4,7 +4,7 @@ from math import log
 from typing import List, NamedTuple, Optional, Tuple
 
 from bs4 import BeautifulSoup
-from django.core.exceptions import PermissionDenied
+from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.utils.text import slugify
 
@@ -15,7 +15,14 @@ from api.images.services import create_image_asset, create_image_file_from_data_
 from api.users.models import Profile
 from api.users.services import user_is_editor
 
-from .models import Article, Comment, Company, CompanyRevision, Hashtag, Thread
+from .models import (
+    Article,
+    Comment,
+    Company,
+    CompanyRevision,
+    Hashtag,
+    ModerationAction,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -71,13 +78,6 @@ def get_or_create_hashtag(hashtag_name: str) -> Hashtag:
 
 def get_or_create_hashtags(hashtag_names: List[str]) -> List[Hashtag]:
     return [get_or_create_hashtag(name) for name in hashtag_names]
-
-
-# TODO: Company?
-def generate_post_banner(profile):
-    if profile.posts.count() == 0:
-        return PostBanner.FIRST_POST.value
-    return ""
 
 
 def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
@@ -142,8 +142,14 @@ def can_create_company(profile: Profile) -> bool:
 
 
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:
-    company.status = status
-    company.save()
+
+    company_type = ContentType.objects.get(app_label="community", model="company")
+    ModerationAction.objects.create(
+        created_by=profile,
+        content_type=company_type,
+        object_id=company.id,
+        status=status,
+    )
     return company
 
 
