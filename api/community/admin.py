@@ -44,6 +44,11 @@ class ThreadAdmin(admin.ModelAdmin):
     def comment_count(self, obj):
         return obj.comments.count()
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.prefetch_related("comments")
+        return qs
+
 
 @admin.register(models.Company)
 class CompanyAdmin(admin.ModelAdmin):
@@ -51,24 +56,33 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         admin_related("current_revision", "name"),
-        admin_related("current_revision", "name"),
+        "descrition_start",
         admin_related("current_revision", "website"),
         admin_related("current_revision", "twitter"),
         admin_related("current_revision", "crunchbase_id"),
-        "descrition_start",
         admin_related("current_revision", "logo"),
         admin_related("current_revision", "cover"),
-        # admin_linkify(field_name="logo"),
-        # admin_linkify(field_name="cover"),
         admin_linkify(field_name="thread"),
         admin_linkify(field_name="current_revision"),
         admin_linkify(field_name="created_by"),
     ]
-    # raw_id_fields = ["logo", "cover"]
+
     readonly_fields = ["thread"]
 
     def descrition_start(self, obj):
         return f"{obj.current_revision.description[:10]}..."
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.select_related(
+            "thread",
+            "created_by__user",
+            "current_revision__logo",
+            "current_revision__cover",
+            "current_revision__created_by__avatar",
+            "current_revision__created_by__user",
+        ).prefetch_related("current_revision__hashtags", "articles")
+        return qs
 
 
 @admin.register(models.CompanyRevision)
@@ -86,10 +100,39 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = ["logo", "cover"]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.select_related("created_by__user", "logo", "cover")
+        return qs
+
 
 @admin.register(models.Hashtag)
 class HashtagAdmin(admin.ModelAdmin):
     list_display = ["slug", "company_names"]
 
     def company_names(self, obj):
-        return [c.name for c in obj.companies.all()]
+        return set([c.name for c in obj.revisions.all()])
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.prefetch_related("revisions")
+        return qs
+
+
+@admin.register(models.ModerationAction)
+class ModerationActionAdmin(admin.ModelAdmin):
+    search_fields = ("content_object", "created_by", "status")
+    list_display = [
+        "id",
+        "content_type",
+        admin_linkify("content_object"),
+        "status",
+        admin_linkify("created_by"),
+    ]
+
+    readonly_fields = ["content_type", "content_object", "status", "created_by"]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.select_related("created_by__user").prefetch_related("content_object")
+        return qs
