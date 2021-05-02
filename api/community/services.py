@@ -96,7 +96,7 @@ def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
 
 
 @transaction.atomic
-def create_company(*, created_by: Profile, revision_kwargs) -> Company:
+def create_company(*, created_by: Profile, **revision_kwargs) -> Company:
 
     slug = slugify(revision_kwargs["name"])
 
@@ -133,16 +133,20 @@ def create_company(*, created_by: Profile, revision_kwargs) -> Company:
 
 @transaction.atomic
 def create_revision(
-    *, company: Company, created_by: Profile, attrs: CompanyRevisionAttributes
+    *, company: Company, created_by: Profile, **revision_kwargs
 ) -> CompanyRevision:
 
-    kwargs = attrs._asdict()
-    hashtags = kwargs.pop("hashtags")
+    hashtag_names = revision_kwargs.pop("hashtags", [])
+    hashtags = get_or_create_hashtags(hashtag_names)
 
     revision = CompanyRevision.objects.create(
-        company=company, created_by=created_by, **kwargs
+        company=company, created_by=created_by, **revision_kwargs
     )
     revision.hashtags.set(hashtags)
+
+    if user_is_editor(created_by.user):
+        apply_revision(profile=created_by, revision=revision)
+
     return revision
 
 

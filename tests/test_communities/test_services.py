@@ -30,36 +30,11 @@ class TestServices:
     def test_create_revision(self):
         profile = ProfileFactory()
         company = factories.CompanyFactory()
-        attrs = services.CompanyRevisionAttributes(name="X")
         revision = services.create_revision(
-            company=company, created_by=profile, attrs=attrs
+            company=company, created_by=profile, name="X"
         )
         assert revision.company == company
         assert revision.name == "X"
-
-    # TODO rewrite as moderate
-    # def test_apply_revision(self):
-    #     h_a = factories.HashtagFactory(slug="a")
-    #     h_b = factories.HashtagFactory(slug="b")
-    #     h_c = factories.HashtagFactory(slug="c")
-
-    #     profile = ProfileFactory()
-    #     hashtags = [h_a, h_b]
-    #     company = factories.CompanyFactory(current_revision__hashtags=hashtags)
-
-    #     new_hahstags = [h_a, h_c]
-    #     revision = factories.CompanyRevisionFactory(
-    #         company=company, hashtags=new_hahstags
-    #     )
-
-    #     services.apply_revision(revision=revision, profile=profile)
-
-    #     assert company.current_revision == revision
-    #     assert revision.company == company
-    #     assert revision.approved_by == profile
-    #     assert set([h.slug for h in company.current_revision.hashtags.all()]) == set(
-    #         ["a", "c"]
-    #     )
 
     def test_create_comment(self):
         profile = ProfileFactory()

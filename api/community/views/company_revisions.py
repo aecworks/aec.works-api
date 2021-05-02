@@ -68,7 +68,6 @@ class ResponseDetailCompanyRevisionSerializer(ResponseCompanyRevisionSerializer)
     class Meta:
         model = models.CompanyRevision
         fields = RequestCompanyRevisionSerializer.Meta.fields + [
-            "approved_by",
             "created_by",
         ]
 
@@ -98,26 +97,20 @@ class CompanyRevisionListView(
         profile = request.user.profile
         company = self.get_object()
 
-        hashtag_names = serializer.validated_data.pop("hashtags", [])
-        hashtags = services.get_or_create_hashtags(hashtag_names)
-
-        attrs = services.CompanyRevisionAttributes(
-            **serializer.validated_data, hashtags=hashtags
-        )
         revision = services.create_revision(
-            company=company, created_by=profile, attrs=attrs
+            company=company, created_by=profile, **serializer.validated_data,
         )
         return Response(ResponseCompanyRevisionSerializer(revision).data)
 
 
 class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
     queryset = selectors.get_revisions()
-    lookup_field = "slug"
+    lookup_field = "id"
     expected_exceptions = {}
     permission_classes = [IsEditorPermission | IsReadOnly]
     serializer_class = None
 
-    def post(self, request, slug):
+    def post(self, request, id):
         """ Sets Revision """
 
         revision = self.get_object()

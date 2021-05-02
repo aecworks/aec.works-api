@@ -139,7 +139,7 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         serializer.is_valid(raise_exception=True)
 
         company = services.create_company(
-            created_by=profile, revision_kwargs=serializer.validated_data
+            created_by=profile, **serializer.validated_data
         )
 
         return Response(ResponseCompanySerializer(company).data)

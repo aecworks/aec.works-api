@@ -89,6 +89,18 @@ class TestViews:
         resp = auth_client.post(url, payload, format="json")
         assert resp.status_code == 200
 
+    def test_company_revision_apply(self, auth_client):
+        company = f.CompanyFactory()
+        rev = f.CompanyRevisionFactory(company=company)
+        assert company.current_revision != rev
+        url = f"/community/revisions/{rev.id}/apply"
+
+        resp = auth_client.post(url)
+        company.refresh_from_db()
+
+        assert resp.status_code == 200
+        assert company.current_revision == rev
+
     def test_company_moderate(self, auth_client):
         company = f.CompanyFactory(status="UNMODERATED")
         url = f"/community/companies/{company.slug}/moderate"
