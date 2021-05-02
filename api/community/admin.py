@@ -150,7 +150,7 @@ class ModerationActionAdmin(admin.ModelAdmin):
 
 @admin.register(models.CompanyRevisionHistory)
 class CompanyRevisionHistoryAdmin(admin.ModelAdmin):
-    list_filter = ("created_by", "revision")
+    list_filter = ("created_by", "revision__company")
     list_display = [
         "id",
         "created_at",

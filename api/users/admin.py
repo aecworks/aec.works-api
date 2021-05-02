@@ -46,5 +46,5 @@ class UserAdmin(CustomBaseUserAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ["user", "twitter", "location", "name", "github", "avatar"]
+    list_display = ["user", "slug", "twitter", "location", "name", "github", "avatar"]
     raw_id_fields = ["avatar"]
