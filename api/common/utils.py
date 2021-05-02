@@ -50,7 +50,27 @@ def to_hashtag(text: str) -> str:
 
 
 def slugify(text: str) -> str:
+    # https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.text.slugify
+    """
+        >>> slugify(' Joel is a slug ')
+        'joel-is-a-slug'
+    """
     return _slugify(text)
+
+
+def increment_slug(slug: str) -> str:
+    chunks = slug.split("-")
+
+    if len(chunks) == 1:
+        return f"{slug}-2"
+
+    *names, last = chunks
+
+    if not last.isdigit():
+        return f"{slug}-2"
+
+    num = int(last) + 1
+    return "-".join(names) + f"-{num}"
 
 
 def get_og_data(url: str):

@@ -36,8 +36,7 @@ class Command(BaseCommand):
                 continue
             else:
                 print(f"> Created: {slug}")
-                hashtags = services.get_or_create_hashtags(hashtag_names)
-                attrs = services.CompanyRevisionAttributes(
+                attrs = dict(
                     name=name,
                     description=description,
                     website=website,
@@ -46,9 +45,11 @@ class Command(BaseCommand):
                     crunchbase_id="apple",
                     logo=None,
                     cover=None,
-                    hashtags=hashtags,
+                    hashtags=hashtag_names,
                 )
-                company = services.create_company(created_by=profile, attrs=attrs)
+                company = services.create_company(
+                    created_by=profile, revision_kwargs=attrs
+                )
 
             # Logo
             logo_file = create_image_file_from_url(logo_url)

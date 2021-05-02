@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.utils.text import slugify
 
-from api.common.utils import get_og_data, to_hashtag
+from api.common.utils import get_og_data, increment_slug, to_hashtag
 from api.community.choices import ModerationStatus
 from api.images.models import ImageAsset
 from api.images.services import create_image_asset, create_image_file_from_data_uri
@@ -96,22 +96,38 @@ def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
 
 
 @transaction.atomic
-def create_company(*, created_by: Profile, attrs: CompanyRevisionAttributes) -> Company:
+def create_company(*, created_by: Profile, revision_kwargs) -> Company:
 
-    kwargs = attrs._asdict()
-    slug = slugify(attrs.name)
-    hashtags = kwargs.pop("hashtags")
+    slug = slugify(revision_kwargs["name"])
+
+    while True:
+        if not Company.objects.filter(slug=slug).exists():
+            break
+        slug = increment_slug(slug)
+
+    hashtags_names = revision_kwargs.pop("hashtags", [])
 
     company = Company.objects.create(created_by=created_by, slug=slug)
 
     # Apply First Revision so we have an easy way to revert back
     revision = CompanyRevision.objects.create(
-        company=company, created_by=created_by, **kwargs
+        company=company, created_by=created_by, **revision_kwargs
     )
     company.current_revision = revision
-
     company.save()
+
+    hashtags = get_or_create_hashtags(hashtags_names)
     revision.hashtags.set(hashtags)
+
+    if user_is_editor(created_by.user):
+        moderate_company(
+            profile=created_by, company=company, status=ModerationStatus.REVIEWED.name
+        )
+        moderate_revision(
+            profile=created_by,
+            revision=company.current_revision,
+            status=ModerationStatus.REVIEWED.name,
+        )
 
     return company
 
@@ -146,29 +162,30 @@ def can_create_company(profile: Profile) -> bool:
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:
 
     company_type = ContentType.objects.get(app_label="community", model="company")
-    revision_type = ContentType.objects.get(
-        app_label="community", model="companyrevision"
-    )
     ModerationAction.objects.create(
         created_by=profile,
         content_type=company_type,
         object_id=company.id,
         status=status,
     )
-    # When company is created we also want to stamp its current revision
-    ModerationAction.objects.create(
-        created_by=profile,
-        content_type=revision_type,
-        object_id=company.current_revision.id,
-        status=status,
-    )
+
     return company
 
 
 def moderate_revision(
     *, profile: Profile, revision: CompanyRevision, status: str
 ) -> CompanyRevision:
-    raise NotImplementedError("wip")
+
+    revision_type = ContentType.objects.get(
+        app_label="community", model="companyrevision"
+    )
+
+    return ModerationAction.objects.create(
+        created_by=profile,
+        content_type=revision_type,
+        object_id=revision.id,
+        status=status,
+    )
 
 
 def create_company_article(*, company, url, profile) -> Article:

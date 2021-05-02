@@ -135,13 +135,14 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         if not services.can_create_company(profile):
             raise exceptions.TooManyPendingReviewsError()
 
+        if not services.can_create_company(profile):
+            raise exceptions.TooManyPendingReviewsError()
+
         serializer = RequestCompanyRevisionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        hashtag_names = serializer.validated_data.pop("hashtags")
 
-        hashtags = services.get_or_create_hashtags(hashtag_names)
-        attrs = services.CompanyRevisionAttributes(
-            **serializer.validated_data, hashtags=hashtags
+        company = services.create_company(
+            created_by=profile, revision_kwargs=serializer.validated_data
         )
-        company = services.create_company(created_by=profile, attrs=attrs)
+
         return Response(ResponseCompanySerializer(company).data)
