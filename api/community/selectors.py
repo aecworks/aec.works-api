@@ -38,8 +38,6 @@ def get_companies(prefetch=True):
             "current_revision__cover",
             "current_revision__created_by__avatar",
             "current_revision__created_by__user",
-            "current_revision__approved_by__avatar",
-            "current_revision__approved_by__user",
         ).prefetch_related("current_revision__hashtags", "articles")
     return qs
 
@@ -77,12 +75,11 @@ def filter_companies(qs, search, hashtag_slugs, status):
     return qs
 
 
-def get_revisions():
-    return (
-        CompanyRevision.objects.select_related("company", "created_by")
-        .prefetch_related("hashtags")
-        .all()
-    )
+def get_revisions(prefetch=True):
+    qs = CompanyRevision.objects
+    if prefetch:
+        qs = qs.select_related("company", "created_by").prefetch_related("hashtags")
+    return qs.all()
 
 
 def get_hashtags():

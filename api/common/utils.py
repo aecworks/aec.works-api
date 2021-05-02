@@ -99,6 +99,14 @@ def admin_linkify(field_name):
     return _linkify
 
 
+def admin_related(related, attr):
+    def _wrap(obj):
+        return getattr(getattr(obj, related), attr)
+
+    _wrap.short_description = f"{related}:{attr}"
+    return _wrap
+
+
 def delete_cache_key(key_prefix):
     keys = [k for k in cache.keys("*") if f".{key_prefix}." in k]
     logger.info(f"deteling cache keys: {len(keys)}")

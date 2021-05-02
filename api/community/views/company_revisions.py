@@ -35,8 +35,6 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
     hashtags = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="slug"
     )
-    # approved_by = ProfileSerializer(read_only=True)
-    # created_by = ProfileSerializer(read_only=True)
     cover_url = serializers.SerializerMethodField()
     logo_url = serializers.SerializerMethodField()
 
@@ -56,7 +54,6 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
         model = models.CompanyRevision
         fields = RequestCompanyRevisionSerializer.Meta.fields + [
             "id",
-            "approved_by",
             "created_by",
             "created_at",
             "logo_url",
@@ -65,7 +62,6 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
 
 
 class ResponseDetailCompanyRevisionSerializer(ResponseCompanyRevisionSerializer):
-    approved_by = ProfileSerializer(read_only=True)
     created_by = ProfileSerializer(read_only=True)
 
     class Meta:
@@ -111,20 +107,3 @@ class CompanyRevisionListView(
             company=company, created_by=profile, attrs=attrs
         )
         return Response(ResponseCompanyRevisionSerializer(revision).data)
-
-
-class CompanyRevisionDetailView(ErrorsMixin, generics.GenericAPIView):
-    serializer_class = None
-    queryset = selectors.get_revisions()
-    expected_exceptions = {}
-    lookup_field = "id"
-    permission_classes = [IsEditorPermission | IsReadOnly]
-
-    def post(self, request, id, action):
-        # "revisions/<int:id>/<str:action>
-        if action == "approve":  # approve
-            revision = self.get_object()
-            services.apply_revision(revision=revision, profile=request.user.profile)
-            return Response(ResponseCompanyRevisionSerializer(revision).data)
-        else:
-            return Response(status=404)

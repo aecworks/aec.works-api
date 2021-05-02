@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.common.utils import admin_linkify, get_og_data
+from api.common.utils import admin_linkify, admin_related, get_og_data
 
 from . import models
 
@@ -50,22 +50,25 @@ class CompanyAdmin(admin.ModelAdmin):
     search_fields = ("name", "description")
     list_display = [
         "id",
-        # "name",
-        # "descrition_start",
-        # "website",
-        # "twitter",
-        # "crunchbase_id",
-        "current_revision",
-        # "logo",
-        # "cover",
-        "created_by",
+        admin_related("current_revision", "name"),
+        admin_related("current_revision", "name"),
+        admin_related("current_revision", "website"),
+        admin_related("current_revision", "twitter"),
+        admin_related("current_revision", "crunchbase_id"),
+        "descrition_start",
+        admin_related("current_revision", "logo"),
+        admin_related("current_revision", "cover"),
+        # admin_linkify(field_name="logo"),
+        # admin_linkify(field_name="cover"),
         admin_linkify(field_name="thread"),
+        admin_linkify(field_name="current_revision"),
+        admin_linkify(field_name="created_by"),
     ]
     # raw_id_fields = ["logo", "cover"]
     readonly_fields = ["thread"]
 
-    # def descrition_start(self, obj):
-    # return f"{obj.description[:10]}..."
+    def descrition_start(self, obj):
+        return f"{obj.current_revision.description[:10]}..."
 
 
 @admin.register(models.CompanyRevision)
@@ -78,7 +81,6 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         "twitter",
         "crunchbase_id",
         "created_by",
-        "approved_by",
         "logo",
         "cover",
     ]

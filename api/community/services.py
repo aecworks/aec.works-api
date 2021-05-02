@@ -97,17 +97,21 @@ def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
 
 @transaction.atomic
 def create_company(*, created_by: Profile, attrs: CompanyRevisionAttributes) -> Company:
+
     kwargs = attrs._asdict()
     slug = slugify(attrs.name)
     hashtags = kwargs.pop("hashtags")
+
     company = Company.objects.create(created_by=created_by, slug=slug)
 
     # Apply First Revision so we have an easy way to revert back
     revision = CompanyRevision.objects.create(
         company=company, created_by=created_by, **kwargs
     )
+    company.current_revision = revision
+
+    company.save()
     revision.hashtags.set(hashtags)
-    apply_revision(revision=revision, profile=created_by)
 
     return company
 
@@ -127,35 +131,44 @@ def create_revision(
     return revision
 
 
-@transaction.atomic
-def apply_revision(*, revision, profile):
-    company = revision.company
-    company.current_revision = revision
-    revision.approved_by = profile
-    company.save()
-    revision.save()
-
-
 def can_create_company(profile: Profile) -> bool:
+
     if user_is_editor(profile.user):
         return True
 
     pending_submissions = Company.objects.filter(
         created_by=profile, status=ModerationStatus.UNMODERATED.name
     )
+
     return pending_submissions.count() <= 2
 
 
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:
 
     company_type = ContentType.objects.get(app_label="community", model="company")
+    revision_type = ContentType.objects.get(
+        app_label="community", model="company_revision"
+    )
     ModerationAction.objects.create(
         created_by=profile,
         content_type=company_type,
         object_id=company.id,
         status=status,
     )
+    # When company is created we also want to stamp its current revision
+    ModerationAction.objects.create(
+        created_by=profile,
+        content_type=revision_type,
+        object_id=company.current_revision.id,
+        status=status,
+    )
     return company
+
+
+def moderate_revision(
+    *, profile: Profile, revision: CompanyRevision, status: str
+) -> CompanyRevision:
+    raise NotImplementedError("wip")
 
 
 def create_company_article(*, company, url, profile) -> Article:

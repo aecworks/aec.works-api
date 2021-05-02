@@ -91,7 +91,7 @@ class TestViews:
 
     def test_company_revision_approve(self, auth_client):
         company = f.CompanyFactory()
-        rev = f.CompanyRevisionFactory(company=company, approved_by=None)
+        rev = f.CompanyRevisionFactory(company=company)
         assert company.current_revision != rev
         url = f"/community/revisions/{rev.id}/approve"
 
@@ -99,7 +99,6 @@ class TestViews:
         company.refresh_from_db()
 
         assert resp.status_code == 200
-        assert company.current_revision.approved_by
         assert company.current_revision == rev
 
     def test_company_moderate(self, auth_client):

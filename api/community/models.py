@@ -19,15 +19,6 @@ class CompanyRevision(ReprMixin, models.Model):
         "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
     )
 
-    # TODO add previous ?
-    # TODO Move to Moderation
-    approved_by = models.ForeignKey(
-        "users.Profile",
-        related_name="company_approvals",
-        on_delete=models.PROTECT,
-        null=True,
-    )
-
     name = models.CharField(blank=False, max_length=255, db_index=True)
     description = models.TextField(blank=False)
     website = models.URLField(blank=False)

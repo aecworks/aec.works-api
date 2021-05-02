@@ -8,6 +8,7 @@ from api.permissions import IsEditorPermission, IsReadOnly
 
 from .. import choices, selectors, services
 from .company import ResponseCompanyDetailSerializer
+from .company_revisions import ResponseDetailCompanyRevisionSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -37,3 +38,26 @@ class CompanyModerateView(ErrorsMixin, generics.GenericAPIView):
             company=company, profile=profile, status=status
         )
         return Response(ResponseCompanyDetailSerializer(company).data)
+
+
+class CompanyRevisionModerateView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_revisions()
+    lookup_field = "slug"
+    expected_exceptions = {}
+    permission_classes = [IsEditorPermission | IsReadOnly]
+    serializer_class = None
+
+    def post(self, request, slug):
+        """ Moderates View"""
+
+        serializer = ModerationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        status = serializer.validated_data["status"]
+        revision = self.get_object()
+        profile = request.user.profile
+
+        revision = services.moderate_revision(
+            revision=revision, profile=profile, status=status
+        )
+        return Response(ResponseDetailCompanyRevisionSerializer(revision).data)
