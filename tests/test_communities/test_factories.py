@@ -38,5 +38,8 @@ class TestFactories:
         assert co.thread == thread
 
     def test_thread_factory(self):
+        co = f.ThreadFactory(comments=None)
+        assert co.comments.count() == 0
+
         co = f.ThreadFactory(comments__text="x")
         assert co.comments.first().text == "x"

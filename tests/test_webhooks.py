@@ -8,8 +8,9 @@ from api.webhooks.services import is_add_article, resolve_company
 
 @pytest.mark.django_db
 def test_resolve_company():
-    c = f.CompanyFactory(slug="aec")
-    rev = f.CompanyRevisionFactory(company=c, name="AEC", twitter="aec_works")
+    c = f.CompanyFactory(
+        slug="aec", current_revision__twitter="aec_works", current_revision__name="AEC"
+    )
     assert resolve_company("add http://x/a to @aec_works", "aec_works") == c
     assert resolve_company("add http://x/a to @Aec_Works", "Aec_Works") == c
     assert resolve_company("add http://x/a to @.aec", "") == c

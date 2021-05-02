@@ -43,7 +43,7 @@ class TestSelectors:
         assert n_annotated == n_companies
 
     def test_annotated_comments(self):
-        thread = factories.ThreadFactory()
+        thread = factories.ThreadFactory(comments=None)
 
         profile_1 = ProfileFactory()
         profile_2 = ProfileFactory()
@@ -69,7 +69,7 @@ class TestSelectors:
         """ sometimes annotate causes query to return duplicates """
         profile = ProfileFactory()
         profile_2 = ProfileFactory()
-        thread = factories.ThreadFactory()
+        thread = factories.ThreadFactory(comments=None)
         comment = factories.CommentFactory(thread=thread)
         comment_2 = factories.CommentFactory(thread=thread)
 

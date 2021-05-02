@@ -32,12 +32,9 @@ class TestViews:
         a = f.HashtagFactory(slug="a")
         b = f.HashtagFactory(slug="b")
         c = f.HashtagFactory(slug="c")
-        c_1 = f.CompanyFactory()
-        c_2 = f.CompanyFactory()
-        c_3 = f.CompanyFactory()
-        c_1.current_revision.hashtags.set([a])
-        c_2.current_revision.hashtags.set([a, b])
-        c_3.current_revision.hashtags.set([a, b, c])
+        f.CompanyFactory(current_revision__hashtags=[a])
+        f.CompanyFactory(current_revision__hashtags=[a, b])
+        f.CompanyFactory(current_revision__hashtags=[a, b, c])
 
         resp = auth_client.get("/community/companies/?hashtags=a")
         assert resp.json()["count"] == 3
@@ -61,19 +58,24 @@ class TestViews:
             "logo": logo.id,
             "cover": logo.id,
             "hashtags": ["A", "B"],
-            "lastRevisionId": "",
         }
         resp = auth_client.post(url, payload, format="json")
         assert resp.status_code == 200
-        created = resp.json()
-        assert "A" in created["hashtags"]
-        assert "B" in created["hashtags"]
-        assert payload["website"] == created["website"]
-        assert payload["description"] == created["description"]
-        assert payload["twitter"] == created["twitter"]
-        assert payload["crunchbaseId"] == created["crunchbaseId"]
+
+        company = resp.json()
+        rev = company["currentRevision"]
+
+        assert "A" in rev["hashtags"]
+        assert "B" in rev["hashtags"]
+        assert payload["website"] == rev["website"]
+        assert payload["description"] == rev["description"]
+        assert payload["twitter"] == rev["twitter"]
+        assert payload["crunchbaseId"] == rev["crunchbaseId"]
         assert payload["logo"] == logo.id
         assert payload["cover"] == logo.id
+
+        assert rev["logoUrl"]
+        assert rev["coverUrl"]
 
     def test_company_revision(self, auth_client):
         company = f.CompanyFactory()
@@ -88,6 +90,19 @@ class TestViews:
         resp = auth_client.post(url, payload, format="json")
         assert resp.status_code == 200
 
+    def test_company_revision_approve(self, auth_client):
+        company = f.CompanyFactory()
+        rev = f.CompanyRevisionFactory(company=company, approved_by=None)
+        assert company.current_revision != rev
+        url = f"/community/revisions/{rev.id}/approve"
+
+        resp = auth_client.post(url)
+        company.refresh_from_db()
+
+        assert resp.status_code == 200
+        assert company.current_revision.approved_by
+        assert company.current_revision == rev
+
     def test_company_clap(self, auth_client):
         company = f.CompanyFactory()
         url = f"/community/companies/{company.slug}/clap/"
@@ -98,8 +113,9 @@ class TestViews:
 
     def test_company_list_sorting(self, client):
         for name, location in zip("cab", "yxz"):
-            # f.CompanyFactory(name=name, location=location)
-            f.CompanyRevisionFactory(name=name, location=location)
+            f.CompanyFactory(
+                current_revision__name=name, current_revision__location=location,
+            )
 
         url = "/community/companies/?sort=name"
         resp = client.get(url)

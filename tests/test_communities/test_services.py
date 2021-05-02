@@ -17,7 +17,7 @@ class TestServices:
         assert company.clappers.count() == 1
 
     def test_comment_clap(self):
-        thread = factories.ThreadFactory()
+        thread = factories.ThreadFactory(comments=None)
         comment = factories.CommentFactory(thread=thread)
         profile = ProfileFactory()
         assert comment.clappers.count() == 0
@@ -43,12 +43,12 @@ class TestServices:
 
         profile = ProfileFactory()
         hashtags = [h_a, h_b]
-        company = factories.CompanyFactory()
-        company.current_revision.hashtags.set(hashtags)
+        company = factories.CompanyFactory(current_revision__hashtags=hashtags)
 
-        revision = factories.CompanyRevisionFactory(company=company)
         new_hahstags = [h_a, h_c]
-        revision.hashtags.set(new_hahstags)
+        revision = factories.CompanyRevisionFactory(
+            company=company, hashtags=new_hahstags
+        )
 
         services.apply_revision(revision=revision, profile=profile)
 
@@ -62,7 +62,7 @@ class TestServices:
     def test_create_comment(self):
         profile = ProfileFactory()
         text = "xxx"
-        thread = factories.ThreadFactory()
+        thread = factories.ThreadFactory(comments=None)
         assert thread.comments.count() == 0
 
         comment = services.create_comment(profile=profile, text=text, thread=thread)

@@ -5,6 +5,7 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import condition
 from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
 from api.permissions import IsReadOnly
@@ -12,7 +13,10 @@ from api.users.serializers import ProfileSerializer
 
 from .. import annotations, caching, choices, exceptions, models, selectors, services
 from .company_articles import ResponseArticleSerializer
-from .company_revisions import CompanyRevisionSerializer
+from .company_revisions import (
+    RequestCompanyRevisionSerializer,
+    ResponseCompanyRevisionSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +27,7 @@ class ResponseCompanySerializer(serializers.ModelSerializer):
     user_did_clap = serializers.BooleanField(default=False)
 
     articles = ResponseArticleSerializer(many=True)
-    current_revision = CompanyRevisionSerializer()
+    current_revision = ResponseCompanyRevisionSerializer()
 
     class Meta:
         model = models.Company
@@ -47,10 +51,6 @@ class ResponseCompanyDetailSerializer(ResponseCompanySerializer):
     class Meta:
         model = models.Company
         fields = ["created_by"] + ResponseCompanySerializer.Meta.fields
-
-
-class RequestCompanySerializer(serializers.Serializer):
-    current_revision = CompanyRevisionSerializer()
 
 
 class CompanyDetailView(
@@ -135,15 +135,13 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
         if not services.can_create_company(profile):
             raise exceptions.TooManyPendingReviewsError()
 
-        serializer = RequestCompanySerializer(data=request.data)
+        serializer = RequestCompanyRevisionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        hashtag_names = serializer.validated_data.pop("hashtags")
 
-        raise NotImplementedError("refactoring")
-        # hashtag_names = serializer.validated_data.pop("hashtags")
-        # attributes = services.CompanyAttributes(
-        #     status=choices.CompanyStatus.SUBMITTED.name, **serializer.validated_data
-        # )
-        # company = services.create_company(
-        #     profile=profile, attributes=attributes, hashtag_names=hashtag_names
-        # )
-        # return Response(ResponseCompanySerializer(company).data)
+        hashtags = services.get_or_create_hashtags(hashtag_names)
+        attrs = services.CompanyRevisionAttributes(
+            **serializer.validated_data, hashtags=hashtags
+        )
+        company = services.create_company(created_by=profile, attrs=attrs)
+        return Response(ResponseCompanySerializer(company).data)

@@ -19,18 +19,6 @@ from .models import Article, Comment, Company, CompanyRevision, Hashtag, Thread
 
 logger = logging.getLogger(__name__)
 
-updatable_attributes = [
-    "name",
-    "description",
-    "website",
-    "location",
-    "twitter",
-    "crunchbase_id",
-    "logo",
-    "cover",
-    "hashtags",
-]
-
 
 class CompanyRevisionAttributes(NamedTuple):
     name: str
@@ -42,18 +30,6 @@ class CompanyRevisionAttributes(NamedTuple):
     logo: Optional[str]
     cover: Optional[str]
     hashtags: List[Hashtag]
-
-
-class CompanyAttributes(NamedTuple):
-    name: str
-    description: str
-    website: str
-    location: str
-    twitter: str
-    crunchbase_id: str
-    status: str
-    logo: Optional[str]
-    cover: Optional[str]
 
 
 def bump_hot_datetime(post, clap_count):
@@ -148,8 +124,10 @@ def create_revision(*, company, profile, validated_data) -> CompanyRevision:
 
 @transaction.atomic
 def apply_revision(*, revision, profile):
-    revision.company.current_revision = revision
+    company = revision.company
+    company.current_revision = revision
     revision.approved_by = profile
+    company.save()
     revision.save()
 
 
