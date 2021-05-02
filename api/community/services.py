@@ -28,15 +28,16 @@ logger = logging.getLogger(__name__)
 
 
 class CompanyRevisionAttributes(NamedTuple):
-    name: str
-    description: str
-    website: str
-    location: str
-    twitter: str
-    crunchbase_id: str
-    logo: Optional[str]
-    cover: Optional[str]
-    hashtags: List[Hashtag]
+    name: str = ""
+    description: str = ""
+    website: str = ""
+    location: str = ""
+    twitter: str = ""
+    crunchbase_id: str = ""
+    hashtags: List[Hashtag] = []
+
+    logo: Optional[int] = None
+    cover: Optional[int] = None
 
 
 def bump_hot_datetime(post, clap_count):
@@ -112,11 +113,15 @@ def create_company(*, created_by: Profile, attrs: CompanyRevisionAttributes) -> 
 
 
 @transaction.atomic
-def create_revision(*, company, profile, validated_data) -> CompanyRevision:
-    hashtag_names = validated_data.pop("hashtags", [])
-    hashtags = get_or_create_hashtags(hashtag_names)
+def create_revision(
+    *, company: Company, created_by: Profile, attrs: CompanyRevisionAttributes
+) -> CompanyRevision:
+
+    kwargs = attrs._asdict()
+    hashtags = kwargs.pop("hashtags")
+
     revision = CompanyRevision.objects.create(
-        company=company, created_by=profile, **validated_data
+        company=company, created_by=created_by, **kwargs
     )
     revision.hashtags.set(hashtags)
     return revision

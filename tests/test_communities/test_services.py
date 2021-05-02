@@ -30,11 +30,12 @@ class TestServices:
     def test_create_revision(self):
         profile = ProfileFactory()
         company = factories.CompanyFactory()
+        attrs = services.CompanyRevisionAttributes(name="X")
         revision = services.create_revision(
-            company=company, profile=profile, validated_data={"name": "x"}
+            company=company, created_by=profile, attrs=attrs
         )
         assert revision.company == company
-        assert revision.name == "x"
+        assert revision.name == "X"
 
     def test_apply_revision(self):
         h_a = factories.HashtagFactory(slug="a")

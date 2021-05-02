@@ -123,7 +123,7 @@ class TestViews:
 
     def test_comment_clap(self, auth_client):
         comment = f.CommentFactory()
-        url = f"/community/comments/{comment.slug}/clap"
+        url = f"/community/comments/{comment.id}/clap"
 
         resp = auth_client.post(url)
         assert resp.status_code == 200

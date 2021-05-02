@@ -97,11 +97,18 @@ class CompanyRevisionListView(
         """ Creates New Company Revision """
         serializer = RequestCompanyRevisionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        profile = request.user.profile
         company = self.get_object()
+
+        hashtag_names = serializer.validated_data.pop("hashtags", [])
+        hashtags = services.get_or_create_hashtags(hashtag_names)
+
+        attrs = services.CompanyRevisionAttributes(
+            **serializer.validated_data, hashtags=hashtags
+        )
         revision = services.create_revision(
-            company=company,
-            profile=request.user.profile,
-            validated_data=serializer.validated_data,
+            company=company, created_by=profile, attrs=attrs
         )
         return Response(ResponseCompanyRevisionSerializer(revision).data)
 
