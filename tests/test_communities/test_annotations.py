@@ -15,16 +15,18 @@ class TestSelectors:
         assert services.company_clap(company=company_1, profile=profile_1) == 1
         assert services.company_clap(company=company_2, profile=profile_2) == 1
 
-        companies_1 = annotations.annotate_company_claps(
+        qs_anno_1 = annotations.annotate_company_claps(
             selectors.get_companies(), profile_id=profile_1.id
         )
-        assert companies_1.all()[0].user_did_clap is True
-        assert companies_1.all()[1].user_did_clap is False
-        companies_2 = annotations.annotate_company_claps(
+
+        assert qs_anno_1.get(id=company_1.id).user_did_clap is True
+        assert qs_anno_1.get(id=company_2.id).user_did_clap is False
+
+        qs_anno_2 = annotations.annotate_company_claps(
             selectors.get_companies(), profile_id=profile_2.id
         )
-        assert companies_2.all()[0].user_did_clap is False
-        assert companies_2.all()[1].user_did_clap is True
+        assert qs_anno_2.get(id=company_1.id).user_did_clap is False
+        assert qs_anno_2.get(id=company_2.id).user_did_clap is True
 
     def test_annotated_company_bug(self):
         """ sometimes annotate causes query to return duplicates """
