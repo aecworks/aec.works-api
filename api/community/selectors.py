@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib.contenttypes.models import ContentType
 from django.db import models as m
 from django.utils import timezone
 
@@ -9,6 +10,7 @@ from .models import (
     CompanyRevision,
     CompanyRevisionHistory,
     Hashtag,
+    ModerationAction,
     Thread,
 )
 
@@ -86,6 +88,28 @@ def get_revisions(prefetch=True):
     qs = CompanyRevision.objects
     if prefetch:
         qs = qs.select_related("company", "created_by").prefetch_related("hashtags")
+    return qs.all()
+
+
+def get_company_moderation_actions(company, prefetch=True):
+    company_type = ContentType.objects.get(app_label="community", model="company")
+    qs = ModerationAction.objects.filter(
+        object_id=company.id, content_type=company_type
+    )
+    if prefetch:
+        qs = qs.select_related("created_by__user")
+    return qs.all()
+
+
+def get_revision_moderation_actions(revision, prefetch=True):
+    company_revision_type = ContentType.objects.get(
+        app_label="community", model="companyrevision"
+    )
+    qs = ModerationAction.objects.filter(
+        object_id=revision.id, content_type=company_revision_type
+    )
+    if prefetch:
+        qs = qs.select_related("created_by__user")
     return qs.all()
 
 

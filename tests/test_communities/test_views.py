@@ -105,28 +105,38 @@ class TestCommunityViews:
 
     def test_company_moderate(self, auth_client):
         company = f.CompanyFactory(status="UNMODERATED")
-        url = f"/community/companies/{company.slug}/moderate"
+        url = f"/community/companies/{company.slug}/moderation/"
 
         payload = {"status": "REJECTED"}
-        resp = auth_client.post(url, payload, format="json")
+        resp_post = auth_client.post(url, payload, format="json")
         company.refresh_from_db()
 
-        assert resp.status_code == 200
+        assert resp_post.status_code == 200
         assert company.status == "REJECTED"
+
+        resp_get = auth_client.get(url)
+        assert resp_get.status_code == 200
+        assert resp_get.json()[0]["status"] == "REJECTED"
 
     def test_company_revision_moderate(self, auth_client):
         company = f.CompanyFactory(current_revision__status="UNMODERATED")
         rev = company.current_revision
         assert rev.status == "UNMODERATED"
-        url = f"/community/revisions/{rev.id}/moderate"
+        url = f"/community/revisions/{rev.id}/moderation/"
 
-        payload = {"status": "REJECTED"}
-        resp = auth_client.post(url, payload, format="json")
+        TARGET_STATUS = "REJECTED"
+
+        payload = {"status": TARGET_STATUS}
+        resp_post = auth_client.post(url, payload, format="json")
 
         rev.refresh_from_db()
 
-        assert resp.status_code == 200
-        assert rev.status == "REJECTED"
+        assert resp_post.status_code == 200
+        assert rev.status == TARGET_STATUS
+
+        resp_get = auth_client.get(url)
+        assert resp_get.status_code == 200
+        assert resp_get.json()[0]["status"] == TARGET_STATUS
 
     def test_company_revision_history(self, auth_client):
         company = f.CompanyFactory(current_revision__status="UNMODERATED")

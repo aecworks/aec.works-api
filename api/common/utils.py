@@ -9,6 +9,7 @@ from django.utils.html import format_html
 from django.utils.text import slugify as _slugify
 from opengraph.opengraph import OpenGraph
 from rest_framework import serializers
+from rest_framework.exceptions import APIException
 from rest_framework.utils import model_meta
 
 logger = logging.getLogger(__name__)
@@ -132,3 +133,11 @@ def delete_cache_key(key_prefix):
     keys = [k for k in cache.keys("*") if f".{key_prefix}." in k]
     logger.info(f"deteling cache keys: {len(keys)}")
     cache.delete_many(keys)
+
+
+def validate_or_raise(SerializerCls, data):
+    serializer = SerializerCls(data=data)
+    if not serializer.is_valid():
+        logger.error(f"cannot serializer: cls:{SerializerCls} data:{data}")
+        raise APIException("server validation error logged")
+    return serializer
