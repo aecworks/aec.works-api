@@ -28,14 +28,14 @@ class CompanyRevision(ReprMixin, models.Model):
     logo = models.ForeignKey(
         "images.ImageAsset",
         related_name="+",
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         blank=True,
         null=True,
     )
     cover = models.ForeignKey(
         "images.ImageAsset",
         related_name="+",
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         blank=True,
         null=True,
     )

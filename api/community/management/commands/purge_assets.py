@@ -1,15 +1,20 @@
+# import io
+# from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 
 from api.community.models import CompanyRevision
+
+# from api.images.factories import png_bytes
 from api.images.models import ImageAsset
 from api.users.models import Profile
 
+# from api.images import services
+
 
 class Command(BaseCommand):
-    help = "ImageAssetsFromUrl"
+    help = "Purge Unused Assets"
 
     def handle(self, *args, **options):
-        """ Temporary Script to migrate from url images to ImageAsset """
 
         referenced_ids = set()
         for obj in CompanyRevision.objects.all():
@@ -27,4 +32,18 @@ class Command(BaseCommand):
         print(f"Total: {count}")
 
         orphans = ImageAsset.objects.exclude(id__in=referenced_ids).all()
-        print(orphans.count())
+        print(f"Orphans: {orphans.count()}")
+
+        # TODO
+        # orphans.update(file=img_file)
+        # for o in orphans:
+        #     fp = io.BytesIO()
+        #     fp.write(png_bytes())
+        #     img = ImageFile(fp, name=o.name)
+        #     o.file = img
+        #     o.save()
+        #     try:
+        #         o.delete()
+        #         print(f"deleted: {o.id}")
+        #     except Exception:
+        #         print(f"Could not delete: {o.id}")
