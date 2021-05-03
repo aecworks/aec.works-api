@@ -3,21 +3,30 @@
 from django.db import migrations, models
 
 
-class Migration(migrations.Migration):
+def up(apps, schema_editor):
+    CompanyRevision = apps.get_model("community", "CompanyRevision")
+    for rev in CompanyRevision.objects.all():
+        if not rev.twitter:
+            rev.twitter = ""
+            rev.save()
 
+
+class Migration(migrations.Migration):
+    atomic = False
     dependencies = [
-        ('community', '0039_twitter_default_string_'),
+        ("community", "0039_twitter_default_string_"),
     ]
 
     operations = [
+        migrations.RunPython(up, migrations.RunPython.noop),
         migrations.AlterField(
-            model_name='companyrevision',
-            name='crunchbase_id',
-            field=models.CharField(blank=True, default='', max_length=128),
+            model_name="companyrevision",
+            name="crunchbase_id",
+            field=models.CharField(blank=True, default="", max_length=128),
         ),
         migrations.AlterField(
-            model_name='companyrevision',
-            name='twitter',
-            field=models.CharField(blank=True, default='', max_length=15),
+            model_name="companyrevision",
+            name="twitter",
+            field=models.CharField(blank=True, default="", max_length=15),
         ),
     ]

@@ -10,20 +10,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """ Temporary Script to migrate from url images to ImageAsset """
 
-        all_companies = [
-            *list(Company.objects.all()),
-            *list(CompanyRevision.objects.all()),
-        ]
-        for obj in all_companies:
-            if obj.logo:
-                obj.logo = None
-                obj.save()
-
-            if obj.cover:
-                obj.cover = None
-                obj.save()
+        for obj in CompanyRevision.objects.all():
+            obj.logo = None
+            obj.cover = None
+            obj.save()
 
         for obj in Profile.objects.all():
-            if obj.avatar:
-                obj.avatar = None
-                obj.save()
+            obj.avatar = None
+            obj.save()

@@ -88,6 +88,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(models.CompanyRevision)
 class CompanyRevisionAdmin(admin.ModelAdmin):
+    list_filter = ["company", "created_by"]
     list_display = [
         "id",
         "name",

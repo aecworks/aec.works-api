@@ -20,4 +20,20 @@ class Command(BaseCommand):
                     co.save()
                     print("set revision to last")
                 else:
-                    print(f"no revision available for: {co}")
+                    print(f"no revision available for: {co} - creating...")
+
+                    rev = models.CompanyRevision.objects.create(
+                        company=co,
+                        created_by=co.created_by,
+                        name=co.name,
+                        description=co.description,
+                        location=co.location,
+                        website=co.website,
+                        twitter=co.twitter,
+                        crunchbase_id=co.crunchbase_id,
+                        logo=co.logo,
+                        cover=co.cover,
+                    )
+                    rev.hashtags.set(co.hashtags.all())
+                    co.current_revision = rev
+                    co.save()
