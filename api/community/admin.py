@@ -132,7 +132,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
 @admin.register(models.ModerationAction)
 class ModerationActionAdmin(admin.ModelAdmin):
-    list_filter = ("content_object", "created_by", "status")
+    list_filter = ("created_by", "status")
     list_display = [
         "id",
         "content_type",
