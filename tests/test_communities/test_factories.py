@@ -26,6 +26,16 @@ class TestFactories:
         assert co.current_revision is None
         assert rev in co.revisions.all()
 
+    def test_company_revision_history_factory(self):
+        profile = ProfileFactory()
+        co = f.CompanyFactory(current_revision__name="X")
+        assert co.current_revision
+        hist = f.CompanyRevisionHistoryFactory(
+            created_by=profile, revision=co.current_revision
+        )
+        assert hist.created_by == profile
+        assert hist.revision == co.current_revision
+
     def test_comment_factory(self):
         profile = ProfileFactory()
         co = f.CommentFactory(text="text", profile=profile)

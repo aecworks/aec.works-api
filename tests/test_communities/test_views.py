@@ -128,6 +128,18 @@ class TestCommunityViews:
         assert resp.status_code == 200
         assert rev.status == "REJECTED"
 
+    def test_company_revision_history(self, auth_client):
+        company = f.CompanyFactory(current_revision__status="UNMODERATED")
+        rev = f.CompanyRevisionFactory(company=company)
+        f.CompanyRevisionHistoryFactory(revision=rev)
+
+        url = f"/community/companies/{company.slug}/revision-history/"
+
+        resp = auth_client.get(url)
+
+        assert resp.status_code == 200
+        assert resp.json()[0]["revisionId"] == rev.id
+
     def test_company_clap(self, auth_client):
         company = f.CompanyFactory()
         url = f"/community/companies/{company.slug}/clap"

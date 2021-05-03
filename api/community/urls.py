@@ -18,6 +18,10 @@ urlpatterns = [
     # revisions
     path("revisions/<int:id>/moderate", views.CompanyRevisionModerateView.as_view()),
     path("revisions/<int:id>/apply", views.CompanyRevisionApplyView.as_view()),
+    path(
+        "companies/<str:slug>/revision-history/",
+        views.CompanyRevisionHistoryView.as_view(),
+    ),
     # hashtags
     path("hashtags/", views.HashtagListView.as_view()),
 ]

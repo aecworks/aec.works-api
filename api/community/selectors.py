@@ -3,7 +3,14 @@ from datetime import timedelta
 from django.db import models as m
 from django.utils import timezone
 
-from .models import Comment, Company, CompanyRevision, Hashtag, Thread
+from .models import (
+    Comment,
+    Company,
+    CompanyRevision,
+    CompanyRevisionHistory,
+    Hashtag,
+    Thread,
+)
 
 
 def get_comments():
@@ -80,6 +87,13 @@ def get_revisions(prefetch=True):
     if prefetch:
         qs = qs.select_related("company", "created_by").prefetch_related("hashtags")
     return qs.all()
+
+
+def get_revision_history(company, prefetch=True):
+    qs = CompanyRevisionHistory.objects
+    if prefetch:
+        qs = qs.select_related("revision__created_by__user", "created_by__user")
+    return qs.filter(revision__company=company)
 
 
 def get_hashtags():

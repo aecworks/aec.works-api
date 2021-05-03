@@ -8,6 +8,12 @@ from . import choices, models
 
 class CompanyFactory(factory.django.DjangoModelFactory):
     """
+    Note:
+        By default, for more flexibility `current_revision` is None.
+        If you provide any arguments `current_revision__name=` on
+        the factory constructor `current_revision` will be set.
+        Alternatively, a revision can be provided explicitly.
+
     Usage:
 
         >>> hashtag = f.HashtagFactory(slug="XXX")
@@ -39,6 +45,8 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
 class CompanyRevisionFactory(factory.django.DjangoModelFactory):
 
+    # company = required
+
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
 
     name = factory.LazyAttribute(lambda o: o.company.slug.title().replace("-", " "))
@@ -60,6 +68,15 @@ class CompanyRevisionFactory(factory.django.DjangoModelFactory):
     def hashtags(obj, created, extracted, **kwargs):
         if extracted:
             obj.hashtags.set(extracted)
+
+
+class CompanyRevisionHistoryFactory(factory.django.DjangoModelFactory):
+
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    # revision = CompanyRevision
+
+    class Meta:
+        model = models.CompanyRevisionHistory
 
 
 class HashtagFactory(factory.django.DjangoModelFactory):

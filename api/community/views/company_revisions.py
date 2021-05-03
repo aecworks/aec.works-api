@@ -73,14 +73,13 @@ class ResponseDetailCompanyRevisionSerializer(ResponseCompanyRevisionSerializer)
 
 class ResponseRevisionHistory(serializers.ModelSerializer):
     created_by = ProfileSerializer(read_only=True)
-    revision = ResponseDetailCompanyRevisionSerializer()
 
     class Meta:
         model = models.CompanyRevisionHistory
         fields = [
             "created_at",
             "created_by",
-            "revision",
+            "revision_id",
         ]
 
 
@@ -122,9 +121,6 @@ class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [IsEditorPermission | IsReadOnly]
     serializer_class = None
 
-    def get(self, id):
-        raise NotImplementedError("TODO")
-
     def post(self, request, id):
         """ Sets Revision """
 
@@ -134,3 +130,16 @@ class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
         history = services.apply_revision(profile=profile, revision=revision)
 
         return Response(ResponseRevisionHistory(history).data)
+
+
+class CompanyRevisionHistoryView(ErrorsMixin, generics.GenericAPIView):
+    queryset = selectors.get_companies()
+    lookup_field = "slug"
+    expected_exceptions = {}
+    permission_classes = [IsEditorPermission | IsReadOnly]
+    serializer_class = None
+
+    def get(self, request, slug):
+        company = self.get_object()
+        rev_hist = selectors.get_revision_history(company)
+        return Response(ResponseRevisionHistory(rev_hist, many=True).data)
