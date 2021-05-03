@@ -14,6 +14,8 @@ from api.users.models import Profile
 class Command(BaseCommand):
     help = "Purge Unused Assets"
 
+    """ Deletes any Images Assets not referenced by Companies or Profiles """
+
     def handle(self, *args, **options):
 
         referenced_ids = set()
