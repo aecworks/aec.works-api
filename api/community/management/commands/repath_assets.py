@@ -6,6 +6,17 @@ from api.images.models import ImageAsset
 
 class Command(BaseCommand):
     help = "Repath Image Assets"
+    """
+    This script is used to allow dump from prod/staging to be re-pathed
+    Let's say a prod dump includes Image asset where file: images/abc.png prod-s3
+
+    This script will:
+    * detect abc.png does not exist in current storage
+    * fetch s3://prod-s3/images/abc.png
+    * create a placeholder asset, and assign file to the local object
+    * remove placeholder
+
+    """
 
     def add_arguments(self, parser):
         parser.add_argument("base_path", type=str)
