@@ -64,12 +64,4 @@ class TestServices:
         factories.CompanyFactory(
             created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
         )
-        assert services.can_create_company(profile2)
-
-        factories.CompanyFactory(
-            created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
-        )
-        factories.CompanyFactory(
-            created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
-        )
         assert not services.can_create_company(profile2)

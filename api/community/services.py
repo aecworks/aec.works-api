@@ -162,7 +162,7 @@ def can_create_company(profile: Profile) -> bool:
         created_by=profile, status=ModerationStatus.UNMODERATED.name
     )
 
-    return pending_submissions.count() <= 2
+    return pending_submissions.count() == 0
 
 
 @transaction.atomic
