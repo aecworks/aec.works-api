@@ -53,6 +53,7 @@ class ThreadAdmin(admin.ModelAdmin):
 @admin.register(models.Company)
 class CompanyAdmin(admin.ModelAdmin):
     search_fields = ("name", "description")
+    list_filter = ["status", "created_by"]
     list_display = [
         "id",
         admin_related("current_revision", "name"),
