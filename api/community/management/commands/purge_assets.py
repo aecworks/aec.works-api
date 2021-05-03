@@ -34,16 +34,5 @@ class Command(BaseCommand):
         orphans = ImageAsset.objects.exclude(id__in=referenced_ids).all()
         print(f"Orphans: {orphans.count()}")
 
-        # TODO
-        # orphans.update(file=img_file)
-        # for o in orphans:
-        #     fp = io.BytesIO()
-        #     fp.write(png_bytes())
-        #     img = ImageFile(fp, name=o.name)
-        #     o.file = img
-        #     o.save()
-        #     try:
-        #         o.delete()
-        #         print(f"deleted: {o.id}")
-        #     except Exception:
-        #         print(f"Could not delete: {o.id}")
+        deleted, _ = orphans.delete()
+        print(f"Deleted: {deleted}")

@@ -19,8 +19,25 @@ class Command(BaseCommand):
             id = asset["id"]  # 'images/fbb090a62e2b40f282ff28a0438dcb09.jpeg'
             path = asset["file"]  # 'images/fbb090a62e2b40f282ff28a0438dcb09.jpeg'
 
+            try:
+                i = ImageAsset.objects.get(id=id)
+                i.file.crop["80x80"].url
+                print(f"Looks good: {asset}")
+                continue
+            except Exception:
+                print(f"Bad path: {asset}")
+
             url = base_path + path
             new_img = services.create_image_file_from_url(url)
-            new_img.name = f"images/{new_img.name}"
-            ImageAsset.objects.filter(id=id).update(file=new_img)
-            print(f"Saved: {url}")
+
+            # Create placeholder asset
+            ph = ImageAsset.objects.create(created_by=None, file=new_img)
+
+            # Reassign
+            ImageAsset.objects.filter(id=id).update(file=ph.file)
+
+            qs = ImageAsset.objects.filter(id=ph.id)
+            # Raw delete to prevent deleting actual file
+            qs._raw_delete(qs.db)
+
+            print(f"Replaced: {url}")

@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 continue
             else:
                 print(f"> Created: {slug}")
-                attrs = dict(
+                revision_kwargs = dict(
                     name=name,
                     description=description,
                     website=website,
@@ -47,9 +47,7 @@ class Command(BaseCommand):
                     cover=None,
                     hashtags=hashtag_names,
                 )
-                company = services.create_company(
-                    created_by=profile, revision_kwargs=attrs
-                )
+                company = services.create_company(created_by=profile, **revision_kwargs)
 
             # Logo
             logo_file = create_image_file_from_url(logo_url)

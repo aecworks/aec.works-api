@@ -152,9 +152,11 @@ The key concepts are:
 ### Database Backups / Tests
 
 ```bash
-$ heroku pg:backups:download -r prod
-$ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d aecworks_db dumps/prod.dump
-$ pg_restore --clean -d 'postgres://zoqwhkohwzaahj:6b101a9792d1427164973f60c9334889a35d98050ce9299099b90ff515f43d60@ec2-52-202-22-140.compute-1.amazonaws.com:5432/dcloadqocrhqu1' dumps/prod.dump
+$ heroku pg:backups:capture -r prod
+$ heroku pg:backups:download -r prod -o dumps/prod.dump
+$ heroku pg:credentials:url  -r staging
+$ pg_restore --verbose --clean --no-acl --no-owner -d '<STAGING_DB_URL>' dumps/prod.dump
+$ pg_restore
 ```
 
 ### Frontend

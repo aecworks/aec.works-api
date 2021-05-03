@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from api.community.models import Company, CompanyRevision
+from api.community.models import CompanyRevision
 from api.users.models import Profile
 
 

@@ -32,6 +32,7 @@ def create_image_file_from_data_uri(data_uri: str) -> ImageFile:
 
 def create_image_file_from_url(url, **kwargs) -> ImageFile:
     resp = requests.get(url, **kwargs)
+    assert resp.ok, f"create_image_file_from_url: {url} {resp.status_code}"
     filename = uuid_filename_from_content_type(resp.headers["Content-Type"])
     fp = io.BytesIO()
     fp.write(resp.content)
