@@ -165,6 +165,18 @@ def can_create_company(profile: Profile) -> bool:
     return pending_submissions.count() == 0
 
 
+def can_create_revision(profile: Profile) -> bool:
+
+    if user_is_editor(profile.user):
+        return True
+
+    pending_submissions = CompanyRevision.objects.filter(
+        created_by=profile, status=ModerationStatus.UNMODERATED.name
+    )
+
+    return pending_submissions.count() == 0
+
+
 @transaction.atomic
 def moderate_company(*, profile: Profile, company: Company, status: str) -> Company:
 

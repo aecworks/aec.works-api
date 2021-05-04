@@ -65,3 +65,20 @@ class TestServices:
             created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
         )
         assert not services.can_create_company(profile2)
+
+    def test_can_create_revision(self):
+        user = UserFactory(groups=["editors"])
+        profile = ProfileFactory(user=user)
+
+        assert services.can_create_revision(profile)
+
+        user2 = UserFactory(groups=[])
+        profile2 = ProfileFactory(user=user2)
+
+        assert services.can_create_revision(profile2)
+
+        factories.CompanyFactory(
+            current_revision__created_by=profile2,
+            current_revision__status=choices.ModerationStatus.UNMODERATED.name,
+        )
+        assert not services.can_create_revision(profile2)

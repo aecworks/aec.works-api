@@ -7,7 +7,7 @@ from api.common.exceptions import ErrorsMixin
 from api.permissions import IsEditorPermission, IsReadOnly
 from api.users.serializers import ProfileSerializer
 
-from .. import models, selectors, services
+from .. import exceptions, models, selectors, services
 
 logger = logging.getLogger(__name__)
 
@@ -107,6 +107,9 @@ class CompanyRevisionListView(
 
         profile = request.user.profile
         company = self.get_object()
+
+        if not services.can_create_revision(profile):
+            raise exceptions.TooManyPendingReviewsError()
 
         revision = services.create_revision(
             company=company, created_by=profile, **serializer.validated_data,
