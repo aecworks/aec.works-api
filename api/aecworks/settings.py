@@ -224,5 +224,11 @@ LOGGING = {
     "loggers": {
         "": {"handlers": ["console"], "level": log_level, "propagate": True},
         "django": {"handlers": ["console"], "level": log_level, "propagate": False},
+        "django.utils.autoreload": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "PIL": {"handlers": ["console"], "level": "INFO", "propagate": False},
     },
 }

@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.utils.text import slugify
 
 from api.community import factories as f
 from api.community import models, services
@@ -25,35 +26,40 @@ class Command(BaseCommand):
             location,
             logo_url,
             cover_url,
-            hashtags,
+            hashtag_names,
         ) in seed_data:
 
-            data = dict(
-                name=name, description=description, website=website, location=location
-            )
-
-            company = models.Company.objects.filter(name=name).first()
+            slug = slugify(name)
+            company = models.Company.objects.filter(slug=slug).first()
             if company:
-                print(f"> Already exists: {name} - flush or delete to recreate")
+                print(f"> Already exists: {slug} - flush or delete to recreate")
                 continue
             else:
-                print(f"> Created: {name}")
-                company = services.create_company(profile=profile, validated_data=data)
-
-            hashtags = services.get_or_create_hashtags(hashtags)
-            company.hashtags.set(hashtags)
+                print(f"> Created: {slug}")
+                revision_kwargs = dict(
+                    name=name,
+                    description=description,
+                    website=website,
+                    location=location,
+                    twitter="aec_works",
+                    crunchbase_id="apple",
+                    logo=None,
+                    cover=None,
+                    hashtags=hashtag_names,
+                )
+                company = services.create_company(created_by=profile, **revision_kwargs)
 
             # Logo
             logo_file = create_image_file_from_url(logo_url)
             logo_img = create_image_asset(img_file=logo_file)
-            company.logo = logo_img
+            company.current_revision.logo = logo_img
 
             # Cover
             cover_file = create_image_file_from_url(cover_url)
             cover_img = create_image_asset(img_file=cover_file)
-            company.cover = cover_img
+            company.current_revision.cover = cover_img
 
-            company.save()
+            company.current_revision.save()
             print(f"    logo: {logo_url}")
             print(f"    cover: {cover_url}")
 

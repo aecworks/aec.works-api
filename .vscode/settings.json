@@ -5,6 +5,7 @@
   "python.formatting.provider": "black",
   "python.formatting.blackPath": "black",
   "editor.formatOnSave": true,
+  "files.trimFinalNewlines": true,
   "[python]": {
     "editor.rulers": [
       88

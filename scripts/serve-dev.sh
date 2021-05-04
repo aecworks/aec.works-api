@@ -19,8 +19,5 @@ info ">>> Running Migrations"
 python manage.py migrate --noinput
 # python manage.py createcachetable
 
-info ">>> Adding Dev User"
-python manage.py loaddata api/aecworks/fixtures/users.json
-
 info "Starting Django Dev Server..."
 exec python manage.py runserver 8000

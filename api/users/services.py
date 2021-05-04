@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group, Permission
 
 from api.images.services import create_image_asset, create_image_file_from_url
 
+from .groups import Groups
 from .models import Profile, User
 
 logger = logging.getLogger(__name__)
@@ -14,6 +15,10 @@ def create_or_update_user(*, email, user_data):
     defaults = user_data._asdict()
     user, _ = User.objects.update_or_create(email=email, defaults=defaults)
     return user
+
+
+def user_is_editor(user: User):
+    return user.groups.filter(name=Groups.EDITORS).exists()
 
 
 def update_profile(*, user, profile_data):

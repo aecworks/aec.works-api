@@ -72,7 +72,7 @@ class Profile(ReprMixin, models.Model):
         return self.user.name
 
     def __str__(self):
-        return f"<Profile user={self.user.email}>"
+        return f"<Profile slug={self.slug}>"
 
 
 @receiver(post_save, sender=User)

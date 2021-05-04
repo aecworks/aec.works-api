@@ -12,7 +12,9 @@
       "email": "dev@dev.com",
       "provider": "SIGN_UP",
       "name": "Dev User",
-      "groups": [],
+      "groups": [
+        1
+      ],
       "user_permissions": []
     }
   },

@@ -1,9 +1,18 @@
 from datetime import timedelta
 
+from django.contrib.contenttypes.models import ContentType
 from django.db import models as m
 from django.utils import timezone
 
-from .models import Comment, Company, CompanyRevision, Hashtag, Post, Thread
+from .models import (
+    Comment,
+    Company,
+    CompanyRevision,
+    CompanyRevisionHistory,
+    Hashtag,
+    ModerationAction,
+    Thread,
+)
 
 
 def get_comments():
@@ -29,24 +38,33 @@ def get_company(**kwargs):
 
 
 def get_companies(prefetch=True):
+    # TODO separate revisions
     qs = Company.objects.all()
     if prefetch:
-        qs = qs.select_related("logo", "cover", "thread").prefetch_related(
-            "hashtags", "articles"
-        )
+        qs = qs.select_related(
+            "thread",
+            "current_revision__logo",
+            "current_revision__cover",
+            "current_revision__created_by__avatar",
+            "current_revision__created_by__user",
+        ).prefetch_related("current_revision__hashtags")
     return qs
 
 
-def get_company_claps():
-    return Company.clappers.through.objects.all()
+def get_company_claps_by_profile(profile_slug):
+    return (
+        Company.clappers.through.objects.all()
+        .filter(profile__slug=profile_slug)
+        .select_related("company__current_revision", "profile")
+    )
 
 
 def query_multi_hashtag(qs, hashtag_slugs):
     # Achieve case insensitive __in using regex:
     reg_pat = f"({'|'.join(hashtag_slugs)})"
-    qs_with_one_of = qs.filter(hashtags__slug__iregex=reg_pat)
+    qs_with_one_of = qs.filter(current_revision__hashtags__slug__iregex=reg_pat)
     qs_with_both = qs_with_one_of.annotate(
-        n_matches=m.Count("hashtags", distinct=True)
+        n_matches=m.Count("current_revision__hashtags", distinct=True)
     ).filter(n_matches=len(hashtag_slugs))
     return qs_with_both
 
@@ -60,29 +78,51 @@ def query_posts(qs, query, hashtag_slugs):
     return qs
 
 
-def query_companies(qs, query, hashtag_slugs):
+def filter_companies(qs, search, hashtag_slugs, status):
     if hashtag_slugs:
         qs = query_multi_hashtag(qs, hashtag_slugs)
-    if query:
-        qs = qs.filter(name__icontains=query)
+    if search:
+        qs = qs.filter(current_revision__name__icontains=search)
+    if status:
+        qs = qs.filter(status=status)
     return qs
 
 
-def get_revisions():
-    return (
-        CompanyRevision.objects.select_related("company", "created_by")
-        .prefetch_related("hashtags")
-        .all()
+def get_revisions(prefetch=True):
+    qs = CompanyRevision.objects
+    if prefetch:
+        qs = qs.select_related("company", "created_by").prefetch_related("hashtags")
+    return qs.all()
+
+
+def get_company_moderation_actions(company, prefetch=True):
+    company_type = ContentType.objects.get(app_label="community", model="company")
+    qs = ModerationAction.objects.filter(
+        object_id=company.id, content_type=company_type
     )
+    if prefetch:
+        qs = qs.select_related("created_by__user")
+    return qs.all()
+
+
+def get_revision_moderation_actions(revision, prefetch=True):
+    company_revision_type = ContentType.objects.get(
+        app_label="community", model="companyrevision"
+    )
+    qs = ModerationAction.objects.filter(
+        object_id=revision.id, content_type=company_revision_type
+    )
+    if prefetch:
+        qs = qs.select_related("created_by__user")
+    return qs.all()
+
+
+def get_revision_history(company, prefetch=True):
+    qs = CompanyRevisionHistory.objects
+    if prefetch:
+        qs = qs.select_related("revision__created_by__user", "created_by__user")
+    return qs.filter(revision__company=company)
 
 
 def get_hashtags():
     return Hashtag.objects.all()
-
-
-def get_posts():
-    return (
-        Post.objects.select_related("profile__user", "profile__avatar")
-        .prefetch_related("hashtags", "companies", "thread__comments")
-        .all()
-    )
