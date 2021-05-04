@@ -4,7 +4,6 @@ from unittest import mock
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APIRequestFactory
 
-from api.images.factories import ImageAssetFactory
 from api.images.services import create_image_asset, create_image_file_from_data_uri
 from api.images.views import ImageAssetUploadView
 from api.users.factories import ProfileFactory, UserFactory

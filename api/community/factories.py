@@ -104,3 +104,14 @@ class CommentFactory(factory.django.DjangoModelFactory):
     text = factory.Faker("paragraph")
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
     thread = factory.SubFactory("api.community.factories.ThreadFactory")
+
+
+class ArticleFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Article
+
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    url = factory.Faker("url")
+    company = factory.SubFactory("api.community.factories.CompanyFactory")
+    opengraph_data = {}
+    # TODO

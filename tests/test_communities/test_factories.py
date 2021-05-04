@@ -53,3 +53,6 @@ class TestFactories:
 
         co = f.ThreadFactory(comments__text="x")
         assert co.comments.first().text == "x"
+
+    def test_article_factory(self):
+        assert f.ArticleFactory()
