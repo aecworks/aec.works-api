@@ -4,7 +4,7 @@ from rest_framework.exceptions import APIException
 
 class TooManyPendingReviewsError(APIException):
     status_code = status.HTTP_409_CONFLICT
-    default_detail = "non-editor user exceeded limit of unmoderated reviews"
+    default_detail = "non-editor user exceeded limit of unmoderated edits"
     default_code = "conflict"
 
 

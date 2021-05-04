@@ -1,6 +1,6 @@
 import logging
 
-from rest_framework import generics, mixins, serializers
+from rest_framework import generics, mixins, permissions, serializers
 from rest_framework.response import Response
 
 from api.common.exceptions import ErrorsMixin
@@ -51,12 +51,13 @@ class ResponseCompanyRevisionSerializer(RequestCompanyRevisionSerializer):
 
     class Meta:
         model = models.CompanyRevision
-        fields = ["id", "created_by", "created_at", "logo_url", "cover_url"] + [
-            f
-            for f in RequestCompanyRevisionSerializer.Meta.fields
-            if f not in ["logo", "cover"]
-        ]
-        # TODO remove cover, logo ints
+        fields = [
+            "id",
+            "created_by",
+            "created_at",
+            "logo_url",
+            "cover_url",
+        ] + RequestCompanyRevisionSerializer.Meta.fields
 
 
 class ResponseDetailCompanyRevisionSerializer(ResponseCompanyRevisionSerializer):
@@ -89,7 +90,7 @@ class CompanyRevisionListView(
     serializer_class = None
     queryset = selectors.get_companies()
     lookup_field = "slug"
-    permission_classes = [IsEditorPermission | IsReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     expected_exceptions = {}
 
     def get(self, request, slug):
