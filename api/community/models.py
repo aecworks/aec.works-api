@@ -73,7 +73,7 @@ class Company(ReprMixin, models.Model):
         on_delete=models.PROTECT,
         related_name="+",
         null=True,
-        blank=True,
+        blank=False,
     )
 
     status = models.CharField(

@@ -51,8 +51,12 @@ def get_companies(prefetch=True):
     return qs
 
 
-def get_company_claps():
-    return Company.clappers.through.objects.all()
+def get_company_claps_by_profile(profile_slug):
+    return (
+        Company.clappers.through.objects.all()
+        .filter(profile__slug=profile_slug)
+        .select_related("company__current_revision", "profile")
+    )
 
 
 def query_multi_hashtag(qs, hashtag_slugs):

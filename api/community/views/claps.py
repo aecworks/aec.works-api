@@ -7,7 +7,7 @@ from .. import selectors, services
 
 
 class CompanyClapResponseSerializer(serializers.Serializer):
-    name = serializers.CharField(source="company.name")
+    name = serializers.CharField(source="company.current_revision.name")
     slug = serializers.CharField(source="company.slug")
 
 
@@ -17,10 +17,10 @@ class CompanyProfileClapsListView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        profile = self.kwargs["profile"]
-        return selectors.get_company_claps().filter(profile__slug=profile)
+        profile = self.kwargs["profile_slug"]
+        return selectors.get_company_claps_by_profile(profile)
 
-    def get(self, request, profile):
+    def get(self, request, profile_slug):
         serializer = CompanyClapResponseSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 

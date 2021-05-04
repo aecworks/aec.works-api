@@ -4,7 +4,9 @@ import pytest
 
 from api.community import choices
 from api.community import factories as f
+from api.community import services
 from api.images.factories import ImageAssetFactory
+from api.users.factories import ProfileFactory
 
 
 @pytest.mark.django_db
@@ -193,3 +195,10 @@ class TestCommunityViews:
         assert (
             client.get(url).json()["results"][0]["currentRevision"]["location"] == "z"
         )
+
+    def test_profile_company_claps(self, auth_client):
+        profile = ProfileFactory()
+        co = f.CompanyFactory(current_revision__name="X")
+        services.company_clap(company=co, profile=profile)
+        resp = auth_client.get(f"/community/companies/claps/{profile.slug}/")
+        assert resp.status_code == 200
