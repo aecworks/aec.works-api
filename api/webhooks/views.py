@@ -32,10 +32,7 @@ class TwitterWebhookView(ErrorsMixin, generics.GenericAPIView):
         This endopint is hit by a Zappier automation everytime @aecworks tweets
         Zapier payloads is defined in `WebhookSerializer`
         """
-        """
-        text: 'https://t.co/kaRztBg4Qn\n\n@MyAbodu \n#aecworks'
-        'https://www.latimes.com/entertainment-arts/story/2021-03-05/new-city-program-brings-high-design-concepts-to-granny-flat'
-        """
+
         serializer = WebhookSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

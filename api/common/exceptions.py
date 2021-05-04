@@ -54,7 +54,7 @@ class ErrorsMixin:
         if not hasattr(exc, "detail"):
             raise exc
         if isinstance(exc.detail, str):
-            exc.detail = {"non_field_error": exc.detail}
+            exc.detail = {"non_field_error": [exc.detail]}
 
         return {"errors": exc.detail}
 

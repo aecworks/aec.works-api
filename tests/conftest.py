@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth.models import Group
 from django.core.management import call_command
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
 from api.users.factories import UserFactory
@@ -24,6 +25,15 @@ def auth_client(db):
 
     client = APIClient()
     assert client.login(email=user.email, password="1")
+    return client
+
+
+@pytest.fixture(scope="function")
+def token_auth_client(db):
+    client = APIClient()
+    user = UserFactory()
+    token = Token.objects.create(user=user)
+    client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
     return client
 
 

@@ -11,7 +11,7 @@ from api.users.factories import ProfileFactory
 
 
 @pytest.mark.django_db
-class TestViews:
+class TestUserViews:
     @pytest.mark.parametrize(
         "path,param_factory",
         [["profiles/", None], ["profiles/{0}/", lambda: ProfileFactory().slug]],

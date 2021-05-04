@@ -13,4 +13,4 @@ def company_list_last_modified(request) -> str:
 
 def company_last_modified(request, slug) -> str:
     company = selectors.get_companies(prefetch=False).filter(slug=slug).first()
-    return None if not company else company.updated_at
+    return "" if not company else company.updated_at

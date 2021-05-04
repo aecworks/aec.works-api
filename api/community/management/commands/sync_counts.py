@@ -12,10 +12,6 @@ class Command(BaseCommand):
             clap_count = company.clappers.count()
             models.Company.objects.filter(pk=company.id).update(clap_count=clap_count)
 
-        for post in models.Post.objects.all():
-            post.clap_count = post.clappers.count()
-            post.save()
-
         for comment in models.Comment.objects.all():
             comment.clap_count = comment.clappers.count()
             comment.save()

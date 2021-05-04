@@ -1,3 +1,7 @@
+class Groups:
+    EDITORS = "editors"
+
+
 editor_permissions = [
     "add_companyrevision",
     "change_company",
@@ -7,5 +11,5 @@ editor_permissions = [
     "delete_company",
 ]
 groups_permissions = {
-    "editors": editor_permissions,
+    Groups.EDITORS: editor_permissions,
 }

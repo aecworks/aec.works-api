@@ -1,16 +1,56 @@
 import factory
+from faker import Faker
 
-from . import models
+from api.common.utils import slugify
+
+from . import choices, models
 
 
 class CompanyFactory(factory.django.DjangoModelFactory):
+    """
+    Note:
+        By default, for more flexibility `current_revision` is None.
+        If you provide any arguments `current_revision__name=` on
+        the factory constructor `current_revision` will be set.
+        Alternatively, a revision can be provided explicitly.
+
+    Usage:
+
+        >>> hashtag = f.HashtagFactory(slug="XXX")
+        >>> c = f.CompanyFactory(
+                current_revision__twitter="XXX",
+                current_revision__hashtags=[hashtag]
+            )
+    """
+
+    slug = factory.LazyAttribute(lambda o: slugify(Faker().company()))
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    status = choices.ModerationStatus.UNMODERATED.name
+
+    @factory.post_generation
+    def current_revision(obj, created, extracted, **current_revision_kwargs):
+        # Only creates revision if at least one arg is provided
+        if current_revision_kwargs:
+            obj.current_revision = CompanyRevisionFactory(
+                company=obj, **current_revision_kwargs
+            )
+            obj.save()
+
     class Meta:
         model = models.Company
 
-    name = factory.Faker("company")
-    # slug - use signal
-    description = factory.Faker("paragraph", nb_sentences=2)
+    class Params:
+        duration = 5
+
+
+class CompanyRevisionFactory(factory.django.DjangoModelFactory):
+
+    # company = required
+
     created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+
+    name = factory.LazyAttribute(lambda o: o.company.slug.title().replace("-", " "))
+    description = factory.Faker("paragraph", nb_sentences=2)
 
     website = factory.Faker("url")
     twitter = factory.LazyAttribute(lambda o: o.name.lower().replace(" ", "")[:14])
@@ -18,24 +58,25 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
     logo = factory.SubFactory("api.images.factories.ImageAssetFactory")
     cover = factory.SubFactory("api.images.factories.ImageAssetFactory")
-    # clappers
-    # thread
-    # created_at
-    # c
-    # replaced_by
-    # approved_by
 
-    @factory.post_generation
-    def post(obj, *args, **kwargs):
-        obj.hashtags.add(HashtagFactory())
-
-
-class CompanyRevisionFactory(factory.django.DjangoModelFactory):
-    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
-    applied = False
+    hashtags = []
 
     class Meta:
         model = models.CompanyRevision
+
+    @factory.post_generation
+    def hashtags(obj, created, extracted, **kwargs):
+        if extracted:
+            obj.hashtags.set(extracted)
+
+
+class CompanyRevisionHistoryFactory(factory.django.DjangoModelFactory):
+
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    # revision = CompanyRevision
+
+    class Meta:
+        model = models.CompanyRevisionHistory
 
 
 class HashtagFactory(factory.django.DjangoModelFactory):
@@ -46,22 +87,12 @@ class HashtagFactory(factory.django.DjangoModelFactory):
     slug = factory.Faker("word")
 
 
-class PostFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.Post
-
-    body = factory.Faker("text", max_nb_chars=1000)
-    title = factory.Faker("sentence")
-    thread = None
-    profile = factory.SubFactory("api.users.factories.ProfileFactory")
-    # hashtags = []
-    # companies = []
-    # clappers = []
-    # created_at
-    # updated_at
-
-
 class ThreadFactory(factory.django.DjangoModelFactory):
+
+    comments = factory.RelatedFactory(
+        "api.community.factories.CommentFactory", factory_related_name="thread"
+    )
+
     class Meta:
         model = models.Thread
 
@@ -72,3 +103,15 @@ class CommentFactory(factory.django.DjangoModelFactory):
 
     text = factory.Faker("paragraph")
     profile = factory.SubFactory("api.users.factories.ProfileFactory")
+    thread = factory.SubFactory("api.community.factories.ThreadFactory")
+
+
+class ArticleFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Article
+
+    created_by = factory.SubFactory("api.users.factories.ProfileFactory")
+    url = factory.Faker("url")
+    company = factory.SubFactory("api.community.factories.CompanyFactory")
+    opengraph_data = {}
+    # TODO

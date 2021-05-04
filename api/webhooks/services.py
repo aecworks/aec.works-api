@@ -27,7 +27,7 @@ def is_add_article(text):
 
 def resolve_company(text, mentioned):
     if mentioned:
-        get_kwargs = dict(twitter__iexact=mentioned)
+        get_kwargs = dict(current_revision__twitter__iexact=mentioned)
     else:
         match = re.search(r"@\.(\w+)", text)
         if not match:

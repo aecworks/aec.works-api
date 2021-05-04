@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from api.users.groups import Groups
+
 
 class IsReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -8,7 +10,7 @@ class IsReadOnly(permissions.BasePermission):
 
 class BaseGroupPermissions(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.user.groups.filter(name__contains=self.group_name).exists():
+        if request.user.groups.filter(name=self.group_name).exists():
             return True
         else:
             self.message = f"Permission denied, user not in '{self.group_name}' group"
@@ -17,4 +19,4 @@ class BaseGroupPermissions(permissions.BasePermission):
 
 class IsEditorPermission(BaseGroupPermissions):
     message = "Must Be Editor"
-    group_name = "editors"
+    group_name = Groups.EDITORS

@@ -149,6 +149,16 @@ The key concepts are:
 - **Selectors**: all "queries" should be build as selectors. Avoid building queries directly in views as querying logic can increases in complexity overtime. Having a central place to define and re-use those selectors is helpful.
 - **Querysets**: user sparingly, but can be used to define reusable model querying logic that is reusable across multiple selectors.
 
+### Database Backups / Tests
+
+```bash
+$ heroku pg:backups:capture -r prod
+$ heroku pg:backups:download -r prod -o dumps/prod.dump
+$ heroku pg:credentials:url  -r staging
+$ pg_restore --verbose --clean --no-acl --no-owner -d '<STAGING_DB_URL>' dumps/prod.dump
+$ pg_restore
+```
+
 ### Frontend
 
 To run the frontend locally see [aecworks-web](https://github.com/aecworks/aec.works-web).

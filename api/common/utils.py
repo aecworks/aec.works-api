@@ -1,19 +1,21 @@
 import logging
+import operator
 import string
 
 import requests
 from django.core.cache import cache
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.text import slugify as _slugify
 from opengraph.opengraph import OpenGraph
 from rest_framework import serializers
+from rest_framework.exceptions import APIException
 from rest_framework.utils import model_meta
 
 logger = logging.getLogger(__name__)
 
 
 def inline_serializer(*, fields, data=None, **kwargs):
-    """ 'Hello Text!' -> 'hello-text' """
     serializer_class = type("InlineSerializer", (serializers.Serializer,), fields)
     if data is not None:
         return serializer_class(data=data, **kwargs)
@@ -44,9 +46,33 @@ def update_instance(instance, validated_data):
     return instance
 
 
-def to_hashtag(text: str):
+def to_hashtag(text: str) -> str:
     """ Only leters, no symbols but allows case """
-    return "".join([c for c in text if c in string.ascii_letters])
+    return "".join([c for c in text if c in string.ascii_letters + string.digits])
+
+
+def slugify(text: str) -> str:
+    # https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.text.slugify
+    """
+        >>> slugify(' Joel is a slug ')
+        'joel-is-a-slug'
+    """
+    return _slugify(text)
+
+
+def increment_slug(slug: str) -> str:
+    chunks = slug.split("-")
+
+    if len(chunks) == 1:
+        return f"{slug}-2"
+
+    *names, last = chunks
+
+    if not last.isdigit():
+        return f"{slug}-2"
+
+    num = int(last) + 1
+    return "-".join(names) + f"-{num}"
 
 
 def get_og_data(url: str):
@@ -82,7 +108,7 @@ def admin_linkify(field_name):
     """
 
     def _linkify(obj):
-        linked_obj = getattr(obj, field_name)
+        linked_obj = operator.attrgetter(field_name)(obj)
         if linked_obj is None:
             return "-"
         app_label = linked_obj._meta.app_label
@@ -95,7 +121,23 @@ def admin_linkify(field_name):
     return _linkify
 
 
+def admin_related(related, attr):
+    def _wrap(obj):
+        return getattr(getattr(obj, related), attr)
+
+    _wrap.short_description = f"{related}:{attr}"
+    return _wrap
+
+
 def delete_cache_key(key_prefix):
     keys = [k for k in cache.keys("*") if f".{key_prefix}." in k]
     logger.info(f"deteling cache keys: {len(keys)}")
     cache.delete_many(keys)
+
+
+def validate_or_raise(SerializerCls, data):
+    serializer = SerializerCls(data=data)
+    if not serializer.is_valid():
+        logger.error(f"cannot serializer: cls:{SerializerCls} data:{data}")
+        raise APIException("server validation error logged")
+    return serializer
