@@ -70,8 +70,8 @@ class CompanyDetailView(
             qs = annotations.annotate_company_claps(qs, profile_id=user.profile.id)
         return qs
 
-    @method_decorator(condition(last_modified_func=caching.company_last_modified))
     @method_decorator(cache_control(max_age=60))
+    @method_decorator(condition(last_modified_func=caching.company_last_modified))
     def get(self, request, slug):
         return super().retrieve(request, slug)
 
