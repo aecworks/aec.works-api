@@ -62,6 +62,7 @@ class Profile(ReprMixin, models.Model):
     avatar = models.ForeignKey(
         "images.ImageAsset", on_delete=models.PROTECT, null=True, blank=True
     )
+    # TODO add created_at
 
     @property
     def email(self):
