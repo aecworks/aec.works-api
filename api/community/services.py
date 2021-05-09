@@ -28,6 +28,9 @@ from .models import (
 logger = logging.getLogger(__name__)
 
 
+MAX_UNMODERATED_CHANGES = 3
+
+
 class CompanyRevisionAttributes(NamedTuple):
     name: str = ""
     description: str = ""
@@ -162,7 +165,7 @@ def can_create_company(profile: Profile) -> bool:
         created_by=profile, status=ModerationStatus.UNMODERATED.name
     )
 
-    return pending_submissions.count() == 0
+    return pending_submissions.count() < MAX_UNMODERATED_CHANGES
 
 
 def can_create_revision(profile: Profile) -> bool:
@@ -174,7 +177,7 @@ def can_create_revision(profile: Profile) -> bool:
         created_by=profile, status=ModerationStatus.UNMODERATED.name
     )
 
-    return pending_submissions.count() == 0
+    return pending_submissions.count() < MAX_UNMODERATED_CHANGES
 
 
 @transaction.atomic
@@ -217,9 +220,14 @@ def moderate_revision(
 def apply_revision(
     *, profile: Profile, revision: CompanyRevision,
 ) -> CompanyRevisionHistory:
+
     company = revision.company
     company.current_revision = revision
     company.save()
+
+    revision.status = ModerationStatus.APPROVED.name
+    revision.save()
+
     return CompanyRevisionHistory.objects.create(created_by=profile, revision=revision)
 
 
