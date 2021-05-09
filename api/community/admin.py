@@ -2,7 +2,33 @@ from django.contrib import admin
 
 from api.common.utils import admin_linkify, admin_related, get_og_data
 
-from . import models
+from . import choices, models, services
+
+
+def batch_revision_approve(modeladmin, request, queryset):
+
+    for rev in queryset.all():
+        services.moderate_revision(
+            profile=request.user.profile,
+            revision=rev,
+            status=choices.ModerationStatus.APPROVED.name,
+        )
+
+
+batch_revision_approve.short_description = "Mark selected revisions as APPROVED"
+
+
+def batch_company_approve(modeladmin, request, queryset):
+
+    for co in queryset.all():
+        services.moderate_company(
+            profile=request.user.profile,
+            company=co,
+            status=choices.ModerationStatus.APPROVED.name,
+        )
+
+
+batch_company_approve.short_description = "Mark selected companies as APPROVED"
 
 
 @admin.register(models.Article)
@@ -71,6 +97,7 @@ class CompanyAdmin(admin.ModelAdmin):
     ]
 
     readonly_fields = ["thread"]
+    actions = [batch_company_approve]
 
     def descrition_start(self, obj):
         return f"{obj.current_revision.description[:10]}..."
@@ -104,6 +131,7 @@ class CompanyRevisionAdmin(admin.ModelAdmin):
         "cover",
     ]
     raw_id_fields = ["logo", "cover"]
+    actions = [batch_revision_approve]
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
