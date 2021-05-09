@@ -61,9 +61,10 @@ class TestServices:
 
         assert services.can_create_company(profile2)
 
-        factories.CompanyFactory(
-            created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
-        )
+        for _ in range(services.MAX_UNMODERATED_CHANGES):
+            factories.CompanyFactory(
+                created_by=profile2, status=choices.ModerationStatus.UNMODERATED.name
+            )
         assert not services.can_create_company(profile2)
 
     def test_can_create_revision(self):
@@ -77,8 +78,10 @@ class TestServices:
 
         assert services.can_create_revision(profile2)
 
-        factories.CompanyFactory(
-            current_revision__created_by=profile2,
-            current_revision__status=choices.ModerationStatus.UNMODERATED.name,
-        )
+        for _ in range(services.MAX_UNMODERATED_CHANGES):
+            factories.CompanyFactory(
+                current_revision__created_by=profile2,
+                current_revision__status=choices.ModerationStatus.UNMODERATED.name,
+            )
+
         assert not services.can_create_revision(profile2)
