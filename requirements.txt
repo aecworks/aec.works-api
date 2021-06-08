@@ -8,7 +8,7 @@ sentry-sdk==0.17.2
 topicaxis-opengraph==0.5
 beautifulsoup4==4.9.3
 django-cleanup==5.1.0
-Pillow==8.1.1
+Pillow==8.2.0
 django-versatileimagefield==2.0
 dj-inmemorystorage==2.1.0
 python-magic-bin==0.4.14; sys_platform != 'linux'
