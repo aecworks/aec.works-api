@@ -15,7 +15,7 @@ python-magic-bin==0.4.14; sys_platform != 'linux'
 python-magic-debian-bin==0.4.25; sys_platform == 'linux'
 
 
-celery==4.4.7
+celery==5.2.2
 django-celery-results==1.2.1
 
 django==2.2.20
