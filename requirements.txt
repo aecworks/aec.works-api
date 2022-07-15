@@ -16,7 +16,7 @@ python-magic-debian-bin==0.4.25; sys_platform == 'linux'
 
 
 celery==4.4.7
-django-celery-results==1.2.1
+django-celery-results==2.4.0
 
 django==2.2.20
 djangorestframework==3.11.2
