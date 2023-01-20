@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_extensions",
     "debug_toolbar",
-    "django_celery_results",
     "django_cleanup",
     "versatileimagefield",
     # Apps
@@ -185,17 +184,12 @@ else:
     MEDIA_ROOT = os.path.join(ROOT_DIR, "storage")
     MEDIA_URL = "/storage/"
 
-# CELERY STUFF
-CELERY_BROKER_URL = config("REDIS_URL")
-CELERY_RESULT_BACKEND = "django-db"
-CELERY_CACHE_BACKEND = "django-cache"
 
 # CACHE
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"{config('REDIS_URL')}/1",
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
     }
 }
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
