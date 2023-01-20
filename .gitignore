@@ -8,6 +8,7 @@ __pycache__
 coverage.xml
 htmlcov/
 *.dump
+dumps/
 
 
 # Editor directories and files
