@@ -22,4 +22,4 @@ htmlcov/
 #Django
 staticfiles
 media
-storage
+# storage
