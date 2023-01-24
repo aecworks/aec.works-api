@@ -17,7 +17,11 @@ def test_image_upload(create_image_asset, auth_client):
         "file.jpg", b"file_content", content_type="image/jpge"
     )
     factory = APIRequestFactory()
-    request = factory.put(url, data={"file": tmp_file}, content_type="image/jpeg",)
+    request = factory.put(
+        url,
+        data={"file": tmp_file},
+        content_type="image/jpeg",
+    )
     request.user = UserFactory()
     put_view = ImageAssetUploadView().as_view()
     resp = put_view(request, filename="test.png")

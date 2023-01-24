@@ -28,7 +28,10 @@ class CompanySitemap(Sitemap):
         return obj
 
 
-sitemaps = dict(home=IndexSitemap, companies=CompanySitemap,)
+sitemaps = dict(
+    home=IndexSitemap,
+    companies=CompanySitemap,
+)
 
 
 urlpatterns = [

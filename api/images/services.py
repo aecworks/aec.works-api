@@ -18,7 +18,7 @@ def create_image_asset(
 
 
 def create_image_file_from_data_uri(data_uri: str) -> ImageFile:
-    """  Given a data-uri string, create a ImageFile object.
+    """Given a data-uri string, create a ImageFile object.
     eg. ("data:image/png;base64,iVBOR...") => ImageFile
     """
     #

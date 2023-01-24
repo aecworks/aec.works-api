@@ -23,6 +23,8 @@ class Command(BaseCommand):
         profile = Profile.objects.get(slug=profile_slug)
         for co in models.Company.objects.all():
             services.moderate_company(
-                profile=profile, company=co, status=arg_status,
+                profile=profile,
+                company=co,
+                status=arg_status,
             )
             print(f"APPROVED: {co}")

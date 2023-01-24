@@ -44,7 +44,7 @@ class CompanyModerateView(ErrorsMixin, generics.GenericAPIView):
         return Response(serializer.data)
 
     def post(self, request, slug):
-        """ Moderates View"""
+        """Moderates View"""
 
         serializer = ModerationStatusSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -76,7 +76,7 @@ class CompanyRevisionModerateView(ErrorsMixin, generics.GenericAPIView):
         return Response(serializer.data)
 
     def post(self, request, id):
-        """ Moderates View"""
+        """Moderates View"""
 
         serializer = ModerationStatusSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

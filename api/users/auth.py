@@ -49,7 +49,11 @@ class BaseProvider:
     @classmethod
     def _get_access_token(cls, code, redirect_uri):
         params = {"code": code, "redirect_uri": redirect_uri, **cls.AUTH_PARAMS}
-        resp = requests.post(cls.AUTH_URL, params=params, headers=cls.AUTH_HEADER,)
+        resp = requests.post(
+            cls.AUTH_URL,
+            params=params,
+            headers=cls.AUTH_HEADER,
+        )
         if resp.status_code != 200:
             raise ProviderException(f"{cls.NAME}: {resp.status_code} {resp.content}")
 

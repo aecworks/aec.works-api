@@ -47,15 +47,15 @@ def update_instance(instance, validated_data):
 
 
 def to_hashtag(text: str) -> str:
-    """ Only leters, no symbols but allows case """
+    """Only leters, no symbols but allows case"""
     return "".join([c for c in text if c in string.ascii_letters + string.digits])
 
 
 def slugify(text: str) -> str:
     # https://docs.djangoproject.com/en/3.2/ref/utils/#django.utils.text.slugify
     """
-        >>> slugify(' Joel is a slug ')
-        'joel-is-a-slug'
+    >>> slugify(' Joel is a slug ')
+    'joel-is-a-slug'
     """
     return _slugify(text)
 

@@ -12,11 +12,15 @@ from api.community.choices import ModerationStatus
 
 class CompanyRevision(ReprMixin, models.Model):
     company = models.ForeignKey(
-        "Company", on_delete=models.CASCADE, related_name="revisions",
+        "Company",
+        on_delete=models.CASCADE,
+        related_name="revisions",
     )
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        "users.Profile", related_name="company_revisions", on_delete=models.PROTECT,
+        "users.Profile",
+        related_name="company_revisions",
+        on_delete=models.PROTECT,
     )
 
     name = models.CharField(blank=False, max_length=255, db_index=True)
@@ -66,7 +70,9 @@ class Company(ReprMixin, models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, db_index=True)
     created_by = models.ForeignKey(
-        "users.Profile", related_name="additions", on_delete=models.PROTECT,
+        "users.Profile",
+        related_name="additions",
+        on_delete=models.PROTECT,
     )
     current_revision = models.OneToOneField(
         "CompanyRevision",
@@ -94,7 +100,9 @@ class Article(ReprMixin, models.Model):
     )
     opengraph_data = JSONField(default=dict, blank=True)
     created_by = models.ForeignKey(
-        "users.Profile", related_name="articles", on_delete=models.PROTECT,
+        "users.Profile",
+        related_name="articles",
+        on_delete=models.PROTECT,
     )
 
 
@@ -111,7 +119,9 @@ class Thread(ReprMixin, models.Model):
 class Comment(ReprMixin, models.Model):
 
     thread = models.ForeignKey(
-        "Thread", related_name="comments", on_delete=models.CASCADE,
+        "Thread",
+        related_name="comments",
+        on_delete=models.CASCADE,
     )
     text = models.TextField()
     profile = models.ForeignKey(
@@ -130,7 +140,9 @@ class Comment(ReprMixin, models.Model):
 class ModerationAction(ReprMixin, models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        "users.Profile", related_name="moderation_actions", on_delete=models.PROTECT,
+        "users.Profile",
+        related_name="moderation_actions",
+        on_delete=models.PROTECT,
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -148,10 +160,14 @@ class ModerationAction(ReprMixin, models.Model):
 class CompanyRevisionHistory(ReprMixin, models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        "users.Profile", related_name="revision_history", on_delete=models.PROTECT,
+        "users.Profile",
+        related_name="revision_history",
+        on_delete=models.PROTECT,
     )
     revision = models.ForeignKey(
-        "CompanyRevision", on_delete=models.CASCADE, related_name="history",
+        "CompanyRevision",
+        on_delete=models.CASCADE,
+        related_name="history",
     )
 
     class Meta:

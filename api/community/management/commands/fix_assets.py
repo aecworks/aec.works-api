@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = "ImageAssetsFromUrl"
 
     def handle(self, *args, **options):
-        """ Temporary Script to migrate from url images to ImageAsset """
+        """Temporary Script to migrate from url images to ImageAsset"""
 
         for obj in CompanyRevision.objects.all():
             obj.logo = None

@@ -14,7 +14,9 @@ class ImageAsset(ReprMixin, models.Model):
         blank=True,
     )
     file = VersatileImageField(
-        upload_to="images/", width_field="width", height_field="height",
+        upload_to="images/",
+        width_field="width",
+        height_field="height",
     )
 
     height = models.PositiveIntegerField(blank=True, null=True)

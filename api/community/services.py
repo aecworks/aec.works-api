@@ -86,7 +86,7 @@ def get_or_create_hashtags(hashtag_names: List[str]) -> List[Hashtag]:
 
 
 def extract_image_assets(body: str, profile) -> Tuple[str, List[ImageAsset]]:
-    """ Given a html body, create one `ImageAsset` for each <img>
+    """Given a html body, create one `ImageAsset` for each <img>
     Returns an updated body and a list of generated `ImageAsset` objects
     """
     soup = BeautifulSoup(body, "html.parser")
@@ -218,7 +218,9 @@ def moderate_revision(
 
 @transaction.atomic
 def apply_revision(
-    *, profile: Profile, revision: CompanyRevision,
+    *,
+    profile: Profile,
+    revision: CompanyRevision,
 ) -> CompanyRevisionHistory:
 
     company = revision.company

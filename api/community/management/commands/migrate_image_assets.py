@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "ImageAssetsFromUrl"
 
     def handle(self, *args, **options):
-        """ Temporary Script to migrate from url images to ImageAsset """
+        """Temporary Script to migrate from url images to ImageAsset"""
 
         all_companies = [
             *list(Company.objects.all()),

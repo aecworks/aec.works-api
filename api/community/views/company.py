@@ -52,7 +52,9 @@ class ResponseCompanyDetailSerializer(ResponseCompanySerializer):
 
 
 class CompanyDetailView(
-    ErrorsMixin, mixins.RetrieveModelMixin, generics.GenericAPIView,
+    ErrorsMixin,
+    mixins.RetrieveModelMixin,
+    generics.GenericAPIView,
 ):
     serializer_class = ResponseCompanyDetailSerializer
     queryset = selectors.get_companies()
@@ -120,11 +122,11 @@ class CompanyListView(ErrorsMixin, mixins.ListModelMixin, generics.GenericAPIVie
 
     @method_decorator(condition(last_modified_func=caching.company_list_last_modified))
     def get(self, request):
-        """ Get Company List - matches 'ListModelMixin' for pagination"""
+        """Get Company List - matches 'ListModelMixin' for pagination"""
         return super().list(request)
 
     def post(self, request):
-        """ Creates New Company """
+        """Creates New Company"""
 
         profile = request.user.profile
 

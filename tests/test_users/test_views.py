@@ -33,7 +33,7 @@ class TestUserViews:
         m_update_profile,
         client,
     ):
-        """ Test github/login/view """
+        """Test github/login/view"""
         user = ProfileFactory().user
         user_data = UserData(name="Fake Name", provider=UserProviderChoices.GITHUB.name)
         profile_data = ProfileData()

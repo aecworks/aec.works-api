@@ -26,7 +26,7 @@ class CompanyArticleListView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, slug):
-        """ Adds article to a company """
+        """Adds article to a company"""
         serializer = RequestArticleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

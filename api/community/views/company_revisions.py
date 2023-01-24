@@ -102,7 +102,7 @@ class CompanyRevisionListView(
         )
 
     def post(self, request, slug):
-        """ Creates New Company Revision """
+        """Creates New Company Revision"""
         serializer = RequestCompanyRevisionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -113,7 +113,9 @@ class CompanyRevisionListView(
             raise exceptions.TooManyPendingReviewsError()
 
         revision = services.create_revision(
-            company=company, created_by=profile, **serializer.validated_data,
+            company=company,
+            created_by=profile,
+            **serializer.validated_data,
         )
         return Response(ResponseDetailCompanyRevisionSerializer(revision).data)
 
@@ -126,7 +128,7 @@ class CompanyRevisionApplyView(ErrorsMixin, generics.GenericAPIView):
     serializer_class = None
 
     def post(self, request, id):
-        """ Sets Revision """
+        """Sets Revision"""
 
         revision = self.get_object()
         profile = request.user.profile

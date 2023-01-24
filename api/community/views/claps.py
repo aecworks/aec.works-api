@@ -32,7 +32,7 @@ class CompanyClapView(ErrorsMixin, generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, slug):
-        """ Adds User as Clapper of Company """
+        """Adds User as Clapper of Company"""
         company = self.get_object()
         profile = request.user.profile
         result = services.company_clap(company=company, profile=profile)

@@ -29,7 +29,7 @@ class TestSelectors:
         assert qs_anno_2.get(id=company_2.id).user_did_clap is True
 
     def test_annotated_company_bug(self):
-        """ sometimes annotate causes query to return duplicates """
+        """sometimes annotate causes query to return duplicates"""
         profile = ProfileFactory()
         profile_2 = ProfileFactory()
         company = factories.CompanyFactory()
@@ -56,7 +56,8 @@ class TestSelectors:
         assert services.comment_clap(comment=comment_2, profile=profile_2) == 1
 
         comments_1 = annotations.annotate_comment_claps(
-            selectors.get_thread_comments(thread_id=thread.id), profile_id=profile_1.id,
+            selectors.get_thread_comments(thread_id=thread.id),
+            profile_id=profile_1.id,
         )
         assert comments_1.all()[0].user_did_clap is True
         assert comments_1.all()[1].user_did_clap is False
@@ -68,7 +69,7 @@ class TestSelectors:
         assert comments_2.all()[1].user_did_clap is True
 
     def test_annotated_comments_annotated(self):
-        """ sometimes annotate causes query to return duplicates """
+        """sometimes annotate causes query to return duplicates"""
         profile = ProfileFactory()
         profile_2 = ProfileFactory()
         thread = factories.ThreadFactory(comments=None)

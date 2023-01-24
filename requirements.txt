@@ -41,3 +41,4 @@ pytest-sugar==0.9.4
 pytest-cov==2.10.1
 flake8==3.8.0a2
 black==19.10b0
+isort==5.11.4

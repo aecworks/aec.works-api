@@ -9,7 +9,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--delete", action="store_true", help="Delete groups instead of creating",
+            "--delete",
+            action="store_true",
+            help="Delete groups instead of creating",
         )
 
     def handle(self, *args, **options):
